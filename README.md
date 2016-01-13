@@ -1,2 +1,2 @@
 # Zautomatic
-Zautomatic is a Pascal based automated build engine
+Zautomatic is a automated build and deployment engine.
