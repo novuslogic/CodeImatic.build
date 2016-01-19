@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+*.exe
+/source/__history/Builder.pas.~1~
+/source/__history
+/source/Zautomatic.identcache
+/source/Zautomatic.dproj.local
+/units/win32
