@@ -1,20 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <projectconfig>
-   <properties> 
-     <outputpath>D:\Projects\FinityAppServer\Source\AppServer_Core\</outputpath>
-     <outputpath2>D:\Projects\FinityAppServer\Source\AppServer\</outputpath2>
-     <propertiespath>D:\Projects\FinityAppServer\Templates\AppServer\Properties\</propertiespath>
-     <templatepath>D:\Projects\FinityAppServer\Templates\AppServer\Templates\</templatepath>
-   </properties>
-   <Connectionname name="Systemdatabase">
-     <Driver>
-        <Auxdriver>Firebird</Auxdriver>
-        <Server>127.0.0.1</Server>
-        <Database>D:\Projects\FinityAppServer\Build\Database\SystemDatabase.fdb</Database>
-        <UserID>SYSDBA</UserID>
-        <Password>masterkey</Password>
-        <SQLLibrary></SQLLibrary>
-        <params></params>
-     </Driver>
-   </Connectionname>
+  
 </projectconfig>

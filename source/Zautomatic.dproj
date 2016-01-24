@@ -94,6 +94,7 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <Debugger_RunParams>-project D:\Projects\Zautomatic\samples\sample1\sample1.zap -projectconfig D:\Projects\Zautomatic\samples\sample1\sample1.zapconfig </Debugger_RunParams>
         <DCC_Namespace>VCL;$(DCC_Namespace)</DCC_Namespace>
         <DCC_ExeOutput>..\build</DCC_ExeOutput>
@@ -112,11 +113,13 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="Builder.pas"/>
+        <DCCReference Include="ScriptEngine.pas"/>
         <DCCReference Include="Config.pas"/>
         <DCCReference Include="Project.pas"/>
         <DCCReference Include="projectconfig.pas"/>
         <DCCReference Include="XMLList.pas"/>
+        <DCCReference Include="Runtime.pas"/>
+        <DCCReference Include="MessagesLog.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

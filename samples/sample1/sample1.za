@@ -1,0 +1,4 @@
+program sample1;
+begin
+  Writeln('Begining exec sample1');
+end.

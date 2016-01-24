@@ -6,14 +6,13 @@ program Zautomatic;
 
 uses
   System.SysUtils,
-  Builder in 'Builder.pas',
+  ScriptEngine in 'ScriptEngine.pas',
   Config in 'Config.pas',
   Project in 'Project.pas',
   projectconfig in 'projectconfig.pas',
-  XMLList in 'XMLList.pas';
-
-var
-  FBuilder: Tbuilder;
+  XMLList in 'XMLList.pas',
+  Runtime in 'Runtime.pas',
+  MessagesLog in 'MessagesLog.pas';
 
 begin
   oConfig.LoadConfig;
@@ -21,16 +20,7 @@ begin
   If Not oConfig.ParseParams then Exit;
 
   try
-
-
-    FBuilder := tBuilder.Create;
-
-
-
-
-
-
-    FBuilder.Free;
+    oruntime.RunEnvironment;
 
   except
     on E: Exception do

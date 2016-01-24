@@ -10,43 +10,25 @@ Type
   protected
   private
     fsItemName: String;
-    fsOutputFile: String;
-    fsTemplateFile: String;
-    fsPropertiesFile: String;
-    fboverrideoutput: Boolean;
+    fsProjectFilename: String;
   Public
-    property PropertiesFile: String
-       read fsPropertiesFile
-       write fsPropertiesFile;
-
-    property TemplateFile: String
-      read fsTemplateFile
-      write fsTemplateFile;
-
-    property OutputFile: String
-       read fsOutputFile
-       write fsOutputFile;
-
-    property overrideoutput: Boolean
-      read fboverrideoutput
-      write fboverrideoutput;
-
+    property ProjectFilename: String
+      read fsProjectFilename
+      write fsProjectFilename;
     property ItemName: String
       read fsItemName
-      write fsItemName;  
+      write fsItemName;
   end;
 
 
   TProject = class(TXMLlist)
   protected
   private
-    fbcreateoutputdir: Boolean;
+    fbOutputConsole: boolean;
     foProjectConfig: TProjectConfig;
     foProjectItemList: TNovusList;
     fsMessageslogPath: String;
-    fsTemplatePath: String;
     fsProjectFilename: String;
-    fbOutputConsole: Boolean;
   public
     constructor Create; override;
     destructor Destroy; override;
@@ -74,10 +56,6 @@ Type
     property  OutputConsole: Boolean
       read  fbOutputConsole
       write fbOutputConsole;
-
-   property Createoutputdir: Boolean
-      read fbcreateoutputdir
-      write fbcreateoutputdir;
 
     property oProjectConfig: TProjectConfig
       read foProjectConfig
@@ -121,35 +99,10 @@ begin
     If Assigned(fJvSimpleXmlElem) then
       begin
         Index := 0;
-        if assigned(TNovusSimpleXML.FindNode(fJvSimpleXmlElem, 'template', Index)) then
+        if assigned(TNovusSimpleXML.FindNode(fJvSimpleXmlElem, 'projectfilename', Index)) then
           begin
             Index := 0;
-            aProjectItem.TemplateFile := TNovusSimpleXML.FindNode(fJvSimpleXmlElem, 'template', Index).Value;
-          end;
-
-        Index := 0;
-        if Assigned(TNovusSimpleXML.FindNode(fJvSimpleXmlElem, 'properties', Index)) then
-          begin
-            Index := 0;
-            aProjectItem.propertiesFile := TNovusSimpleXML.FindNode(fJvSimpleXmlElem, 'properties', Index).Value;
-          end;
-
-        Index := 0;
-        if Assigned(TNovusSimpleXML.FindNode(fJvSimpleXmlElem, 'overrideoutput', Index)) then
-          begin
-            Index := 0;
-            if Uppercase(TNovusSimpleXML.FindNode(fJvSimpleXmlElem, 'overrideoutput', Index).Value) = 'TRUE' then
-              aProjectItem.overrideoutput := True
-            else
-               aProjectItem.overrideoutput := false;
-          end
-        else aProjectItem.overrideoutput := false;
-
-        Index := 0;
-        if assigned(TNovusSimpleXML.FindNode(fJvSimpleXmlElem, 'output', Index)) then
-          begin
-            Index := 0;
-            aProjectItem.OutputFile := TNovusSimpleXML.FindNode(fJvSimpleXmlElem, 'output', Index).Value;
+            aProjectItem.projectfilename := TNovusSimpleXML.FindNode(fJvSimpleXmlElem, 'projectfilename', Index).Value;
           end;
       end;
   Finally
@@ -179,7 +132,6 @@ begin
 
   fsMessageslogPath := GetMessageslogPath;
   fbOutputConsole := GetoutputConsole;
-  fbCreateoutputdir := GetCreateoutputdir;
 
   ProjectFileName := aProjectFilename;
 
