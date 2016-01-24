@@ -43,6 +43,8 @@ begin
   begin
     TPSPascalCompiler(Sender).AddFunction('procedure Writeln(s: string);');
 
+    //AddImportedClassVariable(Sender, 'MessagesLog1', 'TMessageLog');
+
     Result := True;
   end
   else
@@ -78,7 +80,7 @@ begin
   FCompiler.AllowNoBegin := True;
   FCompiler.AllowNoEnd := True; // AllowNoBegin and AllowNoEnd allows it that begin and end are not required in a script.
 
-  foMessageslog.WriteLog('Compiling script...');
+  foMessageslog.WriteLog('Compiling');
 
   if not FCompiler.Compile(FScript.Text) then  // Compile the Pascal script into bytecode.
   begin
@@ -91,7 +93,7 @@ begin
 
   CompilerOutputMessage;
 
-  foMessageslog.WriteLog('Executing script...');
+  foMessageslog.WriteLog('Executing');
 
   FCompiler.GetOutput(fsData); // Save the output of the compiler in the string Data.
   FCompiler.Free; // After compiling the script, there is no need for the compiler anymore.
@@ -99,9 +101,12 @@ begin
   FExec := TPSExec.Create;  // Create an instance of the executer.
 
   FExec.RegisterFunctionName('WRITELN', MyWriteln, nil, nil);
+  //SetVariantToClass(FExec.GetVarNo(FExec.GetVar('MESSAGESLOG')), foMessagesLog);
 
   if not FExec.LoadData(fsData) then
   begin
+    foMessageslog.WriteLog('[Error] : Could not load data: '+TIFErrorToString(FExec.ExceptionCode, FExec.ExceptionString));
+
     FExec.Free;
 
     foMessageslog.Failed := True;
@@ -111,12 +116,16 @@ begin
 
   if not FExec.RunScript then
     begin
+      foMessageslog.WriteLog('[Runtime Error] : ' + TIFErrorToString(FExec.ExceptionCode, FExec.ExceptionString) +
+            ' in ' + IntToStr(FExec.ExceptionProcNo) + ' at ' + IntToSTr(FExec.ExceptionPos));
+
       FExec.Free;
 
       foMessageslog.Failed := True;
 
       Exit;
-    end;
+    end
+  else foMessageslog.WriteLog('Successfully executed');
 
   Result := True;
 
