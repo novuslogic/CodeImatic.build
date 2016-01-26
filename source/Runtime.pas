@@ -3,7 +3,7 @@ unit Runtime;
 interface
 
 Uses Project, MessagesLog, Config, NovusVersionUtils, System.SysUtils,
-     uPSRuntime, uPSI_MessagesLog ;
+     uPSRuntime,  Plugins ;
 
 type
    tRuntime = class
@@ -12,12 +12,17 @@ type
      fImp:  TPSRuntimeClassImporter;
      foMessagesLog: tMessagesLog;
      foProject: tProject;
+     foPlugins: TPlugins;
    public
      function RunEnvironment: Boolean;
 
      property oMessagesLog: tMessagesLog
        read foMessagesLog
        write foMessagesLog;
+
+     property oPlugins: TPlugins
+       read foPlugins
+       write foPlugins;
    end;
 
    Var
@@ -28,8 +33,6 @@ type
 implementation
 
 uses ScriptEngine;
-
-
 
 function tRuntime.RunEnvironment: Boolean;
 var
@@ -63,7 +66,9 @@ begin
     FoMessagesLog.WriteLog('Projectconfig:' + foProject.oProjectConfig.ProjectConfigFileName);
 
   FImp := TPSRuntimeClassImporter.Create;
-  RIRegister_MessagesLog(FImp);
+  foPlugins := TPlugins.Create(FoMessagesLog, FImp);
+
+  foPlugins.RegisterImports;
 
   for I := 0 to foProject.oProjectItemList.Count - 1 do
     begin
@@ -84,7 +89,7 @@ begin
 
           FoMessagesLog.WriteLog('Build started ' + FoMessagesLog.FormatedNow);
 
-          loScriptEngine := TScriptEngine.Create(FoMessagesLog, FImp);
+          loScriptEngine := TScriptEngine.Create(FoMessagesLog, FImp, FoPlugins);
 
           loScriptEngine.LoadScript(loProjectItem.ProjectFileName);
 
@@ -109,6 +114,8 @@ begin
   FoMessagesLog.CloseLog;
 
   FoMessagesLog.Free;
+
+  foPlugins.Free;
 
   foProject.Free;
 end;

@@ -13,7 +13,10 @@ uses
   XMLList in 'XMLList.pas',
   Runtime in 'Runtime.pas',
   MessagesLog in 'MessagesLog.pas',
-  uPSI_MessagesLog in 'uPSI_MessagesLog.pas';
+  uPSI_MessagesLog in 'Imports\uPSI_MessagesLog.pas',
+  Plugins in 'Plugins.pas',
+  Plugin in 'Plugin.pas',
+  Plugin_Messageslog in 'InternalPlugin\Plugin_Messageslog.pas';
 
 begin
   oConfig.LoadConfig;

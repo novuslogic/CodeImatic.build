@@ -11,11 +11,13 @@ uses
   uPSCompiler,
   uPSRuntime,
   uPSUtils,
+  Plugins,
   uPSI_MessagesLog;
 
 Type
    TScriptEngine = class
    protected
+     foPlugins: TPlugins;
      fImp : TPSRuntimeClassImporter;
      foMessagesLog: tMessagesLog;
      FScript: TStringList;
@@ -27,7 +29,7 @@ Type
    private
      procedure CompilerOutputMessage;
    public
-     constructor Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter);
+     constructor Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter; aPlugins: TPlugins);
      destructor Destroy;
 
      procedure LoadScript(aFilename: String);
@@ -36,7 +38,7 @@ Type
 
    end;
 
-   function MyWriteln(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
+
 
 implementation
 
@@ -44,13 +46,7 @@ function CustomOnUses(Sender: TPSPascalCompiler; const Name: AnsiString): Boolea
 begin
   if Name = 'SYSTEM' then
   begin
-    TPSPascalCompiler(Sender).AddFunction('procedure Writeln(s: string);');
-
-    SIRegister_MessagesLog(Sender);
-
-    AddImportedClassVariable(Sender, 'MessagesLog', 'TMessagesLog');
-
-    Result := True;
+    Result := oruntime.oPlugins.CustomOnUses(Sender);;
   end
   else
   begin
@@ -65,6 +61,8 @@ begin
 
   FParserStream := TMemoryStream.Create;
   FScript := TStringList.Create;
+
+  foPlugins:= aPlugins;
 
   fImp:= aImp;
 end;
@@ -107,9 +105,7 @@ begin
 
   FExec := TPSExec.Create;  // Create an instance of the executer.
 
-  FExec.RegisterFunctionName('WRITELN', MyWriteln, nil, nil);
-
-  RegisterClassLibraryRuntime(FExec, FImp);
+  foPlugins.RegisterFunctions(FExec);
 
   if not FExec.LoadData(fsData) then
   begin
@@ -122,7 +118,7 @@ begin
     Exit;
   end;
 
-  SetVariantToClass(FExec.GetVarNo(FExec.GetVar('MESSAGESLOG')), foMessageslog);
+  foPlugins.SetVariantToClasses(FExec);
 
   if not FExec.RunScript then
     begin
@@ -161,18 +157,7 @@ begin
 end;
 
 
-function MyWriteln(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
-var
-  PStart: Cardinal;
-begin
-  if Global = nil then begin result := false; exit; end;
-  PStart := Stack.Count - 1;
 
-  oRuntime.oMessagesLog.WriteLog(Stack.GetString(PStart));
-
-
-  Result := True;
-end;
 
 
 end.

@@ -1,4 +1,5 @@
 program sample1;
 begin
-  MessagesLog.log('aaa');
+  MessagesLog.log('Test 1');
+  Writeln('Test 2');
 end.
