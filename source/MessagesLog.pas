@@ -13,6 +13,8 @@ type
   public
     constructor Create(AFilename: String;aOutputConsole: Boolean);  virtual;
 
+    procedure Log(AMsg: string);
+
     property Errors: Boolean
       read fbErrors
       write fbErrors;
@@ -33,6 +35,13 @@ begin
 
   fbErrors := False;
 end;
+
+procedure TMessagesLog.Log(AMsg: string);
+begin
+  WriteLog(AMsg);
+end;
+
+
 
 
 end.

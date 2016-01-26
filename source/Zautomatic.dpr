@@ -12,7 +12,8 @@ uses
   projectconfig in 'projectconfig.pas',
   XMLList in 'XMLList.pas',
   Runtime in 'Runtime.pas',
-  MessagesLog in 'MessagesLog.pas';
+  MessagesLog in 'MessagesLog.pas',
+  uPSI_MessagesLog in 'uPSI_MessagesLog.pas';
 
 begin
   oConfig.LoadConfig;

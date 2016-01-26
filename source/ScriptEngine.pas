@@ -3,17 +3,20 @@ unit ScriptEngine;
 interface
 
 uses
+  Forms,
   Runtime,
   MessagesLog,
   System.Classes,
   System.SysUtils,
   uPSCompiler,
   uPSRuntime,
-  uPSUtils;
+  uPSUtils,
+  uPSI_MessagesLog;
 
 Type
    TScriptEngine = class
    protected
+     fImp : TPSRuntimeClassImporter;
      foMessagesLog: tMessagesLog;
      FScript: TStringList;
      FsFilename: String;
@@ -24,7 +27,7 @@ Type
    private
      procedure CompilerOutputMessage;
    public
-     constructor Create(aMessagesLog: tMessagesLog);
+     constructor Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter);
      destructor Destroy;
 
      procedure LoadScript(aFilename: String);
@@ -43,7 +46,9 @@ begin
   begin
     TPSPascalCompiler(Sender).AddFunction('procedure Writeln(s: string);');
 
-    //AddImportedClassVariable(Sender, 'MessagesLog1', 'TMessageLog');
+    SIRegister_MessagesLog(Sender);
+
+    AddImportedClassVariable(Sender, 'MessagesLog', 'TMessagesLog');
 
     Result := True;
   end
@@ -54,12 +59,14 @@ begin
   end;
 end;
 
-constructor TScriptEngine.create(aMessagesLog: tMessagesLog);
+constructor TScriptEngine.create;
 begin
   foMessagesLog:= aMessagesLog;
 
   FParserStream := TMemoryStream.Create;
   FScript := TStringList.Create;
+
+  fImp:= aImp;
 end;
 
 destructor TScriptEngine.destroy;
@@ -101,7 +108,8 @@ begin
   FExec := TPSExec.Create;  // Create an instance of the executer.
 
   FExec.RegisterFunctionName('WRITELN', MyWriteln, nil, nil);
-  //SetVariantToClass(FExec.GetVarNo(FExec.GetVar('MESSAGESLOG')), foMessagesLog);
+
+  RegisterClassLibraryRuntime(FExec, FImp);
 
   if not FExec.LoadData(fsData) then
   begin
@@ -114,10 +122,13 @@ begin
     Exit;
   end;
 
+  SetVariantToClass(FExec.GetVarNo(FExec.GetVar('MESSAGESLOG')), foMessageslog);
+
   if not FExec.RunScript then
     begin
       foMessageslog.WriteLog('[Runtime Error] : ' + TIFErrorToString(FExec.ExceptionCode, FExec.ExceptionString) +
             ' in ' + IntToStr(FExec.ExceptionProcNo) + ' at ' + IntToSTr(FExec.ExceptionPos));
+
 
       FExec.Free;
 
