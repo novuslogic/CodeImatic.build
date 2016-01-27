@@ -2,7 +2,7 @@ unit Plugin_Messageslog;
 
 interface
 
-uses Classes,Plugin,  uPSRuntime,  uPSCompiler, uPSI_MessagesLog;
+uses Classes,Plugin,  uPSRuntime,  uPSCompiler, uPSI_MessagesLog, PluginsMapFactory;
 
 type
   tPlugin_Messageslog = class(Tplugin)
@@ -46,7 +46,7 @@ end;
 
 Initialization
  begin
-    RegisterClass(tPlugin_Messageslog);
+   tPluginsMapFactory.RegisterClass(tPlugin_Messageslog);
  end;
 
 end.

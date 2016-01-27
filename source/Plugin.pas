@@ -28,6 +28,8 @@ type
        write fImp;
    end;
 
+   TPluginClass = class of TPlugin;
+
 implementation
 
 constructor TPlugin.create;

@@ -68,6 +68,8 @@ begin
   FImp := TPSRuntimeClassImporter.Create;
   foPlugins := TPlugins.Create(FoMessagesLog, FImp);
 
+  foPlugins.LoadPlugins;
+
   foPlugins.RegisterImports;
 
   for I := 0 to foProject.oProjectItemList.Count - 1 do

@@ -2,7 +2,7 @@ unit Plugins;
 
 interface
 
-uses  MessagesLog, uPSRuntime, uPSI_MessagesLog, uPSCompiler;
+uses  MessagesLog, uPSRuntime, uPSI_MessagesLog, uPSCompiler, PluginsMapFactory, Plugin;
 
 type
    TPlugins = class
@@ -13,6 +13,8 @@ type
    public
      constructor Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter);
      destructor Destroy;
+
+     procedure LoadPlugins;
 
      function CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
      procedure RegisterFunctions(aExec: TPSExec);
@@ -37,7 +39,26 @@ destructor TPlugins.destroy;
 begin
 end;
 
+procedure TPlugins.LoadPlugins;
+Var
+  I: Integer;
+  FPlugin: tPlugin;
+begin
+  I := 0;
+  while (i < PluginsMapFactoryClasses.Count) do
+    begin
+      FPlugin := TPluginsMapFactory.FindPlugin(PluginsMapFactoryClasses.Items[i].ClassName,
+         foMessagesLog,fImp );
+
+      Inc(i);
+    end;
+
+end;
+
+
 function TPlugins.CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
+Var
+  I: Integer;
 begin
   Try
     TPSPascalCompiler(aCompiler).AddFunction('procedure Writeln(s: string);');

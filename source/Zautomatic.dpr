@@ -16,7 +16,8 @@ uses
   uPSI_MessagesLog in 'Imports\uPSI_MessagesLog.pas',
   Plugins in 'Plugins.pas',
   Plugin in 'Plugin.pas',
-  Plugin_Messageslog in 'InternalPlugin\Plugin_Messageslog.pas';
+  Plugin_Messageslog in 'InternalPlugin\Plugin_Messageslog.pas',
+  PluginsMapFactory in 'PluginsMapFactory.pas';
 
 begin
   oConfig.LoadConfig;
