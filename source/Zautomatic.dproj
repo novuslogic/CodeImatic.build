@@ -124,8 +124,9 @@
         <DCCReference Include="Imports\uPSI_MessagesLog.pas"/>
         <DCCReference Include="Plugins.pas"/>
         <DCCReference Include="Plugin.pas"/>
-        <DCCReference Include="InternalPlugin\Plugin_Messageslog.pas"/>
         <DCCReference Include="PluginsMapFactory.pas"/>
+        <DCCReference Include="InternalPlugin\Plugin_Messageslog.pas"/>
+        <DCCReference Include="InternalPlugin\Plugin_Commands.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

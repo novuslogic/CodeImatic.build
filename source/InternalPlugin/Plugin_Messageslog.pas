@@ -9,10 +9,10 @@ type
   private
   protected
   public
-    function CustomOnUses(aCompiler: TPSPascalCompiler): Boolean; overload;
-//    procedure RegisterFunction(aExec: TPSExec); overload;
-    procedure SetVariantToClass(aExec: TPSExec); overload;
-    procedure RegisterImport; overload;
+    function CustomOnUses(aCompiler: TPSPascalCompiler): Boolean; override;
+    procedure RegisterFunction(aExec: TPSExec); override;
+    procedure SetVariantToClass(aExec: TPSExec); override;
+    procedure RegisterImport; override;
   end;
 
 implementation
@@ -26,12 +26,9 @@ begin
 
 end;
 
-(*
 procedure tPlugin_Messageslog.RegisterFunction(aExec: TPSExec);
 begin
-
 end;
-*)
 
 procedure tPlugin_Messageslog.SetVariantToClass(aExec: TPSExec);
 begin
@@ -42,7 +39,6 @@ procedure tPlugin_Messageslog.RegisterImport;
 begin
   RIRegister_MessagesLog(FImp);
 end;
-
 
 Initialization
  begin

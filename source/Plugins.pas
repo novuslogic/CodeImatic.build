@@ -2,12 +2,14 @@ unit Plugins;
 
 interface
 
-uses  MessagesLog, uPSRuntime, uPSI_MessagesLog, uPSCompiler, PluginsMapFactory, Plugin;
+uses  MessagesLog, uPSRuntime, uPSI_MessagesLog, uPSCompiler, PluginsMapFactory, Plugin,
+      Classes, SysUtils;
 
 type
    TPlugins = class
    private
    protected
+      fPluginsList: TList;
       foMessagesLog: tMessagesLog;
       fImp: TPSRuntimeClassImporter;
    public
@@ -15,14 +17,13 @@ type
      destructor Destroy;
 
      procedure LoadPlugins;
+     procedure UnloadPlugins;
 
      function CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
      procedure RegisterFunctions(aExec: TPSExec);
      procedure SetVariantToClasses(aExec: TPSExec);
      procedure RegisterImports;
    end;
-
-   function InternalWriteln(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
 
 implementation
 
@@ -32,11 +33,30 @@ constructor TPlugins.create;
 begin
   foMessagesLog:= aMessagesLog;
 
+  fPluginsList := TList.Create;
+
   fImp:= aImp;
 end;
 
 destructor TPlugins.destroy;
 begin
+  UnloadPlugins;
+
+  fPluginsList.Free;
+end;
+
+procedure TPlugins.UnloadPlugins;
+Var
+  I: Integer;
+  loPlugin: tPlugin;
+begin
+  for I := 0 to fPluginsList.Count -1 do
+   begin
+     loPlugin := TPlugin(fPluginsList.Items[i]);
+     FreeandNil(loPlugin);
+   end;
+
+  fPluginsList.Clear;
 end;
 
 procedure TPlugins.LoadPlugins;
@@ -50,22 +70,23 @@ begin
       FPlugin := TPluginsMapFactory.FindPlugin(PluginsMapFactoryClasses.Items[i].ClassName,
          foMessagesLog,fImp );
 
+      fPluginsList.Add(FPlugin);
+
       Inc(i);
     end;
-
 end;
-
 
 function TPlugins.CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
 Var
   I: Integer;
+  loPlugin: TPlugin;
 begin
   Try
-    TPSPascalCompiler(aCompiler).AddFunction('procedure Writeln(s: string);');
-
-    // MessagesLog
-    SIRegister_MessagesLog(aCompiler);
-    AddImportedClassVariable(aCompiler, 'MessagesLog', 'TMessagesLog');
+    for I := 0 to fPluginsList.Count -1 do
+      begin
+        loPlugin := TPlugin(fPluginsList.Items[i]);
+        loPlugin.CustomOnUses(aCompiler)
+      end;
 
     Result := True;
   Except
@@ -76,36 +97,41 @@ begin
 end;
 
 procedure TPlugins.RegisterFunctions(aExec: TPSExec);
+var
+  I: integer;
+  loPlugin: TPlugin;
 begin
-  aExec.RegisterFunctionName('WRITELN', InternalWriteln, nil, nil);
+  for I := 0 to fPluginsList.Count -1 do
+   begin
+     loPlugin := TPlugin(fPluginsList.Items[i]);
+     loPlugin.RegisterFunction(aExec);
+   end;
 
   RegisterClassLibraryRuntime(aExec, FImp);
-
 end;
 
 procedure TPlugins.RegisterImports;
+var
+  loPlugin: TPlugin;
+  I: Integer;
 begin
-  RIRegister_MessagesLog(FImp);
+  for I := 0 to fPluginsList.Count -1 do
+    begin
+      loPlugin := TPlugin(fPluginsList.Items[i]);
+      loPlugin.RegisterImport;
+    end;
 end;
 
 procedure TPlugins.SetVariantToClasses(aExec: TPSExec);
-begin
-  uPSRuntime.SetVariantToClass(aExec.GetVarNo(aExec.GetVar('MESSAGESLOG')), foMessageslog);
-end;
-
-function InternalWriteln(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
 var
-  PStart: Cardinal;
+  loPlugin: TPlugin;
+  I: Integer;
 begin
-  if Global = nil then begin result := false; exit; end;
-  PStart := Stack.Count - 1;
-
-  oRuntime.oMessagesLog.WriteLog(Stack.GetString(PStart));
-
-
-  Result := True;
+  for I := 0 to fPluginsList.Count -1 do
+    begin
+      loPlugin := TPlugin(fPluginsList.Items[i]);
+      loPlugin.SetVariantToClass(aExec);
+    end;
 end;
-
-
 
 end.
