@@ -94,6 +94,7 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <BRCC_Defines>PS_USESSUPPORT;$(BRCC_Defines)</BRCC_Defines>
         <VerInfo_AutoGenVersion>true</VerInfo_AutoGenVersion>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <Debugger_RunParams>-project D:\Projects\Zautomatic\samples\sample1\sample1.zap -projectconfig D:\Projects\Zautomatic\samples\sample1\sample1.zapconfig </Debugger_RunParams>
@@ -125,8 +126,8 @@
         <DCCReference Include="Plugins.pas"/>
         <DCCReference Include="Plugin.pas"/>
         <DCCReference Include="PluginsMapFactory.pas"/>
-        <DCCReference Include="InternalPlugin\Plugin_Messageslog.pas"/>
-        <DCCReference Include="InternalPlugin\Plugin_Commands.pas"/>
+        <DCCReference Include="Plugins\Plugin_Messageslog.pas"/>
+        <DCCReference Include="Plugins\Plugin_Commands.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

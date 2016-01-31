@@ -23,6 +23,10 @@ type
      property oPlugins: TPlugins
        read foPlugins
        write foPlugins;
+
+     property oProject: tProject
+       read foProject
+       write foProject;
    end;
 
    Var

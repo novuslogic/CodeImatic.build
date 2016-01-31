@@ -1,5 +1,8 @@
-program sample1;
+
+uses test;
+
 begin
   MessagesLog.log('Test 1');
   Writeln('Test 2');
+  test3;
 end.

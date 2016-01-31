@@ -1,0 +1,16 @@
+unit Test;
+
+interface
+
+function test3: Boolean;
+
+implementation
+
+function test3: Boolean;
+begin
+  MessagesLog.log('Test 3');
+
+  result := True;
+end;
+
+end.

@@ -12,6 +12,7 @@ uses
   uPSRuntime,
   uPSUtils,
   Plugins,
+  uPSPreProcessor,
   uPSI_MessagesLog;
 
 Type
@@ -43,6 +44,11 @@ Type
 implementation
 
 function CustomOnUses(Sender: TPSPascalCompiler; const Name: AnsiString): Boolean;
+Var
+  x1:  TPSPascalCompiler;
+  lList:  TStringList;
+  lsData: AnsiString;
+  I: Integer;
 begin
   if Name = 'SYSTEM' then
   begin
@@ -50,8 +56,46 @@ begin
   end
   else
   begin
-    TPSPascalCompiler(Sender).MakeError('', ecUnknownIdentifier, '');
-    Result := False;
+
+    if FileExists(oruntime.oProject.oProjectConfig.SearchPath +name + '.zas') then
+      begin
+        Try
+          Try
+            oruntime.oMessagesLog.Log('Compiling ... ' + name + '.zas' );
+
+
+            lList := TStringList.Create;
+            lList.LoadFromFile(oruntime.oProject.oProjectConfig.SearchPath +name + '.zas');
+
+            if Sender.Compile(lList.Text) then
+              begin
+                Result := true;
+              end
+            else
+              begin
+                Result := False;
+
+             
+              end;
+
+
+          Finally
+            x1.Free;
+            lList.Free;
+
+          End;
+        Except
+
+        End;
+
+
+      end
+     else 
+       begin
+         TPSPascalCompiler(Sender).MakeError('', ecUnknownIdentifier, Name);
+       
+         Result := False;
+       end;
   end;
 end;
 
@@ -82,10 +126,11 @@ begin
 
   //FCompiler.OnExportCheck := ScriptOnExportCheck; // Assign the onExportCheck event.
 
-  FCompiler.AllowNoBegin := True;
-  FCompiler.AllowNoEnd := True; // AllowNoBegin and AllowNoEnd allows it that begin and end are not required in a script.
 
-  foMessageslog.WriteLog('Compiling');
+  FCompiler.AllowNoBegin := true;
+  FCompiler.AllowNoEnd := true; // AllowNoBegin and AllowNoEnd allows it that begin and end are not required in a script.
+
+  foMessageslog.WriteLog('Compiling ... ' + FsFilename);
 
   if not FCompiler.Compile(FScript.Text) then  // Compile the Pascal script into bytecode.
   begin

@@ -17,8 +17,8 @@ uses
   Plugins in 'Plugins.pas',
   Plugin in 'Plugin.pas',
   PluginsMapFactory in 'PluginsMapFactory.pas',
-  Plugin_Messageslog in 'InternalPlugin\Plugin_Messageslog.pas',
-  Plugin_Commands in 'InternalPlugin\Plugin_Commands.pas';
+  Plugin_Messageslog in 'Plugins\Plugin_Messageslog.pas',
+  Plugin_Commands in 'Plugins\Plugin_Commands.pas';
 
 begin
   oConfig.LoadConfig;
