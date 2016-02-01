@@ -1,20 +1,11 @@
-
-uses test;
-
 begin
   MessagesLog.log('Test 1');
 
    try
-
       RaiseException(erCustomError, 'CustomError RaiseException');
-
     except
       Messageslog.LogError;
     end;
 
-
   Writeln('Test 2');
-  test3;
-
-
 end.
