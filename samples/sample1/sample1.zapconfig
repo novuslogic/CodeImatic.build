@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <projectconfig>
-    <searchpath>D:\Projects\Zautomatic\source\RTL\</searchpath>
+    <includespath>..\source\includes\</includespath>
 </projectconfig>

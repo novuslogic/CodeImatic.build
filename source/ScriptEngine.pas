@@ -43,12 +43,16 @@ Type
 
 implementation
 
+procedure OnException(Sender: TPSExec; ExError: TPSError; const ExParam: tbtstring; ExObject: TObject; ProcNo, Position: Cardinal);
+begin
+  oruntime.oMessagesLog.LastExError := ExError;
+  oruntime.oMessagesLog.LastExParam := ExParam;
+  oruntime.oMessagesLog.Errors := True;
+end;
+
 function CustomOnUses(Sender: TPSPascalCompiler; const Name: AnsiString): Boolean;
 Var
-  x1:  TPSPascalCompiler;
   lList:  TStringList;
-  lsData: AnsiString;
-  I: Integer;
 begin
   if Name = 'SYSTEM' then
   begin
@@ -80,9 +84,7 @@ begin
 
 
           Finally
-            x1.Free;
             lList.Free;
-
           End;
         Except
 
@@ -149,6 +151,8 @@ begin
   FCompiler.Free; // After compiling the script, there is no need for the compiler anymore.
 
   FExec := TPSExec.Create;  // Create an instance of the executer.
+
+  FExec.OnException := OnException;
 
   foPlugins.RegisterFunctions(FExec);
 
