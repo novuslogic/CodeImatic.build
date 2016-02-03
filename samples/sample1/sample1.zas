@@ -8,4 +8,6 @@ begin
     end;
 
   Writeln('Test 2');
+
+  Zip.ZipCompress;
 end.

@@ -121,13 +121,16 @@
         <DCCReference Include="projectconfig.pas"/>
         <DCCReference Include="XMLList.pas"/>
         <DCCReference Include="Runtime.pas"/>
-        <DCCReference Include="MessagesLog.pas"/>
-        <DCCReference Include="Imports\uPSI_MessagesLog.pas"/>
+        <DCCReference Include="Plugins\API\MessagesLog.pas"/>
+        <DCCReference Include="Plugins\Imports\uPSI_MessagesLog.pas"/>
         <DCCReference Include="Plugins.pas"/>
         <DCCReference Include="Plugin.pas"/>
         <DCCReference Include="PluginsMapFactory.pas"/>
         <DCCReference Include="Plugins\Plugin_Messageslog.pas"/>
         <DCCReference Include="Plugins\Plugin_Commands.pas"/>
+        <DCCReference Include="Plugins\Plugin_Zip.pas"/>
+        <DCCReference Include="Plugins\API\Zip.pas"/>
+        <DCCReference Include="Plugins\Imports\uPSI_Zip.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
