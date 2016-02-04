@@ -18,6 +18,8 @@ type
     procedure Log(AMsg: string);
     procedure LogError;
 
+    procedure InternalError;
+
     property LastExError: TPSError
       read fLastExError
       write fLastExError;
@@ -62,6 +64,11 @@ begin
 end;
 
 
+procedure TMessagesLog.InternalError;
+begin
+   Log(WriteExceptLog);
+   Failed := False;
+end;
 
 
 end.

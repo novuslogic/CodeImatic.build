@@ -13,15 +13,16 @@ uses
   XMLList in 'XMLList.pas',
   Runtime in 'Runtime.pas',
   MessagesLog in 'Plugins\API\MessagesLog.pas',
-  uPSI_MessagesLog in 'Plugins\Imports\uPSI_MessagesLog.pas',
   Plugins in 'Plugins.pas',
   Plugin in 'Plugin.pas',
   PluginsMapFactory in 'PluginsMapFactory.pas',
   Plugin_Messageslog in 'Plugins\Plugin_Messageslog.pas',
   Plugin_Commands in 'Plugins\Plugin_Commands.pas',
   Plugin_Zip in 'Plugins\Plugin_Zip.pas',
-  Zip in 'Plugins\API\Zip.pas',
-  uPSI_Zip in 'Plugins\Imports\uPSI_Zip.pas';
+  API_Zip in 'Plugins\API\API_Zip.pas',
+  APIBase in 'Plugins\API\APIBase.pas',
+  uPSI_MessagesLog in 'Plugins\Imports\uPSI_MessagesLog.pas',
+  uPSI_API_Zip in 'Plugins\Imports\uPSI_API_Zip.pas';
 
 begin
   oConfig.LoadConfig;

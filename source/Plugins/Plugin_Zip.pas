@@ -2,15 +2,15 @@ unit Plugin_Zip;
 
 interface
 
-uses Classes,Plugin,  uPSRuntime,  uPSCompiler, PluginsMapFactory, Zip,
-    uPSI_Zip, MessagesLog, SysUtils ;
+uses Classes,Plugin,  uPSRuntime,  uPSCompiler, PluginsMapFactory, API_Zip,
+    uPSI_API_Zip, MessagesLog, SysUtils, ZIp ;
 
 
 type
   tPlugin_Zip = class(Tplugin)
   private
   protected
-    foZip: TZip;
+    foAPI_Zip: TAPI_Zip;
   public
     constructor Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
@@ -27,7 +27,7 @@ constructor tPlugin_Zip.Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClass
 begin
   Inherited;
 
-  foZip := TZip.Create;
+  foAPI_Zip := TAPI_Zip.Create(foMessagesLog);
 
 end;
 
@@ -36,7 +36,7 @@ destructor  tPlugin_Zip.Destroy;
 begin
   Inherited;
 
-  FreeandNIl(foZip);
+  FreeandNIl(foAPI_Zip);
 end;
 
 
@@ -45,8 +45,8 @@ function tPlugin_Zip.CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
 begin
   Result := True;
 
-  SIRegister_Zip(aCompiler);
-  AddImportedClassVariable(aCompiler, 'Zip', 'TZip');
+  SIRegister_API_Zip(aCompiler);
+  AddImportedClassVariable(aCompiler, 'Zip', 'TAPI_Zip');
 
 end;
 
@@ -56,12 +56,12 @@ end;
 
 procedure tPlugin_Zip.SetVariantToClass(aExec: TPSExec);
 begin
-  uPSRuntime.SetVariantToClass(aExec.GetVarNo(aExec.GetVar('ZIP')), foZip);
+  uPSRuntime.SetVariantToClass(aExec.GetVarNo(aExec.GetVar('ZIP')), foAPI_Zip);
 end;
 
 procedure tPlugin_Zip.RegisterImport;
 begin
-  RIRegister_Zip(FImp);
+  RIRegister_API_Zip(FImp);
 end;
 
 Initialization
