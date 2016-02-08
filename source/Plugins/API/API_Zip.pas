@@ -2,7 +2,7 @@ unit API_Zip;
 
 interface
 
-uses Classes, SysUtils, Zip, APIBase;
+uses Classes, SysUtils, Zip, APIBase, uPSRuntime;
 
 type
    TAPI_Zip = class(TAPIBase)
@@ -11,11 +11,14 @@ type
    public
      function ZipCompress: Boolean;
      function ZipExtractAll: Boolean;
-     function ZipExtractFile(const aArchiveFilename: String;
+     function ZipExtractFile(const aZipFilename: String;
                              const aFileName: string;
                              const aPath: string = '';
                              aCreateSubdirs: Boolean = True): Boolean;
    end;
+
+Const
+   API_Zip_NotFileExists = 'ZipFilename cannot be found [%s]';
 
 
 implementation
@@ -31,7 +34,7 @@ begin
   Result := False;
 end;
 
-function TAPI_Zip.ZipExtractFile(const aArchiveFilename: String;
+function TAPI_Zip.ZipExtractFile(const aZipFilename: String;
                              const aFileName: string;
                              const aPath: string = '';
                              aCreateSubdirs: Boolean = True): Boolean;
@@ -44,11 +47,13 @@ begin
   Try
     Try
       loZipFile := TZipFile.Create;
-      if Not FileExists(aArchiveFilename) then
+      if Not FileExists(aZipFilename) then
         begin
-         // TPSPascalCompiler(Sender).MakeError('', ecUnknownIdentifier, Name);
+          RuntimeErrorFmt(API_Zip_NotFileExists, [aZipFilename]);
 
           result := False;
+
+          Exit;
         end;
 
 

@@ -45,8 +45,11 @@ function tPlugin_Zip.CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
 begin
   Result := True;
 
+  foAPI_Zip.oCompiler := aCompiler;
+
   SIRegister_API_Zip(aCompiler);
   AddImportedClassVariable(aCompiler, 'Zip', 'TAPI_Zip');
+
 
 end;
 
@@ -56,6 +59,8 @@ end;
 
 procedure tPlugin_Zip.SetVariantToClass(aExec: TPSExec);
 begin
+  foAPI_Zip.oExec := aExec;
+
   uPSRuntime.SetVariantToClass(aExec.GetVarNo(aExec.GetVar('ZIP')), foAPI_Zip);
 end;
 

@@ -62,7 +62,7 @@ begin
   begin
     RegisterMethod('Function ZipCompress : Boolean');
     RegisterMethod('Function ZipExtractAll : Boolean');
-    RegisterMethod('Function ZipExtractFile( const aFileName : string; const aPath : string; aCreateSubdirs : Boolean) : Boolean');
+    RegisterMethod('Function ZipExtractFile( const aZipFilename : String; const aFileName : string; const aPath : string; aCreateSubdirs : Boolean) : Boolean');
   end;
 end;
 
@@ -70,6 +70,7 @@ end;
 procedure SIRegister_API_Zip(CL: TPSPascalCompiler);
 begin
   SIRegister_TAPI_Zip(CL);
+ CL.AddConstantN('API_Zip_NotFileExists','String').SetString( 'ZipFilename cannot be found [%s]');
 end;
 
 (* === run-time registration functions === *)

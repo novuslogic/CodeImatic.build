@@ -44,9 +44,17 @@ Type
 implementation
 
 procedure OnException(Sender: TPSExec; ExError: TPSError; const ExParam: tbtstring; ExObject: TObject; ProcNo, Position: Cardinal);
+var
+  lsExParam: String;
 begin
   oruntime.oMessagesLog.LastExError := ExError;
-  oruntime.oMessagesLog.LastExParam := ExParam;
+
+
+  lsExParam := ExParam;
+  if ExParam = '' then lsExParam := 'Unknown error.';
+
+
+  oruntime.oMessagesLog.LastExParam := lsExParam;
   oruntime.oMessagesLog.Errors := True;
 end;
 
@@ -94,7 +102,7 @@ begin
       end
      else 
        begin
-         TPSPascalCompiler(Sender).MakeError('', ecUnknownIdentifier, Name);
+         TPSPascalCompiler(Sender).MakeError('', ecUnitNotFoundOrContainsErrors, Name);
        
          Result := False;
        end;
@@ -127,7 +135,6 @@ begin
   FCompiler.OnUses :=CustomOnUses; // assign the OnUses event.
 
   //FCompiler.OnExportCheck := ScriptOnExportCheck; // Assign the onExportCheck event.
-
 
   FCompiler.AllowNoBegin := true;
   FCompiler.AllowNoEnd := true; // AllowNoBegin and AllowNoEnd allows it that begin and end are not required in a script.

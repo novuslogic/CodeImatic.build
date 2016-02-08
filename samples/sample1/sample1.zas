@@ -2,6 +2,9 @@ begin
   MessagesLog.log('Test 1');
 
    try
+
+
+
       RaiseException(erCustomError, 'CustomError RaiseException');
     except
       Messageslog.LogError;
@@ -9,5 +12,6 @@ begin
 
   Writeln('Test 2');
 
-  Zip.ZipCompress;
+  if not Zip.ZipExtractFile('ddd.zip', 'eee', '', false) then
+        Messageslog.LogError;
 end.
