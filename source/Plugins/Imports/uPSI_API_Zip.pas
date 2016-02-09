@@ -61,8 +61,8 @@ begin
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_Zip') do
   begin
     RegisterMethod('Function ZipCompress : Boolean');
-    RegisterMethod('Function ZipExtractAll : Boolean');
-    RegisterMethod('Function ZipExtractFile( const aZipFilename : String; const aFileName : string; const aPath : string; aCreateSubdirs : Boolean) : Boolean');
+    RegisterMethod('Function ZipExtractAll( const aZipFilename : String; const aPath : string) : Boolean');
+    RegisterMethod('Function ZipExtractFile( const aZipFilename : String; const aFileName : string; const aPath : string) : Boolean');
   end;
 end;
 

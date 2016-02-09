@@ -10,11 +10,10 @@ type
    protected
    public
      function ZipCompress: Boolean;
-     function ZipExtractAll: Boolean;
+     function ZipExtractAll(const aZipFilename: String; const aPath: string): Boolean;
      function ZipExtractFile(const aZipFilename: String;
                              const aFileName: string;
-                             const aPath: string = '';
-                             aCreateSubdirs: Boolean = True): Boolean;
+                             const aPath: string): Boolean;
    end;
 
 Const
@@ -29,15 +28,43 @@ begin
   Result := False;
 end;
 
-function TAPI_Zip.ZipExtractAll;
+function TAPI_Zip.ZipExtractAll(const aZipFilename: String; const aPath: string): Boolean;
+var
+  loZipFile: TZipFile;
 begin
-  Result := False;
+
+  Result := True;
+
+  Try
+    Try
+      loZipFile := TZipFile.Create;
+      if Not FileExists(aZipFilename) then
+        begin
+          RuntimeErrorFmt(API_Zip_NotFileExists, [aZipFilename]);
+
+          result := False;
+
+          Exit;
+        end;
+
+      loZipFile.Open(aZipFilename, zmRead);
+
+      loZipFile.ExtractAll(apath);
+
+      loZipFile.Close;
+    Except
+      oMessagesLog.InternalError;
+
+      Result := False;
+    End;
+  Finally
+    FreeandNil(loZipFile);
+  End;
 end;
 
 function TAPI_Zip.ZipExtractFile(const aZipFilename: String;
                              const aFileName: string;
-                             const aPath: string = '';
-                             aCreateSubdirs: Boolean = True): Boolean;
+                             const aPath: string): Boolean;
 var
   loZipFile: TZipFile;
 begin
@@ -59,13 +86,10 @@ begin
       loZipFile.Open(aZipFilename, zmRead);
 
       loZipFile.Extract(aFileName,
-                        aPath,
-                        aCreateSubdirs);
+                        aPath);
 
 
       loZipFile.Close;
-
-      Result := True;
     Except
       oMessagesLog.InternalError;
 

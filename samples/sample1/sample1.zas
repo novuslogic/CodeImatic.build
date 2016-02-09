@@ -10,8 +10,17 @@ begin
       Messageslog.LogError;
     end;
 
-  Writeln('Open Zip File and Ex');
+  Writeln('function ZipExtractFile');
 
-  if not Zip.ZipExtractFile('D:\Projects\Zautomatic\samples\sample1\test.zip', 'test.txt', 'D:\Projects\Zautomatic\samples\sample1\', true) then
+  if not Zip.ZipExtractFile('D:\Projects\Zautomatic\samples\sample1\test.zip', 'test.txt', 'D:\Projects\Zautomatic\samples\sample1\') then
     Messageslog.LogError;
+
+
+  Writeln('function ZipExtractAll');
+
+  if not Zip.ZipExtractAll('D:\Projects\Zautomatic\samples\sample1\test.zip', 'D:\Projects\Zautomatic\samples\sample1\') then
+    Messageslog.LogError;
+
+
+
 end.
