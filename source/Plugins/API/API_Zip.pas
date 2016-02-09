@@ -56,9 +56,16 @@ begin
           Exit;
         end;
 
+      loZipFile.Open(aZipFilename, zmRead);
+
+      loZipFile.Extract(aFileName,
+                        aPath,
+                        aCreateSubdirs);
 
 
+      loZipFile.Close;
 
+      Result := True;
     Except
       oMessagesLog.InternalError;
 
