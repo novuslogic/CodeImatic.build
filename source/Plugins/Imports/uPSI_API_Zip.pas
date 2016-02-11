@@ -60,7 +60,7 @@ begin
   //with RegClassS(CL,'TAPIBase', 'TAPI_Zip') do
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_Zip') do
   begin
-    RegisterMethod('Function ZipCompress : Boolean');
+    RegisterMethod('Function ZipGetFileNames( const aZipFilename : String) : TStringList');
     RegisterMethod('Function ZipExtractAll( const aZipFilename : String; const aPath : string) : Boolean');
     RegisterMethod('Function ZipExtractFile( const aZipFilename : String; const aFileName : string; const aPath : string) : Boolean');
   end;
@@ -79,7 +79,7 @@ procedure RIRegister_TAPI_Zip(CL: TPSRuntimeClassImporter);
 begin
   with CL.Add(TAPI_Zip) do
   begin
-    RegisterMethod(@TAPI_Zip.ZipCompress, 'ZipCompress');
+    RegisterMethod(@TAPI_Zip.ZipGetFileNames, 'ZipGetFileNames');
     RegisterMethod(@TAPI_Zip.ZipExtractAll, 'ZipExtractAll');
     RegisterMethod(@TAPI_Zip.ZipExtractFile, 'ZipExtractFile');
   end;

@@ -2,7 +2,8 @@ unit Plugin_Commands;
 
 interface
 
-uses Classes,runtime, Plugin,  uPSRuntime,  uPSCompiler, uPSI_MessagesLog, PluginsMapFactory;
+uses Classes,runtime, Plugin,  uPSRuntime,  uPSCompiler, uPSI_MessagesLog, PluginsMapFactory,
+     uPSC_classes,  uPSC_std;
 
 type
   tPlugin_Commands = class(Tplugin)
@@ -22,6 +23,14 @@ implementation
 function tPlugin_Commands.CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
 begin
   Result := True;
+
+
+
+ // SIRegister_Std(aCompiler);
+ // SIRegister_Classes(aCompiler, True);
+  SIRegisterTStrings(aCompiler, false);
+  SIRegisterTStringList(aCompiler);
+
 
   TPSPascalCompiler(aCompiler).AddFunction('procedure Writeln(s: string);');
 end;

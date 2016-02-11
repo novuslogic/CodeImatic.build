@@ -1,14 +1,14 @@
+Var
+  FZipStringList: TStringList;
+  I: Integer;
 begin
-  MessagesLog.log('Test 1');
+   MessagesLog.log('Test 1');
 
    try
-
-
-
-      RaiseException(erCustomError, 'CustomError RaiseException');
-    except
-      Messageslog.LogError;
-    end;
+     RaiseException(erCustomError, 'CustomError RaiseException');
+   except
+     Messageslog.LogError;
+   end;
 
   Writeln('function ZipExtractFile');
 
@@ -20,6 +20,24 @@ begin
 
   if not Zip.ZipExtractAll('D:\Projects\Zautomatic\samples\sample1\test.zip', 'D:\Projects\Zautomatic\samples\sample1\') then
     Messageslog.LogError;
+
+  Writeln('function ZipGetFileNames');
+
+  Writeln('Files:');
+
+  FZipStringList := Zip.ZipGetFileNames('D:\Projects\Zautomatic\samples\sample1\test.zip');
+  if Assigned(FZipStringList) then
+    begin
+      For I := 0 to FZipStringList.Count - 1 do
+        begin
+          Writeln(FZipStringList.strings[i]);
+
+
+        end;
+
+
+
+    end;
 
 
 
