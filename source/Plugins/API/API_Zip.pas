@@ -9,7 +9,7 @@ type
    private
    protected
    public
-     function ZipGetFileNames(const aZipFilename: String): TStringList;
+     function ZipGetFileNameList(const aZipFilename: String; var aZipStringList: TStringList): Boolean;
      function ZipExtractAll(const aZipFilename: String; const aPath: string): Boolean;
      function ZipExtractFile(const aZipFilename: String;
                              const aFileName: string;
@@ -93,13 +93,15 @@ begin
   End;
 end;
 
-function TAPI_Zip.ZipGetFileNames(const aZipFilename: String): TStringList;
+
+
+function TAPI_Zip.ZipGetFileNameList(const aZipFilename: String; var aZipStringList: TStringList): Boolean;
 var
   loZipFile: TZipFile;
   lFilenames: TArray<string>;
   S: String;
 begin
-  Result := NIL;
+  Result := True;
 
   Try
     Try
@@ -108,33 +110,28 @@ begin
         begin
           RuntimeErrorFmt(API_Zip_NotFileExists, [aZipFilename]);
 
+          Result := False;
+
           Exit;
         end;
 
       loZipFile.Open(aZipFilename, zmRead);
 
+      if Not Assigned(aZipStringList) then
+        aZipStringList := TStringList.Create;
+
       lFilenames := loZipFile.FileNames;
       if Assigned(lFilenames) then
         begin
-          Result := TStringList.Create;
-
           for s in lFilenames do
-            Result.Add(s);
+             aZipStringList.Add(s);
         end;
-
-
-
 
       loZipFile.Close;
     Except
       oMessagesLog.InternalError;
 
-      if Assigned(result) then
-        begin
-          Freeandnil(Result);
-
-        end;
-
+      Result := False;
     End;
   Finally
     FreeandNil(loZipFile);
