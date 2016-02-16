@@ -2,13 +2,14 @@ unit API_Zip;
 
 interface
 
-uses Classes, SysUtils, Zip, APIBase, uPSRuntime;
+uses Classes, SysUtils, Zip, APIBase, uPSRuntime, IOUtils;
 
 type
    TAPI_Zip = class(TAPIBase)
    private
    protected
    public
+     function ZipCompress(const aZipFilename: String; const aPath: String): Boolean;
      function ZipGetFileNameList(const aZipFilename: String; var aZipStringList: TStringList): Boolean;
      function ZipExtractAll(const aZipFilename: String; const aPath: string): Boolean;
      function ZipExtractFile(const aZipFilename: String;
@@ -22,11 +23,49 @@ Const
 
 implementation
 
+function TAPI_Zip.ZipCompress(const aZipFilename: String; const aPath: String): Boolean;
+var
+  loZipFile: TZipFile;
+  LsPath: String;
+  LsFile: string;
+  LsZFile: string;
+begin
+  Result := True;
+
+  Try
+    Try
+      loZipFile := TZipFile.Create;
+      if  FileExists(aZipFilename) then
+        loZipFile.Open(aZipFilename, zmReadWrite)
+      else loZipFile.Open(aZipFilename, zmWrite);
+
+      LsPath := IncludeTrailingPathDelimiter(aPath);
+
+      for LsFile in TDirectory.GetFiles(aPath, '*', TSearchOption.soAllDirectories) do
+    begin
+{$IFDEF MSWINDOWS}
+      LsZFile := StringReplace(Copy(LsFile, Length(LsPath) + 1, Length(LsFile)), '\', '/', [rfReplaceAll]);
+{$ELSE}
+      LsZFile := Copy(LFile, Length(LPath) + 1, Length(LFile));
+{$ENDIF MSWINDOWS}
+      loZipFile.Add(LsFile, LsZFile, zcDeflate);
+    end;
+
+      loZipFile.Close;
+    Except
+      oMessagesLog.InternalError;
+
+      Result := False;
+    End;
+  Finally
+    FreeandNil(loZipFile);
+  End;
+end;
+
 function TAPI_Zip.ZipExtractAll(const aZipFilename: String; const aPath: string): Boolean;
 var
   loZipFile: TZipFile;
 begin
-
   Result := True;
 
   Try
