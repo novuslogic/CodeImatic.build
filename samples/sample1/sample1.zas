@@ -12,12 +12,12 @@ begin
 
   Writeln('function ZipExtractFile');
 
-  if not Zip.ZipExtractFile('D:\Projects\Zautomatic\samples\sample1\test.zip', 'test.txt', 'D:\Projects\Zautomatic\samples\sample1\') then
+  if not Zip.ZipExtractFile('D:\Projects\Zautomatic\samples\sample1\test.zip', 'test.txt', 'D:\Projects\Zautomatic\samples\sample1\data') then
     Messageslog.LogError;
 
   Writeln('function ZipExtractAll');
 
-  if not Zip.ZipExtractAll('D:\Projects\Zautomatic\samples\sample1\test.zip', 'D:\Projects\Zautomatic\samples\sample1\') then
+  if not Zip.ZipExtractAll('D:\Projects\Zautomatic\samples\sample1\test.zip', 'D:\Projects\Zautomatic\samples\sample1\data') then
     Messageslog.LogError;
 
   Writeln('function ZipGetFileNameList');
@@ -43,7 +43,7 @@ begin
 
   Writeln('function ZipCompress');
 
-  if not Zip.ZipCompress('D:\Projects\Zautomatic\samples\sample1\test2.zip', 'D:\Projects\Zautomatic\samples\sample1\') then
+  if not Zip.ZipCompress('D:\Projects\Zautomatic\samples\sample1\test2.zip', 'D:\Projects\Zautomatic\samples\sample1\data') then
     Messageslog.LogError;
 
 

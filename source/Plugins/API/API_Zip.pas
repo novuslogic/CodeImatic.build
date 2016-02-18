@@ -2,7 +2,7 @@ unit API_Zip;
 
 interface
 
-uses Classes, SysUtils, Zip, APIBase, uPSRuntime, IOUtils;
+uses Classes, SysUtils, Zip, APIBase, uPSRuntime, IOUtils, NovusFileUtils;
 
 type
    TAPI_Zip = class(TAPIBase)
@@ -19,6 +19,7 @@ type
 
 Const
    API_Zip_NotFileExists = 'ZipFilename cannot be found [%s]';
+   API_Zip_FileInUse = 'Cannot add this file being used [%s]';
 
 
 implementation
@@ -48,7 +49,21 @@ begin
 {$ELSE}
       LsZFile := Copy(LFile, Length(LPath) + 1, Length(LFile));
 {$ENDIF MSWINDOWS}
-      loZipFile.Add(LsFile, LsZFile, zcDeflate);
+
+
+      if Not TNovusFileUtils.IsFileInUse(LsFile) then
+        loZipFile.Add(LsFile, LsZFile, zcDeflate)
+      else
+         begin
+           RuntimeErrorFmt(API_Zip_FileInUse, [LsFile]);
+
+           loZipFile.Close;
+
+           result := False;
+
+           Exit;
+         end;
+
     end;
 
       loZipFile.Close;

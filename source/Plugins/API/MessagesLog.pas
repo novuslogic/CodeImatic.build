@@ -58,7 +58,7 @@ procedure TMessagesLog.LogError;
 begin
   WriteLog(fsLastExParam);
   if fLastExError = TPSError.erCustomError then
-    Errors := False
+    Errors := true
   else
     Failed := True;
 end;

@@ -188,7 +188,13 @@ begin
 
       Exit;
     end
-  else foMessageslog.WriteLog('Successfully executed');
+  else
+    begin
+      if foMessageslog.Errors  then
+        foMessageslog.WriteLog('Executed with errors.')
+      else
+        foMessageslog.WriteLog('Successfully executed');
+    end;
 
   Result := True;
 
