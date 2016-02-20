@@ -30,10 +30,12 @@ type
  
 { compile-time registration functions }
 procedure SIRegister_TAPI_Zip(CL: TPSPascalCompiler);
+procedure SIRegister_TZIPOptions(CL: TPSPascalCompiler);
 procedure SIRegister_API_Zip(CL: TPSPascalCompiler);
 
 { run-time registration functions }
 procedure RIRegister_TAPI_Zip(CL: TPSRuntimeClassImporter);
+procedure RIRegister_TZIPOptions(CL: TPSRuntimeClassImporter);
 procedure RIRegister_API_Zip(CL: TPSRuntimeClassImporter);
 
 procedure Register;
@@ -45,6 +47,7 @@ uses
    Zip
   ,APIBase
   ,IOUtils
+  ,NovusFileUtils
   ,API_Zip
   ;
  
@@ -61,7 +64,7 @@ begin
   //with RegClassS(CL,'TAPIBase', 'TAPI_Zip') do
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_Zip') do
   begin
-    RegisterMethod('Function ZipCompress( const aZipFilename : String; const aPath : String) : Boolean');
+    RegisterMethod('Function ZipCompress( const aZipFilename : String; const aPath : String; const aFileMasks : String; const aZIPOptions : TZIPOptions) : Boolean');
     RegisterMethod('Function ZipGetFileNameList( const aZipFilename : String; var aZipStringList : TStringList) : Boolean');
     RegisterMethod('Function ZipExtractAll( const aZipFilename : String; const aPath : string) : Boolean');
     RegisterMethod('Function ZipExtractFile( const aZipFilename : String; const aFileName : string; const aPath : string) : Boolean');
@@ -69,13 +72,34 @@ begin
 end;
 
 (*----------------------------------------------------------------------------*)
+procedure SIRegister_TZIPOptions(CL: TPSPascalCompiler);
+begin
+  //with RegClassS(CL,'TPersistent', 'TZIPOptions') do
+  with CL.AddClassN(CL.FindClass('TPersistent'),'TZIPOptions') do
+  begin
+    RegisterMethod('Constructor Create');
+    RegisterProperty('ExcludedFile', 'TStringlist', iptrw);
+  end;
+end;
+
+(*----------------------------------------------------------------------------*)
 procedure SIRegister_API_Zip(CL: TPSPascalCompiler);
 begin
+  SIRegister_TZIPOptions(CL);
   SIRegister_TAPI_Zip(CL);
  CL.AddConstantN('API_Zip_NotFileExists','String').SetString( 'ZipFilename cannot be found [%s]');
+ CL.AddConstantN('API_Zip_FileInUse','String').SetString( 'Cannot add this file being used [%s]');
 end;
 
 (* === run-time registration functions === *)
+(*----------------------------------------------------------------------------*)
+procedure TZIPOptionsExcludedFile_W(Self: TZIPOptions; const T: TStringlist);
+begin Self.ExcludedFile := T; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TZIPOptionsExcludedFile_R(Self: TZIPOptions; var T: TStringlist);
+begin T := Self.ExcludedFile; end;
+
 (*----------------------------------------------------------------------------*)
 procedure RIRegister_TAPI_Zip(CL: TPSRuntimeClassImporter);
 begin
@@ -89,8 +113,19 @@ begin
 end;
 
 (*----------------------------------------------------------------------------*)
+procedure RIRegister_TZIPOptions(CL: TPSRuntimeClassImporter);
+begin
+  with CL.Add(TZIPOptions) do
+  begin
+    RegisterVirtualConstructor(@TZIPOptions.Create, 'Create');
+    RegisterPropertyHelper(@TZIPOptionsExcludedFile_R,@TZIPOptionsExcludedFile_W,'ExcludedFile');
+  end;
+end;
+
+(*----------------------------------------------------------------------------*)
 procedure RIRegister_API_Zip(CL: TPSRuntimeClassImporter);
 begin
+  RIRegister_TZIPOptions(CL);
   RIRegister_TAPI_Zip(CL);
 end;
 

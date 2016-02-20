@@ -5,11 +5,31 @@ interface
 uses Classes, SysUtils, Zip, APIBase, uPSRuntime, IOUtils, NovusFileUtils;
 
 type
+   TZIPOptions = class(TPersistent)
+   private
+   protected
+     fExcludedFile: TStringList;
+   public
+     constructor Create; virtual;
+     destructor Destroy; virtual;
+
+     property ExcludedFile: TStringlist
+       read fExcludedFile write fExcludedFile;
+
+
+   end;
+
+
+
    TAPI_Zip = class(TAPIBase)
    private
    protected
    public
-     function ZipCompress(const aZipFilename: String; const aPath: String): Boolean;
+     function ZipCompress(const aZipFilename: String;
+                          const aPath: String;
+                          const aFileMasks: String;
+                          const aZIPOptions: TZIPOptions): Boolean;
+
      function ZipGetFileNameList(const aZipFilename: String; var aZipStringList: TStringList): Boolean;
      function ZipExtractAll(const aZipFilename: String; const aPath: string): Boolean;
      function ZipExtractFile(const aZipFilename: String;
@@ -24,12 +44,18 @@ Const
 
 implementation
 
-function TAPI_Zip.ZipCompress(const aZipFilename: String; const aPath: String): Boolean;
+//TAPI_Zip
+
+function TAPI_Zip.ZipCompress(const aZipFilename: String;
+                              const aPath: String;
+                              const aFileMasks: String;
+                              const aZIPOptions: TZIPOptions): Boolean;
 var
   loZipFile: TZipFile;
   LsPath: String;
   LsFile: string;
   LsZFile: string;
+  lsFileMasks: String;
 begin
   Result := True;
 
@@ -42,14 +68,16 @@ begin
 
       LsPath := IncludeTrailingPathDelimiter(aPath);
 
-      for LsFile in TDirectory.GetFiles(aPath, '*', TSearchOption.soAllDirectories) do
+      lsFileMasks := aFileMasks;
+      if aFileMasks = '' then lsFileMasks := '*';
+
+      for LsFile in TDirectory.GetFiles(aPath, lsFileMasks, TSearchOption.soAllDirectories) do
     begin
 {$IFDEF MSWINDOWS}
       LsZFile := StringReplace(Copy(LsFile, Length(LsPath) + 1, Length(LsFile)), '\', '/', [rfReplaceAll]);
 {$ELSE}
       LsZFile := Copy(LFile, Length(LPath) + 1, Length(LFile));
 {$ENDIF MSWINDOWS}
-
 
       if Not TNovusFileUtils.IsFileInUse(LsFile) then
         loZipFile.Add(LsFile, LsZFile, zcDeflate)
@@ -190,6 +218,19 @@ begin
   Finally
     FreeandNil(loZipFile);
   End;
+end;
+
+
+// TZIPOptions
+
+constructor TZIPOptions.create;
+begin
+  fExcludedFile := TStringlist.Create;
+end;
+
+destructor TZIPOptions.destroy;
+begin
+  fExcludedFile.Free;
 end;
 
 

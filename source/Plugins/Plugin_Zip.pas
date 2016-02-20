@@ -48,6 +48,7 @@ begin
   foAPI_Zip.oCompiler := aCompiler;
 
   SIRegister_API_Zip(aCompiler);
+  SIRegister_API_Zip(aCompiler);
   AddImportedClassVariable(aCompiler, 'Zip', 'TAPI_Zip');
 
 
@@ -66,6 +67,7 @@ end;
 
 procedure tPlugin_Zip.RegisterImport;
 begin
+  RIRegister_API_Zip(FImp);
   RIRegister_API_Zip(FImp);
 end;
 

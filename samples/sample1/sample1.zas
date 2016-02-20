@@ -1,6 +1,7 @@
 Var
   FZipStringList: TStringList;
   I: Integer;
+  FZipOptions: TZipOptions;
 begin
    MessagesLog.log('Test 1');
 
@@ -24,29 +25,32 @@ begin
 
   Writeln('Files:');
 
-  FZipStringList := TStringList.Create;
+  Try
+    FZipStringList := TStringList.Create;
 
-  if Zip.ZipGetFileNameList('D:\Projects\Zautomatic\samples\sample1\test.zip', FZipStringList) then
-    begin
-      For I := 0 to FZipStringList.Count - 1 do
-        begin
+    if Zip.ZipGetFileNameList('D:\Projects\Zautomatic\samples\sample1\test.zip', FZipStringList) then
+      begin
+        For I := 0 to FZipStringList.Count - 1 do
           Writeln(FZipStringList.strings[i]);
 
-
-        end;
-    end
-  else
-     Messageslog.LogError;
-
-
-  FZipStringList.Free;
+      end
+     else
+        Messageslog.LogError;
+  finally
+    FZipStringList.Free;
+  end;
 
   Writeln('function ZipCompress');
 
-  if not Zip.ZipCompress('D:\Projects\Zautomatic\samples\sample1\test2.zip', 'D:\Projects\Zautomatic\samples\sample1\data') then
-    Messageslog.LogError;
+  Try
+    FZipOptions := TZipOptions.Create;
 
-
+    if not Zip.ZipCompress('D:\Projects\Zautomatic\samples\sample1\test2.zip',
+             'D:\Projects\Zautomatic\samples\sample1\data', '*', FZipOptions) then
+            Messageslog.LogError;
+  finally
+    FZipOptions.Free;
+  end;
 
 
 
