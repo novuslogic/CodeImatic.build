@@ -106,7 +106,7 @@ begin
   with CL.Add(TAPI_Zip) do
   begin
     RegisterMethod(@TAPI_Zip.ZipCompress, 'ZipCompress');
-    RegisterMethod(@TAPI_Zip.ZipGetFileNameList, 'ZipGetFileNameList');
+    RegisterMethod(@TAPI_Zip.ZipBrowserList, 'ZipBrowserList');
     RegisterMethod(@TAPI_Zip.ZipExtractAll, 'ZipExtractAll');
     RegisterMethod(@TAPI_Zip.ZipExtractFile, 'ZipExtractFile');
   end;

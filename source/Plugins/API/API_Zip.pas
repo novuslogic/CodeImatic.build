@@ -3,7 +3,8 @@ unit API_Zip;
 interface
 
 uses Classes, SysUtils, APIBase, uPSRuntime, IOUtils, NovusFileUtils,
-     AbZipper, AbArcTyp, AbZBrows, AbMeter, AbBrowse, AbBase, AbUnzper;
+     AbZipper, AbArcTyp, AbZBrows, AbMeter, AbBrowse, AbBase, AbUnzper, AbZipKit,
+     AbZipTyp;
 
 type
    TZIPOptions = class(TPersistent)
@@ -33,7 +34,7 @@ type
                           const aFileMasks: String;
                           const aZIPOptions: TZIPOptions): Boolean;
 
-     function ZipGetFileNameList(const aZipFilename: String; var aZipStringList: TStringList): Boolean;
+     function ZipBrowserList(const aZipFilename: String; var aZipStringList: TStringList): Boolean;
      function ZipExtractAll(const aZipFilename: String; const aPath: string): Boolean;
      function ZipExtractFile(const aZipFilename: String;
                              const aFileName: string;
@@ -207,18 +208,19 @@ end;
 
 
 
-function TAPI_Zip.ZipGetFileNameList(const aZipFilename: String; var aZipStringList: TStringList): Boolean;
-//var
-//  loZipFile: TZipFile;
+function TAPI_Zip.ZipBrowserList(const aZipFilename: String; var aZipStringList: TStringList): Boolean;
+var
+  loZipFile: TAbZipKit;
+  I: Integer;
+  loZipItem: TAbZipItem;
 //  lFilenames: TArray<string>;
 //  S: String;
 begin
-  (*
   Result := True;
 
   Try
     Try
-      loZipFile := TZipFile.Create;
+      loZipFile:= TAbZipKit.Create(nil);
       if Not FileExists(aZipFilename) then
         begin
           RuntimeErrorFmt(API_Zip_NotFileExists, [aZipFilename]);
@@ -228,8 +230,17 @@ begin
           Exit;
         end;
 
-      loZipFile.Open(aZipFilename, zmRead);
+      loZipFile.Filename := aZipFilename;
 
+      for I := 0 to loZipFile.Count - 1 do
+        begin
+          loZipItem := loZipFile.Items[i];
+        end;
+
+      ;
+
+
+      (*
       if Not Assigned(aZipStringList) then
         aZipStringList := TStringList.Create;
 
@@ -241,6 +252,7 @@ begin
         end;
 
       loZipFile.Close;
+      *)
     Except
       oMessagesLog.InternalError;
 
@@ -249,7 +261,7 @@ begin
   Finally
     FreeandNil(loZipFile);
   End;
-  *)
+
 end;
 
 
