@@ -16,11 +16,12 @@ begin
   if not Zip.ZipExtractFile('D:\Projects\Zautomatic\samples\sample1\test.zip', 'test.txt', 'D:\Projects\Zautomatic\samples\sample1\data') then
     Messageslog.LogError;
 
+
   Writeln('function ZipExtractAll');
 
   if not Zip.ZipExtractAll('D:\Projects\Zautomatic\samples\sample1\test.zip', 'D:\Projects\Zautomatic\samples\sample1\data') then
     Messageslog.LogError;
-
+       (*
   Writeln('function ZipGetFileNameList');
 
   Writeln('Files:');
@@ -51,7 +52,7 @@ begin
   finally
     FZipOptions.Free;
   end;
-
+  *)
 
 
 
