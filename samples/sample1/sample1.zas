@@ -21,15 +21,15 @@ begin
 
   if not Zip.ZipExtractAll('D:\Projects\Zautomatic\samples\sample1\test.zip', 'D:\Projects\Zautomatic\samples\sample1\data') then
     Messageslog.LogError;
-       (*
-  Writeln('function ZipGetFileNameList');
+
+  Writeln('function ZipBrowserList');
 
   Writeln('Files:');
 
   Try
     FZipStringList := TStringList.Create;
 
-    if Zip.ZipGetFileNameList('D:\Projects\Zautomatic\samples\sample1\test.zip', FZipStringList) then
+    if Zip.ZipBrowserList('D:\Projects\Zautomatic\samples\sample1\test.zip', FZipStringList, true) then
       begin
         For I := 0 to FZipStringList.Count - 1 do
           Writeln(FZipStringList.strings[i]);
@@ -52,7 +52,7 @@ begin
   finally
     FZipOptions.Free;
   end;
-  *)
+
 
 
 

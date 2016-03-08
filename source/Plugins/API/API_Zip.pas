@@ -34,7 +34,7 @@ type
                           const aFileMasks: String;
                           const aZIPOptions: TZIPOptions): Boolean;
 
-     function ZipBrowserList(const aZipFilename: String; var aZipStringList: TStringList): Boolean;
+     function ZipBrowserList(const aZipFilename: String; var aZipStringList: TStringList; aIncludePath: Boolean): Boolean;
      function ZipExtractAll(const aZipFilename: String; const aPath: string): Boolean;
      function ZipExtractFile(const aZipFilename: String;
                              const aFileName: string;
@@ -57,7 +57,7 @@ function TAPI_Zip.ZipCompress(const aZipFilename: String;
                               const aFileMasks: String;
                               const aZIPOptions: TZIPOptions): Boolean;
 var
-//  loZipFile: TZipFile;
+  loZipFile: tAbZipper;
   LsPath: String;
   LsFile: string;
   LsZFile: string;
@@ -78,13 +78,16 @@ begin
 
   Try
     Try
+      loZipFile := tAbZipper.Create(NIL);
+      loZipFile.AutoSave := True;
+      loZipFile.DOSMode := False;
+      loZipFile.CompressionMethodToUse := smBestMethod;
 
-
-      (*
-      loZipFile := TZipFile.Create;
       if  FileExists(aZipFilename) then
-        loZipFile.Open(aZipFilename, zmReadWrite)
-      else loZipFile.Open(aZipFilename, zmWrite);
+         loZipFile.StoreOptions := [soStripDrive, soStripPath, soFreshen, soReplace]
+      else loZipFile.StoreOptions := [soStripDrive, soStripPath];
+
+      loZipFile.FileName := aZipFilename;
 
       LsPath := IncludeTrailingPathDelimiter(aPath);
 
@@ -101,6 +104,9 @@ begin
 
           if Not TNovusFileUtils.IsFileInUse(LsFile) then
             begin
+              loZipFile.AddFiles(LsFile, 0 );
+
+              (*
               if loZipFile.IndexOf(LsFile) = -1 then
                  loZipFile.Add(LsFile, '', zcDeflate)
               else
@@ -109,28 +115,24 @@ begin
 
                   loZipFile.Add(LsFile, '', zcDeflate)
                 end;
+                *)
             end
            else
              begin
                RuntimeErrorFmt(API_Zip_FileInUse, [LsFile]);
-
-               loZipFile.Close;
 
                result := False;
 
                Exit;
              end;
       end;
-
-      loZipFile.Close;
-      *)
     Except
       oMessagesLog.InternalError;
 
       Result := False;
     End;
   Finally
-    //FreeandNil(loZipFile);
+    FreeandNil(loZipFile);
   End;
 
 end;
@@ -208,13 +210,12 @@ end;
 
 
 
-function TAPI_Zip.ZipBrowserList(const aZipFilename: String; var aZipStringList: TStringList): Boolean;
+function TAPI_Zip.ZipBrowserList(const aZipFilename: String; var aZipStringList: TStringList; aIncludePath: Boolean): Boolean;
 var
   loZipFile: TAbZipKit;
   I: Integer;
   loZipItem: TAbZipItem;
-//  lFilenames: TArray<string>;
-//  S: String;
+  S: String;
 begin
   Result := True;
 
@@ -232,27 +233,22 @@ begin
 
       loZipFile.Filename := aZipFilename;
 
-      for I := 0 to loZipFile.Count - 1 do
-        begin
-          loZipItem := loZipFile.Items[i];
-        end;
-
-      ;
-
-
-      (*
       if Not Assigned(aZipStringList) then
         aZipStringList := TStringList.Create;
 
-      lFilenames := loZipFile.FileNames;
-      if Assigned(lFilenames) then
+      for I := 0 to loZipFile.Count - 1 do
         begin
-          for s in lFilenames do
-             aZipStringList.Add(s);
-        end;
+          loZipItem := loZipFile.Items[i];
 
-      loZipFile.Close;
-      *)
+          s := '';
+          if aIncludePath then
+            s := loZipItem.DiskPath;
+
+          s := s +  loZipItem.FileName;
+
+
+          aZipStringList.Add(s);
+        end;
     Except
       oMessagesLog.InternalError;
 

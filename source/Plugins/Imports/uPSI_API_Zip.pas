@@ -44,10 +44,18 @@ implementation
 
 
 uses
-   Zip
-  ,APIBase
+   APIBase
   ,IOUtils
   ,NovusFileUtils
+  ,AbZipper
+  ,AbArcTyp
+  ,AbZBrows
+  ,AbMeter
+  ,AbBrowse
+  ,AbBase
+  ,AbUnzper
+  ,AbZipKit
+  ,AbZipTyp
   ,API_Zip
   ;
  
@@ -65,7 +73,7 @@ begin
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_Zip') do
   begin
     RegisterMethod('Function ZipCompress( const aZipFilename : String; const aPath : String; const aFileMasks : String; const aZIPOptions : TZIPOptions) : Boolean');
-    RegisterMethod('Function ZipGetFileNameList( const aZipFilename : String; var aZipStringList : TStringList) : Boolean');
+    RegisterMethod('Function ZipBrowserList( const aZipFilename : String; var aZipStringList : TStringList; aIncludePath : Boolean) : Boolean');
     RegisterMethod('Function ZipExtractAll( const aZipFilename : String; const aPath : string) : Boolean');
     RegisterMethod('Function ZipExtractFile( const aZipFilename : String; const aFileName : string; const aPath : string) : Boolean');
   end;
@@ -79,6 +87,7 @@ begin
   begin
     RegisterMethod('Constructor Create');
     RegisterProperty('ExcludedFile', 'TStringlist', iptrw);
+    RegisterProperty('Password', 'String', iptrw);
   end;
 end;
 
@@ -92,6 +101,14 @@ begin
 end;
 
 (* === run-time registration functions === *)
+(*----------------------------------------------------------------------------*)
+procedure TZIPOptionsPassword_W(Self: TZIPOptions; const T: String);
+begin Self.Password := T; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TZIPOptionsPassword_R(Self: TZIPOptions; var T: String);
+begin T := Self.Password; end;
+
 (*----------------------------------------------------------------------------*)
 procedure TZIPOptionsExcludedFile_W(Self: TZIPOptions; const T: TStringlist);
 begin Self.ExcludedFile := T; end;
@@ -119,6 +136,7 @@ begin
   begin
     RegisterVirtualConstructor(@TZIPOptions.Create, 'Create');
     RegisterPropertyHelper(@TZIPOptionsExcludedFile_R,@TZIPOptionsExcludedFile_W,'ExcludedFile');
+    RegisterPropertyHelper(@TZIPOptionsPassword_R,@TZIPOptionsPassword_W,'Password');
   end;
 end;
 
