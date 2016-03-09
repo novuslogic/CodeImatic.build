@@ -96,6 +96,9 @@ begin
       loZipFile.DOSMode := False;
       loZipFile.CompressionMethodToUse := smBestMethod;
 
+      if Assigned(aZIPOptions) then
+        loZipFile.Password := aZIPOptions.Password;
+
       if  FileExists(aZipFilename) then
          loZipFile.StoreOptions := [soStripDrive, soStripPath, soFreshen, soReplace]
       else loZipFile.StoreOptions := [soStripDrive, soStripPath];
