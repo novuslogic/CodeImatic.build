@@ -63,16 +63,29 @@ var
   LsZFile: string;
   lsFileMasks: String;
   Filter: TDirectory.TFilterPredicate;
+
 begin
   Result := True;
 
   Filter := function(const Path: string; const SearchRec: TSearchRec): Boolean
+  var
+      I: Integer;
     begin
- //    SearchRec.FindData.cFileName =
-    //  Result := True;
-       //Result := (TPath.MatchesPattern(SearchRec.Name, 'Test*', False))
+      if Assigned(aZIPOptions) then
+        begin
 
-      Result := True;
+          for I := 0 to aZIPOptions.ExcludedFile.Count - 1 do
+            begin
+              Result := Not (TPath.MatchesPattern(SearchRec.Name, aZIPOptions.ExcludedFile.Strings[i], False));
+              if (Result = false) then break;
+
+            end;
+
+
+
+        end
+      else
+        Result := True;
     end;
 
 
@@ -266,6 +279,8 @@ end;
 constructor TZIPOptions.create;
 begin
   fExcludedFile := TStringlist.Create;
+
+  fExcludedFile.Delimiter := ',';
 end;
 
 destructor TZIPOptions.destroy;
