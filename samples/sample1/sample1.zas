@@ -13,13 +13,13 @@ begin
 
   Writeln('function ZipExtractFile');
 
-  if not Zip.ZipExtractFile('D:\Projects\Zautomatic\samples\sample1\test.zip', 'test.txt', 'D:\Projects\Zautomatic\samples\sample1\data') then
+  if not Zip.ZipExtractFile('D:\Projects\Zautomatic\samples\sample1\test.zip', 'test.txt', 'D:\Projects\Zautomatic\samples\sample1\data', NIL) then
     Messageslog.LogError;
 
 
   Writeln('function ZipExtractAll');
 
-  if not Zip.ZipExtractAll('D:\Projects\Zautomatic\samples\sample1\test.zip', 'D:\Projects\Zautomatic\samples\sample1\data') then
+  if not Zip.ZipExtractAll('D:\Projects\Zautomatic\samples\sample1\test.zip', 'D:\Projects\Zautomatic\samples\sample1\data', NIL) then
     Messageslog.LogError;
 
   Writeln('function ZipBrowserList');
@@ -29,7 +29,9 @@ begin
   Try
     FZipStringList := TStringList.Create;
 
-    if Zip.ZipBrowserList('D:\Projects\Zautomatic\samples\sample1\test.zip', FZipStringList, true) then
+    if Zip.ZipBrowserList('D:\Projects\Zautomatic\samples\sample1\test.zip',
+        FZipStringList,
+        true, NIL) then
       begin
         For I := 0 to FZipStringList.Count - 1 do
           Writeln(FZipStringList.strings[i]);

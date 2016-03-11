@@ -73,9 +73,9 @@ begin
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_Zip') do
   begin
     RegisterMethod('Function ZipCompress( const aZipFilename : String; const aPath : String; const aFileMasks : String; const aZIPOptions : TZIPOptions) : Boolean');
-    RegisterMethod('Function ZipBrowserList( const aZipFilename : String; var aZipStringList : TStringList; aIncludePath : Boolean) : Boolean');
-    RegisterMethod('Function ZipExtractAll( const aZipFilename : String; const aPath : string) : Boolean');
-    RegisterMethod('Function ZipExtractFile( const aZipFilename : String; const aFileName : string; const aPath : string) : Boolean');
+    RegisterMethod('Function ZipBrowserList( const aZipFilename : String; var aZipStringList : TStringList; const aIncludePath : Boolean; const aZIPOptions : TZIPOptions) : Boolean');
+    RegisterMethod('Function ZipExtractAll( const aZipFilename : String; const aPath : string; const aZIPOptions : TZIPOptions) : Boolean');
+    RegisterMethod('Function ZipExtractFile( const aZipFilename : String; const aFileName : string; const aPath : string; const aZIPOptions : TZIPOptions) : Boolean');
   end;
 end;
 
@@ -88,6 +88,8 @@ begin
     RegisterMethod('Constructor Create');
     RegisterProperty('ExcludedFile', 'TStringlist', iptrw);
     RegisterProperty('Password', 'String', iptrw);
+    RegisterProperty('Comment', 'String', iptrw);
+    RegisterProperty('ShowMessagelog', 'Boolean', iptrw);
   end;
 end;
 
@@ -101,6 +103,22 @@ begin
 end;
 
 (* === run-time registration functions === *)
+(*----------------------------------------------------------------------------*)
+procedure TZIPOptionsShowMessagelog_W(Self: TZIPOptions; const T: Boolean);
+begin Self.ShowMessagelog := T; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TZIPOptionsShowMessagelog_R(Self: TZIPOptions; var T: Boolean);
+begin T := Self.ShowMessagelog; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TZIPOptionsComment_W(Self: TZIPOptions; const T: String);
+begin Self.Comment := T; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TZIPOptionsComment_R(Self: TZIPOptions; var T: String);
+begin T := Self.Comment; end;
+
 (*----------------------------------------------------------------------------*)
 procedure TZIPOptionsPassword_W(Self: TZIPOptions; const T: String);
 begin Self.Password := T; end;
@@ -137,6 +155,8 @@ begin
     RegisterVirtualConstructor(@TZIPOptions.Create, 'Create');
     RegisterPropertyHelper(@TZIPOptionsExcludedFile_R,@TZIPOptionsExcludedFile_W,'ExcludedFile');
     RegisterPropertyHelper(@TZIPOptionsPassword_R,@TZIPOptionsPassword_W,'Password');
+    RegisterPropertyHelper(@TZIPOptionsComment_R,@TZIPOptionsComment_W,'Comment');
+    RegisterPropertyHelper(@TZIPOptionsShowMessagelog_R,@TZIPOptionsShowMessagelog_W,'ShowMessagelog');
   end;
 end;
 

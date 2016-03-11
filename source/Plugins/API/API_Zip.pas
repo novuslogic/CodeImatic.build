@@ -12,6 +12,8 @@ type
    protected
      fExcludedFile: TStringList;
      fsPassword: String;
+     fsComment: String;
+     fbShowMessagelog: Boolean;
    public
      constructor Create; virtual;
      destructor Destroy; virtual;
@@ -21,9 +23,14 @@ type
 
      property Password: String
        read fsPassword write fsPassword;
+
+     property Comment: String
+       read fsComment write fsComment;
+
+     property ShowMessagelog: Boolean
+       read fbShowMessagelog write fbShowMessagelog;
+
    end;
-
-
 
    TAPI_Zip = class(TAPIBase)
    private
@@ -34,11 +41,12 @@ type
                           const aFileMasks: String;
                           const aZIPOptions: TZIPOptions): Boolean;
 
-     function ZipBrowserList(const aZipFilename: String; var aZipStringList: TStringList; aIncludePath: Boolean): Boolean;
-     function ZipExtractAll(const aZipFilename: String; const aPath: string): Boolean;
+     function ZipBrowserList(const aZipFilename: String; var aZipStringList: TStringList; const aIncludePath: Boolean; const aZIPOptions: TZIPOptions): Boolean;
+     function ZipExtractAll(const aZipFilename: String; const aPath: string; const aZIPOptions: TZIPOptions): Boolean;
      function ZipExtractFile(const aZipFilename: String;
                              const aFileName: string;
-                             const aPath: string): Boolean;
+                             const aPath: string;
+                             const aZIPOptions: TZIPOptions): Boolean;
    end;
 
 Const
@@ -97,7 +105,11 @@ begin
       loZipFile.CompressionMethodToUse := smBestMethod;
 
       if Assigned(aZIPOptions) then
-        loZipFile.Password := aZIPOptions.Password;
+        begin
+          loZipFile.Password := aZIPOptions.Password;
+        //  loZipFile.ZipfileComment := aZIPOptions.Comment;
+          loZipFile.Logging := aZIPOptions.ShowMessageLog;
+        end;
 
       if  FileExists(aZipFilename) then
          loZipFile.StoreOptions := [soStripDrive, soStripPath, soFreshen, soReplace]
@@ -122,16 +134,6 @@ begin
             begin
               loZipFile.AddFiles(LsFile, 0 );
 
-              (*
-              if loZipFile.IndexOf(LsFile) = -1 then
-                 loZipFile.Add(LsFile, '', zcDeflate)
-              else
-                begin
-                  loZipFile.Delete(lsFile);
-
-                  loZipFile.Add(LsFile, '', zcDeflate)
-                end;
-                *)
             end
            else
              begin
@@ -148,12 +150,17 @@ begin
       Result := False;
     End;
   Finally
+    //if Assigned(aZIPOptions.ShowMessageLog) then
+    //  oMessagesLog.AddFile(loZipFile.LogFile);
+
     FreeandNil(loZipFile);
   End;
 
 end;
 
-function TAPI_Zip.ZipExtractAll(const aZipFilename: String; const aPath: string): Boolean;
+function TAPI_Zip.ZipExtractAll(const aZipFilename: String;
+                                const aPath: string;
+                                const aZIPOptions: TZIPOptions): Boolean;
 var
   loZipFile: TAbUnZipper;
 begin
@@ -169,6 +176,13 @@ begin
           result := False;
 
           Exit;
+        end;
+
+
+      if Assigned(aZIPOptions) then
+        begin
+          loZipFile.Password := aZIPOptions.Password;
+          loZipFile.Logging := aZIPOptions.ShowMessageLog;
         end;
 
       loZipFile.Filename := aZipFilename;
@@ -189,7 +203,8 @@ end;
 
 function TAPI_Zip.ZipExtractFile(const aZipFilename: String;
                              const aFileName: string;
-                             const aPath: string): Boolean;
+                             const aPath: string;
+                             const aZIPOptions: TZIPOptions): Boolean;
 var
   loZipFile: TAbUnZipper;
 begin
@@ -206,6 +221,13 @@ begin
           result := False;
 
           Exit;
+        end;
+
+
+      if Assigned(aZIPOptions) then
+        begin
+          loZipFile.Password := aZIPOptions.Password;
+          loZipFile.Logging := aZIPOptions.ShowMessageLog;
         end;
 
       loZipFile.Filename := aZipFilename;
@@ -226,7 +248,10 @@ end;
 
 
 
-function TAPI_Zip.ZipBrowserList(const aZipFilename: String; var aZipStringList: TStringList; aIncludePath: Boolean): Boolean;
+function TAPI_Zip.ZipBrowserList(const aZipFilename: String;
+                                 var aZipStringList: TStringList;
+                                 const aIncludePath: Boolean;
+                                 const aZIPOptions: TZIPOptions): Boolean;
 var
   loZipFile: TAbZipKit;
   I: Integer;
@@ -246,6 +271,14 @@ begin
 
           Exit;
         end;
+
+
+      if Assigned(aZIPOptions) then
+        begin
+          loZipFile.Password := aZIPOptions.Password;
+          loZipFile.Logging := aZIPOptions.ShowMessageLog;
+        end;
+
 
       loZipFile.Filename := aZipFilename;
 
