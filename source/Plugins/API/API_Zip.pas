@@ -4,7 +4,7 @@ interface
 
 uses Classes, SysUtils, APIBase, uPSRuntime, IOUtils, NovusFileUtils,
      AbZipper, AbArcTyp, AbZBrows, AbMeter, AbBrowse, AbBase, AbUnzper, AbZipKit,
-     AbZipTyp;
+     AbZipTyp, AbUtils;
 
 type
    TZIPOptions = class(TPersistent)
@@ -35,6 +35,8 @@ type
    TAPI_Zip = class(TAPIBase)
    private
    protected
+     procedure ConfirmProcessItem(Sender: TObject; Item: TAbArchiveItem;
+         ProcessType: TAbProcessType; var Confirm: Boolean);
    public
      function ZipCompress(const aZipFilename: String;
                           const aPath: String;
@@ -58,6 +60,22 @@ implementation
 
 //TAPI_Zip
 
+procedure TAPI_Zip.ConfirmProcessItem(Sender: TObject; Item: TAbArchiveItem; ProcessType: TAbProcessType; var Confirm: Boolean);
+Var
+  lsMessageLog: String;
+begin
+  case ProcessType of
+    ptAdd: lsMessageLog := 'Add .. ' + Item.DiskPath + Item.FileName;
+    ptDelete:lsMessageLog := 'Delete .. ' + Item.DiskPath + Item.FileName;
+    ptExtract: lsMessageLog := 'Extract .. ' + Item.DiskPath + Item.FileName;
+    ptFreshen: lsMessageLog := 'Refresh .. ' + Item.DiskPath + Item.FileName;
+    ptMove: lsMessageLog := 'Move .. ' + Item.DiskPath + Item.FileName;
+    ptReplace: lsMessageLog := 'Replace .. ' + Item.DiskPath + Item.FileName;
+    ptFoundUnhandled: lsMessageLog := 'Found Unhandled .. ' + Item.DiskPath + Item.FileName;
+  end;
+
+  oMessagesLog.Log(lsMessageLog);
+end;
 
 
 function TAPI_Zip.ZipCompress(const aZipFilename: String;
@@ -104,11 +122,13 @@ begin
       loZipFile.DOSMode := False;
       loZipFile.CompressionMethodToUse := smBestMethod;
 
+
+      loZipFile.OnConfirmProcessItem := ConfirmProcessItem;
+
       if Assigned(aZIPOptions) then
         begin
           loZipFile.Password := aZIPOptions.Password;
         //  loZipFile.ZipfileComment := aZIPOptions.Comment;
-          loZipFile.Logging := aZIPOptions.ShowMessageLog;
         end;
 
       if  FileExists(aZipFilename) then
@@ -150,9 +170,6 @@ begin
       Result := False;
     End;
   Finally
-    //if Assigned(aZIPOptions.ShowMessageLog) then
-    //  oMessagesLog.AddFile(loZipFile.LogFile);
-
     FreeandNil(loZipFile);
   End;
 
@@ -182,8 +199,9 @@ begin
       if Assigned(aZIPOptions) then
         begin
           loZipFile.Password := aZIPOptions.Password;
-          loZipFile.Logging := aZIPOptions.ShowMessageLog;
         end;
+
+      loZipFile.OnConfirmProcessItem := ConfirmProcessItem;
 
       loZipFile.Filename := aZipFilename;
 
@@ -227,8 +245,10 @@ begin
       if Assigned(aZIPOptions) then
         begin
           loZipFile.Password := aZIPOptions.Password;
-          loZipFile.Logging := aZIPOptions.ShowMessageLog;
+
         end;
+
+      loZipFile.OnConfirmProcessItem := ConfirmProcessItem;
 
       loZipFile.Filename := aZipFilename;
 
@@ -263,6 +283,7 @@ begin
   Try
     Try
       loZipFile:= TAbZipKit.Create(nil);
+
       if Not FileExists(aZipFilename) then
         begin
           RuntimeErrorFmt(API_Zip_NotFileExists, [aZipFilename]);
@@ -276,9 +297,9 @@ begin
       if Assigned(aZIPOptions) then
         begin
           loZipFile.Password := aZIPOptions.Password;
-          loZipFile.Logging := aZIPOptions.ShowMessageLog;
         end;
 
+      loZipFile.OnConfirmProcessItem := ConfirmProcessItem;
 
       loZipFile.Filename := aZipFilename;
 
