@@ -6,9 +6,6 @@ uses XMLList, NovusTemplate, SysUtils, NovusSimpleXML, JvSimpleXml, novuslist,
      NovusStringUtils;
 
 type
-
-
-
    tProjectConfig = Class(TXMLList)
    private
    protected

@@ -13,13 +13,13 @@ begin
 
   Writeln('function ZipExtractFile');
 
-  if not Zip.ZipExtractFile('D:\Projects\Zautomatic\samples\sample1\test.zip', 'test.txt', 'D:\Projects\Zautomatic\samples\sample1\data', NIL) then
+  if not Zip.ZipExtractFile(wd + 'test.zip', 'test.txt', wd + 'data', NIL) then
     Messageslog.LogError;
 
 
   Writeln('function ZipExtractAll');
 
-  if not Zip.ZipExtractAll('D:\Projects\Zautomatic\samples\sample1\test.zip', 'D:\Projects\Zautomatic\samples\sample1\data', NIL) then
+  if not Zip.ZipExtractAll(wd + 'test.zip', wd + 'data', NIL) then
     Messageslog.LogError;
 
   Writeln('function ZipBrowserList');
@@ -29,7 +29,7 @@ begin
   Try
     FZipStringList := TStringList.Create;
 
-    if Zip.ZipBrowserList('D:\Projects\Zautomatic\samples\sample1\test.zip',
+    if Zip.ZipBrowserList(wd + 'test.zip',
         FZipStringList,
         true, NIL) then
       begin
@@ -53,14 +53,16 @@ begin
     FZipOptions.Messageslog := true;
 
 
-    if not Zip.ZipCompress('D:\Projects\Zautomatic\samples\sample1\test2.zip',
-             'D:\Projects\Zautomatic\samples\sample1\data', '*', FZipOptions) then
+    if not Zip.ZipCompress(wd + 'test2.zip',
+             wd + 'data', '*', FZipOptions) then
             Messageslog.LogError;
   finally
     FZipOptions.Free;
   end;
 
+  writeln('Working directory');
 
+  writeln(wd);
 
 
 

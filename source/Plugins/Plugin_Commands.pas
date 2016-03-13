@@ -3,7 +3,7 @@ unit Plugin_Commands;
 interface
 
 uses Classes,runtime, Plugin,  uPSCompiler, uPSI_MessagesLog, PluginsMapFactory,
-     uPSC_classes,  uPSC_std, uPSRuntime, uPSR_std, uPSR_classes;
+     uPSC_classes,  uPSC_std, uPSRuntime, uPSR_std, uPSR_classes, SysUtils;
 
 type
   tPlugin_Commands = class(Tplugin)
@@ -17,6 +17,8 @@ type
   end;
 
   function InternalWriteln(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
+  function InternalWD(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
+
 
 implementation
 
@@ -28,6 +30,7 @@ begin
   SIRegister_Classes(aCompiler, True);
 
   TPSPascalCompiler(aCompiler).AddFunction('procedure Writeln(s: string);');
+  TPSPascalCompiler(aCompiler).AddFunction('function wd():string;');
 end;
 
 
@@ -35,6 +38,7 @@ procedure tPlugin_Commands.RegisterFunction(aExec: TPSExec);
 begin
   RegisterClassLibraryRuntime(aExec, FImp);
   aExec.RegisterFunctionName('WRITELN', InternalWriteln, nil, nil);
+  aExec.RegisterFunctionName('WD', Internalwd, nil, nil);
 end;
 
 
@@ -62,6 +66,19 @@ begin
   Result := True;
 end;
 
+
+function InternalWD(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
+var
+  PStart: Cardinal;
+begin
+  if Global = nil then begin result := false; exit; end;
+  PStart := Stack.Count - 1;
+
+  Stack.SetString(PStart,IncludeTrailingPathDelimiter(ExtractFilePath(oRuntime.oProject.ProjectFileName)));
+
+  Result := True;
+
+end;
 
 Initialization
  begin
