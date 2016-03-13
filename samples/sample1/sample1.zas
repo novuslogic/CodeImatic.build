@@ -50,6 +50,7 @@ begin
 
     FZipOptions.ExcludedFile.Add('Test2.txt.txt');
     FZipOptions.Password := 'xyz';
+    FZipOptions.Messageslog := true;
 
 
     if not Zip.ZipCompress('D:\Projects\Zautomatic\samples\sample1\test2.zip',

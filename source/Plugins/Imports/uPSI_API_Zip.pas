@@ -56,6 +56,7 @@ uses
   ,AbUnzper
   ,AbZipKit
   ,AbZipTyp
+  ,AbUtils
   ,API_Zip
   ;
  
@@ -88,8 +89,7 @@ begin
     RegisterMethod('Constructor Create');
     RegisterProperty('ExcludedFile', 'TStringlist', iptrw);
     RegisterProperty('Password', 'String', iptrw);
-    RegisterProperty('Comment', 'String', iptrw);
-    RegisterProperty('ShowMessagelog', 'Boolean', iptrw);
+    RegisterProperty('MessagesLog', 'Boolean', iptrw);
   end;
 end;
 
@@ -104,20 +104,12 @@ end;
 
 (* === run-time registration functions === *)
 (*----------------------------------------------------------------------------*)
-procedure TZIPOptionsShowMessagelog_W(Self: TZIPOptions; const T: Boolean);
-begin Self.ShowMessagelog := T; end;
+procedure TZIPOptionsMessagesLog_W(Self: TZIPOptions; const T: Boolean);
+begin Self.MessagesLog := T; end;
 
 (*----------------------------------------------------------------------------*)
-procedure TZIPOptionsShowMessagelog_R(Self: TZIPOptions; var T: Boolean);
-begin T := Self.ShowMessagelog; end;
-
-(*----------------------------------------------------------------------------*)
-procedure TZIPOptionsComment_W(Self: TZIPOptions; const T: String);
-begin Self.Comment := T; end;
-
-(*----------------------------------------------------------------------------*)
-procedure TZIPOptionsComment_R(Self: TZIPOptions; var T: String);
-begin T := Self.Comment; end;
+procedure TZIPOptionsMessagesLog_R(Self: TZIPOptions; var T: Boolean);
+begin T := Self.MessagesLog; end;
 
 (*----------------------------------------------------------------------------*)
 procedure TZIPOptionsPassword_W(Self: TZIPOptions; const T: String);
@@ -155,8 +147,7 @@ begin
     RegisterVirtualConstructor(@TZIPOptions.Create, 'Create');
     RegisterPropertyHelper(@TZIPOptionsExcludedFile_R,@TZIPOptionsExcludedFile_W,'ExcludedFile');
     RegisterPropertyHelper(@TZIPOptionsPassword_R,@TZIPOptionsPassword_W,'Password');
-    RegisterPropertyHelper(@TZIPOptionsComment_R,@TZIPOptionsComment_W,'Comment');
-    RegisterPropertyHelper(@TZIPOptionsShowMessagelog_R,@TZIPOptionsShowMessagelog_W,'ShowMessagelog');
+    RegisterPropertyHelper(@TZIPOptionsMessagesLog_R,@TZIPOptionsMessagesLog_W,'MessagesLog');
   end;
 end;
 

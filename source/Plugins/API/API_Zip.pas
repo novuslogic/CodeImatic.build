@@ -12,8 +12,7 @@ type
    protected
      fExcludedFile: TStringList;
      fsPassword: String;
-     fsComment: String;
-     fbShowMessagelog: Boolean;
+     fbMessagesLog: Boolean;
    public
      constructor Create; virtual;
      destructor Destroy; virtual;
@@ -24,11 +23,8 @@ type
      property Password: String
        read fsPassword write fsPassword;
 
-     property Comment: String
-       read fsComment write fsComment;
-
-     property ShowMessagelog: Boolean
-       read fbShowMessagelog write fbShowMessagelog;
+     property MessagesLog: Boolean
+       read fbMessagesLog write fbMessagesLog;
 
    end;
 
@@ -65,13 +61,13 @@ Var
   lsMessageLog: String;
 begin
   case ProcessType of
-    ptAdd: lsMessageLog := 'Add .. ' + Item.DiskPath + Item.FileName;
-    ptDelete:lsMessageLog := 'Delete .. ' + Item.DiskPath + Item.FileName;
-    ptExtract: lsMessageLog := 'Extract .. ' + Item.DiskPath + Item.FileName;
-    ptFreshen: lsMessageLog := 'Refresh .. ' + Item.DiskPath + Item.FileName;
-    ptMove: lsMessageLog := 'Move .. ' + Item.DiskPath + Item.FileName;
-    ptReplace: lsMessageLog := 'Replace .. ' + Item.DiskPath + Item.FileName;
-    ptFoundUnhandled: lsMessageLog := 'Found Unhandled .. ' + Item.DiskPath + Item.FileName;
+    ptAdd: lsMessageLog := 'Add ..' + Item.DiskPath + Item.FileName;
+    ptDelete:lsMessageLog := 'Delete ..' + Item.DiskPath + Item.FileName;
+    ptExtract: lsMessageLog := 'Extract ..' + Item.DiskPath + Item.FileName;
+    ptFreshen: lsMessageLog := 'Refresh ..' + Item.DiskPath + Item.FileName;
+    ptMove: lsMessageLog := 'Move ..' + Item.DiskPath + Item.FileName;
+    ptReplace: lsMessageLog := 'Replace ..' + Item.DiskPath + Item.FileName;
+    ptFoundUnhandled: lsMessageLog := 'Found Unhandled ..' + Item.DiskPath + Item.FileName;
   end;
 
   oMessagesLog.Log(lsMessageLog);
@@ -99,16 +95,11 @@ begin
     begin
       if Assigned(aZIPOptions) then
         begin
-
           for I := 0 to aZIPOptions.ExcludedFile.Count - 1 do
             begin
               Result := Not (TPath.MatchesPattern(SearchRec.Name, aZIPOptions.ExcludedFile.Strings[i], False));
               if (Result = false) then break;
-
             end;
-
-
-
         end
       else
         Result := True;
@@ -122,13 +113,10 @@ begin
       loZipFile.DOSMode := False;
       loZipFile.CompressionMethodToUse := smBestMethod;
 
-
-      loZipFile.OnConfirmProcessItem := ConfirmProcessItem;
-
       if Assigned(aZIPOptions) then
         begin
           loZipFile.Password := aZIPOptions.Password;
-        //  loZipFile.ZipfileComment := aZIPOptions.Comment;
+          loZipFile.OnConfirmProcessItem := ConfirmProcessItem;
         end;
 
       if  FileExists(aZipFilename) then
@@ -199,9 +187,10 @@ begin
       if Assigned(aZIPOptions) then
         begin
           loZipFile.Password := aZIPOptions.Password;
+          loZipFile.OnConfirmProcessItem := ConfirmProcessItem;
         end;
 
-      loZipFile.OnConfirmProcessItem := ConfirmProcessItem;
+
 
       loZipFile.Filename := aZipFilename;
 
@@ -245,10 +234,10 @@ begin
       if Assigned(aZIPOptions) then
         begin
           loZipFile.Password := aZIPOptions.Password;
-
+          loZipFile.OnConfirmProcessItem := ConfirmProcessItem;
         end;
 
-      loZipFile.OnConfirmProcessItem := ConfirmProcessItem;
+
 
       loZipFile.Filename := aZipFilename;
 
@@ -297,9 +286,10 @@ begin
       if Assigned(aZIPOptions) then
         begin
           loZipFile.Password := aZIPOptions.Password;
+          loZipFile.OnConfirmProcessItem := ConfirmProcessItem;
         end;
 
-      loZipFile.OnConfirmProcessItem := ConfirmProcessItem;
+
 
       loZipFile.Filename := aZipFilename;
 
