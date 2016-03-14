@@ -70,11 +70,16 @@ end;
 function InternalWD(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
 var
   PStart: Cardinal;
+  lsWorkingdirectory: String;
 begin
   if Global = nil then begin result := false; exit; end;
   PStart := Stack.Count - 1;
 
-  Stack.SetString(PStart,IncludeTrailingPathDelimiter(ExtractFilePath(oRuntime.oProject.ProjectFileName)));
+  lsWorkingdirectory :=  IncludeTrailingPathDelimiter(oRuntime.oProject.oProjectConfig.workingdirectory);
+  if (Not DirectoryExists(lsWorkingdirectory))  or (Trim(lsWorkingdirectory) = '') then
+    lsWorkingdirectory := IncludeTrailingPathDelimiter(ExtractFilePath(oRuntime.oProject.ProjectFileName));
+
+  Stack.SetString(PStart,lsWorkingdirectory);
 
   Result := True;
 

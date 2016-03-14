@@ -10,7 +10,8 @@ type
    private
    protected
      fConnectionNameList: tNovuslist;
-     fsIncludesPath: String;
+     fsSearchPath: String;
+     fsworkingdirectory: String;
      fsProjectConfigFileName: String;
    public
       constructor Create; override;
@@ -25,8 +26,13 @@ type
         write fsProjectConfigFileName;
 
       property SearchPath: String
-        read fsIncludesPath
-        write fsIncludesPath;
+        read fsSearchPath
+        write fsSearchPath;
+
+      property workingdirectory: string
+        read fsworkingdirectory
+        write fsworkingdirectory;
+
 
 
    End;
@@ -53,7 +59,8 @@ begin
 
   ProjectConfigFileName := aProjectConfigFilename;
 
-  fsIncludesPath := TNovusStringUtils.TrailingBackSlash(GetFieldAsString(oXMLDocument.Root, 'includespath'));
+  fsSearchPath := TNovusStringUtils.TrailingBackSlash(GetFieldAsString(oXMLDocument.Root, 'searchpath'));
+  fsworkingdirectory := TNovusStringUtils.TrailingBackSlash(GetFieldAsString(oXMLDocument.Root, 'workingdirectory'));
 end;
 
 function TProjectConfig.Parseproperties(aInput: String): String;

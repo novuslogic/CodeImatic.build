@@ -62,6 +62,7 @@ begin
 
   writeln('Working directory');
 
+
   writeln(wd);
 
 
