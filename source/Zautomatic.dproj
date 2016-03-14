@@ -132,6 +132,9 @@
         <DCCReference Include="Plugins\API\APIBase.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_MessagesLog.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_API_Zip.pas"/>
+        <DCCReference Include="Plugins\Plugin_Exec.pas"/>
+        <DCCReference Include="Plugins\API\API_Exec.pas"/>
+        <DCCReference Include="Plugins\Imports\uPSI_API_Exec.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

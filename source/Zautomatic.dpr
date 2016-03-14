@@ -22,7 +22,10 @@ uses
   API_Zip in 'Plugins\API\API_Zip.pas',
   APIBase in 'Plugins\API\APIBase.pas',
   uPSI_MessagesLog in 'Plugins\Imports\uPSI_MessagesLog.pas',
-  uPSI_API_Zip in 'Plugins\Imports\uPSI_API_Zip.pas';
+  uPSI_API_Zip in 'Plugins\Imports\uPSI_API_Zip.pas',
+  Plugin_Exec in 'Plugins\Plugin_Exec.pas',
+  API_Exec in 'Plugins\API\API_Exec.pas',
+  uPSI_API_Exec in 'Plugins\Imports\uPSI_API_Exec.pas';
 
 begin
   oConfig.LoadConfig;
