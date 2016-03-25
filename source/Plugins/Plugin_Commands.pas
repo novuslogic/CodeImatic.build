@@ -16,8 +16,9 @@ type
     procedure RegisterImport; override;
   end;
 
-  function InternalWriteln(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
-  function InternalWD(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
+  function CommandWriteln(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
+  function CommandWD(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
+  function CommandCR(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
 
 
 implementation
@@ -31,14 +32,16 @@ begin
 
   TPSPascalCompiler(aCompiler).AddFunction('procedure Writeln(s: string);');
   TPSPascalCompiler(aCompiler).AddFunction('function wd():string;');
+  TPSPascalCompiler(aCompiler).AddFunction('function cr():string;');
 end;
 
 
 procedure tPlugin_Commands.RegisterFunction(aExec: TPSExec);
 begin
   RegisterClassLibraryRuntime(aExec, FImp);
-  aExec.RegisterFunctionName('WRITELN', InternalWriteln, nil, nil);
-  aExec.RegisterFunctionName('WD', Internalwd, nil, nil);
+  aExec.RegisterFunctionName('WRITELN', CommandWriteln, nil, nil);
+  aExec.RegisterFunctionName('WD', CommandWD, nil, nil);
+  aExec.RegisterFunctionName('CR', CommandCR, nil, nil);
 end;
 
 
@@ -54,7 +57,7 @@ begin
   RIRegister_Classes(FImp, True);
 end;
 
-function InternalWriteln(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
+function CommandWriteln(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
 var
   PStart: Cardinal;
 begin
@@ -67,7 +70,7 @@ begin
 end;
 
 
-function InternalWD(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
+function CommandWD(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
 var
   PStart: Cardinal;
   lsWorkingdirectory: String;
@@ -80,6 +83,22 @@ begin
     lsWorkingdirectory := IncludeTrailingPathDelimiter(ExtractFilePath(oRuntime.oProject.ProjectFileName));
 
   Stack.SetString(PStart,lsWorkingdirectory);
+
+  Result := True;
+
+end;
+
+function CommandCR(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
+var
+  PStart: Cardinal;
+const
+  cCR = #13#10;
+begin
+  if Global = nil then begin result := false; exit; end;
+  PStart := Stack.Count - 1;
+
+
+  Stack.SetString(PStart,cCR);
 
   Result := True;
 

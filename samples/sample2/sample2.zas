@@ -1,0 +1,22 @@
+var
+  fsInput: String;
+  fsOutput: string;
+  fsError: string;
+begin
+  MessagesLog.log('Open cmd.exe');
+
+  fsInput := 'Dir'+CR+'Exit'+CR;
+
+  try
+    Shell.RunRedirectCommand('cmd.exe', fsInput, fsOutput,fsError );
+  except
+    Messageslog.LogError;
+  end;
+
+  writeln(fsoutput);
+  writeln(fserror);
+
+
+
+
+end.

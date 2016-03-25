@@ -23,9 +23,9 @@ uses
   APIBase in 'Plugins\API\APIBase.pas',
   uPSI_MessagesLog in 'Plugins\Imports\uPSI_MessagesLog.pas',
   uPSI_API_Zip in 'Plugins\Imports\uPSI_API_Zip.pas',
-  Plugin_Exec in 'Plugins\Plugin_Exec.pas',
-  API_Exec in 'Plugins\API\API_Exec.pas',
-  uPSI_API_Exec in 'Plugins\Imports\uPSI_API_Exec.pas';
+  Plugin_Shell in 'Plugins\Plugin_Shell.pas',
+  API_Shell in 'Plugins\API\API_Shell.pas',
+  uPSI_API_Shell in 'Plugins\Imports\uPSI_API_Shell.pas';
 
 begin
   oConfig.LoadConfig;
