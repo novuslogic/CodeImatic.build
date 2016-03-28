@@ -19,7 +19,9 @@ type
 
       procedure LoadProjectConfigFile(aProjectConfigFilename: String);
 
-      function Parseproperties(aInput: String): String;
+      function Getproperty(aPropertyName: String): String;
+      function GetSearchPath: String;
+      function GetWorkingdirectory: String;
 
       property ProjectConfigFileName: String
         read fsProjectConfigFileName
@@ -29,11 +31,9 @@ type
         read fsSearchPath
         write fsSearchPath;
 
-      property workingdirectory: string
+      property Workingdirectory: string
         read fsworkingdirectory
         write fsworkingdirectory;
-
-
 
    End;
 
@@ -52,6 +52,12 @@ begin
   fConnectionNameList.Free;
 end;
 
+function  TProjectConfig.GetWorkingdirectory: String;
+begin
+  Result := TNovusStringUtils.TrailingBackSlash(Getproperty('workingdirectory'));
+end;
+
+
 procedure TProjectConfig.LoadProjectConfigFile(aProjectConfigFilename: String);
 begin
   XMLFileName := aProjectConfigFilename;
@@ -59,44 +65,21 @@ begin
 
   ProjectConfigFileName := aProjectConfigFilename;
 
-  fsSearchPath := TNovusStringUtils.TrailingBackSlash(GetFieldAsString(oXMLDocument.Root, 'searchpath'));
-  fsworkingdirectory := TNovusStringUtils.TrailingBackSlash(GetFieldAsString(oXMLDocument.Root, 'workingdirectory'));
+  fsSearchPath := GetSearchPath;
+  fsworkingdirectory := GetWorkingdirectory;
 end;
 
-function TProjectConfig.Parseproperties(aInput: String): String;
-Var
-  loTemplate: tNovusTemplate;
-  I: INteger;
-  FTemplateTag: TTemplateTag;
+function TProjectConfig.GetSearchPath: String;
 begin
-  result := aInput;
-
-  if aInput = '' then Exit;
-
-  loTemplate := tNovusTemplate.Create;
-
-  loTemplate.StartToken := '[';
-  loTemplate.EndToken := ']';
-  loTemplate.SecondToken := '%';
-
-  loTemplate.TemplateDoc.Text := Trim(aInput);
-
-  loTemplate.ParseTemplate;
-
-  For I := 0 to loTemplate.TemplateTags.Count -1 do
-    begin
-      FTemplateTag := TTemplateTag(loTemplate.TemplateTags.items[i]);
-
-      FTemplateTag.TagValue := GetFirstNodeName(FTemplateTag.TagName, 'properties');
-    end;
-
-  loTemplate.InsertAllTagValues;
-
-  Result := Trim(loTemplate.OutputDoc.Text);
-
-  loTemplate.Free;
+  Result := TNovusStringUtils.TrailingBackSlash(Getproperty('searchpath'));
 end;
 
+function TProjectConfig.Getproperty(aPropertyname: string): String;
+begin
+  result := '';
+  if aPropertyName = '' then Exit;
 
+  Result := GetFieldAsString(oXMLDocument.Root, aPropertyname);
+end;
 
 end.

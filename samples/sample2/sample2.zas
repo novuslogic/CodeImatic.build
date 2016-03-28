@@ -5,7 +5,7 @@ var
 begin
   MessagesLog.log('Open cmd.exe');
 
-  fsInput := 'Dir'+CR+'Exit'+CR;
+  fsInput := 'Dir'+CRLF+'Exit'+CRLF;
 
   try
     Shell.RunRedirectCommand('cmd.exe', fsInput, fsOutput,fsError );

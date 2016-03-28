@@ -25,7 +25,10 @@ uses
   uPSI_API_Zip in 'Plugins\Imports\uPSI_API_Zip.pas',
   Plugin_Shell in 'Plugins\Plugin_Shell.pas',
   API_Shell in 'Plugins\API\API_Shell.pas',
-  uPSI_API_Shell in 'Plugins\Imports\uPSI_API_Shell.pas';
+  uPSI_API_Shell in 'Plugins\Imports\uPSI_API_Shell.pas',
+  API_ProjectConfig in 'Plugins\API\API_ProjectConfig.pas',
+  Plugin_API_ProjectConfig in 'Plugins\Plugin_API_ProjectConfig.pas',
+  uPSI_API_ProjectConfig in 'Plugins\Imports\uPSI_API_ProjectConfig.pas';
 
 begin
   oConfig.LoadConfig;

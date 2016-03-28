@@ -97,7 +97,7 @@
         <BRCC_Defines>PS_USESSUPPORT;$(BRCC_Defines)</BRCC_Defines>
         <VerInfo_AutoGenVersion>true</VerInfo_AutoGenVersion>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <Debugger_RunParams>-project D:\Projects\Zautomatic\samples\sample2\sample2.zap -projectconfig D:\Projects\Zautomatic\samples\sample2\sample2.zapconfig </Debugger_RunParams>
+        <Debugger_RunParams>-project D:\Projects\Zautomatic\samples\sample3\sample3.zap -projectconfig D:\Projects\Zautomatic\samples\sample3\sample3.zapconfig </Debugger_RunParams>
         <DCC_Namespace>VCL;$(DCC_Namespace)</DCC_Namespace>
         <DCC_ExeOutput>..\build</DCC_ExeOutput>
         <Manifest_File>None</Manifest_File>
@@ -135,6 +135,9 @@
         <DCCReference Include="Plugins\Plugin_Shell.pas"/>
         <DCCReference Include="Plugins\API\API_Shell.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_API_Shell.pas"/>
+        <DCCReference Include="Plugins\API\API_ProjectConfig.pas"/>
+        <DCCReference Include="Plugins\Plugin_API_ProjectConfig.pas"/>
+        <DCCReference Include="Plugins\Imports\uPSI_API_ProjectConfig.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

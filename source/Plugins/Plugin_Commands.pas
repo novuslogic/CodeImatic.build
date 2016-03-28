@@ -18,7 +18,7 @@ type
 
   function CommandWriteln(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
   function CommandWD(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
-  function CommandCR(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
+  function CommandCRF(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
 
 
 implementation
@@ -32,7 +32,7 @@ begin
 
   TPSPascalCompiler(aCompiler).AddFunction('procedure Writeln(s: string);');
   TPSPascalCompiler(aCompiler).AddFunction('function wd():string;');
-  TPSPascalCompiler(aCompiler).AddFunction('function cr():string;');
+  TPSPascalCompiler(aCompiler).AddFunction('function crlf():string;');
 end;
 
 
@@ -41,7 +41,7 @@ begin
   RegisterClassLibraryRuntime(aExec, FImp);
   aExec.RegisterFunctionName('WRITELN', CommandWriteln, nil, nil);
   aExec.RegisterFunctionName('WD', CommandWD, nil, nil);
-  aExec.RegisterFunctionName('CR', CommandCR, nil, nil);
+  aExec.RegisterFunctionName('CRLF', CommandCRF, nil, nil);
 end;
 
 
@@ -88,7 +88,7 @@ begin
 
 end;
 
-function CommandCR(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
+function CommandCRF(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
 var
   PStart: Cardinal;
 const
