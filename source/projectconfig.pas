@@ -19,7 +19,9 @@ type
 
       procedure LoadProjectConfigFile(aProjectConfigFilename: String);
 
+      function IspropertyExists(aPropertyName: String): boolean;
       function Getproperty(aPropertyName: String): String;
+
       function GetSearchPath: String;
       function GetWorkingdirectory: String;
 
@@ -79,7 +81,20 @@ begin
   result := '';
   if aPropertyName = '' then Exit;
 
+  if not Assigned(oXMLDocument) then Exit;
+
   Result := GetFieldAsString(oXMLDocument.Root, aPropertyname);
+end;
+
+function TProjectConfig.IspropertyExists(aPropertyName: String): boolean;
+begin
+  Result := False;
+
+
+  if not Assigned(oXMLDocument) then Exit;
+
+
+  Result := IsFieldExists(oXMLDocument.Root,aPropertyName);
 end;
 
 end.

@@ -1,0 +1,9 @@
+begin
+  writeln(ProjectConfig.ProjectConfigFileName);
+
+
+  writeln('SearchPath');
+  writeln(ProjectConfig.SearchPath);
+  writeln(ProjectConfig.Getproperty('searchpath'));
+
+end.
