@@ -24,6 +24,10 @@ type
 
       function GetSearchPath: String;
       function GetWorkingdirectory: String;
+      function CreateProperty(aPropertyName: String): Boolean;
+
+      function SetProperty(aPropertyName: String; aValue: String): Boolean;
+      function DeleteProperty(aPropertyName: String): Boolean;
 
       property ProjectConfigFileName: String
         read fsProjectConfigFileName
@@ -83,18 +87,49 @@ begin
 
   if not Assigned(oXMLDocument) then Exit;
 
-  Result := GetFieldAsString(oXMLDocument.Root, aPropertyname);
+  Result := GetFieldAsString(oXMLDocument.Root, Lowercase(aPropertyname));
 end;
 
 function TProjectConfig.IspropertyExists(aPropertyName: String): boolean;
 begin
   Result := False;
 
-
   if not Assigned(oXMLDocument) then Exit;
 
-
-  Result := IsFieldExists(oXMLDocument.Root,aPropertyName);
+  Result := IsFieldExists(oXMLDocument.Root,Lowercase(aPropertyName));
 end;
+
+function TProjectConfig.CreateProperty(aPropertyName: String): Boolean;
+begin
+  oXMLDocument.Root.Items.Add(Lowercase(aPropertyName));
+
+  Result := Post;
+end;
+
+function TProjectConfig.SetProperty(aPropertyName: String; aValue: String): Boolean;
+begin
+  SetFieldAsString(oXMLDocument.Root, aPropertyName, aValue);
+
+  Result := Post;
+end;
+
+function TProjectConfig.DeleteProperty(aPropertyName: String): Boolean;
+var
+  fNodeList: TJvSimpleXmlElem;
+  fIndex: Integer;
+begin
+  Result := False;
+
+  fIndex := 0;
+
+  fNodeList := FindNode(oXMLDocument.Root,aPropertyName,fIndex);
+  if Assigned(fNodeList) then
+    begin
+      DeleteXML(fNodeList);
+
+      Result := Post;
+    end;
+end;
+
 
 end.

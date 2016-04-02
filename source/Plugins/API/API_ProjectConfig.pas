@@ -21,14 +21,113 @@ type
       property Workingdirectory: string
         read Getworkingdirectory;
 
+      procedure Createproperty(aPropertyName: String);
+      function IsPropertyExists(aPropertyName: String): Boolean;
+      function SetProperty(aPropertyName: String; aValue: String): Boolean;
+      function DeleteProperty(aPropertyName: String): Boolean;
+
       function Getproperty(aPropertyName: String): String;
    end;
 
-Const 
+Const
    API_ProjectConfig_NopropertyExists = 'propertyname cannot be found [%s].';
    API_ProjectConfig_Nopropertyblank = 'propertyname cannot be blank.';
+   API_ProjectConfig_propertyExists = 'propertyname exists [%s].';
 
 implementation
+
+procedure TAPI_ProjectConfig.Createproperty(aPropertyName: String);
+begin
+  Try
+    if Trim(aPropertyName) = '' then
+      begin
+        RuntimeErrorFmt(API_ProjectConfig_Nopropertyblank, []);
+
+        Exit;
+      end;
+
+    if  oRuntime.oProject.oProjectConfig.IspropertyExists(aPropertyName) then
+      begin
+        RuntimeErrorFmt(API_ProjectConfig_propertyExists, [aPropertyName]);
+
+        Exit;
+      end;
+
+    if not oRuntime.oProject.oProjectConfig.CreateProperty(aPropertyname) then
+      oMessagesLog.InternalError;
+  Except
+    oMessagesLog.InternalError;
+  End;
+end;
+
+
+function TAPI_ProjectConfig.IsPropertyExists(aPropertyName: String): Boolean;
+begin
+  Result := False;
+
+  Try
+     if Trim(aPropertyName) = '' then
+      begin
+        RuntimeErrorFmt(API_ProjectConfig_Nopropertyblank, []);
+
+        Exit;
+      end;
+
+    Result := oRuntime.oProject.oProjectConfig.IsPropertyExists(aPropertyname);
+  Except
+    oMessagesLog.InternalError;
+  End;
+end;
+
+function TAPI_ProjectConfig.SetProperty(aPropertyName: String; aValue: String): Boolean;
+begin
+   Try
+     if Trim(aPropertyName) = '' then
+      begin
+        RuntimeErrorFmt(API_ProjectConfig_Nopropertyblank, []);
+
+        Exit;
+      end;
+
+     if Not  oRuntime.oProject.oProjectConfig.IspropertyExists(aPropertyName) then
+      begin
+        RuntimeErrorFmt(API_ProjectConfig_NopropertyExists, [aPropertyName]);
+
+        Exit;
+      end;
+
+    if not oRuntime.oProject.oProjectConfig.SetProperty(aPropertyname, aValue) then
+      oMessagesLog.InternalError;
+
+  Except
+    oMessagesLog.InternalError;
+  End;
+end;
+
+function TAPI_ProjectConfig.DeleteProperty(aPropertyName: String): Boolean;
+begin
+  Try
+    if Trim(aPropertyName) = '' then
+      begin
+        RuntimeErrorFmt(API_ProjectConfig_Nopropertyblank, []);
+
+        Exit;
+      end;
+
+    if not oRuntime.oProject.oProjectConfig.IspropertyExists(aPropertyName) then
+      begin
+        RuntimeErrorFmt(API_ProjectConfig_NopropertyExists, [aPropertyName]);
+
+        Exit;
+      end;
+
+    if not oRuntime.oProject.oProjectConfig.DeleteProperty(aPropertyname) then
+      oMessagesLog.InternalError;
+  Except
+    oMessagesLog.InternalError;
+  End;
+
+end;
 
 function TAPI_ProjectConfig.GetProjectConfigFileName: String;
 begin
@@ -51,7 +150,7 @@ begin
   Result := '';
 
   Try
-    if Trim(aPropertyName) = '' then 
+    if Trim(aPropertyName) = '' then
       begin
         RuntimeErrorFmt(API_ProjectConfig_Nopropertyblank, []);
 
@@ -61,7 +160,7 @@ begin
     if not oRuntime.oProject.oProjectConfig.IspropertyExists(aPropertyName) then
       begin
         RuntimeErrorFmt(API_ProjectConfig_NopropertyExists, [aPropertyName]);
-        
+
         Exit;
       end;
 

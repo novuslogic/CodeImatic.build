@@ -63,6 +63,10 @@ begin
     RegisterProperty('ProjectConfigFileName', 'String', iptr);
     RegisterProperty('SearchPath', 'String', iptr);
     RegisterProperty('Workingdirectory', 'string', iptr);
+    RegisterMethod('Procedure Createproperty( aPropertyName : String)');
+    RegisterMethod('Function IsPropertyExists( aPropertyName : String) : Boolean');
+    RegisterMethod('Function SetProperty( aPropertyName : String; aValue : String) : Boolean');
+    RegisterMethod('Function DeleteProperty( aPropertyName : String) : Boolean');
     RegisterMethod('Function Getproperty( aPropertyName : String) : String');
   end;
 end;
@@ -73,6 +77,7 @@ begin
   SIRegister_TAPI_ProjectConfig(CL);
  CL.AddConstantN('API_ProjectConfig_NopropertyExists','String').SetString( 'propertyname cannot be found [%s].');
  CL.AddConstantN('API_ProjectConfig_Nopropertyblank','String').SetString( 'propertyname cannot be blank.');
+ CL.AddConstantN('API_ProjectConfig_propertyExists','String').SetString( 'propertyname exists [%s].');
 end;
 
 (* === run-time registration functions === *)
@@ -96,6 +101,10 @@ begin
     RegisterPropertyHelper(@TAPI_ProjectConfigProjectConfigFileName_R,nil,'ProjectConfigFileName');
     RegisterPropertyHelper(@TAPI_ProjectConfigSearchPath_R,nil,'SearchPath');
     RegisterPropertyHelper(@TAPI_ProjectConfigWorkingdirectory_R,nil,'Workingdirectory');
+    RegisterMethod(@TAPI_ProjectConfig.Createproperty, 'Createproperty');
+    RegisterMethod(@TAPI_ProjectConfig.IsPropertyExists, 'IsPropertyExists');
+    RegisterMethod(@TAPI_ProjectConfig.SetProperty, 'SetProperty');
+    RegisterMethod(@TAPI_ProjectConfig.DeleteProperty, 'DeleteProperty');
     RegisterMethod(@TAPI_ProjectConfig.Getproperty, 'Getproperty');
   end;
 end;

@@ -136,7 +136,7 @@
         <DCCReference Include="Plugins\API\API_Shell.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_API_Shell.pas"/>
         <DCCReference Include="Plugins\API\API_ProjectConfig.pas"/>
-        <DCCReference Include="Plugins\Plugin_API_ProjectConfig.pas"/>
+        <DCCReference Include="Plugins\Plugin_ProjectConfig.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_API_ProjectConfig.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <projectconfig>
-    <searchpath>..\source\includes\</searchpath>
-    <workingdirectory>test</workingdirectory>
+  <searchpath>..\source\includes\</searchpath>
+  <test>foo</test>
 </projectconfig>

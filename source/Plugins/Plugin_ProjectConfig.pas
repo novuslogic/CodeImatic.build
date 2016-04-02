@@ -1,4 +1,4 @@
-unit Plugin_API_ProjectConfig;
+unit Plugin_ProjectConfig;
 
 interface
 

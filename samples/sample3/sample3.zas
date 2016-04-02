@@ -6,4 +6,14 @@ begin
   writeln(ProjectConfig.SearchPath);
   writeln(ProjectConfig.Getproperty('searchpath'));
 
+  if (not ProjectConfig.IsPropertyExists('test')) then
+    begin
+      ProjectConfig.CreateProperty('test');
+
+      ProjectConfig.SetProperty('test', 'foo');
+    end
+  else
+    ProjectConfig.DeleteProperty('test');
+
+
 end.
