@@ -22,3 +22,5 @@
 /samples/sample2/Messages.log
 /samples/sample3/Messages.log
 /samples/sample3/__history
+/samples/sample4/__history
+*.log
