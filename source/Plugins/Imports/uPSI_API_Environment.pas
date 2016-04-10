@@ -43,6 +43,7 @@ implementation
 
 uses
    APIBase
+  ,NovusWindows
   ,API_Environment
   ;
  
@@ -60,7 +61,7 @@ begin
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_Environment') do
   begin
     RegisterMethod('Function GetEnvironmentVar( const aVariableName : string) : string');
-    RegisterMethod('Procedure SetEnvironmentVar( const aVariableName : string; const aValue : string)');
+    RegisterMethod('Function SetEnvironmentVar( const aVariableName : string; const aValue : string) : integer');
   end;
 end;
 

@@ -10,7 +10,7 @@ type
    protected
    public
      function GetEnvironmentVar(const aVariableName: string): string;
-     procedure SetEnvironmentVar(const aVariableName: string; const aValue: string);
+     function SetEnvironmentVar(const aVariableName: string; const aValue: string): integer;
    end;
 
 implementation
@@ -27,11 +27,11 @@ begin
   End;
 end;
 
-procedure TAPI_Environment.SetEnvironmentVar(const aVariableName: string; const aValue: string);
+function TAPI_Environment.SetEnvironmentVar(const aVariableName: string; const aValue: string): integer;
 begin
   Try
     Try
-      TNovusWindows.SetEnvironmentVariable(aVariableName,  aValue);
+      Result := TNovusWindows.SetEnvironmentVariable(aVariableName,  aValue);
     Except
       oMessagesLog.InternalError;
     End;
