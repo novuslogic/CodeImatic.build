@@ -61,7 +61,7 @@ begin
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_Environment') do
   begin
     RegisterMethod('Function GetEnvironmentVar( const aVariableName : string) : string');
-    RegisterMethod('Function SetEnvironmentVar( const aVariableName : string; const aValue : string) : integer');
+    RegisterMethod('Function SetEnvironmentVar( const aVariableName : string; const aValue : string; aIsSystemVariable : Boolean) : integer');
   end;
 end;
 
@@ -69,6 +69,7 @@ end;
 procedure SIRegister_API_Environment(CL: TPSPascalCompiler);
 begin
   SIRegister_TAPI_Environment(CL);
+ CL.AddConstantN('API_Environment_cannot_set_variable','String').SetString( 'Cannot not set variable [%s]');
 end;
 
 (* === run-time registration functions === *)

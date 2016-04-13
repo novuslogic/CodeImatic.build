@@ -5,7 +5,7 @@ begin
 
   Writeln('Set Test Variable');
 
-  Environment.SetEnvironmentVar('test', 'aaaa');
+  Environment.SetEnvironmentVar('test', 'aaaa', false);
 
   Writeln('Get Test Variable');
 
