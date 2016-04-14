@@ -73,7 +73,7 @@ begin
       begin
         Try
           Try
-            oruntime.oMessagesLog.Log('Compiling ... ' + name + '.zas' );
+            oruntime.oMessagesLog.Log('Compiling include ... ' + name + '.zas' );
 
 
             lList := TStringList.Create;
@@ -139,7 +139,7 @@ begin
   FCompiler.AllowNoBegin := true;
   FCompiler.AllowNoEnd := true; // AllowNoBegin and AllowNoEnd allows it that begin and end are not required in a script.
 
-  foMessageslog.WriteLog('Compiling ... ' + FsFilename);
+  foMessageslog.WriteLog('Compiling ... ');
 
   if not FCompiler.Compile(FScript.Text) then  // Compile the Pascal script into bytecode.
   begin
