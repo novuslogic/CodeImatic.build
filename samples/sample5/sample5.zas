@@ -2,7 +2,16 @@ uses AWSCli;
 
 begin
 
-test3;
+if AWSCli_IsConfigured then
+begin
+
+
+
+
+
+end
+else
+  MessagesLog.log('AWSCli not configured');
 
 
 end.

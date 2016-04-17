@@ -73,7 +73,7 @@ begin
       begin
         Try
           Try
-            oruntime.oMessagesLog.Log('Compiling include ... ' + name + '.zas' );
+            oruntime.oMessagesLog.Log('Compiling unit ... ' + name + '.zas' );
 
 
             lList := TStringList.Create;

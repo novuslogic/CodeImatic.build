@@ -2,18 +2,16 @@ unit AWSCli;
 
 interface
 
-Uses Folders;
-
 function AWSCli_IsConfigured: Boolean;
-
 
 implementation
 
 function AWSCli_IsConfigured: Boolean;
 begin
-  MessagesLog.log('Test 3');
+  MessagesLog.log(WinAPI.GetSpecialFolder(CSIDL_PROFILE));
 
-  result := True;
+
+  result := False;
 end;
 
 end.
