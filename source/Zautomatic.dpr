@@ -34,7 +34,10 @@ uses
   uPSI_API_Environment in 'Plugins\Imports\uPSI_API_Environment.pas',
   Plugin_WinAPI in 'Plugins\Plugin_WinAPI.pas',
   API_WinAPI in 'Plugins\API\API_WinAPI.pas',
-  uPSI_API_WinAPI in 'Plugins\Imports\uPSI_API_WinAPI.pas';
+  uPSI_API_WinAPI in 'Plugins\Imports\uPSI_API_WinAPI.pas',
+  Plugin_RegIni in 'Plugins\Plugin_RegIni.pas',
+  uPSI_API_RegIni in 'Plugins\Imports\uPSI_API_RegIni.pas',
+  API_RegIni in 'Plugins\API\API_RegIni.pas';
 
 begin
   oConfig.LoadConfig;

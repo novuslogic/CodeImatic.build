@@ -144,6 +144,9 @@
         <DCCReference Include="Plugins\Plugin_WinAPI.pas"/>
         <DCCReference Include="Plugins\API\API_WinAPI.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_API_WinAPI.pas"/>
+        <DCCReference Include="Plugins\Plugin_RegIni.pas"/>
+        <DCCReference Include="Plugins\Imports\uPSI_API_RegIni.pas"/>
+        <DCCReference Include="Plugins\API\API_RegIni.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
