@@ -266,34 +266,42 @@ end;
 
 procedure TAPI_RegIni.WriteBool(const Name: string; Value: Boolean);
 begin
+  foRegistry.WriteBool(Name,Value);
 end;
 
 procedure TAPI_RegIni.WriteDate(const Name: string; Value: TDateTime);
 begin
+  foRegistry.WriteDate(Name,Value);
 end;
 
 procedure TAPI_RegIni.WriteDateTime(const Name: string; Value: TDateTime);
 begin
+  foRegistry.WriteDateTime(Name,Value);
 end;
 
 procedure TAPI_RegIni.WriteFloat(const Name: string; Value: Double);
 begin
+  foRegistry.WriteFloat(Name,Value);
 end;
 
 procedure TAPI_RegIni.WriteInteger(const Name: string; Value: Integer);
 begin
+  foRegistry.WriteInteger(Name,Value);
 end;
 
 procedure TAPI_RegIni.WriteString(const Name, Value: string);
 begin
+  foRegistry.WriteString(Name, Value);
 end;
 
 procedure TAPI_RegIni.WriteExpandString(const Name, Value: string);
 begin
+  foRegistry.WriteExpandString(Name, Value);
 end;
 
 procedure TAPI_RegIni.WriteTime(const Name: string; Value: TDateTime);
 begin
+  foRegistry.WriteTime(Name,Value);
 end;
 
 
