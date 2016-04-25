@@ -2,7 +2,7 @@ uses AWSCli;
 
 begin
 
-if AWSCli_IsConfigured then
+if IsAWSCliConfigured then
 begin
 
 
@@ -12,6 +12,8 @@ begin
 end
 else
   MessagesLog.log('AWSCli not configured');
+
+  MessagesLog.log(GetAWSCliConfigPath);
 
 
 end.

@@ -10,8 +10,8 @@ type
      foRegistry: tRegistry;
    protected
    public
-     constructor Create(aMessagesLog: tMessagesLog); overload;
-     destructor Destroy;
+     constructor Create(aMessagesLog: tMessagesLog); override;
+     destructor Destroy; override;
 
      procedure CloseKey;
      function CreateKey(const Key: string): Boolean;
@@ -20,21 +20,31 @@ type
      function GetDataAsString(const ValueName: string; PrefixType: Boolean = false): string;
      function GetDataInfo(const ValueName: string; var Value: TRegDataInfo): Boolean;
      function GetDataSize(const ValueName: string): Integer;
+
      function GetDataType(const ValueName: string): TRegDataType;
+
      function GetKeyInfo(var Value: TRegKeyInfo): Boolean;
+
      procedure GetKeyNames(Strings: TStrings);
      procedure GetValueNames(Strings: TStrings);
+
      function HasSubKeys: Boolean;
      function KeyExists(const Key: string): Boolean;
      function LoadKey(const Key, FileName: string): Boolean;
      procedure MoveKey(const OldName, NewName: string; Delete: Boolean);
      function OpenKey(const Key: string; CanCreate: Boolean): Boolean;
      function OpenKeyReadOnly(const Key: String): Boolean;
+
+
      function ReadCurrency(const Name: string): Currency;
-     function ReadBinaryData(const Name: string; var Buffer; BufSize: Integer): Integer;
+
+     //function ReadBinaryData(const Name: string; var Buffer; BufSize: Integer): Integer;
      function ReadBool(const Name: string): Boolean;
+
      function ReadDate(const Name: string): TDateTime;
+
      function ReadDateTime(const Name: string): TDateTime;
+
      function ReadFloat(const Name: string): Double;
      function ReadInteger(const Name: string): Integer;
      function ReadString(const Name: string): string;
@@ -47,7 +57,8 @@ type
      function UnLoadKey(const Key: string): Boolean;
      function ValueExists(const Name: string): Boolean;
      procedure WriteCurrency(const Name: string; Value: Currency);
-     procedure WriteBinaryData(const Name: string; var Buffer; BufSize: Integer);
+     //procedure WriteBinaryData(const Name: string; var Buffer; BufSize: Integer);
+
      procedure WriteBool(const Name: string; Value: Boolean);
      procedure WriteDate(const Name: string; Value: TDateTime);
      procedure WriteDateTime(const Name: string; Value: TDateTime);
@@ -86,7 +97,6 @@ end;
 destructor TAPI_RegIni.destroy;
 begin
   foRegistry.Free;
-
 end;
 
 procedure TAPI_RegIni.CloseKey;
@@ -103,6 +113,7 @@ function TAPI_RegIni.DeleteKey(const Key: string): Boolean;
 begin
   Result :=  foRegistry.DeleteKey(Key);
 end;
+
 
 function TAPI_RegIni.DeleteValue(const Name: string): Boolean;
 begin
@@ -179,15 +190,17 @@ begin
   Result := foRegistry.ReadCurrency(Name);
 end;
 
+    (*
 function TAPI_RegIni.ReadBinaryData(const Name: string; var Buffer; BufSize: Integer): Integer;
 begin
   Result := foRegistry.ReadBinaryData(Name,Buffer,BufSize);
 end;
-
+  *)
 function TAPI_RegIni.ReadBool(const Name: string): Boolean;
 begin
   Result := foRegistry.ReadBool(Name);
 end;
+
 
 function TAPI_RegIni.ReadDate(const Name: string): TDateTime;
 begin
@@ -198,6 +211,7 @@ function TAPI_RegIni.ReadDateTime(const Name: string): TDateTime;
 begin
   Result := foRegistry.ReadDateTime(Name);
 end;
+
 
 function TAPI_RegIni.ReadFloat(const Name: string): Double;
 begin
@@ -259,11 +273,12 @@ begin
   foRegistry.WriteCurrency(Name,Value);
 end;
 
+(*
 procedure TAPI_RegIni.WriteBinaryData(const Name: string; var Buffer; BufSize: Integer);
 begin
   foRegistry.WriteBinaryData(Name,Buffer, BufSize);
 end;
-
+  *)
 procedure TAPI_RegIni.WriteBool(const Name: string; Value: Boolean);
 begin
   foRegistry.WriteBool(Name,Value);
@@ -303,6 +318,7 @@ procedure TAPI_RegIni.WriteTime(const Name: string; Value: TDateTime);
 begin
   foRegistry.WriteTime(Name,Value);
 end;
+
 
 
 end.

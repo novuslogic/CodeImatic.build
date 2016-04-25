@@ -2,16 +2,27 @@ unit AWSCli;
 
 interface
 
-function AWSCli_IsConfigured: Boolean;
+function IsAWSCliConfigured: Boolean;
+function GetAWSCliConfigPath: String;
 
 implementation
 
-function AWSCli_IsConfigured: Boolean;
+function IsAWSCliConfigured: Boolean;
 begin
+  if Folder.Exists(GetAWSCliConfigPath) then  ;
+
+
+
   MessagesLog.log(WinAPI.GetSpecialFolder(CSIDL_PROFILE));
 
 
   result := False;
 end;
+
+function GetAWSCliConfigPath: String;
+begin
+  Result := WinAPI.GetSpecialFolder(CSIDL_PROFILE) + '\.aws';
+end;
+
 
 end.
