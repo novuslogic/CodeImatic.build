@@ -13,13 +13,13 @@ begin
 
   Writeln('function ZipExtractFile');
 
-  if not Zip.ZipExtractFile(wd + 'test.zip', 'test.txt', wd + 'data', NIL) then
+  if not Zip.ExtractFile(wd + 'test.zip', 'test.txt', wd + 'data', NIL) then
     Messageslog.LogError;
 
 
   Writeln('function ZipExtractAll');
 
-  if not Zip.ZipExtractAll(wd + 'test.zip', wd + 'data', NIL) then
+  if not Zip.ExtractAll(wd + 'test.zip', wd + 'data', NIL) then
     Messageslog.LogError;
 
   Writeln('function ZipBrowserList');
@@ -29,7 +29,7 @@ begin
   Try
     FZipStringList := TStringList.Create;
 
-    if Zip.ZipBrowserList(wd + 'test.zip',
+    if Zip.BrowserList(wd + 'test.zip',
         FZipStringList,
         true, NIL) then
       begin
@@ -53,7 +53,7 @@ begin
     FZipOptions.Messageslog := true;
 
 
-    if not Zip.ZipCompress(wd + 'test2.zip',
+    if not Zip.Compress(wd + 'test2.zip',
              wd + 'data', '*', FZipOptions) then
             Messageslog.LogError;
   finally

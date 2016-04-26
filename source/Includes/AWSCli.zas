@@ -9,8 +9,14 @@ implementation
 
 function IsAWSCliConfigured: Boolean;
 begin
-  if Folder.Exists(GetAWSCliConfigPath) then  ;
+  Result := False;
 
+  if not Folder.Exists(GetAWSCliConfigPath) then
+    begin
+      RaiseException(erCustomError, 'AWSCli Configured path [' + GetAWSCliConfigPath +'] cannot not be found.');
+
+      Exit;
+    end;
 
 
   MessagesLog.log(WinAPI.GetSpecialFolder(CSIDL_PROFILE));

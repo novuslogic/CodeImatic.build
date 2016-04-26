@@ -34,14 +34,14 @@ type
      procedure ConfirmProcessItem(Sender: TObject; Item: TAbArchiveItem;
          ProcessType: TAbProcessType; var Confirm: Boolean);
    public
-     function ZipCompress(const aZipFilename: String;
+     function Compress(const aZipFilename: String;
                           const aPath: String;
                           const aFileMasks: String;
                           const aZIPOptions: TZIPOptions): Boolean;
 
-     function ZipBrowserList(const aZipFilename: String; var aZipStringList: TStringList; const aIncludePath: Boolean; const aZIPOptions: TZIPOptions): Boolean;
-     function ZipExtractAll(const aZipFilename: String; const aPath: string; const aZIPOptions: TZIPOptions): Boolean;
-     function ZipExtractFile(const aZipFilename: String;
+     function BrowserList(const aZipFilename: String; var aZipStringList: TStringList; const aIncludePath: Boolean; const aZIPOptions: TZIPOptions): Boolean;
+     function ExtractAll(const aZipFilename: String; const aPath: string; const aZIPOptions: TZIPOptions): Boolean;
+     function ExtractFile(const aZipFilename: String;
                              const aFileName: string;
                              const aPath: string;
                              const aZIPOptions: TZIPOptions): Boolean;
@@ -74,7 +74,7 @@ begin
 end;
 
 
-function TAPI_Zip.ZipCompress(const aZipFilename: String;
+function TAPI_Zip.Compress(const aZipFilename: String;
                               const aPath: String;
                               const aFileMasks: String;
                               const aZIPOptions: TZIPOptions): Boolean;
@@ -163,7 +163,7 @@ begin
 
 end;
 
-function TAPI_Zip.ZipExtractAll(const aZipFilename: String;
+function TAPI_Zip.ExtractAll(const aZipFilename: String;
                                 const aPath: string;
                                 const aZIPOptions: TZIPOptions): Boolean;
 var
@@ -208,7 +208,7 @@ begin
 
 end;
 
-function TAPI_Zip.ZipExtractFile(const aZipFilename: String;
+function TAPI_Zip.ExtractFile(const aZipFilename: String;
                              const aFileName: string;
                              const aPath: string;
                              const aZIPOptions: TZIPOptions): Boolean;
@@ -257,7 +257,7 @@ end;
 
 
 
-function TAPI_Zip.ZipBrowserList(const aZipFilename: String;
+function TAPI_Zip.BrowserList(const aZipFilename: String;
                                  var aZipStringList: TStringList;
                                  const aIncludePath: Boolean;
                                  const aZIPOptions: TZIPOptions): Boolean;

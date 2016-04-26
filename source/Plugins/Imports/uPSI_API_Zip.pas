@@ -73,10 +73,10 @@ begin
   //with RegClassS(CL,'TAPIBase', 'TAPI_Zip') do
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_Zip') do
   begin
-    RegisterMethod('Function ZipCompress( const aZipFilename : String; const aPath : String; const aFileMasks : String; const aZIPOptions : TZIPOptions) : Boolean');
-    RegisterMethod('Function ZipBrowserList( const aZipFilename : String; var aZipStringList : TStringList; const aIncludePath : Boolean; const aZIPOptions : TZIPOptions) : Boolean');
-    RegisterMethod('Function ZipExtractAll( const aZipFilename : String; const aPath : string; const aZIPOptions : TZIPOptions) : Boolean');
-    RegisterMethod('Function ZipExtractFile( const aZipFilename : String; const aFileName : string; const aPath : string; const aZIPOptions : TZIPOptions) : Boolean');
+    RegisterMethod('Function Compress( const aZipFilename : String; const aPath : String; const aFileMasks : String; const aZIPOptions : TZIPOptions) : Boolean');
+    RegisterMethod('Function BrowserList( const aZipFilename : String; var aZipStringList : TStringList; const aIncludePath : Boolean; const aZIPOptions : TZIPOptions) : Boolean');
+    RegisterMethod('Function ExtractAll( const aZipFilename : String; const aPath : string; const aZIPOptions : TZIPOptions) : Boolean');
+    RegisterMethod('Function ExtractFile( const aZipFilename : String; const aFileName : string; const aPath : string; const aZIPOptions : TZIPOptions) : Boolean');
   end;
 end;
 
@@ -132,10 +132,10 @@ procedure RIRegister_TAPI_Zip(CL: TPSRuntimeClassImporter);
 begin
   with CL.Add(TAPI_Zip) do
   begin
-    RegisterMethod(@TAPI_Zip.ZipCompress, 'ZipCompress');
-    RegisterMethod(@TAPI_Zip.ZipBrowserList, 'ZipBrowserList');
-    RegisterMethod(@TAPI_Zip.ZipExtractAll, 'ZipExtractAll');
-    RegisterMethod(@TAPI_Zip.ZipExtractFile, 'ZipExtractFile');
+    RegisterMethod(@TAPI_Zip.Compress, 'Compress');
+    RegisterMethod(@TAPI_Zip.BrowserList, 'BrowserList');
+    RegisterMethod(@TAPI_Zip.ExtractAll, 'ExtractAll');
+    RegisterMethod(@TAPI_Zip.ExtractFile, 'ExtractFile');
   end;
 end;
 
