@@ -15,11 +15,12 @@ type
      function Exists(aFilename: String): Boolean;
      function Copy(aSourceFilename: String; aDestFilename: String; aOverWrite : Boolean ): Boolean;
      function Delete(aFilename: String): Boolean;
-
+     function Move(aSourceFilename: String; aDestFilename: String): Boolean;
    end;
 
 implementation
 
+uses System.IOUtils;
 
 constructor TAPI_File.create(aMessagesLog: tMessagesLog);
 begin
@@ -48,6 +49,7 @@ function TAPI_File.Copy(aSourceFilename: String; aDestFilename: String; aOverWri
 begin
   Try
     Try
+      TFile.Copy(aSourceFilename, aDestFilename, aOverWrite);
 
     Except
       oMessagesLog.InternalError;
@@ -59,8 +61,32 @@ end;
 
 function TAPI_File.Delete(aFilename: String): Boolean;
 begin
+   Try
+    Try
+      TFile.Delete(aFilename);
+    Except
+      oMessagesLog.InternalError;
+    End;
+  Finally
 
+  End;
 end;
 
+
+function TAPI_File.Move(aSourceFilename: String; aDestFilename: String): Boolean;
+begin
+  Try
+    Try
+      TFile.Move(aSourceFilename,aDestFilename);
+    Except
+      oMessagesLog.InternalError;
+    End;
+  Finally
+
+  End;
+
+
+
+end;
 
 end.

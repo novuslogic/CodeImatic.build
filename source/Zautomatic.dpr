@@ -41,7 +41,9 @@ uses
   API_Folder in 'Plugins\API\API_Folder.pas',
   Plugin_Folder in 'Plugins\Plugin_Folder.pas',
   uPSI_API_Folder in 'Plugins\Imports\uPSI_API_Folder.pas',
-  API_File in 'Plugins\API\API_File.pas';
+  API_File in 'Plugins\API\API_File.pas',
+  Plugin_File in 'Plugins\Plugin_File.pas',
+  uPSI_API_File in 'Plugins\Imports\uPSI_API_File.pas';
 
 begin
   oConfig.LoadConfig;
