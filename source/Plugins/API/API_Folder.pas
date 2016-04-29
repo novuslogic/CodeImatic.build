@@ -2,7 +2,7 @@ unit API_Folder;
 
 interface
 
-uses APIBase, SysUtils, MessagesLog, Classes;
+uses APIBase, SysUtils, MessagesLog, Classes, NovusFileUtils;
 
 type
    TAPI_Folder = class(TAPIBase)
@@ -13,6 +13,12 @@ type
      destructor Destroy; override;
 
      function Exists(aFolder: String): Boolean;
+     function RemoveFolder(aFolder: String): Boolean;
+     function Move(aSourceFolder: String; aDestFolder: String): Boolean;
+     function Copy(aSourceFolder: String; aDestFolder: String): Boolean;
+     function CreateFolder(aFolder: String): Boolean;
+     function SetCurrentFolder(aFolder: String): Boolean;
+     function GetCurrentFolder: String;
    end;
 
 implementation
@@ -34,9 +40,90 @@ begin
       Result := DirectoryExists(aFolder);
     Except
       oMessagesLog.InternalError;
-     End;
+    End;
   Finally
  
+  End;
+end;
+
+function TAPI_Folder.RemoveFolder(aFolder: String): Boolean;
+begin
+Try
+    Try
+      Result := RemoveDir(aFolder);
+    Except
+      oMessagesLog.InternalError;
+    End;
+  Finally
+ 
+  End;
+end;
+
+
+function TAPI_Folder.Move(aSourceFolder: String; aDestFolder: String): Boolean;
+begin
+  Try
+    Try
+      Result := TNovusFileUtils.MoveDir(aSourceFolder, aDestFolder);
+    Except
+      oMessagesLog.InternalError;
+    End;
+  Finally
+
+  End;
+end;
+
+function TAPI_Folder.Copy(aSourceFolder: String; aDestFolder: String): Boolean;
+begin
+   Try
+    Try
+      Result := TNovusFileUtils.CopyDir(aSourceFolder, aDestFolder);
+    Except
+      oMessagesLog.InternalError;
+    End;
+  Finally
+
+  End;
+end;
+
+
+function TAPI_Folder.CreateFolder(aFolder: String): Boolean;
+begin
+  Try
+    Try
+      Result := CreateDir(aFolder);
+    Except
+      oMessagesLog.InternalError;
+    End;
+  Finally
+
+  End;
+end;
+
+function TAPI_Folder.SetCurrentFolder(aFolder: String): Boolean;
+begin
+   Try
+    Try
+      Result := SetCurrentDir(aFolder);
+    Except
+      oMessagesLog.InternalError;
+    End;
+  Finally
+
+  End;
+end;
+
+
+function TAPI_Folder.GetCurrentFolder: String;
+begin
+  Try
+    Try
+      Result := GetCurrentDir;
+    Except
+      oMessagesLog.InternalError;
+    End;
+  Finally
+
   End;
 end;
 

@@ -44,6 +44,7 @@ implementation
 uses
    APIBase
   ,MessagesLog
+  ,NovusFileUtils
   ,API_Folder
   ;
  
@@ -61,6 +62,12 @@ begin
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_Folder') do
   begin
     RegisterMethod('Function Exists( aFolder : String) : Boolean');
+    RegisterMethod('Function RemoveFolder( aFolder : String) : Boolean');
+    RegisterMethod('Function Move( aSourceFolder : String; aDestFolder : String) : Boolean');
+    RegisterMethod('Function Copy( aSourceFolder : String; aDestFolder : String) : Boolean');
+    RegisterMethod('Function CreateFolder( aFolder : String) : Boolean');
+    RegisterMethod('Function SetCurrentFolder( aFolder : String) : Boolean');
+    RegisterMethod('Function GetCurrentFolder : String');
   end;
 end;
 
@@ -77,6 +84,12 @@ begin
   with CL.Add(TAPI_Folder) do
   begin
     RegisterMethod(@TAPI_Folder.Exists, 'Exists');
+    RegisterMethod(@TAPI_Folder.RemoveFolder, 'RemoveFolder');
+    RegisterMethod(@TAPI_Folder.Move, 'Move');
+    RegisterMethod(@TAPI_Folder.Copy, 'Copy');
+    RegisterMethod(@TAPI_Folder.CreateFolder, 'CreateFolder');
+    RegisterMethod(@TAPI_Folder.SetCurrentFolder, 'SetCurrentFolder');
+    RegisterMethod(@TAPI_Folder.GetCurrentFolder, 'GetCurrentFolder');
   end;
 end;
 
