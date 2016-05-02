@@ -61,12 +61,12 @@ begin
   //with RegClassS(CL,'TAPIBase', 'TAPI_Folder') do
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_Folder') do
   begin
-    RegisterMethod('Function Exists( aFolder : String) : Boolean');
-    RegisterMethod('Function RemoveFolder( aFolder : String) : Boolean');
-    RegisterMethod('Function Move( aSourceFolder : String; aDestFolder : String) : Boolean');
-    RegisterMethod('Function Copy( aSourceFolder : String; aDestFolder : String) : Boolean');
-    RegisterMethod('Function CreateFolder( aFolder : String) : Boolean');
-    RegisterMethod('Function SetCurrentFolder( aFolder : String) : Boolean');
+    RegisterMethod('Function Exists( const aFolder : String) : Boolean');
+    RegisterMethod('Function RemoveFolder( const aFolder : String) : Boolean');
+    RegisterMethod('Function Move( const aSourceFolder : String; const aDestFolder : String) : Boolean');
+    RegisterMethod('Function Copy( const aSourceFolder : String; const aDestFolder : String) : Boolean');
+    RegisterMethod('Function CreateFolder( const aFolder : String) : Boolean');
+    RegisterMethod('Function SetCurrentFolder( const aFolder : String) : Boolean');
     RegisterMethod('Function GetCurrentFolder : String');
   end;
 end;

@@ -144,9 +144,9 @@
         <DCCReference Include="Plugins\Plugin_WinAPI.pas"/>
         <DCCReference Include="Plugins\API\API_WinAPI.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_API_WinAPI.pas"/>
-        <DCCReference Include="Plugins\Plugin_RegIni.pas"/>
-        <DCCReference Include="Plugins\Imports\uPSI_API_RegIni.pas"/>
-        <DCCReference Include="Plugins\API\API_RegIni.pas"/>
+        <DCCReference Include="Plugins\Plugin_IniFile.pas"/>
+        <DCCReference Include="Plugins\Imports\uPSI_API_IniFile.pas"/>
+        <DCCReference Include="Plugins\API\API_IniFile.pas"/>
         <DCCReference Include="Plugins\API\API_Folder.pas"/>
         <DCCReference Include="Plugins\Plugin_Folder.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_API_Folder.pas"/>

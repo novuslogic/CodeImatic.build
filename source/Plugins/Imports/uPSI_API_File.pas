@@ -61,10 +61,11 @@ begin
   //with RegClassS(CL,'TAPIBase', 'TAPI_File') do
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_File') do
   begin
-    RegisterMethod('Function Exists( aFilename : String) : Boolean');
-    RegisterMethod('Function Copy( aSourceFilename : String; aDestFilename : String; aOverWrite : Boolean) : Boolean');
-    RegisterMethod('Function Delete( aFilename : String) : Boolean');
-    RegisterMethod('Function Move( aSourceFilename : String; aDestFilename : String) : Boolean');
+    RegisterMethod('Function IncludeTrailingPathDelimiter( const s : string) : String');
+    RegisterMethod('Function Exists( const aFilename : String) : Boolean');
+    RegisterMethod('Function Copy( const aSourceFilename : String; const aDestFilename : String; const aOverWrite : Boolean) : Boolean');
+    RegisterMethod('Function Delete( const aFilename : String) : Boolean');
+    RegisterMethod('Function Move( const aSourceFilename : String; const aDestFilename : String) : Boolean');
   end;
 end;
 
@@ -80,6 +81,7 @@ procedure RIRegister_TAPI_File(CL: TPSRuntimeClassImporter);
 begin
   with CL.Add(TAPI_File) do
   begin
+    RegisterMethod(@TAPI_File.IncludeTrailingPathDelimiter, 'IncludeTrailingPathDelimiter');
     RegisterMethod(@TAPI_File.Exists, 'Exists');
     RegisterMethod(@TAPI_File.Copy, 'Copy');
     RegisterMethod(@TAPI_File.Delete, 'Delete');

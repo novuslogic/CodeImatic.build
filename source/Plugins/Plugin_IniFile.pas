@@ -1,16 +1,16 @@
-unit Plugin_RegIni;
+unit Plugin_IniFile;
 
 interface
 
-uses Classes,Plugin,  uPSRuntime,  uPSCompiler, PluginsMapFactory, API_RegIni,
-    uPSI_API_RegIni, MessagesLog, SysUtils;
+uses Classes,Plugin,  uPSRuntime,  uPSCompiler, PluginsMapFactory, API_IniFile,
+    uPSI_API_IniFile, MessagesLog, SysUtils;
 
 
 type
   tPlugin_RegIni = class(Tplugin)
   private
   protected
-    foAPI_RegIni: TAPI_RegIni;
+    foAPI_IniFile: TAPI_IniFile;
   public
     constructor Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
@@ -27,7 +27,7 @@ constructor tPlugin_RegIni.Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeCl
 begin
   Inherited;
 
-  foAPI_RegIni := TAPI_RegIni.Create(foMessagesLog);
+  foAPI_IniFile := TAPI_IniFile.Create(foMessagesLog);
 
 end;
 
@@ -36,7 +36,7 @@ destructor  tPlugin_RegIni.Destroy;
 begin
   Inherited;
 
-  FreeandNIl(foAPI_RegIni);
+  FreeandNIl(foAPI_IniFile);
 end;
 
 
@@ -45,11 +45,14 @@ function tPlugin_RegIni.CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
 begin
   Result := True;
 
-  foAPI_RegIni.oCompiler := aCompiler;
+  foAPI_IniFile.oCompiler := aCompiler;
 
-  SIRegister_API_RegIni(aCompiler);
-  SIRegister_API_RegIni(aCompiler);
-  AddImportedClassVariable(aCompiler, 'RegIni', 'TAPI_RegIni');
+  SIRegister_API_IniFile(aCompiler);
+  SIRegister_API_IniFile(aCompiler);
+
+  AddImportedClassVariable(aCompiler, 'IniFile', 'TAPI_IniFile');
+
+
 
 
 end;
@@ -60,15 +63,15 @@ end;
 
 procedure tPlugin_RegIni.SetVariantToClass(aExec: TPSExec);
 begin
-  foAPI_RegIni.oExec := aExec;
+  foAPI_IniFile.oExec := aExec;
 
-  uPSRuntime.SetVariantToClass(aExec.GetVarNo(aExec.GetVar('RegIni')), foAPI_RegIni);
+  uPSRuntime.SetVariantToClass(aExec.GetVarNo(aExec.GetVar('IniFile')), foAPI_IniFile);
 end;
 
 procedure tPlugin_RegIni.RegisterImport;
 begin
-  RIRegister_API_RegIni(FImp);
-  RIRegister_API_RegIni(FImp);
+  RIRegister_API_IniFile(FImp);
+  RIRegister_API_IniFile(FImp);
 end;
 
 Initialization

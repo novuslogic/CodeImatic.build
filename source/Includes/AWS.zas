@@ -1,0 +1,56 @@
+unit AWS;
+
+interface
+
+Const
+  aws_credentials = 'credentials';
+
+
+function IsAWSCliConfigured: Boolean;
+function GetAWSCliConfigPath: String;
+
+implementation
+
+function IsAWSCliConfigured: Boolean;
+Var
+  fIniFile: TIniFile;
+begin
+  Result := False;
+
+  if not Folder.Exists(GetAWSCliConfigPath) then
+    begin
+      RaiseException(erCustomError, 'AWSCli Configured path [' + GetAWSCliConfigPath +'] cannot not be found.');
+
+      Exit;
+    end;
+
+  if Not File.Exists(GetAWSCliConfigPath + aws_credentials) then
+    begin
+      RaiseException(erCustomError, 'AWSCli Configured file cannot not be found.');
+
+      Exit;
+    end;
+
+
+
+
+  Try
+    fIniFile := IniFile.OpenIniFile(GetAWSCliConfigPath + aws_credentials);
+  Finally
+    fIniFile.Free;
+  End;
+
+
+
+
+
+  result := False;
+end;
+
+function GetAWSCliConfigPath: String;
+begin
+  Result := File.IncludeTrailingPathDelimiter(WinAPI.GetSpecialFolder(CSIDL_PROFILE) + '\.aws');
+end;
+
+
+end.

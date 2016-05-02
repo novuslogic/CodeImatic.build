@@ -1,19 +1,15 @@
-uses AWSCli;
+uses AWS;
 
 begin
-
-if IsAWSCliConfigured then
-begin
-
+  if IsAWSCliConfigured then
+    begin
 
 
 
 
-end
-else
-  MessagesLog.log('AWSCli not configured');
 
-  MessagesLog.log(GetAWSCliConfigPath);
-
+    end
+  else
+    MessagesLog.log('AWSCli not configured');
 
 end.

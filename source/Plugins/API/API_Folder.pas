@@ -12,12 +12,12 @@ type
      constructor Create(aMessagesLog: tMessagesLog); override;
      destructor Destroy; override;
 
-     function Exists(aFolder: String): Boolean;
-     function RemoveFolder(aFolder: String): Boolean;
-     function Move(aSourceFolder: String; aDestFolder: String): Boolean;
-     function Copy(aSourceFolder: String; aDestFolder: String): Boolean;
-     function CreateFolder(aFolder: String): Boolean;
-     function SetCurrentFolder(aFolder: String): Boolean;
+     function Exists(const aFolder: String): Boolean;
+     function RemoveFolder(const aFolder: String): Boolean;
+     function Move(Const aSourceFolder: String; Const aDestFolder: String): Boolean;
+     function Copy(Const aSourceFolder: String; Const aDestFolder: String): Boolean;
+     function CreateFolder(Const aFolder: String): Boolean;
+     function SetCurrentFolder(Const aFolder: String): Boolean;
      function GetCurrentFolder: String;
    end;
 
@@ -33,7 +33,7 @@ destructor TAPI_Folder.destroy;
 begin
 end;
 
-function TAPI_Folder.Exists(aFolder: String): Boolean;
+function TAPI_Folder.Exists(Const aFolder: String): Boolean;
 begin
   Try
     Try
@@ -46,7 +46,7 @@ begin
   End;
 end;
 
-function TAPI_Folder.RemoveFolder(aFolder: String): Boolean;
+function TAPI_Folder.RemoveFolder(Const aFolder: String): Boolean;
 begin
 Try
     Try
@@ -60,7 +60,7 @@ Try
 end;
 
 
-function TAPI_Folder.Move(aSourceFolder: String; aDestFolder: String): Boolean;
+function TAPI_Folder.Move(Const aSourceFolder: String; Const aDestFolder: String): Boolean;
 begin
   Try
     Try
@@ -73,7 +73,7 @@ begin
   End;
 end;
 
-function TAPI_Folder.Copy(aSourceFolder: String; aDestFolder: String): Boolean;
+function TAPI_Folder.Copy(Const aSourceFolder: String; Const aDestFolder: String): Boolean;
 begin
    Try
     Try
@@ -87,7 +87,7 @@ begin
 end;
 
 
-function TAPI_Folder.CreateFolder(aFolder: String): Boolean;
+function TAPI_Folder.CreateFolder(Const aFolder: String): Boolean;
 begin
   Try
     Try
@@ -100,7 +100,7 @@ begin
   End;
 end;
 
-function TAPI_Folder.SetCurrentFolder(aFolder: String): Boolean;
+function TAPI_Folder.SetCurrentFolder(Const aFolder: String): Boolean;
 begin
    Try
     Try
