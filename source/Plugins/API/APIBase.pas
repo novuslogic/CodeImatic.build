@@ -41,6 +41,8 @@ end;
 
 destructor TAPIBase.destroy;
 begin
+  Inherited;
+
   foMessagesLog := NIL;
   foCompiler := NIL;
   foExec := NIl;

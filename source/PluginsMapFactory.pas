@@ -58,6 +58,9 @@ initialization
   PluginsMapFactoryClasses := TClassList.Create;
 
 finalization
-  PluginsMapFactoryClasses.Free;
+  begin
+    PluginsMapFactoryClasses.Clear;
+    PluginsMapFactoryClasses.Free;
+  end;
 
 end.

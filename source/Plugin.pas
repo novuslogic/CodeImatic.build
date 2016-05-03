@@ -12,7 +12,7 @@ type
      fImp: TPSRuntimeClassImporter;
    public
      constructor Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter); virtual;
-     destructor Destroy; virtual;
+//     destructor Destroy; virtual;
 
      function CustomOnUses(aCompiler: TPSPascalCompiler): Boolean; virtual;
      procedure RegisterFunction(aExec: TPSExec); virtual;
@@ -39,9 +39,9 @@ begin
   fImp:= aImp;
 end;
 
-destructor TPlugin.destroy;
-begin
-end;
+//destructor TPlugin.destroy;
+//begin
+//end;
 
 
 

@@ -14,7 +14,7 @@ type
       fImp: TPSRuntimeClassImporter;
    public
      constructor Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter);
-     destructor Destroy;
+     destructor Destroy; override;
 
      procedure LoadPlugins;
      procedure UnloadPlugins;
@@ -40,6 +40,8 @@ end;
 
 destructor TPlugins.destroy;
 begin
+  Inherited;
+
   UnloadPlugins;
 
   fPluginsList.Free;
@@ -53,7 +55,7 @@ begin
   for I := 0 to fPluginsList.Count -1 do
    begin
      loPlugin := TPlugin(fPluginsList.Items[i]);
-     FreeandNil(loPlugin);
+     loPlugin.Free;
    end;
 
   fPluginsList.Clear;
