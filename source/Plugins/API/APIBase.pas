@@ -13,7 +13,7 @@ type
      foExec: TPSExec;
    public
      constructor Create(aMessagesLog: tMessagesLog); virtual;
-     destructor Destroy; virtual;
+     destructor Destroy; override;
 
      procedure RuntimeErrorFmt(const aParam: tbtString; const aArgs: array of const);
 
