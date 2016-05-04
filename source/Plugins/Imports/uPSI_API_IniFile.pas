@@ -73,7 +73,11 @@ begin
   //with RegClassS(CL,'TPersistent', 'TIniFile') do
   with CL.AddClassN(CL.FindClass('TPersistent'),'TIniFile') do
   begin
-    RegisterMethod('Constructor Create');
+    RegisterMethod('Constructor Create( aFilename : String; aMessagesLog : tMessagesLog)');
+    RegisterMethod('Procedure WriteString( const aSection : string; const aKey : String; const aValue : String)');
+    RegisterMethod('Function ReadString( const aSection : string; const aKey : String; const aDefault : string) : String');
+    RegisterMethod('Function DeleteSection( const aSection : string) : Boolean');
+    RegisterMethod('Function DeleteKey( const aSection : string; const aKey : string) : boolean');
   end;
 end;
 
@@ -82,6 +86,7 @@ procedure SIRegister_API_IniFile(CL: TPSPascalCompiler);
 begin
   SIRegister_TIniFile(CL);
   SIRegister_TAPI_IniFile(CL);
+ CL.AddConstantN('API_IniFile_cannot_find_filename','String').SetString( 'Cannot find filename [%s]');
 end;
 
 (* === run-time registration functions === *)
@@ -100,6 +105,10 @@ begin
   with CL.Add(TIniFile) do
   begin
     RegisterConstructor(@TIniFile.Create, 'Create');
+    RegisterMethod(@TIniFile.WriteString, 'WriteString');
+    RegisterMethod(@TIniFile.ReadString, 'ReadString');
+    RegisterMethod(@TIniFile.DeleteSection, 'DeleteSection');
+    RegisterMethod(@TIniFile.DeleteKey, 'DeleteKey');
   end;
 end;
 
