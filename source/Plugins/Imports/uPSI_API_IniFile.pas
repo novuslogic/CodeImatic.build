@@ -30,12 +30,10 @@ type
  
 { compile-time registration functions }
 procedure SIRegister_TAPI_IniFile(CL: TPSPascalCompiler);
-procedure SIRegister_TIniFile(CL: TPSPascalCompiler);
 procedure SIRegister_API_IniFile(CL: TPSPascalCompiler);
 
 { run-time registration functions }
 procedure RIRegister_TAPI_IniFile(CL: TPSRuntimeClassImporter);
-procedure RIRegister_TIniFile(CL: TPSRuntimeClassImporter);
 procedure RIRegister_API_IniFile(CL: TPSRuntimeClassImporter);
 
 procedure Register;
@@ -63,28 +61,16 @@ begin
   //with RegClassS(CL,'TAPIBase', 'TAPI_IniFile') do
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_IniFile') do
   begin
-    RegisterMethod('Function OpenIniFile( aFilename : String) : TIniFile');
-  end;
-end;
-
-(*----------------------------------------------------------------------------*)
-procedure SIRegister_TIniFile(CL: TPSPascalCompiler);
-begin
-  //with RegClassS(CL,'TPersistent', 'TIniFile') do
-  with CL.AddClassN(CL.FindClass('TPersistent'),'TIniFile') do
-  begin
-    RegisterMethod('Constructor Create( aFilename : String; aMessagesLog : tMessagesLog)');
-    RegisterMethod('Procedure WriteString( const aSection : string; const aKey : String; const aValue : String)');
-    RegisterMethod('Function ReadString( const aSection : string; const aKey : String; const aDefault : string) : String');
-    RegisterMethod('Function DeleteSection( const aSection : string) : Boolean');
-    RegisterMethod('Function DeleteKey( const aSection : string; const aKey : string) : boolean');
+    RegisterMethod('Procedure WriteString( const aFilename : string; const aSection : string; const aKey : String; const aValue : String)');
+    RegisterMethod('Function ReadString( const aFilename : string; const aSection : string; const aKey : String; const aDefault : string) : String');
+    RegisterMethod('Function DeleteSection( const aFilename : string; const aSection : string) : Boolean');
+    RegisterMethod('Function DeleteKey( const aFilename : string; const aSection : string; const aKey : string) : boolean');
   end;
 end;
 
 (*----------------------------------------------------------------------------*)
 procedure SIRegister_API_IniFile(CL: TPSPascalCompiler);
 begin
-  SIRegister_TIniFile(CL);
   SIRegister_TAPI_IniFile(CL);
  CL.AddConstantN('API_IniFile_cannot_find_filename','String').SetString( 'Cannot find filename [%s]');
 end;
@@ -95,27 +81,16 @@ procedure RIRegister_TAPI_IniFile(CL: TPSRuntimeClassImporter);
 begin
   with CL.Add(TAPI_IniFile) do
   begin
-    RegisterMethod(@TAPI_IniFile.OpenIniFile, 'OpenIniFile');
-  end;
-end;
-
-(*----------------------------------------------------------------------------*)
-procedure RIRegister_TIniFile(CL: TPSRuntimeClassImporter);
-begin
-  with CL.Add(TIniFile) do
-  begin
-    RegisterConstructor(@TIniFile.Create, 'Create');
-    RegisterMethod(@TIniFile.WriteString, 'WriteString');
-    RegisterMethod(@TIniFile.ReadString, 'ReadString');
-    RegisterMethod(@TIniFile.DeleteSection, 'DeleteSection');
-    RegisterMethod(@TIniFile.DeleteKey, 'DeleteKey');
+    RegisterMethod(@TAPI_IniFile.WriteString, 'WriteString');
+    RegisterMethod(@TAPI_IniFile.ReadString, 'ReadString');
+    RegisterMethod(@TAPI_IniFile.DeleteSection, 'DeleteSection');
+    RegisterMethod(@TAPI_IniFile.DeleteKey, 'DeleteKey');
   end;
 end;
 
 (*----------------------------------------------------------------------------*)
 procedure RIRegister_API_IniFile(CL: TPSRuntimeClassImporter);
 begin
-  RIRegister_TIniFile(CL);
   RIRegister_TAPI_IniFile(CL);
 end;
 

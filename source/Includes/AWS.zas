@@ -13,7 +13,6 @@ implementation
 
 function IsAWSCliConfigured: Boolean;
 Var
-  fIniFile: TIniFile;
   fsaws_access_key_id: String;
 begin
   Result := False;
@@ -32,24 +31,11 @@ begin
       Exit;
     end;
 
+  fsaws_access_key_id := IniFile.ReadString(GetAWSCliConfigPath + aws_credentials, 'default', 'aws_access_key_id', '');
 
 
 
-  Try
-    fIniFile := IniFile.OpenIniFile(GetAWSCliConfigPath + aws_credentials);
-
-    fsaws_access_key_id := fIniFile.ReadString('default', 'aws_access_key_id', '');
-
-
-
-    MessagesLog.log(fsaws_access_key_id);
-
-  Finally
-    fIniFile.Free;
-  End;
-
-
-
+  MessagesLog.log(fsaws_access_key_id);
 
 
   result := False;
