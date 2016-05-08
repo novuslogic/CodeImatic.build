@@ -1,0 +1,26 @@
+unit cmd;
+
+interface
+
+function ExecCMD(aCommandLine: String): Integer;
+
+implementation
+
+function ExecCMD(aCommandLine: String): Integer;
+var
+  fsOutput: string;
+  fsError: string;
+begin
+  Result := 0;
+
+  try
+    Shell.RunRedirectCommand('cmd.exe /C ' + aCommandLine, '', fsOutput,fsError );
+  except
+    Messageslog.LogError;
+  end;
+
+  MessagesLog.log(fsOutput);
+  MessagesLog.log(fsError);
+end;
+
+end.

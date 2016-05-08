@@ -1,8 +1,10 @@
 uses AWS;
 
 begin
-  if not IsAWSCliConfigured then
+  if IsAWSCliConfigured then
     begin
+      ExecAWSCli('aws');
+
 
 
 

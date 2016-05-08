@@ -1,3 +1,5 @@
+Uses cmd;
+
 var
   fsInput: String;
   fsOutput: string;
@@ -16,7 +18,7 @@ begin
   writeln(fsoutput);
   writeln(fserror);
 
-
+  ExecCMD('Dir');
 
 
 end.

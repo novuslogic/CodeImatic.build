@@ -6,9 +6,11 @@ Const
   aws_credentials = 'credentials';
   aws_config = 'config';
 
-
 function IsAWSCliConfigured: Boolean;
 function GetAWSCliConfigPath: String;
+function ExecAWSCli(aCommandLine: String): Integer;
+
+Uses cmd;
 
 implementation
 
@@ -56,6 +58,11 @@ end;
 function GetAWSCliConfigPath: String;
 begin
   Result := File.IncludeTrailingPathDelimiter(WinAPI.GetSpecialFolder(CSIDL_PROFILE) + '\.aws');
+end;
+
+function ExecAWSCli(aCommandLine: String): Integer;
+begin
+  Result := 0;
 end;
 
 
