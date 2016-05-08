@@ -13,7 +13,7 @@ type
      destructor Destroy; override;
 
      procedure WriteString(const aFilename: string;const aSection: string; const aKey: String; const aValue: String);
-     function ReadString(const aFilename: string;const aSection: string; const aKey: String; const aDefault: string): String;
+     function ReadString(const aFilename: string;const aSection: string; const aKey: String): String;
      function DeleteSection(const aFilename: string;const aSection: string) : Boolean;
      function DeleteKey(const aFilename: string;const aSection: string; const aKey: string): boolean;
 
@@ -62,7 +62,7 @@ begin
   End;
 end;
 
-function TAPI_IniFile.ReadString(const aFilename: string;const aSection: string; const aKey: String; const aDefault: string): String;
+function TAPI_IniFile.ReadString(const aFilename: string;const aSection: string; const aKey: String): String;
 var
   foIniFile: TIniFile;
 begin
@@ -77,7 +77,7 @@ begin
     Try
       foIniFile:= TIniFile.Create(aFilename);
 
-      Result := foIniFile.ReadString(aSection, aKey, aDefault)
+      Result := foIniFile.ReadString(aSection, aKey, '')
     Except
       oMessagesLog.InternalError;
     End;

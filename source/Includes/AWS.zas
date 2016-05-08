@@ -35,16 +35,16 @@ begin
     end;
 
   fsaws_access_key_id := IniFile.ReadString(GetAWSCliConfigPath + aws_credentials,
-                                'default', 'aws_access_key_id', '');
+                                'default', 'aws_access_key_id');
   fsaws_secret_access_key := IniFile.ReadString(GetAWSCliConfigPath + aws_credentials,
-                                'default', 'aws_secret_access_key', '');
+                                'default', 'aws_secret_access_key');
 
 
   // Config
   if File.Exists(GetAWSCliConfigPath + aws_config) then
     begin
       fsaws_region := IniFile.ReadString(GetAWSCliConfigPath + aws_config,
-                                'default', 'region', '');
+                                'default', 'region');
 
     end;
 

@@ -1,7 +1,7 @@
 uses AWS;
 
 begin
-  if IsAWSCliConfigured then
+  if not IsAWSCliConfigured then
     begin
 
 

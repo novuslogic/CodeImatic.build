@@ -43,8 +43,8 @@ implementation
 
 uses
    APIBase
-  ,Registry
   ,MessagesLog
+  ,IniFiles
   ,API_IniFile
   ;
  
@@ -62,7 +62,7 @@ begin
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_IniFile') do
   begin
     RegisterMethod('Procedure WriteString( const aFilename : string; const aSection : string; const aKey : String; const aValue : String)');
-    RegisterMethod('Function ReadString( const aFilename : string; const aSection : string; const aKey : String; const aDefault : string) : String');
+    RegisterMethod('Function ReadString( const aFilename : string; const aSection : string; const aKey : String) : String');
     RegisterMethod('Function DeleteSection( const aFilename : string; const aSection : string) : Boolean');
     RegisterMethod('Function DeleteKey( const aFilename : string; const aSection : string; const aKey : string) : boolean');
   end;
