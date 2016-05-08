@@ -4,6 +4,7 @@ interface
 
 Const
   aws_credentials = 'credentials';
+  aws_config = 'config';
 
 
 function IsAWSCliConfigured: Boolean;
@@ -14,6 +15,8 @@ implementation
 function IsAWSCliConfigured: Boolean;
 Var
   fsaws_access_key_id: String;
+  fsaws_secret_access_key: String;
+  fsaws_region: String;
 begin
   Result := False;
 
@@ -31,14 +34,23 @@ begin
       Exit;
     end;
 
-  fsaws_access_key_id := IniFile.ReadString(GetAWSCliConfigPath + aws_credentials, 'default', 'aws_access_key_id', '');
+  fsaws_access_key_id := IniFile.ReadString(GetAWSCliConfigPath + aws_credentials,
+                                'default', 'aws_access_key_id', '');
+  fsaws_secret_access_key := IniFile.ReadString(GetAWSCliConfigPath + aws_credentials,
+                                'default', 'aws_secret_access_key', '');
 
 
+  // Config
+  if File.Exists(GetAWSCliConfigPath + aws_config) then
+    begin
+      fsaws_region := IniFile.ReadString(GetAWSCliConfigPath + aws_config,
+                                'default', 'region', '');
 
-  MessagesLog.log(fsaws_access_key_id);
+    end;
 
+  if (Trim(fsaws_access_key_id) <> '') or (Trim(fsaws_secret_access_key) <> '') then
+    Result := true;
 
-  result := False;
 end;
 
 function GetAWSCliConfigPath: String;
