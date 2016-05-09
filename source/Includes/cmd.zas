@@ -14,7 +14,7 @@ begin
   Result := 0;
 
   try
-    Shell.RunRedirectCommand('cmd.exe /C ' + aCommandLine, '', fsOutput,fsError );
+    Result := Shell.RunRedirectCommand('cmd.exe /C ' + aCommandLine, '', fsOutput,fsError );
   except
     Messageslog.LogError;
   end;

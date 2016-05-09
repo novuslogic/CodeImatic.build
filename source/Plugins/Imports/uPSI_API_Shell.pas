@@ -60,9 +60,9 @@ begin
   //with RegClassS(CL,'TAPIBase', 'TAPI_Shell') do
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_Shell') do
   begin
-    RegisterMethod('Function RunRedirectCommand( const aCommandLine : string; const aInput : string; var aOutput, aError : string) : boolean');
-    RegisterMethod('Function RunCommandSilent( const aFilename : String; const aDirectory : string; const aParameters : String) : Boolean');
-    RegisterMethod('Function RunCommand( const aFilename : String; const aDirectory : string; const aParameters : String) : Boolean');
+    RegisterMethod('Function RunRedirectCommand( const aCommandLine : string; const aInput : string; var aOutput, aError : string) : Integer');
+    RegisterMethod('Function RunCommandSilent( const aFilename : String; const aDirectory : string; const aParameters : String) : Integer');
+    RegisterMethod('Function RunCommand( const aFilename : String; const aDirectory : string; const aParameters : String) : Integer');
   end;
 end;
 

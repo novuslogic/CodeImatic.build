@@ -12,15 +12,15 @@ type
      function RunRedirectCommand(const aCommandLine: string;
                                 const aInput: string;
                                 var aOutput,
-                                aError: string): boolean;
+                                aError: string): Integer;
 
      function RunCommandSilent(const aFilename: String;
                         const aDirectory: string;
-                        const aParameters: String): Boolean;
+                        const aParameters: String): Integer;
 
      function RunCommand(const aFilename: String;
                         const aDirectory: string;
-                        const aParameters: String): Boolean;
+                        const aParameters: String): Integer;
    end;
 
 implementation
@@ -28,7 +28,7 @@ implementation
 
 function TAPI_Shell.RunCommandSilent(const aFilename: String;
                         const aDirectory: string;
-                        const aParameters: String): Boolean;
+                        const aParameters: String): Integer;
 Var
   loShell: TNovusShell;
 begin
@@ -36,14 +36,9 @@ begin
     Try
       loShell := TNovusShell.Create;
 
-      if not loShell.RunCommandSilent(aFilename,
+      Result := loShell.RunCommandSilent(aFilename,
                         aDirectory,
-                        aParameters) then
-        begin
-          Result := False;
-        end
-      else
-        Result := True;
+                        aParameters) ;
     Except
       oMessagesLog.InternalError;
      End;
@@ -55,7 +50,7 @@ end;
 
 function TAPI_Shell.RunCommand(const aFilename: String;
                         const aDirectory: string;
-                        const aParameters: String): Boolean;
+                        const aParameters: String): Integer;
 Var
   loShell: TNovusShell;
 begin
@@ -63,14 +58,9 @@ begin
     Try
       loShell := TNovusShell.Create;
 
-      if not loShell.RunCommand(aFilename,
+      Result := loShell.RunCommand(aFilename,
                         aDirectory,
-                        aParameters) then
-        begin
-          Result := False;
-        end
-      else
-        Result := True;
+                        aParameters);
     Except
       oMessagesLog.InternalError;
      End;
@@ -83,7 +73,7 @@ end;
 function TAPI_Shell.RunRedirectCommand(const aCommandLine: string;
                                 const aInput: string;
                                 var aOutput,
-                                aError: string): boolean;
+                                aError: string): Integer;
 Var
   loShell: TNovusShell;
 begin
@@ -91,15 +81,11 @@ begin
     Try
       loShell := TNovusShell.Create;
 
-      if not loShell.RunRedirectCommand(aCommandLine,
+      result := loShell.RunRedirectCommand(aCommandLine,
                                 aInput,
                                 aOutput,
-                                aError) then
-        begin
-          Result := False;
-        end
-      else
-        Result := True;
+                                aError);
+
     Except
       oMessagesLog.InternalError;
      End;

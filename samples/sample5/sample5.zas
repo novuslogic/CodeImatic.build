@@ -1,17 +1,11 @@
 uses AWS;
 
+var
+  liExitCode: Integer;
+
 begin
-  if IsAWSCliConfigured then
-    begin
-      ExecAWSCli('aws');
+  liExitCode := ExecAWSCli('');
 
-
-
-
-
-
-    end
-  else
+  if liExitCode = -1 then
     MessagesLog.log('AWSCli not configured');
-
 end.

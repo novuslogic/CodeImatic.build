@@ -2,6 +2,8 @@ unit AWS;
 
 interface
 
+Uses cmd;
+
 Const
   aws_credentials = 'credentials';
   aws_config = 'config';
@@ -9,8 +11,6 @@ Const
 function IsAWSCliConfigured: Boolean;
 function GetAWSCliConfigPath: String;
 function ExecAWSCli(aCommandLine: String): Integer;
-
-Uses cmd;
 
 implementation
 
@@ -62,7 +62,11 @@ end;
 
 function ExecAWSCli(aCommandLine: String): Integer;
 begin
-  Result := 0;
+  Result := -1;
+
+  if Not IsAWSCliConfigured then Exit;
+
+  Result := ExecCMD('aws ' + aCommandLine);
 end;
 
 
