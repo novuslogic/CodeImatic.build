@@ -4,7 +4,9 @@ var
   liExitCode: Integer;
 
 begin
-  liExitCode := ExecAWSCli('');
+  liExitCode := ExecAWSCli('s3 ls elasticbeanstalk-ap-southeast-2-283174920493');
+
+  MessagesLog.log('Exit Code' + IntToStr(liExitCode));
 
   if liExitCode = -1 then
     MessagesLog.log('AWSCli not configured');

@@ -10,7 +10,7 @@ begin
   fsInput := 'Dir'+CRLF+'Exit'+CRLF;
 
   try
-    Shell.RunRedirectCommand('cmd.exe', fsInput, fsOutput,fsError );
+    Shell.RunCaptureCommand('cmd.exe', fsInput, fsOutput,fsError );
   except
     Messageslog.LogError;
   end;

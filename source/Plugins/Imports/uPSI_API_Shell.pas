@@ -60,7 +60,7 @@ begin
   //with RegClassS(CL,'TAPIBase', 'TAPI_Shell') do
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_Shell') do
   begin
-    RegisterMethod('Function RunRedirectCommand( const aCommandLine : string; const aInput : string; var aOutput, aError : string) : Integer');
+    RegisterMethod('Function RunCaptureCommand( const aCommandLine : string; var aOutput : string) : Integer');
     RegisterMethod('Function RunCommandSilent( const aFilename : String; const aDirectory : string; const aParameters : String) : Integer');
     RegisterMethod('Function RunCommand( const aFilename : String; const aDirectory : string; const aParameters : String) : Integer');
   end;
@@ -78,7 +78,7 @@ procedure RIRegister_TAPI_Shell(CL: TPSRuntimeClassImporter);
 begin
   with CL.Add(TAPI_Shell) do
   begin
-    RegisterMethod(@TAPI_Shell.RunRedirectCommand, 'RunRedirectCommand');
+    RegisterMethod(@TAPI_Shell.RunCaptureCommand, 'RunCaptureCommand');
     RegisterMethod(@TAPI_Shell.RunCommandSilent, 'RunCommandSilent');
     RegisterMethod(@TAPI_Shell.RunCommand, 'RunCommand');
   end;

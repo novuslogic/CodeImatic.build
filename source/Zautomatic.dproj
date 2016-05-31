@@ -82,6 +82,9 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <DCC_ConsoleTarget>true</DCC_ConsoleTarget>
         <DCC_UsePackage>DBXInterBaseDriver;DataSnapServer;DataSnapCommon;DataAbstract_SpiderMonkeyScripting_D18;DbxCommonDriver;DataAbstract_SQLiteDriver_D18;vclimg;dbxcds;DatasnapConnectorsFreePascal;vcldb;Hydra_FMX_D18;CustomIPTransport;dsnap;IndyIPServer;IndyCore;CloudService;FmxTeeUI;RemObjects_Indy_D18;NovusCodeLibrary_Core_D18;bindcompfmx;dbrtl;bindcomp;inetdb;SqlDir180;DBXOdbcDriver;xmlrtl;ibxpress;vclactnband;bindengine;soaprtl;FMXTee;bindcompvcl;vclie;DBXInformixDriver;Intraweb;dsnapcon;DBXFirebirdDriver;inet;vclx;DBXSybaseASADriver;dbexpress;IndyIPClient;DataAbstract_DBXDriver_Pro_D18;ZComponent;DBXSqliteDriver;fmx;IndySystem;TeeDB;vclib;DataSnapClient;RemObjects_WebBroker_D18;DataSnapProviderClient;DBXSybaseASEDriver;RemObjects_Synapse_D18;MetropolisUILiveTile;vcldsnap;DBXDb2Driver;DBXOracleDriver;DataAbstract_DBXDriver_Enterprise_D18;vclribbon;fmxase;vcl;IndyIPCommon;DBXMSSQLDriver;inetdbxpress;webdsnap;adortl;tmsdXE4;ZDbc;rtl;DbxClientDriver;ZPlain;Tee;DelphiXE4_RestApi;Hydra_Core_D18;IndyProtocols;DBXMySQLDriver;bindcompdbx;TeeUI;ZCore;vcltouch;tmsexdXE4;VclSmp;DataSnapConnectors;tmsxlsdXE4;fmxobj;Hydra_VCL_D18;ZParseSql;fmxdae;DataSnapIndy10ServerTransport;$(DCC_UsePackage)</DCC_UsePackage>
     </PropertyGroup>

@@ -3,8 +3,26 @@ unit cmd;
 interface
 
 function ExecCMD(aCommandLine: String): Integer;
+function Exec(aCommandLine: String): Integer;
 
 implementation
+
+
+function Exec(aCommandLine: String): Integer;
+var
+  fsOutput: string;
+begin
+  Result := 0;
+
+  try
+    Result := Shell.RunCaptureCommand(aCommandLine, fsOutput);
+  except
+    Messageslog.LogError;
+  end;
+
+  MessagesLog.log(fsOutput);
+end;
+
 
 function ExecCMD(aCommandLine: String): Integer;
 var
@@ -14,7 +32,7 @@ begin
   Result := 0;
 
   try
-    Result := Shell.RunRedirectCommand('cmd.exe /C ' + aCommandLine, '', fsOutput,fsError );
+    Result := Shell.RunCaptureCommand('cmd.exe /C ' + aCommandLine, fsOutput);
   except
     Messageslog.LogError;
   end;
