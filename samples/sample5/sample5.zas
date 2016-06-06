@@ -1,13 +1,18 @@
 uses AWS;
 
-var
-  liExitCode: Integer;
-
 begin
-  liExitCode := ExecAWSCli('s3 ls elasticbeanstalk-ap-southeast-2-283174920493');
+  MessagesLog.log('AWSCLI Config Path: ' +  GetAWSCliConfigPath);
 
-  MessagesLog.log('Exit Code' + IntToStr(liExitCode));
+  Messageslog.Log('aws_access_key_id');
+  ExecAWSCli('configure get aws_access_key_id');
 
-  if liExitCode = -1 then
-    MessagesLog.log('AWSCli not configured');
+  Messageslog.Log('aws_secret_access_key');
+  ExecAWSCli('configure get aws_secret_access_key');
+
+  Messageslog.Log('region');
+  ExecAWSCli('configure get region');
+
+
+  Messageslog.Log('AWSCli version');
+  ExecAWSCli('--version');
 end.

@@ -27,7 +27,6 @@ end;
 function ExecCMD(aCommandLine: String): Integer;
 var
   fsOutput: string;
-  fsError: string;
 begin
   Result := 0;
 
@@ -38,7 +37,6 @@ begin
   end;
 
   MessagesLog.log(fsOutput);
-  MessagesLog.log(fsError);
 end;
 
 end.
