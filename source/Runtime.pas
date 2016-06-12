@@ -3,7 +3,7 @@ unit Runtime;
 interface
 
 Uses Project, MessagesLog, Config, NovusVersionUtils, System.SysUtils,
-     uPSRuntime,  Plugins ;
+     uPSRuntime,  Plugins, dialogs ;
 
 type
    tRuntime = class
@@ -49,6 +49,9 @@ begin
 
   foProject.LoadProjectFile(oConfig.ProjectFileName, oConfig.ProjectConfigFileName);
 
+
+  if foProject.MessageslogPath = '' then foProject.MessageslogPath := foProject.GetWorkingdirectory;
+
   FoMessagesLog := tMessagesLog.Create(foProject.MessageslogPath + oConfig.MessageslogFile, foProject.OutputConsole);
 
   FoMessagesLog.OpenLog(true);
@@ -65,9 +68,14 @@ begin
   FoMessagesLog.WriteLog('Zautomatic - © Copyright Novuslogic Software 2016 All Rights Reserved');
   FoMessagesLog.WriteLog('Version: ' + TNovusVersionUtils.GetFullVersionNumber);
 
+
+
   FoMessagesLog.WriteLog('Project:' + foProject.ProjectFileName);
   if (foProject.oProjectConfig.ProjectConfigFileName <> '') then
     FoMessagesLog.WriteLog('Projectconfig:' + foProject.oProjectConfig.ProjectConfigFileName);
+
+  FoMessagesLog.WriteLog('Messagelog file: ' + FoMessagesLog.Filename);
+
 
   FImp := TPSRuntimeClassImporter.Create;
   foPlugins := TPlugins.Create(FoMessagesLog, FImp);

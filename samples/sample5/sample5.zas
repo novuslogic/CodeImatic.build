@@ -12,7 +12,6 @@ begin
   Messageslog.Log('region');
   ExecAWSCli('configure get region');
 
-
   Messageslog.Log('AWSCli version');
   ExecAWSCli('--version');
 end.

@@ -100,7 +100,7 @@
         <BRCC_Defines>PS_USESSUPPORT;$(BRCC_Defines)</BRCC_Defines>
         <VerInfo_AutoGenVersion>true</VerInfo_AutoGenVersion>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <Debugger_RunParams>-project D:\Projects\Zautomatic\samples\sample5\sample5.zap -projectconfig D:\Projects\Zautomatic\samples\sample5\sample5.zapconfig </Debugger_RunParams>
+        <Debugger_RunParams>-project D:\Projects\adamjonston.me\Deploy\adamjohnstonme.zap -projectconfig D:\Projects\adamjonston.me\Deploy\adamjohnstonme.zapconfig</Debugger_RunParams>
         <DCC_Namespace>VCL;$(DCC_Namespace)</DCC_Namespace>
         <DCC_ExeOutput>..\build</DCC_ExeOutput>
         <Manifest_File>None</Manifest_File>
@@ -156,6 +156,9 @@
         <DCCReference Include="Plugins\API\API_File.pas"/>
         <DCCReference Include="Plugins\Plugin_File.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_API_File.pas"/>
+        <DCCReference Include="Plugins\Imports\uPSI_ExtraClasses.pas"/>
+        <DCCReference Include="Plugins\ExtraClasses\JSON.pas"/>
+        <DCCReference Include="Plugins\Imports\uPSR_ExtraClasses.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

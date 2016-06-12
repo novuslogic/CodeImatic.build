@@ -3,7 +3,8 @@ unit Plugin_Commands;
 interface
 
 uses Classes,runtime, Plugin,  uPSCompiler, uPSI_MessagesLog, PluginsMapFactory,
-     uPSC_classes,  uPSC_std, uPSRuntime, uPSR_std, uPSR_classes, SysUtils;
+     uPSC_classes,  uPSC_std, uPSRuntime, uPSR_std, uPSR_classes, SysUtils,
+     uPSI_ExtraClasses, uPSR_ExtraClasses;
 
 type
   tPlugin_Commands = class(Tplugin)
@@ -29,6 +30,8 @@ begin
 
   SIRegister_Std(aCompiler);
   SIRegister_Classes(aCompiler, True);
+  SIRegister_ExtraClasses(aCompiler);
+
 
   TPSPascalCompiler(aCompiler).AddFunction('procedure Writeln(s: string);');
   TPSPascalCompiler(aCompiler).AddFunction('function wd():string;');
@@ -55,6 +58,8 @@ procedure tPlugin_Commands.RegisterImport;
 begin
   RIRegister_Std(FImp);
   RIRegister_Classes(FImp, True);
+  RIRegister_ExtraClasses(FImp);
+
 end;
 
 function CommandWriteln(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
@@ -78,14 +83,11 @@ begin
   if Global = nil then begin result := false; exit; end;
   PStart := Stack.Count - 1;
 
-  lsWorkingdirectory :=  IncludeTrailingPathDelimiter(oRuntime.oProject.oProjectConfig.workingdirectory);
-  if (Not DirectoryExists(lsWorkingdirectory))  or (Trim(lsWorkingdirectory) = '') then
-    lsWorkingdirectory := IncludeTrailingPathDelimiter(ExtractFilePath(oRuntime.oProject.ProjectFileName));
+  lsWorkingdirectory := oRuntime.oProject.GetWorkingdirectory;
 
   Stack.SetString(PStart,lsWorkingdirectory);
 
   Result := True;
-
 end;
 
 function CommandCRF(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;

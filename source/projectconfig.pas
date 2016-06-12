@@ -59,8 +59,14 @@ begin
 end;
 
 function  TProjectConfig.GetWorkingdirectory: String;
+var
+  lsworkingdirectory: string;
 begin
-  Result := TNovusStringUtils.TrailingBackSlash(Getproperty('workingdirectory'));
+  lsworkingdirectory := Trim(Getproperty('workingdirectory'));
+
+  Result := '';
+  if lsworkingdirectory  <> ''then
+     Result := IncludeTrailingPathDelimiter(lsworkingdirectory);
 end;
 
 

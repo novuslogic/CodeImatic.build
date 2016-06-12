@@ -2,15 +2,18 @@ unit AWS;
 
 interface
 
-Uses cmd;
+Uses cmd, stringutils;
 
 Const
   aws_credentials = 'credentials';
   aws_config = 'config';
+  aws_S3Bucket = '"S3Bucket": "';
 
+function ExecAWSCliEx(aCommandLine: String; var aOutput: String): Integer;
 function IsAWSCliConfigured: Boolean;
 function GetAWSCliConfigPath: String;
 function ExecAWSCli(aCommandLine: String): Integer;
+function GetAWSCliElasticbeanstalkLastS3Bucket(aapplicationname: string;var aLastS3Bucket: String): Integer;
 
 implementation
 
@@ -68,6 +71,41 @@ begin
 
   Result := ExecCMD('aws ' + aCommandLine);
 end;
+  
+function GetAWSCliElasticbeanstalkLastS3Bucket(aapplicationname: string;var aLastS3Bucket: String): Integer;
+var 
+  lsdescribe: String;
+  liPos: INteger;
+  LJSON: TJSON;
+begin
+  aLastS3Bucket := '';
+  lsdescribe := '';
 
+  Result :=ExecAWSCliEx('elasticbeanstalk describe-application-versions --application-name "' + aapplicationname + '"' ,lsdescribe );
+  if result= 0 then
+     begin
+       LJSON:= TJSON.Create;
+
+
+       //liPos := CompareText(lsdescribe, aws_S3Bucket);
+
+      // aLastS3Bucket := ExtractTextPos(lsdescribe, liPos, '"');
+
+       
+
+
+        Messageslog.Log(IntToStr(LiPos));
+        Messageslog.Log(lsdescribe);
+     end;
+end;
+
+function ExecAWSCliEx(aCommandLine: String; var aOutput: String): Integer;
+begin
+  Result := -1;
+
+  if Not IsAWSCliConfigured then Exit;
+
+  Result := ExecCMDEx('aws ' + aCommandLine, aOutput);
+end;
 
 end.

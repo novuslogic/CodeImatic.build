@@ -3,7 +3,7 @@ unit Project;
 interface
 
 Uses NovusXMLBO, Classes, SysUtils, NovusStringUtils, NovusBO, NovusList,
-     JvSimpleXml, NovusSimpleXML, XMLlist, ProjectConfig;
+     JvSimpleXml, NovusSimpleXML, XMLlist, ProjectConfig, Dialogs, NovusFileUtils ;
 
 Type
   TProjectItem = class(TNovusBO)
@@ -37,6 +37,8 @@ Type
     function GetMessageslogPath: String;
     function GetOutputConsole: Boolean;
     function GetCreateoutputdir: Boolean;
+
+    function GetWorkingdirectory: String;
 
     procedure LoadProjectFile(aProjectFilename: String; aProjectConfigFilename: String);
     function LoadProjectItem(aItemName: String; aProjectItem: TProjectItem): Boolean;
@@ -110,11 +112,35 @@ begin
   end;
 end;
 
+function TProject.GetWorkingdirectory: String;
+var
+  lsWorkingdirectory: String;
+begin
+  Result := '';
+
+  lsWorkingdirectory := Trim(foProjectConfig.workingdirectory);
+
+  if lsWorkingdirectory <> '' then
+    lsWorkingdirectory :=  IncludeTrailingPathDelimiter(foProjectConfig.workingdirectory);
+
+  if (Not DirectoryExists(lsWorkingdirectory))  or (Trim(lsWorkingdirectory) = '') then
+    lsWorkingdirectory := IncludeTrailingPathDelimiter(TNovusFileUtils.AbsoluteFilePath(ProjectFileName));
+
+  result := lsWorkingdirectory;
+end;
 
 function TProject.GetMessageslogPath: String;
+Var
+  lsmessageslogpath: String;
 begin
-  Result := TNovusStringUtils.TrailingBackSlash(GetFieldAsString(oXMLDocument.Root, 'messageslogpath'));
+  lsmessageslogpath := Trim(GetFieldAsString(oXMLDocument.Root, 'messageslogpath'));
+
+  if lsmessageslogpath <> '' then
+    Result := TNovusStringUtils.TrailingBackSlash(lsmessageslogpath);
 end;
+
+
+
 
 function TProject.GetOutputConsole: Boolean;
 begin
