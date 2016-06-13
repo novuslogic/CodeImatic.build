@@ -20,6 +20,8 @@ begin
   with Cl.Add(TJSON) do
   begin
     RegisterConstructor(@TJSON.CREATE, 'CREATE');
+    RegisterMethod(@TJSON.ToString, 'TOSTRING');
+    RegisterMethod(@TJSON.ParseJSONString, 'PARSEJSONSTRING');
     (*
     RegisterMethod(@TPARSER.CHECKTOKEN, 'CHECKTOKEN');
     RegisterMethod(@TPARSER.CHECKTOKENSYMBOL, 'CHECKTOKENSYMBOL');

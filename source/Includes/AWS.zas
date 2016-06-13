@@ -84,18 +84,21 @@ begin
   Result :=ExecAWSCliEx('elasticbeanstalk describe-application-versions --application-name "' + aapplicationname + '"' ,lsdescribe );
   if result= 0 then
      begin
-       LJSON:= TJSON.Create;
+
+       Try
+         LJSON:= TJSON.Create;
+
+         LJSON.ParseJSONString(lsdescribe);
+
+         Messageslog.Log(LJSON.ToString);
+
+       Finally
+         LJSON.Free;
+       End;  
 
 
-       //liPos := CompareText(lsdescribe, aws_S3Bucket);
 
-      // aLastS3Bucket := ExtractTextPos(lsdescribe, liPos, '"');
-
-       
-
-
-        Messageslog.Log(IntToStr(LiPos));
-        Messageslog.Log(lsdescribe);
+        
      end;
 end;
 

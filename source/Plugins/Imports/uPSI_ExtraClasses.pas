@@ -15,8 +15,9 @@ procedure SIRegisterTJSON(Cl: TPSPascalCompiler);
 begin
   with Cl.AddClassN(cl.FindClass('TPersistent'), 'TJSON') do
   begin
-     RegisterMethod('constructor Create;');
-
+    RegisterMethod('constructor Create;');
+    RegisterMethod('function ToString: String;');
+    RegisterMethod('procedure ParseJSONString(aJSONString: String);');
   end;
 end;
 
