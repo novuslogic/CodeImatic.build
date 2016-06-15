@@ -1,13 +1,13 @@
 unit uPSR_ExtraClasses;
 
-{$I PascalScript.inc}
 interface
 uses
-  uPSRuntime, uPSUtils, JSON;
+  uPSRuntime, uPSUtils, JSONParser;
 
 
 
 procedure RIRegisterTJSON(Cl: TPSRuntimeClassImporter);
+procedure RIRegisterTJSONParser(Cl: TPSRuntimeClassImporter);
 
 procedure RIRegister_ExtraClasses(Cl: TPSRuntimeClassImporter);
 
@@ -20,8 +20,19 @@ begin
   with Cl.Add(TJSON) do
   begin
     RegisterConstructor(@TJSON.CREATE, 'CREATE');
-    RegisterMethod(@TJSON.ToString, 'TOSTRING');
-    RegisterMethod(@TJSON.ParseJSONString, 'PARSEJSONSTRING');
+  end;
+end;
+
+
+procedure RIRegisterTJSONParser(Cl: TPSRuntimeClassImporter);
+begin
+  with Cl.Add(TJSONParser) do
+  begin
+    RegisterConstructor(@TJSONParser.CREATE, 'CREATE');
+    RegisterMethod(@TJSONParser.ToString, 'TOSTRING');
+    RegisterMethod(@TJSONParser.ParseJSONString, 'PARSEJSONSTRING');
+    RegisterMethod(@TJSONParser.GetValue, 'GETVALUE');
+
     (*
     RegisterMethod(@TPARSER.CHECKTOKEN, 'CHECKTOKEN');
     RegisterMethod(@TPARSER.CHECKTOKENSYMBOL, 'CHECKTOKENSYMBOL');
@@ -44,6 +55,7 @@ end;
 procedure RIRegister_ExtraClasses(Cl: TPSRuntimeClassImporter);
 begin
   RIRegisterTJSON(Cl);
+  RIRegisterTJSONParser(Cl);
 end;
 
 end.

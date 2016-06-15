@@ -75,7 +75,7 @@ end;
 function GetAWSCliElasticbeanstalkLastS3Bucket(aapplicationname: string;var aLastS3Bucket: String): Integer;
 var 
   lsdescribe: String;
-  liPos: INteger;
+  LJSONParser: TJSONParser;
   LJSON: TJSON;
 begin
   aLastS3Bucket := '';
@@ -86,14 +86,17 @@ begin
      begin
 
        Try
-         LJSON:= TJSON.Create;
+         LJSONParser:= TJSONParser.Create;
 
-         LJSON.ParseJSONString(lsdescribe);
+         LJSONParser.ParseJSONString(lsdescribe);
 
-         Messageslog.Log(LJSON.ToString);
+         LJSON := LJSONParser.GetValue('S3Bucket');
+
+        // Messageslog.Log(LJSON.GetValue('"S3Bucket"'));
 
        Finally
-         LJSON.Free;
+         if assigned(LJSON) then LJSON.Free;
+         LJSONParser.Free;
        End;  
 
 

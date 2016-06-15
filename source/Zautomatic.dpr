@@ -45,7 +45,7 @@ uses
   Plugin_File in 'Plugins\Plugin_File.pas',
   uPSI_API_File in 'Plugins\Imports\uPSI_API_File.pas',
   uPSI_ExtraClasses in 'Plugins\Imports\uPSI_ExtraClasses.pas',
-  JSON in 'Plugins\ExtraClasses\JSON.pas',
+  JSONParser in 'Plugins\ExtraClasses\JSONParser.pas',
   uPSR_ExtraClasses in 'Plugins\Imports\uPSR_ExtraClasses.pas';
 
 begin

@@ -157,7 +157,7 @@
         <DCCReference Include="Plugins\Plugin_File.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_API_File.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_ExtraClasses.pas"/>
-        <DCCReference Include="Plugins\ExtraClasses\JSON.pas"/>
+        <DCCReference Include="Plugins\ExtraClasses\JSONParser.pas"/>
         <DCCReference Include="Plugins\Imports\uPSR_ExtraClasses.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
