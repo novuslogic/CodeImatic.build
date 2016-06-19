@@ -46,7 +46,10 @@ uses
   uPSI_API_File in 'Plugins\Imports\uPSI_API_File.pas',
   uPSI_ExtraClasses in 'Plugins\Imports\uPSI_ExtraClasses.pas',
   JSONParser in 'Plugins\ExtraClasses\JSONParser.pas',
-  uPSR_ExtraClasses in 'Plugins\Imports\uPSR_ExtraClasses.pas';
+  uPSR_ExtraClasses in 'Plugins\Imports\uPSR_ExtraClasses.pas',
+  Plugin_RegEx in 'Plugins\Plugin_RegEx.pas',
+  API_RegEx in 'Plugins\API\API_RegEx.pas',
+  uPSI_API_RegEx in 'Plugins\Imports\uPSI_API_RegEx.pas';
 
 begin
   oConfig.LoadConfig;

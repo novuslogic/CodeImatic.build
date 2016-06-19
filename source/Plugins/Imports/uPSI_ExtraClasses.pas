@@ -15,6 +15,7 @@ begin
   with Cl.AddClassN(cl.FindClass('TPersistent'), 'TJSON') do
   begin
     RegisterMethod('constructor Create;');
+    RegisterMethod('function IsJSONArray: Boolean;');
   end;
 end;
 

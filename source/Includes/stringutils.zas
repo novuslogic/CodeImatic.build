@@ -3,7 +3,7 @@ unit stringutils;
 interface
 
 function ExtractText(const aStr: string; const aDelim1, aDelim2: char): string;
-function ExtractTextPos(const aStr: string; const aPos: Integer; aDelim2: char): string;
+function ExtractTextPos(const aStr: string; const aPos: Integer; aDelim: char): string;
 
 implementation
 
@@ -18,15 +18,20 @@ begin
     result := Copy(aStr, pos1 + 1, pos2 - pos1 - 1);
 end;
 
-function ExtractTextPos(const aStr: string; const aPos: Integer; aDelim2: char): string;
+function ExtractTextPos(const aStr: string; const aPos: Integer; aDelim: char): string;
 var
   pos1, pos2: integer;
+  lsDelim: String;
 begin
   result := '';
+  
   pos1 := apos;
-  pos2 := Pos(aDelim2, aStr);
-  if (pos1 > 0) and (pos2 > pos1) then
-    result := Copy(aStr, pos1 + 1, pos2 - pos1 - 1);
+  
+  lsDelim := Copy(aStr, Pos1, Length(aStr));
+  
+  Pos2 := Pos(aDelim, lsDelim);
+  if (pos2 > 0) then 
+     Result := Copy(lsDelim, 1, Pos2 - 1);
 end;
 
 

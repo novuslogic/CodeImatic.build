@@ -8,14 +8,17 @@ type
   TJSON = class(TPersistent)
   private
   protected
-    FJSONValue: TJSONValue;
+    FJSONPair: TJSONPair;
+
   public
     constructor Create;
     destructor Destroy; override;
 
-    property oJSONValue: TJSONValue
-      read FJSONValue
-      write FJSONValue;
+    function IsJSONArray: Boolean;
+
+    property oJSONPair: TJSONPair
+      read FJSONPair
+      write FJSONPair;
   end;
 
 
@@ -61,7 +64,7 @@ begin
   if Assigned(lJSONPair) then
     begin
       Result := TJSON.Create;
-      Result.oJSONValue := lJSONPair.JsonValue;
+      Result.oJSONPair := lJSONPair;
     end;
 end;
 
@@ -82,13 +85,20 @@ end;
 
 constructor TJSON.Create;
 begin
-  FJSONValue := TJSONValue.Create;
+//
 end;
 
 destructor TJSON.Destroy;
 begin
-  if Assigned(FJSONValue) then
-    FJSONValue.Free;
+//
+end;
+
+function TJSON.IsJSONArray: Boolean;
+begin
+  result := False;
+  if not Assigned(FJSONPair) then Exit;
+
+  result := (FJSONPair.JsonValue is TJSONArray);
 end;
 
 

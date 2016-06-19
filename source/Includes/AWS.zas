@@ -7,7 +7,8 @@ Uses cmd, stringutils;
 Const
   aws_credentials = 'credentials';
   aws_config = 'config';
-  aws_S3Bucket = '"S3Bucket": "';
+  aws_S3Bucket = 'S3Bucket';
+  aws_json = '": "';
 
 function ExecAWSCliEx(aCommandLine: String; var aOutput: String): Integer;
 function IsAWSCliConfigured: Boolean;
@@ -74,9 +75,8 @@ end;
   
 function GetAWSCliElasticbeanstalkLastS3Bucket(aapplicationname: string;var aLastS3Bucket: String): Integer;
 var 
+  lsLastS3Bucket,
   lsdescribe: String;
-  LJSONParser: TJSONParser;
-  LJSON: TJSON;
 begin
   aLastS3Bucket := '';
   lsdescribe := '';
@@ -84,24 +84,12 @@ begin
   Result :=ExecAWSCliEx('elasticbeanstalk describe-application-versions --application-name "' + aapplicationname + '"' ,lsdescribe );
   if result= 0 then
      begin
-
-       Try
-         LJSONParser:= TJSONParser.Create;
-
-         LJSONParser.ParseJSONString(lsdescribe);
-
-         LJSON := LJSONParser.GetValue('S3Bucket');
-
-        // Messageslog.Log(LJSON.GetValue('"S3Bucket"'));
-
-       Finally
-         if assigned(LJSON) then LJSON.Free;
-         LJSONParser.Free;
-       End;  
-
-
-
-        
+       lsLastS3Bucket := '';
+       
+       if RegEx.Match('"S3Bucket"[ :]+((?=\[)\[[^]]*\]|(?=\{)\{[^\}]*\}|\"[^"]*\")', lsdescribe, lsLastS3Bucket) then
+         begin
+           aLastS3Bucket :=ExtractTextPos(lsLastS3Bucket,pos(aws_json, lsLastS3Bucket)+ length(aws_json), '"');
+         end;
      end;
 end;
 

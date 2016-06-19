@@ -20,6 +20,7 @@ begin
   with Cl.Add(TJSON) do
   begin
     RegisterConstructor(@TJSON.CREATE, 'CREATE');
+    RegisterMethod(@TJSON.IsJSONArray, 'ISJSONARRAY');
   end;
 end;
 
