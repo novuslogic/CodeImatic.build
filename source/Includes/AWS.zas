@@ -15,6 +15,9 @@ function IsAWSCliConfigured: Boolean;
 function GetAWSCliConfigPath: String;
 function ExecAWSCli(aCommandLine: String): Integer;
 function GetAWSCliElasticbeanstalkLastS3Bucket(aapplicationname: string;var aLastS3Bucket: String): Integer;
+function ListAWSCliS3Bucket(aS3Bucket: string; var aS3BucketList: string): Integer;
+function CopyFileAWSCliS3Bucket(aFilename: string; aS3Bucket: string; var aoutput: string): Integer;
+
 
 implementation
 
@@ -64,6 +67,9 @@ begin
   Result := File.IncludeTrailingPathDelimiter(WinAPI.GetSpecialFolder(CSIDL_PROFILE) + '\.aws');
 end;
 
+
+
+
 function ExecAWSCli(aCommandLine: String): Integer;
 begin
   Result := -1;
@@ -92,6 +98,32 @@ begin
          end;
      end;
 end;
+
+function ListAWSCliS3Bucket(aS3Bucket: string; var aS3BucketList: string): Integer;
+begin
+  Result := ExecAWSCliEx('s3 ls "' + aS3Bucket + '"', aS3BucketList); 
+end;
+
+
+function CopyFileAWSCliS3Bucket(aFilename: string; aS3Bucket: string; var aOutput: string): Integer;
+begin
+  Result := -1;
+  
+  if Not File.Exists(aFilename) then
+    begin
+      RaiseException(erCustomError, 'Filename cannot be found ['+ aFilename+'].');
+
+      Exit;
+    end;
+
+
+  Result := ExecAWSCliEx('s3 cp ' + aFilename + ' s3://' + aS3Bucket +'/', aOutput); 
+end;
+
+
+
+
+
 
 function ExecAWSCliEx(aCommandLine: String; var aOutput: String): Integer;
 begin

@@ -20,7 +20,8 @@ type
   function CommandWriteln(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
   function CommandWD(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
   function CommandCRF(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
-
+  function CommandGetLastError(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
+  function CommandSysErrorMessage(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
 
 implementation
 
@@ -36,6 +37,11 @@ begin
   TPSPascalCompiler(aCompiler).AddFunction('procedure Writeln(s: string);');
   TPSPascalCompiler(aCompiler).AddFunction('function wd():string;');
   TPSPascalCompiler(aCompiler).AddFunction('function crlf():string;');
+  TPSPascalCompiler(aCompiler).AddFunction('function crlf():string;');
+  TPSPascalCompiler(aCompiler).AddFunction('function GetLastError():Integer;');
+  TPSPascalCompiler(aCompiler).AddFunction('function SysErrorMessage(ErrorCode: Integer):String;');
+
+  GetLastError
 end;
 
 
@@ -45,6 +51,8 @@ begin
   aExec.RegisterFunctionName('WRITELN', CommandWriteln, nil, nil);
   aExec.RegisterFunctionName('WD', CommandWD, nil, nil);
   aExec.RegisterFunctionName('CRLF', CommandCRF, nil, nil);
+  aExec.RegisterFunctionName('GETLASTERROR', CommandGetLastError, nil, nil);
+  aExec.RegisterFunctionName('SYSERRORMESSAGE', CommandSysErrorMessage, nil, nil);
 end;
 
 
@@ -89,6 +97,31 @@ begin
 
   Result := True;
 end;
+
+function CommandGetLastError(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
+var
+  PStart: Cardinal;
+begin
+  if Global = nil then begin result := false; exit; end;
+  PStart := Stack.Count - 1;
+
+  Stack.SetInt(PStart,GetLastError);
+
+  Result := True;
+end;
+
+function CommandSysErrorMessage(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
+var
+  PStart: Cardinal;
+begin
+  if Global = nil then begin result := false; exit; end;
+  PStart := Stack.Count - 1;
+
+  Stack.SetString(PStart,SysErrorMessage(Stack.GetInt(PStart)));
+
+  Result := True;
+end;
+
 
 function CommandCRF(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
 var
