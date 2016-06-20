@@ -52,7 +52,11 @@ begin
     Try
       TFile.Copy(aSourceFilename, aDestFilename, aOverWrite);
 
+      Result := True;
+
     Except
+      Result := False;
+
       oMessagesLog.InternalError;
     End;
   Finally
@@ -79,7 +83,11 @@ begin
    Try
     Try
       TFile.Delete(aFilename);
+
+      Result := True;
     Except
+      Result := False;
+
       oMessagesLog.InternalError;
     End;
   Finally
@@ -93,7 +101,11 @@ begin
   Try
     Try
       TFile.Move(aSourceFilename,aDestFilename);
+
+      Result := true;
     Except
+      Result := False;
+
       oMessagesLog.InternalError;
     End;
   Finally

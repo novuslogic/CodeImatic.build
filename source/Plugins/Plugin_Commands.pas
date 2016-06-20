@@ -33,15 +33,12 @@ begin
   SIRegister_Classes(aCompiler, True);
   SIRegister_ExtraClasses(aCompiler);
 
-
   TPSPascalCompiler(aCompiler).AddFunction('procedure Writeln(s: string);');
   TPSPascalCompiler(aCompiler).AddFunction('function wd():string;');
   TPSPascalCompiler(aCompiler).AddFunction('function crlf():string;');
   TPSPascalCompiler(aCompiler).AddFunction('function crlf():string;');
   TPSPascalCompiler(aCompiler).AddFunction('function GetLastError():Integer;');
-  TPSPascalCompiler(aCompiler).AddFunction('function SysErrorMessage(ErrorCode: Integer):String;');
-
-  GetLastError
+  TPSPascalCompiler(aCompiler).AddFunction('function SysErrorMessage():String;');
 end;
 
 
@@ -117,7 +114,8 @@ begin
   if Global = nil then begin result := false; exit; end;
   PStart := Stack.Count - 1;
 
-  Stack.SetString(PStart,SysErrorMessage(Stack.GetInt(PStart)));
+
+  Stack.SetString(PStart,SysErrorMessage(GetLastError));
 
   Result := True;
 end;
