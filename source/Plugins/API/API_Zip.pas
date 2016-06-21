@@ -4,7 +4,7 @@ interface
 
 uses Classes, SysUtils, APIBase, uPSRuntime, IOUtils, NovusFileUtils,
      AbZipper, AbArcTyp, AbZBrows, AbMeter, AbBrowse, AbBase, AbUnzper, AbZipKit,
-     AbZipTyp, AbUtils;
+     AbZipTyp, AbUtils, StrUtils ;
 
 type
    TZIPOptions = class(TPersistent)
@@ -109,9 +109,11 @@ begin
   Try
     Try
       loZipFile := tAbZipper.Create(NIL);
-      loZipFile.AutoSave := True;
+      loZipFile.AutoSave := false;
       loZipFile.DOSMode := False;
       loZipFile.CompressionMethodToUse := smBestMethod;
+      loZipFile.DeflationOption := doNormal;
+
 
       if Assigned(aZIPOptions) then
         begin
@@ -120,8 +122,8 @@ begin
         end;
 
       if  FileExists(aZipFilename) then
-         loZipFile.StoreOptions := [soStripDrive, soStripPath, soFreshen, soReplace]
-      else loZipFile.StoreOptions := [soStripDrive, soStripPath];
+         loZipFile.StoreOptions := [soStripDrive,  soFreshen, soReplace, soRemoveDots]
+      else loZipFile.StoreOptions := [soStripDrive, soRemoveDots];
 
       loZipFile.FileName := aZipFilename;
 
@@ -130,7 +132,9 @@ begin
       lsFileMasks := aFileMasks;
       if aFileMasks = '' then lsFileMasks := '*';
 
-      for LsFile in TDirectory.GetFiles(aPath, lsFileMasks, TSearchOption.soAllDirectories, Filter) do
+      loZipFile.BaseDirectory := lsPath;
+
+      for LsFile in TDirectory.GetFiles(lsPath, lsFileMasks, TSearchOption.soAllDirectories, Filter) do
         begin
           {$IFDEF MSWINDOWS}
           LsZFile := StringReplace(Copy(LsFile, Length(LsPath) + 1, Length(LsFile)), '\', '/', [rfReplaceAll]);
@@ -140,7 +144,12 @@ begin
 
           if Not TNovusFileUtils.IsFileInUse(LsFile) then
             begin
-              loZipFile.AddFiles(LsFile, 0 );
+
+              LsZFile := StrUtils.ReplaceStr(LsFile, lsPath, '');
+
+              loZipFile.AddFiles(LsZFile, 0 );
+
+              Result := True;
 
             end
            else
@@ -152,6 +161,9 @@ begin
                Exit;
              end;
       end;
+      oMessagesLog.Log('Saving ' + aZipFilename );
+
+      loZipFile.Save;
     Except
       oMessagesLog.InternalError;
 
