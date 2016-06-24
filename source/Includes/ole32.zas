@@ -1,0 +1,10 @@
+unit ole32;
+
+interface
+
+function CoCreateGuid(var Guid:TGuid):integer; external 'CoCreateGuid@ole32.dll stdcall';
+
+implementation
+
+
+end.

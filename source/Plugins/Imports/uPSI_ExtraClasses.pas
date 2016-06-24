@@ -2,14 +2,16 @@ unit uPSI_ExtraClasses;
 
 interface
 uses
-  uPSCompiler, uPSUtils, JSONParser;
+  uPSCompiler, uPSUtils{, JSONParser};
 
-procedure SIRegisterTJSON(Cl: TPSPascalCompiler);
-procedure SIRegisterTJSONParser(Cl: TPSPascalCompiler);
+
+//procedure SIRegisterTJSON(Cl: TPSPascalCompiler);
+//procedure SIRegisterTJSONParser(Cl: TPSPascalCompiler);
 procedure SIRegister_ExtraClasses(Cl: TPSPascalCompiler);
 
 implementation
 
+(*
 procedure SIRegisterTJSON(Cl: TPSPascalCompiler);
 begin
   with Cl.AddClassN(cl.FindClass('TPersistent'), 'TJSON') do
@@ -18,8 +20,9 @@ begin
     RegisterMethod('function IsJSONArray: Boolean;');
   end;
 end;
+*)
 
-
+(*
 procedure SIRegisterTJSONParser(Cl: TPSPascalCompiler);
 begin
   with Cl.AddClassN(cl.FindClass('TPersistent'), 'TJSONParser') do
@@ -30,12 +33,12 @@ begin
     RegisterMethod('function GetValue(aParName: string): TJSON;');
   end;
 end;
-
+*)
 
 procedure SIRegister_ExtraClasses(Cl: TPSPascalCompiler);
 begin
-  SIRegisterTJSON(Cl);
-  SIRegisterTJSONParser(Cl);
+  //SIRegisterTJSON(Cl);
+  //SIRegisterTJSONParser(Cl);
 end;
 
 end.

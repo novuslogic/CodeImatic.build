@@ -4,7 +4,7 @@ interface
 
 uses Classes,runtime, Plugin,  uPSCompiler, uPSI_MessagesLog, PluginsMapFactory,
      uPSC_classes,  uPSC_std, uPSRuntime, uPSR_std, uPSR_classes, SysUtils,
-     uPSI_ExtraClasses, uPSR_ExtraClasses;
+     uPSI_ExtraClasses, uPSR_ExtraClasses, uPSC_comobj, uPSR_comobj, uPSC_dll, uPSR_dll;
 
 type
   tPlugin_Commands = class(Tplugin)
@@ -31,11 +31,13 @@ begin
 
   SIRegister_Std(aCompiler);
   SIRegister_Classes(aCompiler, True);
+  SIRegister_ComObj(aCompiler);
   SIRegister_ExtraClasses(aCompiler);
+  RegisterDll_Compiletime(aCompiler);
+
 
   TPSPascalCompiler(aCompiler).AddFunction('procedure Writeln(s: string);');
   TPSPascalCompiler(aCompiler).AddFunction('function wd():string;');
-  TPSPascalCompiler(aCompiler).AddFunction('function crlf():string;');
   TPSPascalCompiler(aCompiler).AddFunction('function crlf():string;');
   TPSPascalCompiler(aCompiler).AddFunction('function GetLastError():Integer;');
   TPSPascalCompiler(aCompiler).AddFunction('function SysErrorMessage():String;');
@@ -45,6 +47,12 @@ end;
 procedure tPlugin_Commands.RegisterFunction(aExec: TPSExec);
 begin
   RegisterClassLibraryRuntime(aExec, FImp);
+
+  RegisterDLLRuntime(aExec);
+
+
+  RIRegister_ComObj(aExec);
+
   aExec.RegisterFunctionName('WRITELN', CommandWriteln, nil, nil);
   aExec.RegisterFunctionName('WD', CommandWD, nil, nil);
   aExec.RegisterFunctionName('CRLF', CommandCRF, nil, nil);
@@ -63,8 +71,8 @@ procedure tPlugin_Commands.RegisterImport;
 begin
   RIRegister_Std(FImp);
   RIRegister_Classes(FImp, True);
-  RIRegister_ExtraClasses(FImp);
 
+  RIRegister_ExtraClasses(FImp);
 end;
 
 function CommandWriteln(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;

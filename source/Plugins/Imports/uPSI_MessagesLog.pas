@@ -55,7 +55,7 @@ begin
     RegisterMethod('Procedure Log( AMsg : string)');
     RegisterMethod('Procedure LogError');
  //   RegisterProperty('LastExError', 'TPSError', iptrw);
-  //  RegisterProperty('LastExParam', 'tbtstring', iptrw);
+    RegisterProperty('LastExParam', 'tbtstring', iptrw);
    // RegisterProperty('Failed', 'Boolean', iptrw);
    // RegisterProperty('Errors', 'Boolean', iptrw);
   end;

@@ -144,13 +144,11 @@ begin
 
           if Not TNovusFileUtils.IsFileInUse(LsFile) then
             begin
-
               LsZFile := StrUtils.ReplaceStr(LsFile, lsPath, '');
 
               loZipFile.AddFiles(LsZFile, 0 );
 
               Result := True;
-
             end
            else
              begin
