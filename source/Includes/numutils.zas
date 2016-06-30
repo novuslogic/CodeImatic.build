@@ -5,8 +5,6 @@ interface
 function inttohex(l:longword; digits:integer):string;
 function expnumber(number, exponent: integer): integer;
 function hextoint(hex: string): integer;
-function IsGUIDEmpty(GUID: TGUID): Boolean;
-
 
 implementation
 
@@ -55,9 +53,5 @@ begin
    end;
 end;
 
-function IsGUIDEmpty(GUID: TGUID): Boolean;
-begin
-  Result := ((GUID.D1 =0) and (GUID.D2=0) and (GUID.D3=0) and (GUID.D4=0));
-end;
 
 end.
