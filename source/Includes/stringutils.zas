@@ -2,8 +2,11 @@ unit stringutils;
 
 interface
 
+uses NumUtils;
+
 function ExtractText(const aStr: string; const aDelim1, aDelim2: char): string;
 function ExtractTextPos(const aStr: string; const aPos: Integer; aDelim: char): string;
+function GUIDToString(const Guid: TGUID): string;
 
 implementation
 
@@ -34,5 +37,20 @@ begin
      Result := Copy(lsDelim, 1, Pos2 - 1);
 end;
 
+
+function GUIDToString(const GUID: TGUID): string;
+begin
+  If (not IsGUIDEmpty(GUID)) then
+    result:='{'+IntToHex(Guid.D1,8)+'-'+
+           IntToHex(Guid.D2,4)+'-'+
+           IntToHex(Guid.D3,4)+'-'+
+           IntToHex(Guid.D4[0],2)+IntToHex(Guid.D4[1],2)+'-'+
+           IntToHex(Guid.D4[2],2)+IntToHex(Guid.D4[3],2)+
+           IntToHex(Guid.D4[4],2)+IntToHex(Guid.D4[5],2)+
+           IntToHex(Guid.D4[6],2)+IntToHex(Guid.D4[7],2)+
+           '}'
+   else
+    result:='{00000000-0000-0000-0000-000000000000}';
+end;
 
 end.
