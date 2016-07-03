@@ -14,6 +14,7 @@ Type
       fsProjectConfigFileName: String;
       fsProjectFileName: String;
       fsRootPath: String;
+      fbCompileOnly: Boolean;
       private
    public
      constructor Create; virtual; // override;
@@ -39,6 +40,9 @@ Type
         read fsRootPath
         write fsRootPath;
 
+     property CompileOnly: Boolean
+       read fbCompileOnly
+       write fbCompileOnly;
    End;
 
 Var
@@ -49,6 +53,8 @@ implementation
 constructor TConfig.Create;
 begin
   inherited Create;
+
+  fbcompileonly := False;
 end;
 
 destructor TConfig.Destroy;
@@ -60,6 +66,7 @@ function TConfig.ParseParams: Boolean;
 Var
   I: integer;
   fbOK: Boolean;
+  lsParamStr: String;
 begin
   Result := False;
 
@@ -67,7 +74,9 @@ begin
   I := 1;
   While Not fbOK do
     begin
-       if ParamStr(i) = '-project' then
+       lsParamStr := Lowercase(ParamStr(i));
+
+       if lsParamStr = '-project' then
          begin
            Inc(i);
            fsProjectFileName := Trim(ParamStr(i));
@@ -80,9 +89,9 @@ begin
               end;
 
            Result := True;
-         end;
-
-        if ParamStr(i) = '-projectconfig' then
+         end
+        else
+        if lsParamStr = '-projectconfig' then
          begin
            Inc(i);
            fsProjectConfigFileName := Trim(ParamStr(i));
@@ -95,6 +104,15 @@ begin
              end;
 
            Result := True;
+         end
+       else
+       if lsParamStr = '-compileonly' then
+         begin
+          fbcompileonly := True;
+
+
+
+
          end;
 
       Inc(I);

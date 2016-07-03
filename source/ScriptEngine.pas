@@ -35,7 +35,7 @@ Type
 
      procedure LoadScript(aFilename: String);
 
-     function ExecuteScript: Boolean;
+     function ExecuteScript(aCompileOnly: Boolean = false): Boolean;
 
    end;
 
@@ -127,7 +127,7 @@ begin
   FParserStream.Free;
 end;
 
-function TScriptEngine.ExecuteScript: boolean;
+function TScriptEngine.ExecuteScript(aCompileOnly: Boolean = false): boolean;
 begin
   Result := false;
 
@@ -152,10 +152,18 @@ begin
 
   CompilerOutputMessage;
 
-  foMessageslog.WriteLog('Executing');
-
   FCompiler.GetOutput(fsData); // Save the output of the compiler in the string Data.
   FCompiler.Free; // After compiling the script, there is no need for the compiler anymore.
+
+  if aCompileOnly then
+    begin
+      Result := True;
+
+      Exit;
+
+    end;
+
+  foMessageslog.WriteLog('Executing');
 
   FExec := TPSExec.Create;  // Create an instance of the executer.
 

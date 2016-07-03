@@ -49,7 +49,6 @@ begin
 
   foProject.LoadProjectFile(oConfig.ProjectFileName, oConfig.ProjectConfigFileName);
 
-
   if foProject.MessageslogPath = '' then foProject.MessageslogPath := foProject.GetWorkingdirectory;
 
   FoMessagesLog := tMessagesLog.Create(foProject.MessageslogPath + oConfig.MessageslogFile, foProject.OutputConsole);
@@ -68,15 +67,16 @@ begin
   FoMessagesLog.WriteLog('Zautomatic - © Copyright Novuslogic Software 2016 All Rights Reserved');
   FoMessagesLog.WriteLog('Version: ' + TNovusVersionUtils.GetFullVersionNumber);
 
-
-
   FoMessagesLog.WriteLog('Project:' + foProject.ProjectFileName);
   if (foProject.oProjectConfig.ProjectConfigFileName <> '') then
     FoMessagesLog.WriteLog('Projectconfig:' + foProject.oProjectConfig.ProjectConfigFileName);
 
   FoMessagesLog.WriteLog('Messagelog file: ' + FoMessagesLog.Filename);
 
-
+  if oConfig.CompileOnly then
+    FoMessagesLog.WriteLog('Option:Compile Only.')
+  else
+    FoMessagesLog.WriteLog('Option:Compile and Execute.');
   FImp := TPSRuntimeClassImporter.Create;
   foPlugins := TPlugins.Create(FoMessagesLog, FImp);
 
@@ -107,7 +107,7 @@ begin
 
           loScriptEngine.LoadScript(loProjectItem.ProjectFileName);
 
-          loScriptEngine.ExecuteScript;
+          loScriptEngine.ExecuteScript(oConfig.CompileOnly);
 
           if Not FoMessagesLog.Failed then
             begin
