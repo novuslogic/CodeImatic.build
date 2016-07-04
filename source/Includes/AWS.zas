@@ -16,8 +16,8 @@ function GetAWSCliConfigPath: String;
 function ExecAWSCli(aCommandLine: String): Integer;
 function GetAWSCliElasticbeanstalkLastS3Bucket(aApplicationname: string;var aLastS3Bucket: String): Integer;
 function ListAWSCliS3Bucket(aS3Bucket: string; var aS3BucketList: string): Integer;
-function CopyFileAWSCliS3BucketEx(aFilename: string; aS3Bucket: string; var aoutput: string): Integer;
-function CopyFileAWSCliS3Bucket(aFilename: string; aS3Bucket: string): Integer;
+function CopyFileAWSCliS3Bucket(aFilename: string; aS3Bucket: string; var aoutput: string): Integer;
+function AWSCliElasticbeanstalkCreateAppVerion(const aApplicationname: String; const aS3ZipFilename: string; const aS3Bucket: String; var aOutput: string): integer;
 
 implementation
 
@@ -104,20 +104,21 @@ begin
   Result := ExecAWSCliEx('s3 ls "' + aS3Bucket + '"', aS3BucketList); 
 end;
 
-function AWSCliElasticbeanstalkCreateAppVerion(const aApplicationname: String; const aS3ZipFilename: string; const aS3Bucket: String; 
-var
-  lsoutput: string;
+function AWSCliElasticbeanstalkCreateAppVerion(const aApplicationname: String; const aS3ZipFilename: string; const aS3Bucket: String; var aOutput: string): integer; 
 begin
+  aOutput := '';
+    
   result := ExecAWSCliEx('elasticbeanstalk create-application-version --application-name "' +aApplicationname + 
               '" --version-label "' + aS3ZipFilename +'” --source-bundle S3Bucket="' + aS3Bucket + '",S3Key="' + aS3ZipFilename + '"',
-              lsoutput);
+              aoutput);
 end;               
 
-
-function CopyFileAWSCliS3BucketEx(aFilename: string; aS3Bucket: string; var aOutput: string): Integer;
+function CopyFileAWSCliS3Bucket(aFilename: string; aS3Bucket: string; var aOutput: string): Integer;
 begin
+
   Result := -1;
-  
+  aOutput := '';
+
   if Not File.Exists(aFilename) then
     begin
       RaiseException(erCustomError, 'Filename cannot be found ['+ aFilename+'].');
@@ -129,18 +130,7 @@ begin
   Result := ExecAWSCliEx('s3 cp ' + aFilename + ' s3://' + aS3Bucket +'/', aOutput); 
 end;
 
-function CopyFileAWSCliS3Bucket(aFilename: string; aS3Bucket: string): Integer;
-var 
-  lsOutput: String;
-begin
-  try
-    lsOutput := '';
 
-    Result := CopyFileAWSCliS3BucketEx(aFilename,aS3Bucket,lsOutput);
-  finally
-    Messageslog.Log(lsOutput);
-  end;
-end;
 
 function ExecAWSCliEx(aCommandLine: String; var aOutput: String): Integer;
 begin
