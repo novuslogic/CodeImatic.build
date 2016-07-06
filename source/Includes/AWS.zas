@@ -10,14 +10,15 @@ Const
   aws_S3Bucket = 'S3Bucket';
   aws_json = '": "';
 
-function ExecAWSCliEx(aCommandLine: String; var aOutput: String): Integer;
+function ExecAWSCliEx(const aCommandLine: String; var aOutput: String): Integer;
 function IsAWSCliConfigured: Boolean;
 function GetAWSCliConfigPath: String;
-function ExecAWSCli(aCommandLine: String): Integer;
-function GetAWSCliElasticbeanstalkLastS3Bucket(aApplicationname: string;var aLastS3Bucket: String): Integer;
-function ListAWSCliS3Bucket(aS3Bucket: string; var aS3BucketList: string): Integer;
-function CopyFileAWSCliS3Bucket(aFilename: string; aS3Bucket: string; var aoutput: string): Integer;
-function AWSCliElasticbeanstalkCreateAppVerion(const aApplicationname: String; const aS3ZipFilename: string; const aS3Bucket: String; var aOutput: string): integer;
+function ExecAWSCli(const aCommandLine: String): Integer;
+function GetAWSCliElasticbeanstalkLastS3Bucket(const aApplicationname: string;var aLastS3Bucket: String): Integer;
+function ListAWSCliS3Bucket(const aS3Bucket: string; var aS3BucketList: string): Integer;
+function CopyFileAWSCliS3Bucket(const aFilename: string; const aS3Bucket: string; var aoutput: string): Integer;
+function AWSCliElasticbeanstalkCreateAppVerion(const aApplicationname: String; const aVersionlabel: string; const aS3ZipFilename: string; const aS3Bucket: String; var aOutput: string): integer;
+function AWSCliiElasticbeanstalkUpdateEnv(const aEnvironmentname: string;const aVersionlabel: string; var aOutput: string): Integer;
 
 implementation
 
@@ -67,10 +68,7 @@ begin
   Result := File.IncludeTrailingPathDelimiter(WinAPI.GetSpecialFolder(CSIDL_PROFILE) + '\.aws');
 end;
 
-
-
-
-function ExecAWSCli(aCommandLine: String): Integer;
+function ExecAWSCli(const aCommandLine: String): Integer;
 begin
   Result := -1;
 
@@ -79,7 +77,7 @@ begin
   Result := ExecCMD('aws ' + aCommandLine);
 end;
   
-function GetAWSCliElasticbeanstalkLastS3Bucket(aApplicationname: string;var aLastS3Bucket: String): Integer;
+function GetAWSCliElasticbeanstalkLastS3Bucket(const aApplicationname: string;var aLastS3Bucket: String): Integer;
 var 
   lsLastS3Bucket,
   lsdescribe: String;
@@ -99,21 +97,28 @@ begin
      end;
 end;
 
-function ListAWSCliS3Bucket(aS3Bucket: string; var aS3BucketList: string): Integer;
+function ListAWSCliS3Bucket(const aS3Bucket: string; var aS3BucketList: string): Integer;
 begin
   Result := ExecAWSCliEx('s3 ls "' + aS3Bucket + '"', aS3BucketList); 
 end;
 
-function AWSCliElasticbeanstalkCreateAppVerion(const aApplicationname: String; const aS3ZipFilename: string; const aS3Bucket: String; var aOutput: string): integer; 
+function AWSCliElasticbeanstalkCreateAppVerion(const aApplicationname: String; const aVersionlabel: string; const aS3ZipFilename: string; const aS3Bucket: String; var aOutput: string): integer; 
 begin
   aOutput := '';
     
   result := ExecAWSCliEx('elasticbeanstalk create-application-version --application-name "' +aApplicationname + 
-              '" --version-label "' + aS3ZipFilename +'” --source-bundle S3Bucket="' + aS3Bucket + '",S3Key="' + aS3ZipFilename + '"',
+              '" --version-label "' + aVersionlabel +'" --source-bundle S3Bucket="' + aS3Bucket + '",S3Key="' + aS3ZipFilename + '"',
               aoutput);
-end;               
+end; 
 
-function CopyFileAWSCliS3Bucket(aFilename: string; aS3Bucket: string; var aOutput: string): Integer;
+function AWSCliiElasticbeanstalkUpdateEnv(const aEnvironmentname: string;const aVersionlabel: string; var aOutput: string): Integer;
+begin             
+   result := ExecAWSCliEx('elasticbeanstalk update-environment --environment-name "' + aEnvironmentname + '" --version-label "'+ aVersionlabel +'"',  aOutput); 
+end;
+
+
+
+function CopyFileAWSCliS3Bucket(const aFilename: string; const aS3Bucket: string; var aOutput: string): Integer;
 begin
 
   Result := -1;
@@ -132,7 +137,7 @@ end;
 
 
 
-function ExecAWSCliEx(aCommandLine: String; var aOutput: String): Integer;
+function ExecAWSCliEx(const aCommandLine: String; var aOutput: String): Integer;
 begin
   Result := -1;
 
