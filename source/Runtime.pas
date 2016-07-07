@@ -3,7 +3,7 @@ unit Runtime;
 interface
 
 Uses Project, MessagesLog, Config, NovusVersionUtils, System.SysUtils,
-     uPSRuntime,  Plugins, dialogs ;
+     uPSRuntime,  Plugins, dialogs, NovusDateStringUtils ;
 
 type
    tRuntime = class
@@ -13,6 +13,8 @@ type
      foMessagesLog: tMessagesLog;
      foProject: tProject;
      foPlugins: TPlugins;
+     fdtStartBuild: tDatetime;
+     fdtEndBuild: tDatetime;
    public
      function RunEnvironment: Boolean;
 
@@ -27,6 +29,15 @@ type
      property oProject: tProject
        read foProject
        write foProject;
+
+     property  StartBuild: tDatetime
+       read fdtStartBuild
+       write fdtStartBuild;
+
+     property  EndBuild: tDatetime
+       read fdtEndBuild
+       write fdtEndBuild;
+
    end;
 
    Var
@@ -101,7 +112,9 @@ begin
        begin
           FoMessagesLog.WriteLog('Project Filename:' + loProjectItem.ProjectFileName);
 
-          FoMessagesLog.WriteLog('Build started ' + FoMessagesLog.FormatedNow);
+          StartBuild := Now;
+
+          FoMessagesLog.WriteLog('Build started ' + FoMessagesLog.FormatedNow(StartBuild));
 
           loScriptEngine := TScriptEngine.Create(FoMessagesLog, FImp, FoPlugins);
 
@@ -109,15 +122,17 @@ begin
 
           loScriptEngine.ExecuteScript(oConfig.CompileOnly);
 
+          EndBuild := Now;
+
           if Not FoMessagesLog.Failed then
             begin
               if Not FoMessagesLog.Errors then
-                FoMessagesLog.WriteLog('Build succeeded ' + FoMessagesLog.FormatedNow)
+                FoMessagesLog.WriteLog('Build succeeded ' + FoMessagesLog.FormatedNow(EndBuild) + ' build time:' + TNovusDateStringUtils.FormatedMinutesBetween(StartBuild, EndBuild))
               else
-                FoMessagesLog.WriteLog('Build with errors ' + FoMessagesLog.FormatedNow);
+                FoMessagesLog.WriteLog('Build with errors ' + FoMessagesLog.FormatedNow(EndBuild));
             end
           else
-            FoMessagesLog.WriteLog('Build failed ' + FoMessagesLog.FormatedNow);
+            FoMessagesLog.WriteLog('Build failed ' + FoMessagesLog.FormatedNow(EndBuild));
 
           loScriptEngine.Free;
         end;
