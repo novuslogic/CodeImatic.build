@@ -19,6 +19,7 @@ function ListAWSCliS3Bucket(const aS3Bucket: string; var aS3BucketList: string):
 function CopyFileAWSCliS3Bucket(const aFilename: string; const aS3Bucket: string; var aoutput: string): Integer;
 function AWSCliElasticbeanstalkCreateAppVerion(const aApplicationname: String; const aVersionlabel: string; const aS3ZipFilename: string; const aS3Bucket: String; var aOutput: string): integer;
 function AWSCliiElasticbeanstalkUpdateEnv(const aEnvironmentname: string;const aVersionlabel: string; var aOutput: string): Integer;
+function AWSCliAWSCliiElasticbeanstalkDeploy(const aApplicationname: string; const aS3ZipFullFilepath: string;const aVersionlabel: string;const aEnvironmentname: String): Integer;
 
 implementation
 
@@ -145,5 +146,68 @@ begin
 
   Result := ExecCMDEx('aws ' + aCommandLine, aOutput);
 end;
+
+
+function AWSCliAWSCliiElasticbeanstalkDeploy(const aApplicationname: string; const aS3ZipFullFilepath: string;const aVersionlabel: string;const aEnvironmentname: String): Integer;
+var
+  fsLastS3Bucket: string;
+  fsoutput: string;
+  fsS3ZipFilename: string;
+begin
+  if IsAWSCliConfigured then 
+    begin
+      fsLastS3Bucket := '';
+      fsoutput := '';
+
+     MessagesLog.log('Get Elasticbeanstalk Last S3 Bucket.');
+  
+     if GetAWSCliElasticbeanstalkLastS3Bucket(aApplicationname, fsLastS3Bucket) <> 0 then 
+       begin
+         Exit;
+       end; 
+
+     Messageslog.Log('Last S3 Bucket: '+ fsLastS3Bucket);
+
+     Messageslog.Log('Copy Deployment zip filename '+ aS3ZipFullFilepath + ' to '+ fsLastS3Bucket);      
+
+     Result := CopyFileAWSCliS3Bucket(aS3ZipFullFilepath, fsLastS3Bucket, fsoutput);
+     if Result <> 0 then 
+        begin
+          if Trim(fsoutput) <> '' then  Messageslog.Log(fsoutput);
+          
+          Exit; 
+        end
+     else
+      if Trim(fsoutput) <> '' then  Messageslog.Log(fsoutput);
+ 
+
+     fsS3ZipFilename := ExtractFileName(aS3ZipFullFilepath);
+
+     Messageslog.Log('Create Appplication Verion with zip filename: '+ fsS3ZipFilename);
+      
+     Result := AWSCliElasticbeanstalkCreateAppVerion(aApplicationname, aVersionlabel, fsS3ZipFilename, fsLastS3Bucket, fsoutput);
+     if Result <> 0 then
+        begin
+          if Trim(fsoutput) <> '' then  Messageslog.Log(fsoutput);
+          
+          Exit;
+        end 
+      else
+        if Trim(fsoutput) <> '' then  Messageslog.Log(fsoutput);
+        
+     Result := AWSCliiElasticbeanstalkUpdateEnv( aEnvironmentname,aVersionlabel,fsOutput);
+     if Result <> 0 then
+        begin
+          if Trim(fsoutput) <> '' then  Messageslog.Log(fsoutput);
+          
+          Exit; 
+        end 
+      else
+        if Trim(fsoutput) <> '' then  Messageslog.Log(fsoutput);    
+
+    end
+  else   
+    Result := -1;   
+end;    
 
 end.

@@ -22,6 +22,9 @@ type
   function CommandCRF(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
   function CommandGetLastError(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
   function CommandSysErrorMessage(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
+  function CommandExtractFileName(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
+
+
 
 implementation
 
@@ -41,6 +44,7 @@ begin
   TPSPascalCompiler(aCompiler).AddFunction('function crlf():string;');
   TPSPascalCompiler(aCompiler).AddFunction('function GetLastError():Integer;');
   TPSPascalCompiler(aCompiler).AddFunction('function SysErrorMessage():String;');
+  TPSPascalCompiler(aCompiler).AddFunction('function ExtractFileName(aFilename: string): String;');
 end;
 
 
@@ -58,6 +62,8 @@ begin
   aExec.RegisterFunctionName('CRLF', CommandCRF, nil, nil);
   aExec.RegisterFunctionName('GETLASTERROR', CommandGetLastError, nil, nil);
   aExec.RegisterFunctionName('SYSERRORMESSAGE', CommandSysErrorMessage, nil, nil);
+  aExec.RegisterFunctionName('EXTRACTFILENAME', CommandExtractFileName, nil, nil);
+
 end;
 
 
@@ -122,8 +128,25 @@ begin
   if Global = nil then begin result := false; exit; end;
   PStart := Stack.Count - 1;
 
-
   Stack.SetString(PStart,SysErrorMessage(GetLastError));
+
+  Result := True;
+end;
+
+function CommandExtractFileName(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
+var
+  PStart: Cardinal;
+  fsFullFilename: String;
+  fsFilename: String;
+begin
+  if Global = nil then begin result := false; exit; end;
+  PStart := Stack.Count -2;
+
+  fsFullFilename := Stack.GetString(PStart);
+
+  fsFilename := ExtractFileName(fsFullFilename);
+
+  Stack.SetString(PStart + 1,fsFilename);
 
   Result := True;
 end;
