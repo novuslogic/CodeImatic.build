@@ -1,0 +1,18 @@
+uses cmd;
+
+var
+  fsInput: string;
+begin
+  MessagesLog.log('Powershell Sample');
+
+  fsInput := 'powershell.exe "write-host hello world"';
+
+  Exec(fsInput);
+
+  fsInput = 'powershell.exe -File ' +wd+' Helloworld.ps1';
+
+ 
+
+  Exec(fsInput);
+
+end.
