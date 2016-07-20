@@ -26,3 +26,6 @@
 *.log
 /samples/sample5/__history
 /source/Plugins/ExtraClasses/__history
+/build/plugins/Plugin_Zip.dll
+*.local
+/units

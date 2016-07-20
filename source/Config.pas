@@ -10,12 +10,13 @@ Const
 Type
    TConfig = Class(TNovusXMLBO)
    protected
+      fsPluginPath: String;
       fsMessageslogFile: string;
       fsProjectConfigFileName: String;
       fsProjectFileName: String;
       fsRootPath: String;
       fbCompileOnly: Boolean;
-      private
+   private
    public
      constructor Create; virtual; // override;
      destructor  Destroy; override;
@@ -39,6 +40,10 @@ Type
      property  RootPath: String
         read fsRootPath
         write fsRootPath;
+
+     property PluginPath: String
+       read fsPluginPath
+       write fsPluginPath;
 
      property CompileOnly: Boolean
        read fbCompileOnly
@@ -107,13 +112,7 @@ begin
          end
        else
        if lsParamStr = '-compileonly' then
-         begin
-          fbcompileonly := True;
-
-
-
-
-         end;
+         fbcompileonly := True;
 
       Inc(I);
 

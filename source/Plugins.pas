@@ -3,15 +3,16 @@ unit Plugins;
 interface
 
 uses  MessagesLog, uPSRuntime, uPSI_MessagesLog, uPSCompiler, PluginsMapFactory, Plugin,
-      Classes, SysUtils;
+      Classes, SysUtils, NovusPlugin;
 
 type
    TPlugins = class
    private
    protected
-      fPluginsList: TList;
-      foMessagesLog: tMessagesLog;
-      fImp: TPSRuntimeClassImporter;
+     FExternalPlugins: TNovusPlugins;
+     fPluginsList: TList;
+     foMessagesLog: tMessagesLog;
+     fImp: TPSRuntimeClassImporter;
    public
      constructor Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter);
      destructor Destroy; override;
@@ -33,6 +34,8 @@ constructor TPlugins.create;
 begin
   foMessagesLog:= aMessagesLog;
 
+  FExternalPlugins := TNovusPlugins.Create;
+
   fPluginsList := TList.Create;
 
   fImp:= aImp;
@@ -43,6 +46,8 @@ begin
   Inherited;
 
   UnloadPlugins;
+
+  FExternalPlugins.Free;
 
   fPluginsList.Free;
 end;
@@ -59,14 +64,20 @@ begin
    end;
 
   fPluginsList.Clear;
+
+  FExternalPlugins.UnloadAllPlugins;
 end;
 
 procedure TPlugins.LoadPlugins;
 Var
   I: Integer;
   FPlugin: tPlugin;
+  FExternalPlugin: IExternalPlugin;
 begin
+  // Internal Plugin Class
+
   I := 0;
+
   while (i < PluginsMapFactoryClasses.Count) do
     begin
       FPlugin := TPluginsMapFactory.FindPlugin(PluginsMapFactoryClasses.Items[i].ClassName,
@@ -76,12 +87,26 @@ begin
 
       Inc(i);
     end;
+
+  //External Plugin
+  foMessagesLog.Log('Loading plugins');
+
+  if FExternalPlugins.LoadPlugin('D:\Projects\Zautomatic\build\plugins\Plugin_Zip.dll') then
+    begin
+      FExternalPlugin := IExternalPlugin(FExternalPlugins.Plugins[FExternalPlugins.PluginCount-1]);
+
+      foMessagesLog.Log('Loaded: ' + FExternalPlugin.PluginName);
+    end;
+
+
+
 end;
 
 function TPlugins.CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
 Var
   I: Integer;
   loPlugin: TPlugin;
+  FExternalPlugin: IExternalPlugin;
 begin
   Try
     for I := 0 to fPluginsList.Count -1 do
@@ -90,12 +115,28 @@ begin
         loPlugin.CustomOnUses(aCompiler)
       end;
 
+
+    for I := 0 to FExternalPlugins.PluginCount -1 do
+     begin
+       FExternalPlugin := IExternalPlugin(FExternalPlugins.Plugins[i]);
+
+
+
+     end;
+
     Result := True;
   Except
     foMessagesLog.WriteExceptLog;
 
     Result := False;
   End;
+
+
+
+
+
+
+
 end;
 
 procedure TPlugins.RegisterFunctions(aExec: TPSExec);

@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{11F42D86-5785-426B-A6CA-4F9DD8669195}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Zautomatic.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Plugins\Plugin_Zip.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Zautomatic">
+        <MSBuild Projects="Zautomatic.dproj"/>
+    </Target>
+    <Target Name="Zautomatic:Clean">
+        <MSBuild Projects="Zautomatic.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Zautomatic:Make">
+        <MSBuild Projects="Zautomatic.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Plugin_Zip">
+        <MSBuild Projects="Plugins\Plugin_Zip.dproj"/>
+    </Target>
+    <Target Name="Plugin_Zip:Clean">
+        <MSBuild Projects="Plugins\Plugin_Zip.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Plugin_Zip:Make">
+        <MSBuild Projects="Plugins\Plugin_Zip.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Zautomatic;Plugin_Zip"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Zautomatic:Clean;Plugin_Zip:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Zautomatic:Make;Plugin_Zip:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

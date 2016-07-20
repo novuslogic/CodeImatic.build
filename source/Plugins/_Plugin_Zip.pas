@@ -1,9 +1,9 @@
-unit Plugin_Zip;
+unit _Plugin_Zip;
 
 interface
 
 uses Classes,Plugin,  uPSRuntime,  uPSCompiler, PluginsMapFactory, API_Zip,
-    uPSI_API_Zip, MessagesLog, SysUtils, ZIp ;
+    uPSI_API_Zip, MessagesLog, SysUtils, Zip ;
 
 
 type

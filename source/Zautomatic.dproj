@@ -100,7 +100,7 @@
         <BRCC_Defines>PS_USESSUPPORT;$(BRCC_Defines)</BRCC_Defines>
         <VerInfo_AutoGenVersion>true</VerInfo_AutoGenVersion>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <Debugger_RunParams>-project D:\Projects\adamjonston.me\Deploy\adamjohnstonme.zap -projectconfig D:\Projects\adamjonston.me\Deploy\adamjohnstonme.zapconfig</Debugger_RunParams>
+        <Debugger_RunParams>-project D:\Projects\Zautomatic\samples\sample1\sample1.zap -projectconfig D:\Projects\Zautomatic\samples\sample1\sample1.zapconfig </Debugger_RunParams>
         <DCC_Namespace>VCL;$(DCC_Namespace)</DCC_Namespace>
         <DCC_ExeOutput>..\build</DCC_ExeOutput>
         <Manifest_File>None</Manifest_File>
@@ -130,11 +130,8 @@
         <DCCReference Include="PluginsMapFactory.pas"/>
         <DCCReference Include="Plugins\Plugin_Messageslog.pas"/>
         <DCCReference Include="Plugins\Plugin_Commands.pas"/>
-        <DCCReference Include="Plugins\Plugin_Zip.pas"/>
-        <DCCReference Include="Plugins\API\API_Zip.pas"/>
         <DCCReference Include="Plugins\API\APIBase.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_MessagesLog.pas"/>
-        <DCCReference Include="Plugins\Imports\uPSI_API_Zip.pas"/>
         <DCCReference Include="Plugins\Plugin_Shell.pas"/>
         <DCCReference Include="Plugins\API\API_Shell.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_API_Shell.pas"/>

@@ -2,9 +2,19 @@ unit Plugin;
 
 interface
 
-uses classes, uPSRuntime, uPSCompiler, MessagesLog;
+uses classes, uPSRuntime, uPSCompiler, MessagesLog, NovusPlugin;
 
 type
+    IExternalPlugin = interface(INovusPlugin)
+     ['{838468EA-1750-4CB5-B6B3-E7078F59A46A}']
+     function CustomOnUses(aCompiler: TPSPascalCompiler): Boolean; safecall;
+     procedure RegisterFunction(aExec: TPSExec); safecall;
+     procedure SetVariantToClass(aExec: TPSExec); safecall;
+     procedure RegisterImport;  safecall;
+
+     procedure InitializeEx(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter); safecall;
+   end;
+
    TPlugin = class(TPersistent)
    private
    protected
@@ -12,7 +22,6 @@ type
      fImp: TPSRuntimeClassImporter;
    public
      constructor Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter); virtual;
-//     destructor Destroy; virtual;
 
      function CustomOnUses(aCompiler: TPSPascalCompiler): Boolean; virtual;
      procedure RegisterFunction(aExec: TPSExec); virtual;
@@ -38,11 +47,6 @@ begin
 
   fImp:= aImp;
 end;
-
-//destructor TPlugin.destroy;
-//begin
-//end;
-
 
 
 function TPlugin.CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
