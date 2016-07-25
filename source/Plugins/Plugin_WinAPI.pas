@@ -12,18 +12,18 @@ type
   protected
     foAPI_WinAPI: TAPI_WinAPI;
   public
-    constructor Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
 
-    function CustomOnUses(aCompiler: TPSPascalCompiler): Boolean; override;
-    procedure RegisterFunction(aExec: TPSExec); override;
-    procedure SetVariantToClass(aExec: TPSExec); override;
+    function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
+    procedure RegisterFunction(var aExec: TPSExec); override;
+    procedure SetVariantToClass(var aExec: TPSExec); override;
     procedure RegisterImport; override;
   end;
 
 implementation
 
-constructor tPlugin_WinAPI.Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter);
+constructor tPlugin_WinAPI.Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter);
 begin
   Inherited;
 
@@ -41,24 +41,24 @@ end;
 
 
 
-function tPlugin_WinAPI.CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
+function tPlugin_WinAPI.CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean;
 begin
   Result := True;
 
   foAPI_WinAPI.oCompiler := aCompiler;
 
   SIRegister_API_WinAPI(aCompiler);
-  SIRegister_API_WinAPI(aCompiler);
+
   AddImportedClassVariable(aCompiler, 'WinAPI', 'TAPI_WinAPI');
 
 
 end;
 
-procedure tPlugin_WinAPI.RegisterFunction(aExec: TPSExec);
+procedure tPlugin_WinAPI.RegisterFunction(var aExec: TPSExec);
 begin
 end;
 
-procedure tPlugin_WinAPI.SetVariantToClass(aExec: TPSExec);
+procedure tPlugin_WinAPI.SetVariantToClass(var aExec: TPSExec);
 begin
   foAPI_WinAPI.oExec := aExec;
 

@@ -11,9 +11,9 @@ type
   private
   protected
   public
-    function CustomOnUses(aCompiler: TPSPascalCompiler): Boolean; override;
-    procedure RegisterFunction(aExec: TPSExec); override;
-    procedure SetVariantToClass(aExec: TPSExec); override;
+    function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
+    procedure RegisterFunction(var aExec: TPSExec); override;
+    procedure SetVariantToClass(var aExec: TPSExec); override;
     procedure RegisterImport; override;
   end;
 
@@ -28,7 +28,7 @@ type
 
 implementation
 
-function tPlugin_Commands.CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
+function tPlugin_Commands.CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean;
 begin
   Result := True;
 
@@ -37,7 +37,6 @@ begin
   SIRegister_ComObj(aCompiler);
   SIRegister_ExtraClasses(aCompiler);
   RegisterDll_Compiletime(aCompiler);
-
 
   TPSPascalCompiler(aCompiler).AddFunction('procedure Writeln(s: string);');
   TPSPascalCompiler(aCompiler).AddFunction('function wd():string;');
@@ -48,7 +47,7 @@ begin
 end;
 
 
-procedure tPlugin_Commands.RegisterFunction(aExec: TPSExec);
+procedure tPlugin_Commands.RegisterFunction(var aExec: TPSExec);
 begin
   RegisterClassLibraryRuntime(aExec, FImp);
 
@@ -68,7 +67,7 @@ end;
 
 
 
-procedure tPlugin_Commands.SetVariantToClass(aExec: TPSExec);
+procedure tPlugin_Commands.SetVariantToClass(var aExec: TPSExec);
 begin
 end;
 

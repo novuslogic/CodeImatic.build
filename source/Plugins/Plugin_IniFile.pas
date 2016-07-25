@@ -12,18 +12,18 @@ type
   protected
     foAPI_IniFile: TAPI_IniFile;
   public
-    constructor Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
 
-    function CustomOnUses(aCompiler: TPSPascalCompiler): Boolean; override;
-    procedure RegisterFunction(aExec: TPSExec); override;
-    procedure SetVariantToClass(aExec: TPSExec); override;
+    function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
+    procedure RegisterFunction(var aExec: TPSExec); override;
+    procedure SetVariantToClass(var aExec: TPSExec); override;
     procedure RegisterImport; override;
   end;
 
 implementation
 
-constructor tPlugin_RegIni.Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter);
+constructor tPlugin_RegIni.Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter);
 begin
   Inherited;
 
@@ -41,27 +41,22 @@ end;
 
 
 
-function tPlugin_RegIni.CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
+function tPlugin_RegIni.CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean;
 begin
   Result := True;
 
   foAPI_IniFile.oCompiler := aCompiler;
 
   SIRegister_API_IniFile(aCompiler);
-  SIRegister_API_IniFile(aCompiler);
 
   AddImportedClassVariable(aCompiler, 'IniFile', 'TAPI_IniFile');
-
-
-
-
 end;
 
-procedure tPlugin_RegIni.RegisterFunction(aExec: TPSExec);
+procedure tPlugin_RegIni.RegisterFunction(var aExec: TPSExec);
 begin
 end;
 
-procedure tPlugin_RegIni.SetVariantToClass(aExec: TPSExec);
+procedure tPlugin_RegIni.SetVariantToClass(var aExec: TPSExec);
 begin
   foAPI_IniFile.oExec := aExec;
 

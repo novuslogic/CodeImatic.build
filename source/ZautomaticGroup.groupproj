@@ -6,7 +6,7 @@
         <Projects Include="Zautomatic.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="Plugins\Plugin_Zip.dproj">
+        <Projects Include="Plugins\Zip.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -26,23 +26,23 @@
     <Target Name="Zautomatic:Make">
         <MSBuild Projects="Zautomatic.dproj" Targets="Make"/>
     </Target>
-    <Target Name="Plugin_Zip">
-        <MSBuild Projects="Plugins\Plugin_Zip.dproj"/>
+    <Target Name="Zip">
+        <MSBuild Projects="Plugins\Zip.dproj"/>
     </Target>
-    <Target Name="Plugin_Zip:Clean">
-        <MSBuild Projects="Plugins\Plugin_Zip.dproj" Targets="Clean"/>
+    <Target Name="Zip:Clean">
+        <MSBuild Projects="Plugins\Zip.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Plugin_Zip:Make">
-        <MSBuild Projects="Plugins\Plugin_Zip.dproj" Targets="Make"/>
+    <Target Name="Zip:Make">
+        <MSBuild Projects="Plugins\Zip.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="Zautomatic;Plugin_Zip"/>
+        <CallTarget Targets="Zautomatic;Zip"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Zautomatic:Clean;Plugin_Zip:Clean"/>
+        <CallTarget Targets="Zautomatic:Clean;Zip:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Zautomatic:Make;Plugin_Zip:Make"/>
+        <CallTarget Targets="Zautomatic:Make;Zip:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

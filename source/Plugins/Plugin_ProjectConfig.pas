@@ -12,19 +12,19 @@ type
   protected
      foAPI_ProjectConfig: TAPI_ProjectConfig;
   public
-    constructor Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
 
-    function CustomOnUses(aCompiler: TPSPascalCompiler): Boolean; override;
-    procedure RegisterFunction(aExec: TPSExec); override;
-    procedure SetVariantToClass(aExec: TPSExec); override;
+    function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
+    procedure RegisterFunction(var aExec: TPSExec); override;
+    procedure SetVariantToClass(var aExec: TPSExec); override;
     procedure RegisterImport; override;
   end;
 
 implementation
 
 
-constructor tPlugin_ProjectConfig.Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter);
+constructor tPlugin_ProjectConfig.Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter);
 begin
   Inherited;
 
@@ -42,24 +42,24 @@ end;
 
 
 
-function tPlugin_ProjectConfig.CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
+function tPlugin_ProjectConfig.CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean;
 begin
   Result := True;
 
   foAPI_ProjectConfig.oCompiler := aCompiler;
 
   SIRegister_API_ProjectConfig(aCompiler);
-  SIRegister_API_ProjectConfig(aCompiler);
+
   AddImportedClassVariable(aCompiler, 'ProjectConfig', 'TAPI_ProjectConfig');
 
 
 end;
 
-procedure tPlugin_ProjectConfig.RegisterFunction(aExec: TPSExec);
+procedure tPlugin_ProjectConfig.RegisterFunction(var aExec: TPSExec);
 begin
 end;
 
-procedure tPlugin_ProjectConfig.SetVariantToClass(aExec: TPSExec);
+procedure tPlugin_ProjectConfig.SetVariantToClass(var aExec: TPSExec);
 begin
   foAPI_ProjectConfig.oExec := aExec;
 

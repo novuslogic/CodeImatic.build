@@ -61,10 +61,11 @@ end;
 function CustomOnUses(Sender: TPSPascalCompiler; const Name: AnsiString): Boolean;
 Var
   lList:  TStringList;
+  FTPSCompileTimeClass: TPSCompileTimeClass;
 begin
   if Name = 'SYSTEM' then
   begin
-    Result := oruntime.oPlugins.CustomOnUses(Sender);;
+    Result := oruntime.oPlugins.CustomOnUses(Sender);
   end
   else
   begin

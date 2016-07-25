@@ -16,7 +16,7 @@ begin
   if not Zip.ExtractFile(wd + 'test.zip', 'test.txt', wd + 'data', NIL) then
     Messageslog.LogError;
 
-
+(*
   Writeln('function ZipExtractAll');
 
   if not Zip.ExtractAll(wd + 'test.zip', wd + 'data', NIL) then
@@ -42,7 +42,6 @@ begin
   finally
     FZipStringList.Free;
   end;
-
   Writeln('function ZipCompress');
 
   Try
@@ -64,7 +63,7 @@ begin
 
 
   writeln(wd);
-
+*)
 
 
 end.

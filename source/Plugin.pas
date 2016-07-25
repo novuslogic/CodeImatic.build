@@ -5,27 +5,17 @@ interface
 uses classes, uPSRuntime, uPSCompiler, MessagesLog, NovusPlugin;
 
 type
-    IExternalPlugin = interface(INovusPlugin)
-     ['{838468EA-1750-4CB5-B6B3-E7078F59A46A}']
-     function CustomOnUses(aCompiler: TPSPascalCompiler): Boolean; safecall;
-     procedure RegisterFunction(aExec: TPSExec); safecall;
-     procedure SetVariantToClass(aExec: TPSExec); safecall;
-     procedure RegisterImport;  safecall;
-
-     procedure InitializeEx(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter); safecall;
-   end;
-
    TPlugin = class(TPersistent)
    private
    protected
      foMessagesLog: tMessagesLog;
      fImp: TPSRuntimeClassImporter;
    public
-     constructor Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter); virtual;
+     constructor Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter); virtual;
 
-     function CustomOnUses(aCompiler: TPSPascalCompiler): Boolean; virtual;
-     procedure RegisterFunction(aExec: TPSExec); virtual;
-     procedure SetVariantToClass(aExec: TPSExec); virtual;
+     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; virtual;
+     procedure RegisterFunction(var aExec: TPSExec); virtual;
+     procedure SetVariantToClass(var aExec: TPSExec); virtual;
      procedure RegisterImport; virtual;
 
      property oMessagesLog: tMessagesLog
@@ -36,6 +26,18 @@ type
        read fImp
        write fImp;
    end;
+
+    IExternalPlugin = interface(INovusPlugin)
+     ['{838468EA-1750-4CB5-B6B3-E7078F59A46A}']
+     (*
+     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; safecall;
+     procedure RegisterFunction(var aExec: TPSExec); safecall;
+     procedure SetVariantToClass(var aExec: TPSExec); safecall;
+     procedure RegisterImport;  safecall;
+     *)
+     function  CreatePlugin(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter):TPlugin safecall;
+   end;
+
 
    TPluginClass = class of TPlugin;
 
@@ -49,16 +51,16 @@ begin
 end;
 
 
-function TPlugin.CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
+function TPlugin.CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean;
 begin
   Result := False;
 end;
 
-procedure TPlugin.RegisterFunction(aExec: TPSExec);
+procedure TPlugin.RegisterFunction(var aExec: TPSExec);
 begin
 
 end;
-procedure TPlugin.SetVariantToClass(aExec: TPSExec);
+procedure TPlugin.SetVariantToClass(var aExec: TPSExec);
 begin
 
 end;

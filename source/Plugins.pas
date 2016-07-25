@@ -1,3 +1,4 @@
+{$I Zautomatic.inc}
 unit Plugins;
 
 interface
@@ -61,6 +62,7 @@ begin
    begin
      loPlugin := TPlugin(fPluginsList.Items[i]);
      loPlugin.Free;
+     loPlugin := nil;
    end;
 
   fPluginsList.Clear;
@@ -89,15 +91,18 @@ begin
     end;
 
   //External Plugin
-  foMessagesLog.Log('Loading plugins');
 
-  if FExternalPlugins.LoadPlugin('D:\Projects\Zautomatic\build\plugins\Plugin_Zip.dll') then
+  {$IFDEF NEWZIP}
+  foMessagesLog.Log('Loading plugins');
+  if FExternalPlugins.LoadPlugin('D:\Projects\Zautomatic\build\plugins\Zip.dll') then
     begin
       FExternalPlugin := IExternalPlugin(FExternalPlugins.Plugins[FExternalPlugins.PluginCount-1]);
 
+      fPluginsList.Add(FExternalPlugin.CreatePlugin(foMessagesLog,fImp));
+
       foMessagesLog.Log('Loaded: ' + FExternalPlugin.PluginName);
     end;
-
+  {$ENDIF}
 
 
 end;
@@ -106,7 +111,6 @@ function TPlugins.CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
 Var
   I: Integer;
   loPlugin: TPlugin;
-  FExternalPlugin: IExternalPlugin;
 begin
   Try
     for I := 0 to fPluginsList.Count -1 do
@@ -114,15 +118,6 @@ begin
         loPlugin := TPlugin(fPluginsList.Items[i]);
         loPlugin.CustomOnUses(aCompiler)
       end;
-
-
-    for I := 0 to FExternalPlugins.PluginCount -1 do
-     begin
-       FExternalPlugin := IExternalPlugin(FExternalPlugins.Plugins[i]);
-
-
-
-     end;
 
     Result := True;
   Except
@@ -132,17 +127,13 @@ begin
   End;
 
 
-
-
-
-
-
 end;
 
 procedure TPlugins.RegisterFunctions(aExec: TPSExec);
 var
   I: integer;
   loPlugin: TPlugin;
+  FExternalPlugin: IExternalPlugin;
 begin
   for I := 0 to fPluginsList.Count -1 do
    begin
@@ -157,6 +148,7 @@ procedure TPlugins.RegisterImports;
 var
   loPlugin: TPlugin;
   I: Integer;
+  FExternalPlugin: IExternalPlugin;
 begin
   for I := 0 to fPluginsList.Count -1 do
     begin
@@ -169,12 +161,14 @@ procedure TPlugins.SetVariantToClasses(aExec: TPSExec);
 var
   loPlugin: TPlugin;
   I: Integer;
+  FExternalPlugin: IExternalPlugin;
 begin
   for I := 0 to fPluginsList.Count -1 do
     begin
       loPlugin := TPlugin(fPluginsList.Items[i]);
       loPlugin.SetVariantToClass(aExec);
     end;
+
 end;
 
 end.

@@ -16,8 +16,8 @@ uses
   ,Classes
   ,uPSComponent
   ,uPSRuntime
-  ,uPSCompiler
-  ;
+  ,uPSCompiler;
+
  
 type 
 (*----------------------------------------------------------------------------*)
@@ -70,7 +70,6 @@ end;
 (*----------------------------------------------------------------------------*)
 procedure SIRegister_TAPI_Zip(CL: TPSPascalCompiler);
 begin
-  //with RegClassS(CL,'TAPIBase', 'TAPI_Zip') do
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_Zip') do
   begin
     RegisterMethod('Function Compress( const aZipFilename : String; const aPath : String; const aFileMasks : String; const aZIPOptions : TZIPOptions) : Boolean');
@@ -83,7 +82,6 @@ end;
 (*----------------------------------------------------------------------------*)
 procedure SIRegister_TZIPOptions(CL: TPSPascalCompiler);
 begin
-  //with RegClassS(CL,'TPersistent', 'TZIPOptions') do
   with CL.AddClassN(CL.FindClass('TPersistent'),'TZIPOptions') do
   begin
     RegisterMethod('Constructor Create');

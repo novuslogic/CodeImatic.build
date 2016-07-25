@@ -155,9 +155,13 @@
         <DCCReference Include="Plugins\Imports\uPSI_API_File.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_ExtraClasses.pas"/>
         <DCCReference Include="Plugins\Imports\uPSR_ExtraClasses.pas"/>
+        <DCCReference Include="Plugins\API\API_Zip.pas"/>
+        <DCCReference Include="Plugins\Imports\uPSI_API_Zip.pas"/>
+        <DCCReference Include="Plugins\Plugin_Zip.pas"/>
         <DCCReference Include="Plugins\Plugin_RegEx.pas"/>
         <DCCReference Include="Plugins\API\API_RegEx.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_API_RegEx.pas"/>
+        <None Include="Zautomatic.inc"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

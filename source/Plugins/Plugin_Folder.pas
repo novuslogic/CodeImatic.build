@@ -13,12 +13,12 @@ type
   protected
      foAPI_Folder: TAPI_Folder;
   public
-    constructor Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
 
-    function CustomOnUses(aCompiler: TPSPascalCompiler): Boolean; override;
-    procedure RegisterFunction(aExec: TPSExec); override;
-    procedure SetVariantToClass(aExec: TPSExec); override;
+    function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
+    procedure RegisterFunction(var aExec: TPSExec); override;
+    procedure SetVariantToClass(var aExec: TPSExec); override;
     procedure RegisterImport; override;
   end;
 
@@ -27,7 +27,7 @@ type
 implementation
 
 
-constructor tPlugin_Folder.Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter);
+constructor tPlugin_Folder.Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter);
 begin
   Inherited;
 
@@ -45,24 +45,22 @@ end;
 
 
 
-function tPlugin_Folder.CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
+function tPlugin_Folder.CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean;
 begin
   Result := True;
 
   foAPI_Folder.oCompiler := aCompiler;
 
   SIRegister_API_Folder(aCompiler);
-  SIRegister_API_Folder(aCompiler);
+
   AddImportedClassVariable(aCompiler, 'Folder', 'TAPI_Folder');
-
-
 end;
 
-procedure tPlugin_Folder.RegisterFunction(aExec: TPSExec);
+procedure tPlugin_Folder.RegisterFunction(var aExec: TPSExec);
 begin
 end;
 
-procedure tPlugin_Folder.SetVariantToClass(aExec: TPSExec);
+procedure tPlugin_Folder.SetVariantToClass(var aExec: TPSExec);
 begin
   foAPI_Folder.oExec := aExec;
 

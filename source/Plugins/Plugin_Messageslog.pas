@@ -9,15 +9,15 @@ type
   private
   protected
   public
-    function CustomOnUses(aCompiler: TPSPascalCompiler): Boolean; override;
-    procedure RegisterFunction(aExec: TPSExec); override;
-    procedure SetVariantToClass(aExec: TPSExec); override;
+    function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
+    procedure RegisterFunction(var aExec: TPSExec); override;
+    procedure SetVariantToClass(var aExec: TPSExec); override;
     procedure RegisterImport; override;
   end;
 
 implementation
 
-function tPlugin_Messageslog.CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
+function tPlugin_Messageslog.CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean;
 begin
   Result := True;
 
@@ -26,11 +26,11 @@ begin
 
 end;
 
-procedure tPlugin_Messageslog.RegisterFunction(aExec: TPSExec);
+procedure tPlugin_Messageslog.RegisterFunction(var aExec: TPSExec);
 begin
 end;
 
-procedure tPlugin_Messageslog.SetVariantToClass(aExec: TPSExec);
+procedure tPlugin_Messageslog.SetVariantToClass(var aExec: TPSExec);
 begin
   uPSRuntime.SetVariantToClass(aExec.GetVarNo(aExec.GetVar('MESSAGESLOG')), foMessageslog);
 end;

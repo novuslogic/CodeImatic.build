@@ -2,8 +2,9 @@ unit Plugin_ZipClasses;
 
 interface
 
-uses Classes,Plugin,  uPSRuntime,  uPSCompiler, API_Zip, NovusPlugin,
-    uPSI_API_Zip, MessagesLog, SysUtils, Zip, System.Generics.Defaults ;
+uses Classes,Plugin,  uPSComponent, uPSRuntime,  uPSCompiler, API_Zip, NovusPlugin,
+    uPSI_API_Zip, MessagesLog, SysUtils, Zip, System.Generics.Defaults,
+    APIBase ;
 
 
 type
@@ -12,12 +13,12 @@ type
   protected
     foAPI_Zip: TAPI_Zip;
   public
-    constructor Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
 
-    function CustomOnUses(aCompiler: TPSPascalCompiler): Boolean; override;
-    procedure RegisterFunction(aExec: TPSExec); override;
-    procedure SetVariantToClass(aExec: TPSExec); override;
+    function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
+    procedure RegisterFunction(var aExec: TPSExec); override;
+    procedure SetVariantToClass(var aExec: TPSExec); override;
     procedure RegisterImport; override;
   end;
 
@@ -33,12 +34,8 @@ type
 
     property PluginName: string read GetPluginName;
 
-    procedure InitializeEx(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter); safecall;
+    function CreatePlugin(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter): TPlugin; safecall;
 
-    function CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;safecall;
-    procedure RegisterFunction(aExec: TPSExec);safecall;
-    procedure SetVariantToClass(aExec: TPSExec);safecall;
-    procedure RegisterImport; safecall;
   end;
 
 function GetPluginObject: INovusPlugin; stdcall;
@@ -48,7 +45,7 @@ implementation
 var
   _Plugin_Zip: TPlugin_Zip = nil;
 
-constructor tPlugin_ZipBase.Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter);
+constructor tPlugin_ZipBase.Create(aMessagesLog: tMessagesLog;var  aImp: TPSRuntimeClassImporter);
 begin
   Inherited;
 
@@ -64,25 +61,22 @@ begin
 end;
 
 
-
-function tPlugin_ZipBase.CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
+function tPlugin_ZipBase.CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean;
 begin
   Result := True;
 
   foAPI_Zip.oCompiler := aCompiler;
 
   SIRegister_API_Zip(aCompiler);
-  SIRegister_API_Zip(aCompiler);
+
   AddImportedClassVariable(aCompiler, 'Zip', 'TAPI_Zip');
-
-
 end;
 
-procedure tPlugin_ZipBase.RegisterFunction(aExec: TPSExec);
+procedure tPlugin_ZipBase.RegisterFunction(var aExec: TPSExec);
 begin
 end;
 
-procedure tPlugin_ZipBase.SetVariantToClass(aExec: TPSExec);
+procedure tPlugin_ZipBase.SetVariantToClass(var aExec: TPSExec);
 begin
   foAPI_Zip.oExec := aExec;
 
@@ -92,47 +86,50 @@ end;
 procedure tPlugin_ZipBase.RegisterImport;
 begin
   RIRegister_API_Zip(FImp);
-  RIRegister_API_Zip(FImp);
 end;
 
 function tPlugin_Zip.GetPluginName: string;
 begin
-  Result := 'Plugin_Zip';
+  Result := 'Zip';
 end;
 
 procedure tPlugin_Zip.Initialize;
 begin
 end;
 
-procedure tPlugin_Zip.InitializeEx(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter); safecall;
+function tPlugin_Zip.CreatePlugin(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter): TPlugin; safecall;
 begin
   FPlugin_Zip := tPlugin_ZipBase.Create(aMessagesLog,aImp);
+
+  Result := FPlugin_Zip;
 end;
 
 
 procedure tPlugin_Zip.Finalize;
 begin
-  if Assigned(FPlugin_Zip) then FPlugin_Zip.Free;
+  //if Assigned(FPlugin_Zip) then FPlugin_Zip.Free;
 end;
 
-function tPlugin_Zip.CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
+ (*
+function tPlugin_Zip.CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean;
 begin
-
+  FPlugin_Zip.CustomOnUses(aCompiler);
 end;
 
-procedure tPlugin_Zip.RegisterFunction(aExec: TPSExec);
+procedure tPlugin_Zip.RegisterFunction(var aExec: TPSExec);
 begin
-
+  FPlugin_Zip.RegisterFunction(aExec);
 end;
-procedure tPlugin_Zip.SetVariantToClass(aExec: TPSExec);
+procedure tPlugin_Zip.SetVariantToClass(var aExec: TPSExec);
 begin
-
+  FPlugin_Zip.SetVariantToClass(aExec);
 end;
+
 procedure tPlugin_Zip.RegisterImport;
 begin
-
+  FPlugin_Zip.RegisterImport;
 end;
-
+*)
 
 function GetPluginObject: INovusPlugin;
 begin
@@ -144,17 +141,12 @@ exports
   GetPluginObject name func_GetPluginObject;
 
 initialization
-  _Plugin_Zip := nil;
+  begin
+    _Plugin_Zip := nil;
+  end;
 
 finalization
   FreeAndNIL(_Plugin_Zip);
-
-(*
-Initialization
- begin
-   tPluginsMapFactory.RegisterClass(tPlugin_ZipBase);
- end;
-*)
 
 end.
 
