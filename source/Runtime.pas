@@ -3,7 +3,7 @@ unit Runtime;
 interface
 
 Uses Project, MessagesLog, Config, NovusVersionUtils, System.SysUtils,
-     uPSRuntime,  Plugins, dialogs, NovusDateStringUtils ;
+     uPSRuntime,  Plugins, dialogs, NovusDateStringUtils, uPSCompiler ;
 
 type
    tRuntime = class

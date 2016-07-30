@@ -14,11 +14,8 @@ uses
   System.SysUtils,
   System.Classes,
   Plugin_ZipClasses in 'Plugin_ZipClasses.pas',
-  Plugin in '..\Plugin.pas',
-  MessagesLog in 'API\MessagesLog.pas',
   uPSI_API_Zip in 'Imports\uPSI_API_Zip.pas',
-  API_Zip in 'API\API_Zip.pas',
-  APIBase in 'API\APIBase.pas';
+  API_Zip in 'API\API_Zip.pas';
 
 {$R *.res}
 

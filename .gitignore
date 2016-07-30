@@ -29,3 +29,6 @@
 /build/plugins/Plugin_Zip.dll
 *.local
 /units
+/source/units/win32
+*.identcache
+/build/ZCore.bpl
