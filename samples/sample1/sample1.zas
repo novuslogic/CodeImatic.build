@@ -14,9 +14,8 @@ begin
   Writeln('function ZipExtractFile');
 
   if not Zip.ExtractFile(wd + 'test.zip', 'test.txt', wd + 'data', NIL) then
-    Messageslog.LogError;
+     Messageslog.LogError;
 
-(*
   Writeln('function ZipExtractAll');
 
   if not Zip.ExtractAll(wd + 'test.zip', wd + 'data', NIL) then
@@ -63,7 +62,4 @@ begin
 
 
   writeln(wd);
-*)
-
-
 end.

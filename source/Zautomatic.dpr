@@ -44,11 +44,6 @@ uses
   uPSI_API_File in 'Plugins\Imports\uPSI_API_File.pas',
   uPSI_ExtraClasses in 'Plugins\Imports\uPSI_ExtraClasses.pas',
   uPSR_ExtraClasses in 'Plugins\Imports\uPSR_ExtraClasses.pas',
-  {$IFNDEF NEWZIP}
-  API_Zip in 'Plugins\API\API_Zip.pas',
-  uPSI_API_Zip in 'Plugins\Imports\uPSI_API_Zip.pas',
-  Plugin_Zip in 'Plugins\Plugin_Zip.pas',
-  {$ENDIF}
   Plugin_RegEx in 'Plugins\Plugin_RegEx.pas',
   API_RegEx in 'Plugins\API\API_RegEx.pas',
   uPSI_API_RegEx in 'Plugins\Imports\uPSI_API_RegEx.pas';

@@ -4,7 +4,7 @@ unit Plugins;
 interface
 
 uses  MessagesLog, uPSRuntime, uPSI_MessagesLog, uPSCompiler, PluginsMapFactory, Plugin,
-      Classes, SysUtils, NovusPlugin;
+      Classes, SysUtils, NovusPlugin, Config;
 
 type
    TPlugins = class
@@ -75,6 +75,7 @@ Var
   I: Integer;
   FPlugin: tPlugin;
   FExternalPlugin: IExternalPlugin;
+  loConfigPlugins: TConfigPlugins;
 begin
   // Internal Plugin Class
 
@@ -91,18 +92,25 @@ begin
     end;
 
   //External Plugin
-
-  {$IFDEF NEWZIP}
   foMessagesLog.Log('Loading plugins');
-  if FExternalPlugins.LoadPlugin('D:\Projects\Zautomatic\build\plugins\Zip.dll') then
+
+  if oConfig.oConfigPluginsList.Count > 0 then
     begin
-      FExternalPlugin := IExternalPlugin(FExternalPlugins.Plugins[FExternalPlugins.PluginCount-1]);
+      for I := 0 to oConfig.oConfigPluginsList.Count - 1do
+        begin
+          loConfigPlugins := tConfigPlugins(oConfig.oConfigPluginsList.Items[i]);
 
-      fPluginsList.Add(FExternalPlugin.CreatePlugin(foMessagesLog,fImp));
+          if FExternalPlugins.LoadPlugin(loConfigPlugins.PluginFilenamePathname) then
+            begin
+              FExternalPlugin := IExternalPlugin(FExternalPlugins.Plugins[FExternalPlugins.PluginCount-1]);
 
-      foMessagesLog.Log('Loaded: ' + FExternalPlugin.PluginName);
+              fPluginsList.Add(FExternalPlugin.CreatePlugin(foMessagesLog,fImp));
+
+              foMessagesLog.Log('Loaded: ' + FExternalPlugin.PluginName);
+            end;
+        end;
+
     end;
-  {$ENDIF}
 
 
 end;

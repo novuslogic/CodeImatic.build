@@ -32,3 +32,6 @@
 /source/units/win32
 *.identcache
 /build/ZCore.bpl
+/build/__history
+/build/plugins/Zip.dll
+/build/Zautomatic.config

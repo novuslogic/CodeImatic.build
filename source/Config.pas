@@ -2,20 +2,45 @@ unit Config;
 
 interface
 
-Uses SysUtils, NovusXMLBO, Registry, Windows, NovusStringUtils;
+Uses SysUtils, NovusXMLBO, Registry, Windows, NovusStringUtils, NovusFileUtils,
+     JvSimpleXml, NovusSimpleXML, NovusList;
 
 Const
   csMessageslogFile = 'Messages.log';
+  csConfigfile = 'zautomatic.config';
 
 Type
+   TConfigPlugins = class(Tobject)
+   private
+     fsPluginName: String;
+     fsPluginFilename: string;
+     fsPluginFilenamePathname: String;
+   protected
+   public
+     property PluginName: String
+       read fsPluginName
+       write fsPluginName;
+
+     property Pluginfilename: string
+        read fsPluginfilename
+        write fsPluginfilename;
+
+     property PluginFilenamePathname: String
+       read fsPluginFilenamePathname
+       write fsPluginFilenamePathname;
+   end;
+
+
    TConfig = Class(TNovusXMLBO)
    protected
-      fsPluginPath: String;
-      fsMessageslogFile: string;
-      fsProjectConfigFileName: String;
-      fsProjectFileName: String;
-      fsRootPath: String;
-      fbCompileOnly: Boolean;
+     fConfigPluginsList: tNovusList;
+     fsConfigfile: string;
+     fsPluginPath: String;
+     fsMessageslogFile: string;
+     fsProjectConfigFileName: String;
+     fsProjectFileName: String;
+     fsRootPath: String;
+     fbCompileOnly: Boolean;
    private
    public
      constructor Create; virtual; // override;
@@ -41,6 +66,10 @@ Type
         read fsRootPath
         write fsRootPath;
 
+     property Configfile: string
+       read fsConfigfile
+       write fsConfigfile;
+
      property PluginPath: String
        read fsPluginPath
        write fsPluginPath;
@@ -48,6 +77,10 @@ Type
      property CompileOnly: Boolean
        read fbCompileOnly
        write fbCompileOnly;
+
+     property oConfigPluginsList: tNovusList
+       read fConfigPluginsList
+       write fConfigPluginsList;
    End;
 
 Var
@@ -59,11 +92,15 @@ constructor TConfig.Create;
 begin
   inherited Create;
 
+  fConfigPluginsList := tNovusList.Create(TConfigPlugins);
+
   fbcompileonly := False;
 end;
 
 destructor TConfig.Destroy;
 begin
+  fConfigPluginsList.Free;
+
   inherited Destroy;
 end;
 
@@ -144,9 +181,53 @@ begin
 end;
 
 procedure TConfig.LoadConfig;
+Var
+  fPluginElem,
+  fPluginsElem: TJvSimpleXmlElem;
+  i, Index: Integer;
+  fsPluginName,
+  fsPluginFilename: String;
+  loConfigPlugins: TConfigPlugins;
 begin
   if fsRootPath = '' then
-    fsRootPath := TNovusStringUtils.RootDirectory;
+    fsRootPath := TNovusFileUtils.TrailingBackSlash(TNovusStringUtils.RootDirectory);
+
+  fsConfigfile := fsRootPath + csConfigfile;
+
+  if FileExists(fsConfigfile) then
+    begin
+      XMLFileName := fsRootPath + csConfigfile;
+      Retrieve;
+
+
+      Index := 0;
+       fPluginsElem  := TNovusSimpleXML.FindNode(oXMLDocument.Root, 'plugins', Index);
+       if Assigned(fPluginsElem) then
+         begin
+           For I := 0 to fPluginsElem.Items.count -1 do
+             begin
+               loConfigPlugins := TConfigPlugins.Create;
+
+               fsPluginName := fPluginsElem.Items[i].Name;
+
+               Index := 0;
+               fsPluginFilename := '';
+               fPluginElem := TNovusSimpleXML.FindNode(fPluginsElem.Items[i], 'filename', Index);
+               if Assigned(fPluginElem) then
+                 fsPluginFilename := fPluginElem.Value;
+
+               loConfigPlugins.PluginName := fsPluginName;
+               loConfigPlugins.Pluginfilename := fsPluginfilename;
+               loConfigPlugins.PluginFilenamePathname := rootpath + 'plugins\'+ fsPluginfilename;
+
+               fConfigPluginsList.Add(loConfigPlugins);
+             end;
+         end;
+
+
+    end;
+
+
 
 end;
 

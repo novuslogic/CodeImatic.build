@@ -52,7 +52,6 @@ uses ScriptEngine;
 function tRuntime.RunEnvironment: Boolean;
 var
   liIndex, i, x: integer;
-  bOK: Boolean;
   loProjectItem: tProjectItem;
   loScriptEngine: TScriptEngine;
 begin
