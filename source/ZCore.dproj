@@ -45,6 +45,8 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
+        <VerInfo_Locale>3081</VerInfo_Locale>
+        <DCC_BplOutput>..\build</DCC_BplOutput>
         <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
         <DCC_OutputNeverBuildDcps>true</DCC_OutputNeverBuildDcps>
         <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
