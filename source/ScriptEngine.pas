@@ -12,6 +12,7 @@ uses
   uPSRuntime,
   uPSUtils,
   Plugins,
+  project,
   uPSPreProcessor,
   uPSI_MessagesLog;
 
@@ -55,7 +56,8 @@ begin
 
 
   oruntime.oMessagesLog.LastExParam := lsExParam;
-  oruntime.oMessagesLog.Errors := True;
+//  oruntime.oMessagesLog.Errors := True;
+  oruntime.oMessagesLog.ProjectItem.BuildStatus := TBuildStatus.bsErrors;
 end;
 
 function CustomOnUses(Sender: TPSPascalCompiler; const Name: AnsiString): Boolean;
@@ -146,7 +148,8 @@ begin
   begin
     CompilerOutputMessage;
 
-    foMessageslog.Failed := True;
+//    foMessageslog.Failed := True;
+    foMessagesLog.ProjectItem.BuildStatus := TBuildStatus.bsFailed;
 
     Exit;
   end;
@@ -178,7 +181,8 @@ begin
 
     FExec.Free;
 
-    foMessageslog.Failed := True;
+    //foMessageslog.Failed := True;
+    foMessageslog.ProjectItem.BuildStatus := TBuildStatus.bsFailed;
 
     Exit;
   end;
@@ -193,13 +197,15 @@ begin
 
       FExec.Free;
 
-      foMessageslog.Failed := True;
+      //foMessageslog.Failed := True;
+
+      foMessageslog.ProjectItem.BuildStatus := TBuildStatus.bsFailed;
 
       Exit;
     end
   else
     begin
-      if foMessageslog.Errors  then
+      if foMessageslog.ProjectItem.BuildStatus = TBuildStatus.bsErrors then
         foMessageslog.WriteLog('Executed with errors.')
       else
         foMessageslog.WriteLog('Successfully executed');

@@ -32,7 +32,9 @@ requires
   rtl,
   PascalScript_Core_D18,
   NovusCodeLibrary_Core_D18,
-  NovusCodeLibrary_Log_D18;
+  NovusCodeLibrary_Log_D18,
+  Jcl,
+  JvSystem;
 
 contains
   Plugin in 'Plugin.pas',
@@ -40,3 +42,4 @@ contains
   APIBase in 'Plugins\API\APIBase.pas';
 
 end.
+

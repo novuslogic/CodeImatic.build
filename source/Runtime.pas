@@ -13,8 +13,8 @@ type
      foMessagesLog: tMessagesLog;
      foProject: tProject;
      foPlugins: TPlugins;
-     fdtStartBuild: tDatetime;
-     fdtEndBuild: tDatetime;
+ //    fdtStartBuild: tDatetime;
+  //   fdtEndBuild: tDatetime;
    public
      function RunEnvironment: Boolean;
 
@@ -30,19 +30,21 @@ type
        read foProject
        write foProject;
 
-     property  StartBuild: tDatetime
-       read fdtStartBuild
-       write fdtStartBuild;
+    // property  StartBuild: tDatetime
+     //  read fdtStartBuild
+    //   write fdtStartBuild;
 
-     property  EndBuild: tDatetime
-       read fdtEndBuild
-       write fdtEndBuild;
+    // property  EndBuild: tDatetime
+    //   read fdtEndBuild
+    //   write fdtEndBuild;
 
    end;
 
    Var
      oRuntime: tRuntime;
 
+
+   const cTimeformat = 'hh:mm:ss.zzz';
 
 
 implementation
@@ -62,6 +64,8 @@ begin
   if foProject.MessageslogPath = '' then foProject.MessageslogPath := foProject.GetWorkingdirectory;
 
   FoMessagesLog := tMessagesLog.Create(foProject.MessageslogPath + oConfig.MessageslogFile, foProject.OutputConsole);
+
+  FoMessagesLog.DateTimeMask := FormatSettings.ShortDateFormat + ' '+ cTimeformat;
 
   FoMessagesLog.OpenLog(true);
 
@@ -94,6 +98,8 @@ begin
 
   foPlugins.RegisterImports;
 
+  StartBuild := Now;
+
   for I := 0 to foProject.oProjectItemList.Count - 1 do
     begin
       loProjectItem := tProjectItem(foProject.oProjectItemList.items[i]);
@@ -111,9 +117,13 @@ begin
        begin
           FoMessagesLog.WriteLog('Project Filename:' + loProjectItem.ProjectFileName);
 
-          StartBuild := Now;
 
-          FoMessagesLog.WriteLog('Build started ' + FoMessagesLog.FormatedNow(StartBuild));
+          loProjectItem.BuildStatus := TBuildStatus.bsNone;
+          FoMessagesLog.ProjectItem := loProjectItem;
+
+          loProjectItem.StartBuild := Now;
+
+          FoMessagesLog.WriteLog('Build started ' + FoMessagesLog.FormatedNow(loProjectItem.StartBuild));
 
           loScriptEngine := TScriptEngine.Create(FoMessagesLog, FImp, FoPlugins);
 
@@ -121,20 +131,50 @@ begin
 
           loScriptEngine.ExecuteScript(oConfig.CompileOnly);
 
-          EndBuild := Now;
+          loProjectItem.EndBuild := Now;
 
-          if Not FoMessagesLog.Failed then
+          if FoMessagesLog.ProjectItem.BuildStatus <> TBuildStatus.bsFailed then
             begin
-              if Not FoMessagesLog.Errors then
-                FoMessagesLog.WriteLog('Build succeeded ' + FoMessagesLog.FormatedNow(EndBuild) + ' build time:' + TNovusDateStringUtils.FormatedMinutesBetween(StartBuild, EndBuild))
+              if FoMessagesLog.ProjectItem.BuildStatus <> TBuildStatus.bsErrors then
+                FoMessagesLog.WriteLog('Build succeeded: ' + FoMessagesLog.FormatedNow(loProjectItem.EndBuild))
               else
-                FoMessagesLog.WriteLog('Build with errors ' + FoMessagesLog.FormatedNow(EndBuild));
+                FoMessagesLog.WriteLog('Build with errors: ' + FoMessagesLog.FormatedNow(loProjectItem.EndBuild));
             end
           else
-            FoMessagesLog.WriteLog('Build failed ' + FoMessagesLog.FormatedNow(EndBuild));
+            FoMessagesLog.WriteLog('Build failed: ' + FoMessagesLog.FormatedNow(loProjectItem.EndBuild));
+
+          FoMessagesLog.WriteLog('Build Duration: ' + FormatDateTime(cTimeformat, loProjectItem.EndBuild-loProjectItem.StartBuild));
+
+          FoMessagesLog.ProjectItem := NIL;
 
           loScriptEngine.Free;
         end;
+    end;
+
+  EndBuild := Now;
+
+  // Build Time Report
+  FoMessagesLog.WriteLog('Build Time Report');
+
+  for I := 0 to foProject.oProjectItemList.Count - 1 do
+    begin
+      loProjectItem := tProjectItem(foProject.oProjectItemList.items[i]);
+
+      (*
+      if Not loProjectItem.Failed then
+        begin
+          if Not loProjectItem.Errors then
+             FoMessagesLog.WriteLog(loProjectItem.ItemName + ' build succeeded: ' + FoMessagesLog.FormatedNow(loProjectItem.EndBuild))
+           else
+                FoMessagesLog.WriteLog('Build with errors: ' + FoMessagesLog.FormatedNow(loProjectItem.EndBuild));
+            end
+          else
+            FoMessagesLog.WriteLog('Build failed: ' + FoMessagesLog.FormatedNow(loProjectItem.EndBuild));
+
+      *)
+
+
+      FoMessagesLog.WriteLog(loProjectItem.ItemName);
     end;
 
   FImp.Free;

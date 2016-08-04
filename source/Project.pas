@@ -6,11 +6,16 @@ Uses NovusXMLBO, Classes, SysUtils, NovusStringUtils, NovusBO, NovusList,
      JvSimpleXml, NovusSimpleXML, XMLlist, ProjectConfig, Dialogs, NovusFileUtils ;
 
 Type
+  TBuildStatus = (bsFailed, bsErrors, bsSucceeded, bsNone);
+
   TProjectItem = class(TNovusBO)
   protected
   private
+    fdtStartBuild: tdatetime;
+    fdtEndBuild: tDatetime;
     fsItemName: String;
     fsProjectFilename: String;
+    fBuildStatus: TBuildStatus;
   Public
     property ProjectFilename: String
       read fsProjectFilename
@@ -18,7 +23,19 @@ Type
     property ItemName: String
       read fsItemName
       write fsItemName;
-  end;
+
+    property StartBuild: tdatetime
+      read fdtStartBuild
+      write fdtStartBuild;
+
+    property  EndBuild: tDatetime
+       read fdtEndBuild
+       write fdtEndBuild;
+
+    property BuildStatus: TBuildStatus
+      read  fBuildStatus
+      write fBuildStatus;
+   end;
 
 
   TProject = class(TXMLlist)

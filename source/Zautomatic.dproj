@@ -79,10 +79,11 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <Debugger_CWD>D:\Projects\Zautomatic\samples\sample7\</Debugger_CWD>
         <BRCC_Defines>PS_USESSUPPORT;$(BRCC_Defines)</BRCC_Defines>
         <VerInfo_AutoGenVersion>true</VerInfo_AutoGenVersion>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <Debugger_RunParams>-project D:\Projects\Zautomatic\samples\sample1\sample1.zap -projectconfig D:\Projects\Zautomatic\samples\sample1\sample1.zapconfig </Debugger_RunParams>
+        <Debugger_RunParams>-project D:\Projects\Zautomatic\samples\sample7\sample7.zap -projectconfig D:\Projects\Zautomatic\samples\sample7\sample7.zapconfig </Debugger_RunParams>
         <DCC_Namespace>VCL;$(DCC_Namespace)</DCC_Namespace>
         <DCC_ExeOutput>..\build</DCC_ExeOutput>
         <Manifest_File>None</Manifest_File>

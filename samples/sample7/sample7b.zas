@@ -1,0 +1,3 @@
+begin
+  MessagesLog.log('Simple 7b');
+end.
