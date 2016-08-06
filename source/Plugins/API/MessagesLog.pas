@@ -33,14 +33,7 @@ type
       read fsLastExParam
       write fsLastExParam;
 
-  //  property Failed: Boolean
-  //    read fbFailed
-  //    write fbFailed;
-
-  //  property Errors: Boolean
-  //    read fbErrors
-  //    write fbErrors;
-  end;
+    end;
 
 implementation
 

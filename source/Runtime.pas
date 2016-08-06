@@ -13,10 +13,13 @@ type
      foMessagesLog: tMessagesLog;
      foProject: tProject;
      foPlugins: TPlugins;
- //    fdtStartBuild: tDatetime;
-  //   fdtEndBuild: tDatetime;
+     FdtDuration: TDateTime;
+     fBuildStatus: TBuildStatus;
+     function GetBuildStatus(aBuildStatus: TBuildStatus): String;
    public
      function RunEnvironment: Boolean;
+
+     procedure FinishBuild(const aProjectItem: TProjectItem; const aIncludeItemName: boolean = false);
 
      property oMessagesLog: tMessagesLog
        read foMessagesLog
@@ -30,14 +33,13 @@ type
        read foProject
        write foProject;
 
-    // property  StartBuild: tDatetime
-     //  read fdtStartBuild
-    //   write fdtStartBuild;
+     property Duration: TDateTime
+      read FdtDuration
+      write FdtDuration;
 
-    // property  EndBuild: tDatetime
-    //   read fdtEndBuild
-    //   write fdtEndBuild;
-
+     property BuildStatus: TBuildStatus
+       read fBuildStatus
+       write fBuildStatus;
    end;
 
    Var
@@ -98,7 +100,9 @@ begin
 
   foPlugins.RegisterImports;
 
-  StartBuild := Now;
+  Duration := 0;
+  BuildStatus := TBuildStatus.bsSucceeded;
+
 
   for I := 0 to foProject.oProjectItemList.Count - 1 do
     begin
@@ -117,8 +121,7 @@ begin
        begin
           FoMessagesLog.WriteLog('Project Filename:' + loProjectItem.ProjectFileName);
 
-
-          loProjectItem.BuildStatus := TBuildStatus.bsNone;
+          loProjectItem.BuildStatus := TBuildStatus.bsSucceeded;
           FoMessagesLog.ProjectItem := loProjectItem;
 
           loProjectItem.StartBuild := Now;
@@ -133,17 +136,14 @@ begin
 
           loProjectItem.EndBuild := Now;
 
-          if FoMessagesLog.ProjectItem.BuildStatus <> TBuildStatus.bsFailed then
-            begin
-              if FoMessagesLog.ProjectItem.BuildStatus <> TBuildStatus.bsErrors then
-                FoMessagesLog.WriteLog('Build succeeded: ' + FoMessagesLog.FormatedNow(loProjectItem.EndBuild))
-              else
-                FoMessagesLog.WriteLog('Build with errors: ' + FoMessagesLog.FormatedNow(loProjectItem.EndBuild));
-            end
-          else
-            FoMessagesLog.WriteLog('Build failed: ' + FoMessagesLog.FormatedNow(loProjectItem.EndBuild));
+          loProjectItem.Duration := loProjectItem.EndBuild-loProjectItem.StartBuild;
 
-          FoMessagesLog.WriteLog('Build Duration: ' + FormatDateTime(cTimeformat, loProjectItem.EndBuild-loProjectItem.StartBuild));
+          if Integer(loProjectItem.BuildStatus) > Integer(BuildStatus) then
+             BuildStatus := loProjectItem.BuildStatus;
+
+          Duration := Duration +  loProjectItem.Duration;
+
+          FinishBuild(loProjectItem);
 
           FoMessagesLog.ProjectItem := NIL;
 
@@ -151,31 +151,21 @@ begin
         end;
     end;
 
-  EndBuild := Now;
-
   // Build Time Report
-  FoMessagesLog.WriteLog('Build Time Report');
+  FoMessagesLog.WriteLog('Build time report');
 
   for I := 0 to foProject.oProjectItemList.Count - 1 do
     begin
       loProjectItem := tProjectItem(foProject.oProjectItemList.items[i]);
-
-      (*
-      if Not loProjectItem.Failed then
-        begin
-          if Not loProjectItem.Errors then
-             FoMessagesLog.WriteLog(loProjectItem.ItemName + ' build succeeded: ' + FoMessagesLog.FormatedNow(loProjectItem.EndBuild))
-           else
-                FoMessagesLog.WriteLog('Build with errors: ' + FoMessagesLog.FormatedNow(loProjectItem.EndBuild));
-            end
-          else
-            FoMessagesLog.WriteLog('Build failed: ' + FoMessagesLog.FormatedNow(loProjectItem.EndBuild));
-
-      *)
-
-
-      FoMessagesLog.WriteLog(loProjectItem.ItemName);
+      FinishBuild(loProjectItem, true);
     end;
+
+  FoMessagesLog.WriteLog('Total build duration: ' + FormatDateTime(cTimeformat, Duration));
+  FoMessagesLog.WriteLog('Build status: ' +  GetBuildStatus(BuildStatus));
+
+  if BuildStatus <> TBuildStatus.bsSucceeded then
+    ExitCode := Integer(BuildStatus);
+
 
   FImp.Free;
 
@@ -186,6 +176,43 @@ begin
   foPlugins.Free;
 
   foProject.Free;
+end;
+
+
+procedure tRuntime.FinishBuild(const aProjectItem: TProjectItem; const aIncludeItemName: boolean = false);
+Var
+  lsMessageLog: string;
+begin
+
+  if aProjectItem.BuildStatus <> TBuildStatus.bsFailed then
+    begin
+      if aProjectItem.BuildStatus <> TBuildStatus.bsErrors then
+        lsMessageLog := 'Build succeeded: ' + FoMessagesLog.FormatedNow(aProjectItem.EndBuild)
+      else
+        lsMessageLog := 'Build with errors: ' + FoMessagesLog.FormatedNow(aProjectItem.EndBuild);
+    end
+  else
+    lsMessageLog := 'Build failed: ' + FoMessagesLog.FormatedNow(aProjectItem.EndBuild);
+
+  lsMessageLog := lsMessageLog + ' - duration: ' + FormatDateTime(cTimeformat, aProjectItem.Duration);
+
+  if aIncludeItemName then
+    FoMessagesLog.WriteLog(aProjectItem.ItemName + ': ' +lsMessageLog)
+  else
+    FoMessagesLog.WriteLog(lsMessageLog);
+
+end;
+
+function tRuntime.GetBuildStatus(aBuildStatus: TBuildStatus): String;
+begin
+  Result := '';
+
+  case Integer(aBuildStatus) of
+    0: Result := 'Succeeded';
+    1: Result := 'Errors';
+    2: Result := 'Failed';
+    3: result := 'None';
+  end;
 end;
 
 Initialization
