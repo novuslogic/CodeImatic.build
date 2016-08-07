@@ -8,7 +8,7 @@ type
   TMessagesLog = class(TNovusLogFile)
   private
   protected
-    fProjectItem: TProjectItem;
+    fprojecttask: Tprojecttask;
     fLastExError: TPSError;
     fsLastExParam: tbtstring;
  //   fbFailed: Boolean;
@@ -21,9 +21,9 @@ type
 
     procedure InternalError;
 
-    property ProjectItem: TProjectItem
-      read fProjectItem
-      write fProjectItem;
+    property projecttask: Tprojecttask
+      read fprojecttask
+      write fprojecttask;
 
     property LastExError: TPSError
       read fLastExError
@@ -56,16 +56,16 @@ procedure TMessagesLog.LogError;
 begin
   WriteLog(fsLastExParam);
   if fLastExError = TPSError.erCustomError then
-     fProjectItem.BuildStatus := TBuildStatus.bsErrors
+     fprojecttask.BuildStatus := TBuildStatus.bsErrors
   else
-    fProjectItem.BuildStatus := TBuildStatus.bsFailed;
+    fprojecttask.BuildStatus := TBuildStatus.bsFailed;
 end;
 
 
 procedure TMessagesLog.InternalError;
 begin
    Log(WriteExceptLog);
-   fProjectItem.BuildStatus := TBuildStatus.bsFailed;
+   fprojecttask.BuildStatus := TBuildStatus.bsFailed;
 end;
 
 

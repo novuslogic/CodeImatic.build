@@ -57,7 +57,7 @@ begin
 
   oruntime.oMessagesLog.LastExParam := lsExParam;
 //  oruntime.oMessagesLog.Errors := True;
-  oruntime.oMessagesLog.ProjectItem.BuildStatus := TBuildStatus.bsErrors;
+  oruntime.oMessagesLog.projecttask.BuildStatus := TBuildStatus.bsErrors;
 end;
 
 function CustomOnUses(Sender: TPSPascalCompiler; const Name: AnsiString): Boolean;
@@ -148,8 +148,7 @@ begin
   begin
     CompilerOutputMessage;
 
-//    foMessageslog.Failed := True;
-    foMessagesLog.ProjectItem.BuildStatus := TBuildStatus.bsFailed;
+    foMessagesLog.projecttask.BuildStatus := TBuildStatus.bsFailed;
 
     Exit;
   end;
@@ -181,8 +180,7 @@ begin
 
     FExec.Free;
 
-    //foMessageslog.Failed := True;
-    foMessageslog.ProjectItem.BuildStatus := TBuildStatus.bsFailed;
+    foMessageslog.projecttask.BuildStatus := TBuildStatus.bsFailed;
 
     Exit;
   end;
@@ -194,18 +192,15 @@ begin
       foMessageslog.WriteLog('[Runtime Error] : ' + TIFErrorToString(FExec.ExceptionCode, FExec.ExceptionString) +
             ' in ' + IntToStr(FExec.ExceptionProcNo) + ' at ' + IntToSTr(FExec.ExceptionPos));
 
-
       FExec.Free;
 
-      //foMessageslog.Failed := True;
-
-      foMessageslog.ProjectItem.BuildStatus := TBuildStatus.bsFailed;
+      foMessageslog.projecttask.BuildStatus := TBuildStatus.bsFailed;
 
       Exit;
     end
   else
     begin
-      if foMessageslog.ProjectItem.BuildStatus = TBuildStatus.bsErrors then
+      if foMessageslog.projecttask.BuildStatus = TBuildStatus.bsErrors then
         foMessageslog.WriteLog('Executed with errors.')
       else
         foMessageslog.WriteLog('Successfully executed');

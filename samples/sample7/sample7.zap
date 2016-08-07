@@ -2,13 +2,17 @@
 <project>
   <outputconsole>true</outputconsole>
   <messageslogpath></messageslogpath>
-  <projectitem name = "sample7a.zas">
+  <projecttask name = "sample7a">
      <projectfilename>sample7a.zas</projectfilename>
-     <Criteria>If failed then contnueonrun</Criteria>    
-  </projectitem>
-   <projectitem name = "sample7b.zas">
+     <criteria>
+        <failed></failed>
+        <errors></errors>
+        <succeeded></succeeded>
+     </criteria>    
+  </projecttask>
+   <projecttask name = "sample7b">
      <projectfilename>sample7b.zas</projectfilename>    
-  </projectitem>
+  </projecttask>
 
 
 </project>

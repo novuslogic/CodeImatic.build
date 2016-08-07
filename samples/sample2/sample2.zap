@@ -2,8 +2,8 @@
 <project>
   <outputconsole>true</outputconsole>
   <messageslogpath>..\samples\sample2\</messageslogpath>
-  <projectitem name = "sample2.zas">
+  <projecttask name = "sample2">
      <projectfilename>..\samples\sample2\sample2.zas</projectfilename>    
-  </projectitem>
+  </projecttask>
  
 </project>

@@ -8,22 +8,32 @@ Uses NovusXMLBO, Classes, SysUtils, NovusStringUtils, NovusBO, NovusList,
 Type
   TBuildStatus = (bsSucceeded, bsErrors, bsFailed);
 
-  TProjectItem = class(TNovusBO)
+  TCriteria = class(TNovusBO)
+  protected
+  private
+  end;
+
+  Tprojecttask = class(TNovusBO)
   protected
   private
     fdtStartBuild: tdatetime;
     fdtEndBuild: tDatetime;
-    fsItemName: String;
+    fsTaskName: String;
     fsProjectFilename: String;
     fBuildStatus: TBuildStatus;
     FdtDuration: TDateTime;
+    FCriteria: TCriteria;
   Public
+    constructor Create; override;
+    destructor Destroy; override;
+
     property ProjectFilename: String
       read fsProjectFilename
       write fsProjectFilename;
-    property ItemName: String
-      read fsItemName
-      write fsItemName;
+
+    property TaskName: String
+      read fsTaskName
+      write fsTaskName;
 
     property StartBuild: tdatetime
       read fdtStartBuild
@@ -40,6 +50,10 @@ Type
     property Duration: TDateTime
       read FdtDuration
       write FdtDuration;
+
+    property Criteria: TCriteria
+       read FCriteria
+       write FCriteria;
   end;
 
 
@@ -48,13 +62,12 @@ Type
   private
     fbOutputConsole: boolean;
     foProjectConfig: TProjectConfig;
-    foProjectItemList: TNovusList;
+    foprojecttaskList: TNovusList;
     fsMessageslogPath: String;
     fsProjectFilename: String;
   public
     constructor Create; override;
     destructor Destroy; override;
-
 
     function GetMessageslogPath: String;
     function GetOutputConsole: Boolean;
@@ -63,11 +76,11 @@ Type
     function GetWorkingdirectory: String;
 
     procedure LoadProjectFile(aProjectFilename: String; aProjectConfigFilename: String);
-    function LoadProjectItem(aItemName: String; aProjectItem: TProjectItem): Boolean;
+    function Loadprojecttask(aTaskName: String; aprojecttask: Tprojecttask): Boolean;
 
-    property oProjectItemList: TNovusList
-      read foProjectItemList
-      write foProjectItemList;
+    property oprojecttaskList: TNovusList
+      read foprojecttaskList
+      write foprojecttaskList;
 
     property ProjectFileName: String
       read fsProjectFileName
@@ -96,7 +109,7 @@ begin
 
   foProjectConfig := TProjectConfig.Create;
 
-  foProjectItemList:= TNovusList.Create(TProjectItem);
+  foprojecttaskList:= TNovusList.Create(Tprojecttask);
 
 end;
 
@@ -104,29 +117,54 @@ destructor TProject.Destroy;
 begin
   foProjectConfig.Free;
 
-  foProjectItemList.Free;
+  foprojecttaskList.Free;
 
   inherited;
 end;
 
-function TProject.LoadProjectItem(aItemName: String; aProjectItem: TProjectItem): Boolean;
+function TProject.Loadprojecttask(aTaskName: String; aprojecttask: Tprojecttask): Boolean;
 Var
-  fJvSimpleXmlElem: TJvSimpleXmlElem;
+  fprojecttaskNode,
+  fsucceededNode,
+  ferrorsNode,
+  ffailedNode,
+  fcriteriaNode: TJvSimpleXmlElem;
   Index: Integer;
-  FNode: TJvSimpleXmlElem;
 begin
   Result := False;
 
   Try
-    fJvSimpleXmlElem  := TnovusSimpleXML.FindNodeByValue(oXMLDocument.Root, 'projectitem', 'name', aItemName);
+    fprojecttaskNode  := TnovusSimpleXML.FindNodeByValue(oXMLDocument.Root, 'projecttask', 'name', aTaskName);
 
-    If Assigned(fJvSimpleXmlElem) then
+    If Assigned(fprojecttaskNode) then
       begin
         Index := 0;
-        if assigned(TNovusSimpleXML.FindNode(fJvSimpleXmlElem, 'projectfilename', Index)) then
+        if assigned(TNovusSimpleXML.FindNode(fprojecttaskNode, 'projectfilename', Index)) then
           begin
             Index := 0;
-            aProjectItem.projectfilename := TNovusSimpleXML.FindNode(fJvSimpleXmlElem, 'projectfilename', Index).Value;
+            aprojecttask.projectfilename := TNovusSimpleXML.FindNode(fprojecttaskNode, 'projectfilename', Index).Value;
+
+            fcriteriaNode := TNovusSimpleXML.FindNode(fprojecttaskNode, 'criteria', Index);
+
+            if Assigned(fcriteriaNode) then
+              begin
+                Index := 0;
+                ffailedNode := TNovusSimpleXML.FindNode(fcriteriaNode, 'failed', Index);
+                if Assigned(ffailedNode) then ;
+
+                Index := 0;
+                ferrorsNode := TNovusSimpleXML.FindNode(fcriteriaNode, 'errors', Index);
+                if Assigned(ferrorsNode) then ;
+
+
+                Index := 0;
+                fsucceededNode := TNovusSimpleXML.FindNode(fcriteriaNode, 'succeeded', Index);
+                if Assigned(fsucceededNode) then ;
+
+              end;
+            
+
+
           end;
       end;
   Finally
@@ -171,9 +209,9 @@ end;
 
 procedure TProject.LoadProjectFile(aProjectFilename: String; aProjectConfigFilename: String);
 Var
-  fJvSimpleXmlElem: TJvSimpleXmlElem;
+  fprojecttaskNode: TJvSimpleXmlElem;
   Index: Integer;
-  loProjectItem: TProjectItem;
+  loprojecttask: Tprojecttask;
 begin
   XMLFileName := aProjectFilename;
   Retrieve;
@@ -186,20 +224,20 @@ begin
   if FileExists(aProjectConfigFilename) then
     foProjectConfig.LoadProjectConfigFile(aProjectConfigFilename);
 
-  //Project Items
+  //Project task
   Index := 0;
-  fJvSimpleXmlElem  := TNovusSimpleXML.FindNode(oXMLDocument.Root, 'projectitem', Index);
-  While(fJvSimpleXmlElem <> NIL) do
+  fprojecttaskNode  := TNovusSimpleXML.FindNode(oXMLDocument.Root, 'projecttask', Index);
+  While(fprojecttaskNode <> NIL) do
     begin
-      loProjectItem:= TProjectItem.Create;
+      loprojecttask:= Tprojecttask.Create;
 
-      loProjectItem.ItemName := fJvSimpleXmlElem.Properties[0].Value;
+      loprojecttask.TaskName := fprojecttaskNode.Properties[0].Value;
 
-      LoadProjectItem(loProjectItem.ItemName, loProjectItem);
+      Loadprojecttask(loprojecttask.TaskName, loprojecttask);
 
-      oProjectItemList.Add(loProjectItem);
+      oprojecttaskList.Add(loprojecttask);
 
-      fJvSimpleXmlElem  := TNovusSimpleXML.FindNode(oXMLDocument.Root, 'projectitem', Index);
+      fprojecttaskNode  := TNovusSimpleXML.FindNode(oXMLDocument.Root, 'projecttask', Index);
     end;
 
 end;
@@ -208,6 +246,23 @@ function TProject.GetCreateoutputdir: Boolean;
 begin
   Result := GetFieldAsBoolean(oXMLDocument.Root, 'Createoutputdir');
 end;
+
+constructor Tprojecttask.Create;
+begin
+  inherited Create;
+
+  FCriteria:=  TCriteria.Create;
+
+
+end;
+
+destructor Tprojecttask.Destroy;
+begin
+  FCriteria.Free;
+
+  inherited;
+end;
+
 
 
 

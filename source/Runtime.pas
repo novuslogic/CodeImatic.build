@@ -19,7 +19,7 @@ type
    public
      function RunEnvironment: Boolean;
 
-     procedure FinishBuild(const aProjectItem: TProjectItem; const aIncludeItemName: boolean = false);
+     procedure FinishBuild(const aprojecttask: Tprojecttask; const aIncludeItemName: boolean = false);
 
      property oMessagesLog: tMessagesLog
        read foMessagesLog
@@ -56,7 +56,7 @@ uses ScriptEngine;
 function tRuntime.RunEnvironment: Boolean;
 var
   liIndex, i, x: integer;
-  loProjectItem: tProjectItem;
+  loprojecttask: tprojecttask;
   loScriptEngine: TScriptEngine;
 begin
   foProject := tProject.Create;
@@ -104,48 +104,48 @@ begin
   BuildStatus := TBuildStatus.bsSucceeded;
 
 
-  for I := 0 to foProject.oProjectItemList.Count - 1 do
+  for I := 0 to foProject.oprojecttaskList.Count - 1 do
     begin
-      loProjectItem := tProjectItem(foProject.oProjectItemList.items[i]);
+      loprojecttask := tprojecttask(foProject.oprojecttaskList.items[i]);
 
-      FoMessagesLog.WriteLog('Project Item:' + loProjectItem.ItemName);
+      FoMessagesLog.WriteLog('Project Task:' + loprojecttask.TaskName);
 
 
-      if Not FileExists(loProjectItem.ProjectFileName) then
+      if Not FileExists(loprojecttask.ProjectFileName) then
         begin
-          FoMessagesLog.WriteLog('projectfilename ' + loProjectItem.ProjectFileName+ ' cannot be found.');
+          FoMessagesLog.WriteLog('projectfilename ' + loprojecttask.ProjectFileName+ ' cannot be found.');
 
           Continue;
         end
      else
        begin
-          FoMessagesLog.WriteLog('Project Filename:' + loProjectItem.ProjectFileName);
+          FoMessagesLog.WriteLog('Project Filename:' + loprojecttask.ProjectFileName);
 
-          loProjectItem.BuildStatus := TBuildStatus.bsSucceeded;
-          FoMessagesLog.ProjectItem := loProjectItem;
+          loprojecttask.BuildStatus := TBuildStatus.bsSucceeded;
+          FoMessagesLog.projecttask := loprojecttask;
 
-          loProjectItem.StartBuild := Now;
+          loprojecttask.StartBuild := Now;
 
-          FoMessagesLog.WriteLog('Build started ' + FoMessagesLog.FormatedNow(loProjectItem.StartBuild));
+          FoMessagesLog.WriteLog('Build started ' + FoMessagesLog.FormatedNow(loprojecttask.StartBuild));
 
           loScriptEngine := TScriptEngine.Create(FoMessagesLog, FImp, FoPlugins);
 
-          loScriptEngine.LoadScript(loProjectItem.ProjectFileName);
+          loScriptEngine.LoadScript(loprojecttask.ProjectFileName);
 
           loScriptEngine.ExecuteScript(oConfig.CompileOnly);
 
-          loProjectItem.EndBuild := Now;
+          loprojecttask.EndBuild := Now;
 
-          loProjectItem.Duration := loProjectItem.EndBuild-loProjectItem.StartBuild;
+          loprojecttask.Duration := loprojecttask.EndBuild-loprojecttask.StartBuild;
 
-          if Integer(loProjectItem.BuildStatus) > Integer(BuildStatus) then
-             BuildStatus := loProjectItem.BuildStatus;
+          if Integer(loprojecttask.BuildStatus) > Integer(BuildStatus) then
+             BuildStatus := loprojecttask.BuildStatus;
 
-          Duration := Duration +  loProjectItem.Duration;
+          Duration := Duration +  loprojecttask.Duration;
 
-          FinishBuild(loProjectItem);
+          FinishBuild(loprojecttask);
 
-          FoMessagesLog.ProjectItem := NIL;
+          FoMessagesLog.projecttask := NIL;
 
           loScriptEngine.Free;
         end;
@@ -154,10 +154,10 @@ begin
   // Build Time Report
   FoMessagesLog.WriteLog('Build time report');
 
-  for I := 0 to foProject.oProjectItemList.Count - 1 do
+  for I := 0 to foProject.oprojecttaskList.Count - 1 do
     begin
-      loProjectItem := tProjectItem(foProject.oProjectItemList.items[i]);
-      FinishBuild(loProjectItem, true);
+      loprojecttask := tprojecttask(foProject.oprojecttaskList.items[i]);
+      FinishBuild(loprojecttask, true);
     end;
 
   FoMessagesLog.WriteLog('Total build duration: ' + FormatDateTime(cTimeformat, Duration));
@@ -179,25 +179,25 @@ begin
 end;
 
 
-procedure tRuntime.FinishBuild(const aProjectItem: TProjectItem; const aIncludeItemName: boolean = false);
+procedure tRuntime.FinishBuild(const aprojecttask: Tprojecttask; const aIncludeItemName: boolean = false);
 Var
   lsMessageLog: string;
 begin
 
-  if aProjectItem.BuildStatus <> TBuildStatus.bsFailed then
+  if aprojecttask.BuildStatus <> TBuildStatus.bsFailed then
     begin
-      if aProjectItem.BuildStatus <> TBuildStatus.bsErrors then
-        lsMessageLog := 'Build succeeded: ' + FoMessagesLog.FormatedNow(aProjectItem.EndBuild)
+      if aprojecttask.BuildStatus <> TBuildStatus.bsErrors then
+        lsMessageLog := 'Build succeeded: ' + FoMessagesLog.FormatedNow(aprojecttask.EndBuild)
       else
-        lsMessageLog := 'Build with errors: ' + FoMessagesLog.FormatedNow(aProjectItem.EndBuild);
+        lsMessageLog := 'Build with errors: ' + FoMessagesLog.FormatedNow(aprojecttask.EndBuild);
     end
   else
-    lsMessageLog := 'Build failed: ' + FoMessagesLog.FormatedNow(aProjectItem.EndBuild);
+    lsMessageLog := 'Build failed: ' + FoMessagesLog.FormatedNow(aprojecttask.EndBuild);
 
-  lsMessageLog := lsMessageLog + ' - duration: ' + FormatDateTime(cTimeformat, aProjectItem.Duration);
+  lsMessageLog := lsMessageLog + ' - duration: ' + FormatDateTime(cTimeformat, aprojecttask.Duration);
 
   if aIncludeItemName then
-    FoMessagesLog.WriteLog(aProjectItem.ItemName + ': ' +lsMessageLog)
+    FoMessagesLog.WriteLog(aprojecttask.TaskName + ': ' +lsMessageLog)
   else
     FoMessagesLog.WriteLog(lsMessageLog);
 
