@@ -10,7 +10,12 @@ Type
 
   TCriteria = class(TNovusBO)
   protected
+    firetry: integer;
   private
+  public
+    property Retry:integer
+      read firetry
+      write firetry;
   end;
 
   Tprojecttask = class(TNovusBO)
@@ -128,6 +133,7 @@ Var
   fsucceededNode,
   ferrorsNode,
   ffailedNode,
+  fretryNode,
   fcriteriaNode: TJvSimpleXmlElem;
   Index: Integer;
 begin
@@ -141,6 +147,9 @@ begin
         Index := 0;
         if assigned(TNovusSimpleXML.FindNode(fprojecttaskNode, 'projectfilename', Index)) then
           begin
+            aprojecttask.Criteria.retry := 0;
+
+
             Index := 0;
             aprojecttask.projectfilename := TNovusSimpleXML.FindNode(fprojecttaskNode, 'projectfilename', Index).Value;
 
@@ -150,16 +159,18 @@ begin
               begin
                 Index := 0;
                 ffailedNode := TNovusSimpleXML.FindNode(fcriteriaNode, 'failed', Index);
-                if Assigned(ffailedNode) then ;
+                if Assigned(ffailedNode) then
+                  begin
+                    Index := 0;
+                    aprojecttask.Criteria.retry := 0;
+                    fretryNode := TNovusSimpleXML.FindNode(ffailedNode, 'retry', Index);
+                    if assigned(fretryNode) then
+                      aprojecttask.Criteria.retry := TNovusStringUtils.Str2Int(fretryNode.Value);
 
-                Index := 0;
-                ferrorsNode := TNovusSimpleXML.FindNode(fcriteriaNode, 'errors', Index);
-                if Assigned(ferrorsNode) then ;
 
 
-                Index := 0;
-                fsucceededNode := TNovusSimpleXML.FindNode(fcriteriaNode, 'succeeded', Index);
-                if Assigned(fsucceededNode) then ;
+                  end;
+
 
               end;
             

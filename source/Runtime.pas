@@ -132,14 +132,16 @@ begin
 
           loScriptEngine.LoadScript(loprojecttask.ProjectFileName);
 
-          loScriptEngine.ExecuteScript(oConfig.CompileOnly);
+          loScriptEngine.ExecuteScript(loprojecttask, oConfig.CompileOnly);
+
+           if Integer(loprojecttask.BuildStatus) > Integer(BuildStatus) then
+             BuildStatus := loprojecttask.BuildStatus;
 
           loprojecttask.EndBuild := Now;
 
           loprojecttask.Duration := loprojecttask.EndBuild-loprojecttask.StartBuild;
 
-          if Integer(loprojecttask.BuildStatus) > Integer(BuildStatus) then
-             BuildStatus := loprojecttask.BuildStatus;
+
 
           Duration := Duration +  loprojecttask.Duration;
 

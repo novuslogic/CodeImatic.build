@@ -36,7 +36,7 @@ Type
 
      procedure LoadScript(aFilename: String);
 
-     function ExecuteScript(aCompileOnly: Boolean = false): Boolean;
+     function ExecuteScript(aprojecttask: TProjectTask; aCompileOnly: Boolean): Boolean;
 
    end;
 
@@ -130,7 +130,10 @@ begin
   FParserStream.Free;
 end;
 
-function TScriptEngine.ExecuteScript(aCompileOnly: Boolean = false): boolean;
+function TScriptEngine.ExecuteScript(aprojecttask: TProjectTask; aCompileOnly: Boolean): boolean;
+var
+  liRetry, I: Integer;
+  fbOK: Boolean;
 begin
   Result := false;
 
@@ -180,13 +183,37 @@ begin
 
     FExec.Free;
 
-    foMessageslog.projecttask.BuildStatus := TBuildStatus.bsFailed;
+    aprojecttask.BuildStatus := TBuildStatus.bsFailed;
 
     Exit;
   end;
 
   foPlugins.SetVariantToClasses(FExec);
 
+  liRetry := aprojecttask.Criteria.Retry;
+
+  for I := 1 to liRetry do
+   begin
+     aprojecttask.BuildStatus := TBuildStatus.bsSucceeded;
+
+     fbOK := FExec.RunScript;
+
+     if not fbOK then
+        begin
+          foMessageslog.WriteLog('[Runtime Error] : ' + TIFErrorToString(FExec.ExceptionCode, FExec.ExceptionString) +
+            ' in ' + IntToStr(FExec.ExceptionProcNo) + ' at ' + IntToSTr(FExec.ExceptionPos));
+
+          foMessageslog.WriteLog('Retrying executing ... ' + IntToStr(I) + ' of ' + IntToStr(liRetry));
+
+          aprojecttask.BuildStatus := TBuildStatus.bsFailed;
+
+          FExec.LoadData(fsData); //reset
+        end
+      else
+        break;
+    end;
+
+    (*
   if not FExec.RunScript then
     begin
       foMessageslog.WriteLog('[Runtime Error] : ' + TIFErrorToString(FExec.ExceptionCode, FExec.ExceptionString) +
@@ -194,19 +221,21 @@ begin
 
       FExec.Free;
 
-      foMessageslog.projecttask.BuildStatus := TBuildStatus.bsFailed;
+      aprojecttask.BuildStatus := TBuildStatus.bsFailed;
 
       Exit;
     end
   else
-    begin
-      if foMessageslog.projecttask.BuildStatus = TBuildStatus.bsErrors then
-        foMessageslog.WriteLog('Executed with errors.')
-      else
-        foMessageslog.WriteLog('Successfully executed');
-    end;
+   begin
+     if aprojecttask.BuildStatus = TBuildStatus.bsErrors then
+       foMessageslog.WriteLog('Executed with errors.')
+    else
+      foMessageslog.WriteLog('Successfully executed');
+   end;
+     *)
 
-  Result := True;
+  if aprojecttask.BuildStatus = TBuildStatus.bsSucceeded then
+    Result := True;
 
   fExec.Free; // Free the executer.
 end;

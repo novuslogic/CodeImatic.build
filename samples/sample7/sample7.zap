@@ -5,9 +5,11 @@
   <projecttask name = "sample7a">
      <projectfilename>sample7a.zas</projectfilename>
      <criteria>
-        <failed></failed>
-        <errors></errors>
-        <succeeded></succeeded>
+        <failed>
+            <retry>5</retry>
+            <abort/>
+            <skip/>
+        </failed>
      </criteria>    
   </projecttask>
    <projecttask name = "sample7b">
