@@ -171,73 +171,50 @@ begin
 
   foMessageslog.WriteLog('Executing');
 
-  FExec := TPSExec.Create;  // Create an instance of the executer.
-
-  FExec.OnException := OnException;
-
-  foPlugins.RegisterFunctions(FExec);
-
-  if not FExec.LoadData(fsData) then
-  begin
-    foMessageslog.WriteLog('[Error] : Could not load data: '+TIFErrorToString(FExec.ExceptionCode, FExec.ExceptionString));
-
-    FExec.Free;
-
-    aprojecttask.BuildStatus := TBuildStatus.bsFailed;
-
-    Exit;
-  end;
-
-  foPlugins.SetVariantToClasses(FExec);
-
   liRetry := aprojecttask.Criteria.Retry;
 
   for I := 1 to liRetry do
    begin
-     aprojecttask.BuildStatus := TBuildStatus.bsSucceeded;
 
-     fbOK := FExec.RunScript;
+      Try
+        FExec := TPSExec.Create;  // Create an instance of the executer.
 
-     if not fbOK then
+        FExec.OnException := OnException;
+
+        foPlugins.RegisterFunctions(FExec);
+
+        if not FExec.LoadData(fsData) then
         begin
-          foMessageslog.WriteLog('[Runtime Error] : ' + TIFErrorToString(FExec.ExceptionCode, FExec.ExceptionString) +
-            ' in ' + IntToStr(FExec.ExceptionProcNo) + ' at ' + IntToSTr(FExec.ExceptionPos));
-
-          foMessageslog.WriteLog('Retrying executing ... ' + IntToStr(I) + ' of ' + IntToStr(liRetry));
+          foMessageslog.WriteLog('[Error] : Could not load data: '+TIFErrorToString(FExec.ExceptionCode, FExec.ExceptionString));
 
           aprojecttask.BuildStatus := TBuildStatus.bsFailed;
 
-          FExec.LoadData(fsData); //reset
-        end
-      else
-        break;
-    end;
+          break;
+        end;
 
-    (*
-  if not FExec.RunScript then
-    begin
-      foMessageslog.WriteLog('[Runtime Error] : ' + TIFErrorToString(FExec.ExceptionCode, FExec.ExceptionString) +
-            ' in ' + IntToStr(FExec.ExceptionProcNo) + ' at ' + IntToSTr(FExec.ExceptionPos));
+        foPlugins.SetVariantToClasses(FExec);
 
-      FExec.Free;
+        fbOK := FExec.RunScript;
 
-      aprojecttask.BuildStatus := TBuildStatus.bsFailed;
+        if not fbOK then
+           begin
+             foMessageslog.WriteLog('[Runtime Error] : ' + TIFErrorToString(FExec.ExceptionCode, FExec.ExceptionString) +
+                ' in ' + IntToStr(FExec.ExceptionProcNo) + ' at ' + IntToSTr(FExec.ExceptionPos));
 
-      Exit;
-    end
-  else
-   begin
-     if aprojecttask.BuildStatus = TBuildStatus.bsErrors then
-       foMessageslog.WriteLog('Executed with errors.')
-    else
-      foMessageslog.WriteLog('Successfully executed');
+             foMessageslog.WriteLog('Retrying executing ... ' + IntToStr(I) + ' of ' + IntToStr(liRetry));
+
+             aprojecttask.BuildStatus := TBuildStatus.bsFailed;
+           end
+         else
+           break;
+
+      Finally
+        FExec.Free;
+      End;
    end;
-     *)
 
-  if aprojecttask.BuildStatus = TBuildStatus.bsSucceeded then
+   if aprojecttask.BuildStatus = TBuildStatus.bsSucceeded then
     Result := True;
-
-  fExec.Free; // Free the executer.
 end;
 
 
@@ -256,9 +233,5 @@ begin
       foMessageslog.WriteLog(FCompiler.Msg[i].MessageToString)
     end;
 end;
-
-
-
-
 
 end.
