@@ -78,7 +78,6 @@ begin
           Try
             oruntime.oMessagesLog.Log('Compiling unit ... ' + name + '.zas' );
 
-
             lList := TStringList.Create;
             lList.LoadFromFile(oruntime.oProject.oProjectConfig.SearchPath +name + '.zas');
 
@@ -89,24 +88,18 @@ begin
             else
               begin
                 Result := False;
-
-             
               end;
-
-
           Finally
             lList.Free;
           End;
         Except
 
         End;
-
-
       end
-     else 
+     else
        begin
          TPSPascalCompiler(Sender).MakeError('', ecUnitNotFoundOrContainsErrors, Name);
-       
+
          Result := False;
        end;
   end;

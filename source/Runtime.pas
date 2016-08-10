@@ -135,13 +135,16 @@ begin
           loScriptEngine.ExecuteScript(loprojecttask, oConfig.CompileOnly);
 
            if Integer(loprojecttask.BuildStatus) > Integer(BuildStatus) then
-             BuildStatus := loprojecttask.BuildStatus;
+             begin
+               if (loprojecttask.Criteria.skip = true) and (loprojecttask.BuildStatus = TBuildStatus.bsFailed) then
+                 continue;
+
+               BuildStatus := loprojecttask.BuildStatus;
+             end;
 
           loprojecttask.EndBuild := Now;
 
           loprojecttask.Duration := loprojecttask.EndBuild-loprojecttask.StartBuild;
-
-
 
           Duration := Duration +  loprojecttask.Duration;
 
@@ -189,12 +192,20 @@ begin
   if aprojecttask.BuildStatus <> TBuildStatus.bsFailed then
     begin
       if aprojecttask.BuildStatus <> TBuildStatus.bsErrors then
-        lsMessageLog := 'Build succeeded: ' + FoMessagesLog.FormatedNow(aprojecttask.EndBuild)
+        lsMessageLog := 'Build succeeded: '
       else
-        lsMessageLog := 'Build with errors: ' + FoMessagesLog.FormatedNow(aprojecttask.EndBuild);
+        lsMessageLog := 'Build with errors: ' ;
     end
   else
-    lsMessageLog := 'Build failed: ' + FoMessagesLog.FormatedNow(aprojecttask.EndBuild);
+  if aprojecttask.BuildStatus = TBuildStatus.bsFailed then
+    begin
+      if aprojecttask.Criteria.skip = false then
+        lsMessageLog := 'Build failed: '
+      else
+        lsMessageLog := 'Build failed/skip: ';
+    end;
+
+  lsMessageLog := lsMessageLog + FoMessagesLog.FormatedNow(aprojecttask.EndBuild);
 
   lsMessageLog := lsMessageLog + ' - duration: ' + FormatDateTime(cTimeformat, aprojecttask.Duration);
 

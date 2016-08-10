@@ -11,11 +11,17 @@ Type
   TCriteria = class(TNovusBO)
   protected
     firetry: integer;
+    fbSkip: Boolean;
   private
   public
     property Retry:integer
       read firetry
       write firetry;
+
+    property skip: Boolean
+      read fbSkip
+      write fbSkip;
+
   end;
 
   Tprojecttask = class(TNovusBO)
@@ -133,6 +139,7 @@ Var
   fsucceededNode,
   ferrorsNode,
   ffailedNode,
+  fskipNode,
   fretryNode,
   fcriteriaNode: TJvSimpleXmlElem;
   Index: Integer;
@@ -155,6 +162,9 @@ begin
 
             fcriteriaNode := TNovusSimpleXML.FindNode(fprojecttaskNode, 'criteria', Index);
 
+            aprojecttask.Criteria.retry := 0;
+            aprojecttask.Criteria.skip := false;
+
             if Assigned(fcriteriaNode) then
               begin
                 Index := 0;
@@ -162,10 +172,16 @@ begin
                 if Assigned(ffailedNode) then
                   begin
                     Index := 0;
-                    aprojecttask.Criteria.retry := 0;
+
                     fretryNode := TNovusSimpleXML.FindNode(ffailedNode, 'retry', Index);
                     if assigned(fretryNode) then
                       aprojecttask.Criteria.retry := TNovusStringUtils.Str2Int(fretryNode.Value);
+
+                    Index := 0;
+
+                    fskipNode := TNovusSimpleXML.FindNode(ffailedNode, 'skip', Index);
+                    if assigned(fskipNode) then
+                      aprojecttask.Criteria.skip := TNovusStringUtils.StrToBoolean(fskipNode.Value);
 
 
 

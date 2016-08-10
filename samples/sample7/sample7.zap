@@ -8,7 +8,7 @@
         <failed>
             <retry>5</retry>
             <abort/>
-            <skip/>
+            <skip>Yes</skip>
         </failed>
      </criteria>    
   </projecttask>
