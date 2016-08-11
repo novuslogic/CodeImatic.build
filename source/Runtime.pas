@@ -59,128 +59,149 @@ var
   loprojecttask: tprojecttask;
   loScriptEngine: TScriptEngine;
 begin
-  foProject := tProject.Create;
+  Try
+    foProject := tProject.Create;
 
-  foProject.LoadProjectFile(oConfig.ProjectFileName, oConfig.ProjectConfigFileName);
+    foProject.LoadProjectFile(oConfig.ProjectFileName, oConfig.ProjectConfigFileName);
 
-  if foProject.MessageslogPath = '' then foProject.MessageslogPath := foProject.GetWorkingdirectory;
+    if foProject.MessageslogPath = '' then foProject.MessageslogPath := foProject.GetWorkingdirectory;
 
-  FoMessagesLog := tMessagesLog.Create(foProject.MessageslogPath + oConfig.MessageslogFile, foProject.OutputConsole);
+    FoMessagesLog := tMessagesLog.Create(foProject.MessageslogPath + oConfig.MessageslogFile, foProject.OutputConsole);
 
-  FoMessagesLog.DateTimeMask := FormatSettings.ShortDateFormat + ' '+ cTimeformat;
+    FoMessagesLog.DateTimeMask := FormatSettings.ShortDateFormat + ' '+ cTimeformat;
 
-  FoMessagesLog.OpenLog(true);
+    FoMessagesLog.OpenLog(true);
 
-  if not FoMessagesLog.IsFileOpen then
-    begin
-      foProject.Free;
+    if not FoMessagesLog.IsFileOpen then
+      begin
+        WriteLn(FoMessagesLog.Filename + ' log file cannot be created.');
 
-      WriteLn(FoMessagesLog.Filename + ' log file cannot be created.');
+        Exit;
+      end;
 
-      Exit;
-    end;
+    FoMessagesLog.WriteLog('Zautomatic - © Copyright Novuslogic Software 2016 All Rights Reserved');
+    FoMessagesLog.WriteLog('Version: ' + TNovusVersionUtils.GetFullVersionNumber);
 
-  FoMessagesLog.WriteLog('Zautomatic - © Copyright Novuslogic Software 2016 All Rights Reserved');
-  FoMessagesLog.WriteLog('Version: ' + TNovusVersionUtils.GetFullVersionNumber);
+    FoMessagesLog.WriteLog('Project:' + foProject.ProjectFileName);
+    if (foProject.oProjectConfig.ProjectConfigFileName <> '') then
+      FoMessagesLog.WriteLog('Projectconfig:' + foProject.oProjectConfig.ProjectConfigFileName);
 
-  FoMessagesLog.WriteLog('Project:' + foProject.ProjectFileName);
-  if (foProject.oProjectConfig.ProjectConfigFileName <> '') then
-    FoMessagesLog.WriteLog('Projectconfig:' + foProject.oProjectConfig.ProjectConfigFileName);
+    FoMessagesLog.WriteLog('Messagelog file: ' + FoMessagesLog.Filename);
 
-  FoMessagesLog.WriteLog('Messagelog file: ' + FoMessagesLog.Filename);
+    if oConfig.CompileOnly then
+      FoMessagesLog.WriteLog('Option:Compile Only.')
+    else
+      FoMessagesLog.WriteLog('Option:Compile and Execute.');
+    FImp := TPSRuntimeClassImporter.Create;
+    foPlugins := TPlugins.Create(FoMessagesLog, FImp);
 
-  if oConfig.CompileOnly then
-    FoMessagesLog.WriteLog('Option:Compile Only.')
-  else
-    FoMessagesLog.WriteLog('Option:Compile and Execute.');
-  FImp := TPSRuntimeClassImporter.Create;
-  foPlugins := TPlugins.Create(FoMessagesLog, FImp);
+    foPlugins.LoadPlugins;
 
-  foPlugins.LoadPlugins;
+    foPlugins.RegisterImports;
 
-  foPlugins.RegisterImports;
+    Duration := 0;
+    BuildStatus := TBuildStatus.bsSucceeded;
 
-  Duration := 0;
-  BuildStatus := TBuildStatus.bsSucceeded;
+    for I := 0 to foProject.oprojecttaskList.Count - 1 do
+      begin
+        loprojecttask := tprojecttask(foProject.oprojecttaskList.items[i]);
 
-
-  for I := 0 to foProject.oprojecttaskList.Count - 1 do
-    begin
-      loprojecttask := tprojecttask(foProject.oprojecttaskList.items[i]);
-
-      FoMessagesLog.WriteLog('Project Task:' + loprojecttask.TaskName);
+        FoMessagesLog.WriteLog('Project Task:' + loprojecttask.TaskName);
 
 
-      if Not FileExists(loprojecttask.ProjectFileName) then
-        begin
-          FoMessagesLog.WriteLog('projectfilename ' + loprojecttask.ProjectFileName+ ' cannot be found.');
+        if Not FileExists(loprojecttask.ProjectFileName) then
+          begin
+            FoMessagesLog.WriteLog('projectfilename ' + loprojecttask.ProjectFileName+ ' cannot be found.');
 
-          Continue;
-        end
-     else
-       begin
-          FoMessagesLog.WriteLog('Project Filename:' + loprojecttask.ProjectFileName);
+            Continue;
+          end
+       else
+         begin
+            FoMessagesLog.WriteLog('Project Filename:' + loprojecttask.ProjectFileName);
 
-          loprojecttask.BuildStatus := TBuildStatus.bsSucceeded;
-          FoMessagesLog.projecttask := loprojecttask;
+            loprojecttask.BuildStatus := TBuildStatus.bsSucceeded;
+            FoMessagesLog.projecttask := loprojecttask;
 
-          loprojecttask.StartBuild := Now;
+            loprojecttask.StartBuild := Now;
 
-          FoMessagesLog.WriteLog('Build started ' + FoMessagesLog.FormatedNow(loprojecttask.StartBuild));
+            FoMessagesLog.WriteLog('Build started ' + FoMessagesLog.FormatedNow(loprojecttask.StartBuild));
 
-          loScriptEngine := TScriptEngine.Create(FoMessagesLog, FImp, FoPlugins);
 
-          loScriptEngine.LoadScript(loprojecttask.ProjectFileName);
+            Try
+              loScriptEngine := TScriptEngine.Create(FoMessagesLog, FImp, FoPlugins);
 
-          loScriptEngine.ExecuteScript(loprojecttask, oConfig.CompileOnly);
+              loScriptEngine.LoadScript(loprojecttask.ProjectFileName);
 
-           if Integer(loprojecttask.BuildStatus) > Integer(BuildStatus) then
-             begin
-               if (loprojecttask.Criteria.skip = true) and (loprojecttask.BuildStatus = TBuildStatus.bsFailed) then
-                 continue;
+              loScriptEngine.ExecuteScript(loprojecttask, oConfig.CompileOnly);
+            Finally
+              loScriptEngine.Free;
+            End;
 
-               BuildStatus := loprojecttask.BuildStatus;
-             end;
+            loprojecttask.EndBuild := Now;
 
-          loprojecttask.EndBuild := Now;
+            loprojecttask.Duration := loprojecttask.EndBuild-loprojecttask.StartBuild;
 
-          loprojecttask.Duration := loprojecttask.EndBuild-loprojecttask.StartBuild;
+            Duration := Duration +  loprojecttask.Duration;
 
-          Duration := Duration +  loprojecttask.Duration;
+            FinishBuild(loprojecttask);
 
-          FinishBuild(loprojecttask);
+            FoMessagesLog.projecttask := NIL;
 
-          FoMessagesLog.projecttask := NIL;
+            if Integer(loprojecttask.BuildStatus) > Integer(BuildStatus) then
+               begin
+                 BuildStatus := loprojecttask.BuildStatus;
 
-          loScriptEngine.Free;
-        end;
-    end;
+                 if (loprojecttask.Criteria.abort = true) and (loprojecttask.BuildStatus = TBuildStatus.bsFailed) then
+                   begin
+                     Break;
+                   end
+                 else
+                 if (loprojecttask.Criteria.skip = true) and (loprojecttask.BuildStatus = TBuildStatus.bsFailed) then
+                   continue;
 
-  // Build Time Report
-  FoMessagesLog.WriteLog('Build time report');
 
-  for I := 0 to foProject.oprojecttaskList.Count - 1 do
-    begin
-      loprojecttask := tprojecttask(foProject.oprojecttaskList.items[i]);
-      FinishBuild(loprojecttask, true);
-    end;
+               end;
+                    (*
+            loprojecttask.EndBuild := Now;
 
-  FoMessagesLog.WriteLog('Total build duration: ' + FormatDateTime(cTimeformat, Duration));
-  FoMessagesLog.WriteLog('Build status: ' +  GetBuildStatus(BuildStatus));
+            loprojecttask.Duration := loprojecttask.EndBuild-loprojecttask.StartBuild;
 
-  if BuildStatus <> TBuildStatus.bsSucceeded then
+            Duration := Duration +  loprojecttask.Duration;
+
+            FinishBuild(loprojecttask);
+
+            FoMessagesLog.projecttask := NIL;
+                      *)
+
+          end;
+      end;
+
+    // Build Time Report
+    FoMessagesLog.WriteLog('Build time report');
+
+    for I := 0 to foProject.oprojecttaskList.Count - 1 do
+      begin
+        loprojecttask := tprojecttask(foProject.oprojecttaskList.items[i]);
+        FinishBuild(loprojecttask, true);
+      end;
+
+    FoMessagesLog.WriteLog('Total build duration: ' + FormatDateTime(cTimeformat, Duration));
+    FoMessagesLog.WriteLog('Build status: ' +  GetBuildStatus(BuildStatus));
+
     ExitCode := Integer(BuildStatus);
 
+    FImp.Free;
 
-  FImp.Free;
+    FoMessagesLog.CloseLog;
 
-  FoMessagesLog.CloseLog;
+    FoMessagesLog.Free;
 
-  FoMessagesLog.Free;
+    foPlugins.Free;
+  Finally
+    foProject.Free;
+  End;
 
-  foPlugins.Free;
 
-  foProject.Free;
 end;
 
 
@@ -188,6 +209,9 @@ procedure tRuntime.FinishBuild(const aprojecttask: Tprojecttask; const aIncludeI
 Var
   lsMessageLog: string;
 begin
+  lsMessageLog := '';
+
+  if aprojecttask.EndBuild = 0 then Exit;
 
   if aprojecttask.BuildStatus <> TBuildStatus.bsFailed then
     begin
@@ -199,10 +223,13 @@ begin
   else
   if aprojecttask.BuildStatus = TBuildStatus.bsFailed then
     begin
-      if aprojecttask.Criteria.skip = false then
-        lsMessageLog := 'Build failed: '
+      if aprojecttask.Criteria.abort = true then
+        lsMessageLog := 'Build failed/abort: '
       else
-        lsMessageLog := 'Build failed/skip: ';
+      if aprojecttask.Criteria.skip = true then
+        lsMessageLog := 'Build failed/skip: '
+      else
+        lsMessageLog := 'Build failed: ';
     end;
 
   lsMessageLog := lsMessageLog + FoMessagesLog.FormatedNow(aprojecttask.EndBuild);
