@@ -1,14 +1,14 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{13CB2ED3-80EB-4718-B61E-521014CF0BC2}</ProjectGuid>
+        <ProjectGuid>{05EF412B-8451-4337-A9D6-6685C5B72615}</ProjectGuid>
         <ProjectVersion>14.6</ProjectVersion>
         <FrameworkType>None</FrameworkType>
-        <MainSource>Zautomatic.dpr</MainSource>
+        <MainSource>Task.dpr</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
-        <AppType>Console</AppType>
+        <AppType>Library</AppType>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -45,9 +45,9 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <DCC_UsePackage>vcl;rtl;Zcore;NovusCodeLibrary_Core_D18;NovusCodeLibrary_Log_D18;$(DCC_UsePackage)</DCC_UsePackage>
-        <UsePackages>True</UsePackages>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
+        <GenDll>true</GenDll>
+        <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
         <DCC_ExeOutput>.\$(Platform)\$(Config)</DCC_ExeOutput>
         <DCC_E>false</DCC_E>
         <DCC_N>false</DCC_N>
@@ -56,19 +56,17 @@
         <DCC_K>false</DCC_K>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_OSX32)'!=''">
-        <DCC_ConsoleTarget>true</DCC_ConsoleTarget>
+        <DCC_UsePackage>DBXInterBaseDriver;DataSnapServer;DataSnapCommon;DataAbstract_SpiderMonkeyScripting_D18;DbxCommonDriver;dbxcds;CustomIPTransport;dsnap;IndyIPServer;IndyCore;CloudService;FmxTeeUI;RemObjects_Indy_D18;bindcompfmx;dbrtl;bindcomp;inetdb;xmlrtl;ibxpress;bindengine;soaprtl;FMXTee;DBXInformixDriver;DBXFirebirdDriver;inet;DBXSybaseASADriver;dbexpress;IndyIPClient;DataAbstract_DBXDriver_Pro_D18;DBXSqliteDriver;fmx;IndySystem;DataSnapClient;RemObjects_WebBroker_D18;DataSnapProviderClient;DBXOracleDriver;DataAbstract_DBXDriver_Enterprise_D18;fmxase;IndyIPCommon;inetdbxpress;rtl;DbxClientDriver;IndyProtocols;DBXMySQLDriver;bindcompdbx;fmxobj;fmxdae;DataSnapIndy10ServerTransport;$(DCC_UsePackage)</DCC_UsePackage>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <DCC_UsePackage>JvGlobus;dxBarRS18;dxPSCoreRS18;JvMM;JvManagedThreads;dxPScxPCProdRS18;cxTreeListRS18;dxDockingRS18;frxDB18;dxThemeRS18;dxPSdxOCLnkRS18;JvCrypt;DBXInterBaseDriver;DataSnapServer;DataSnapCommon;DataAbstract_SpiderMonkeyScripting_D18;cxTreeListdxBarPopupMenuRS18;JvNet;JvDotNetCtrls;dxGaugeControlRS18;DbxCommonDriver;DataAbstract_SQLiteDriver_D18;vclimg;dbxcds;DatasnapConnectorsFreePascal;JvXPCtrls;DOSCommandDR;vcldb;cxExportRS18;BrowserClickD18;Hydra_FMX_D18;CustomIPTransport;dsnap;IndyIPServer;IndyCore;cxVerticalGridRS18;CloudService;dxPSdxDBOCLnkRS18;FmxTeeUI;dxADOServerModeRS18;RemObjects_Indy_D18;JvDB;JvRuntimeDesign;cxSchedulerRibbonStyleEventEditorRS18;dxPScxExtCommonRS18;cxEditorsRS18;cxSchedulerRS18;dxSpellCheckerRS18;dxPScxVGridLnkRS18;JclDeveloperTools;NovusCodeLibrary_Core_D18;dxRibbonRS18;bindcompfmx;Hydra_RO_D18;vcldbx;cxBarEditItemRS18;cxPageControlRS18;dbrtl;dxMapControlRS18;bindcomp;inetdb;JvPluginSystem;SqlDir180;DBXOdbcDriver;dxPSdxSpreadSheetLnkRS18;JvCmp;JvTimeFramework;xmlrtl;ibxpress;dxBarExtItemsRS18;frxe18;vclactnband;bindengine;soaprtl;FMXTee;bindcompvcl;dxPsPrVwAdvRS18;Jcl;vclie;cxPivotGridRS18;dxmdsRS18;dxBarDBNavRS18;dxTileControlRS18;dxComnRS18;dxBarExtDBItemsRS18;DBXInformixDriver;dxWizardControlRS18;Intraweb;dxPScxSchedulerLnkRS18;dxNavBarRS18;dsnapcon;DBXFirebirdDriver;inet;DataAbstract_SDDriver_D18;dxPScxCommonRS18;JvPascalInterpreter;vclx;DBXSybaseASADriver;dxorgcRS18;dbexpress;JvBDE;IndyIPClient;DataAbstract_DBXDriver_Pro_D18;dxGDIPlusRS18;dxLayoutControlRS18;ZComponent;DBXSqliteDriver;tmswizdXE4;AbbreviaVCL;DataAbstract_ActiveScripting_D18;fmx;JvDlgs;IndySystem;TeeDB;frx18;inetdbbde;vclib;DataSnapClient;dxPScxTLLnkRS18;RemObjects_WebBroker_D18;cxSchedulerGridRS18;dxtrmdRS18;DataSnapProviderClient;DBXSybaseASEDriver;RemObjects_Synapse_D18;dxTabbedMDIRS18;MetropolisUILiveTile;dxPSLnksRS18;vcldsnap;dxPScxPivotGridLnkRS18;DBXDb2Driver;DBXOracleDriver;dxServerModeRS18;JvCore;DataAbstract_DBXDriver_Enterprise_D18;vclribbon;dxdborRS18;fmxase;vcl;IndyIPCommon;DBXMSSQLDriver;CodeSiteExpressPkg;DataAbstract_IDE_D18;cxPivotGridChartRS18;JvAppFrm;inetdbxpress;webdsnap;dxPScxGridLnkRS18;cxLibraryRS18;JvDocking;adortl;JvWizards;NovusPack_RO_D18;dxPSdxDBTVLnkRS18;JvHMI;dxSpreadSheetRS18;tmsdXE4;JvBands;ZDbc;rtl;DbxClientDriver;ZPlain;Tee;JclContainers;DelphiXE4_RestApi;JvSystem;svnui;Hydra_Core_D18;NovusPack_Win32Debug_D18;JvControls;dxDBXServerModeRS18;IndyProtocols;DBXMySQLDriver;dxFlowChartRS18;bindcompdbx;TeeUI;JvJans;JvPrintPreview;JvPageComps;JvStdCtrls;JvCustom;ZCore;vcltouch;dxPSPrVwRibbonRS18;tmsexdXE4;dxPSdxFCLnkRS18;VclSmp;cxGridRS18;cxSchedulerTreeBrowserRS18;DataSnapConnectors;NovusPack_RODA_D18;dxdbtrRS18;tmsxlsdXE4;SynEdit_RXE4;dxCoreRS18;fmxobj;JclVcl;Hydra_VCL_D18;ZParseSql;svn;dxPSdxLCLnkRS18;fmxdae;cxPivotGridOLAPRS18;cxDataRS18;bdertl;EmbeddedWebBrowser_DXE4;DataSnapIndy10ServerTransport;$(DCC_UsePackage)</DCC_UsePackage>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
-        <DCC_ConsoleTarget>true</DCC_ConsoleTarget>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
-        <VerInfo_Locale>1033</VerInfo_Locale>
-        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <DCC_ConsoleTarget>true</DCC_ConsoleTarget>
+        <DCC_UsePackage>DBXInterBaseDriver;DataSnapServer;DataSnapCommon;DataAbstract_SpiderMonkeyScripting_D18;DbxCommonDriver;DataAbstract_SQLiteDriver_D18;vclimg;dbxcds;DatasnapConnectorsFreePascal;DOSCommandDR;vcldb;Hydra_FMX_D18;CustomIPTransport;dsnap;IndyIPServer;IndyCore;CloudService;FmxTeeUI;RemObjects_Indy_D18;bindcompfmx;dbrtl;bindcomp;inetdb;SqlDir180;DBXOdbcDriver;xmlrtl;ibxpress;vclactnband;bindengine;soaprtl;FMXTee;bindcompvcl;vclie;DBXInformixDriver;Intraweb;dsnapcon;DBXFirebirdDriver;inet;vclx;DBXSybaseASADriver;dbexpress;IndyIPClient;DataAbstract_DBXDriver_Pro_D18;ZComponent;DBXSqliteDriver;AbbreviaVCL;fmx;IndySystem;TeeDB;vclib;DataSnapClient;RemObjects_WebBroker_D18;DataSnapProviderClient;DBXSybaseASEDriver;RemObjects_Synapse_D18;MetropolisUILiveTile;vcldsnap;DBXDb2Driver;DBXOracleDriver;DataAbstract_DBXDriver_Enterprise_D18;vclribbon;fmxase;vcl;IndyIPCommon;DBXMSSQLDriver;inetdbxpress;webdsnap;adortl;tmsdXE4;ZDbc;rtl;DbxClientDriver;ZPlain;Tee;DelphiXE4_RestApi;Hydra_Core_D18;IndyProtocols;DBXMySQLDriver;bindcompdbx;TeeUI;ZCore;vcltouch;tmsexdXE4;VclSmp;DataSnapConnectors;tmsxlsdXE4;SynEdit_RXE4;fmxobj;Hydra_VCL_D18;ZParseSql;fmxdae;DataSnapIndy10ServerTransport;$(DCC_UsePackage)</DCC_UsePackage>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -79,16 +77,6 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <Debugger_CWD>D:\Projects\Zautomatic\samples\sample8\</Debugger_CWD>
-        <BRCC_Defines>PS_USESSUPPORT;$(BRCC_Defines)</BRCC_Defines>
-        <VerInfo_AutoGenVersion>true</VerInfo_AutoGenVersion>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <Debugger_RunParams>-project D:\Projects\Zautomatic\samples\sample8\sample8.zap -projectconfig D:\Projects\Zautomatic\samples\sample8\sample8.zapconfig </Debugger_RunParams>
-        <DCC_Namespace>VCL;$(DCC_Namespace)</DCC_Namespace>
-        <DCC_ExeOutput>..\build</DCC_ExeOutput>
-        <Manifest_File>None</Manifest_File>
-        <VerInfo_Locale>1033</VerInfo_Locale>
-        <DCC_DcuOutput>..\units\win32\</DCC_DcuOutput>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -101,50 +89,6 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="ScriptEngine.pas"/>
-        <DCCReference Include="Config.pas"/>
-        <DCCReference Include="Project.pas"/>
-        <DCCReference Include="projectconfig.pas"/>
-        <DCCReference Include="XMLList.pas"/>
-        <DCCReference Include="Runtime.pas"/>
-        <DCCReference Include="Plugins\API\MessagesLog.pas"/>
-        <DCCReference Include="Plugins.pas"/>
-        <DCCReference Include="Plugin.pas"/>
-        <DCCReference Include="PluginsMapFactory.pas"/>
-        <DCCReference Include="Plugins\Plugin_Messageslog.pas"/>
-        <DCCReference Include="Plugins\Plugin_Commands.pas"/>
-        <DCCReference Include="Plugins\API\APIBase.pas"/>
-        <DCCReference Include="Plugins\Imports\uPSI_MessagesLog.pas"/>
-        <DCCReference Include="Plugins\Plugin_Shell.pas"/>
-        <DCCReference Include="Plugins\API\API_Shell.pas"/>
-        <DCCReference Include="Plugins\Imports\uPSI_API_Shell.pas"/>
-        <DCCReference Include="Plugins\API\API_ProjectConfig.pas"/>
-        <DCCReference Include="Plugins\Plugin_ProjectConfig.pas"/>
-        <DCCReference Include="Plugins\Imports\uPSI_API_ProjectConfig.pas"/>
-        <DCCReference Include="Plugins\API\API_Environment.pas"/>
-        <DCCReference Include="Plugins\Plugin_Environment.pas"/>
-        <DCCReference Include="Plugins\Imports\uPSI_API_Environment.pas"/>
-        <DCCReference Include="Plugins\Plugin_WinAPI.pas"/>
-        <DCCReference Include="Plugins\API\API_WinAPI.pas"/>
-        <DCCReference Include="Plugins\Imports\uPSI_API_WinAPI.pas"/>
-        <DCCReference Include="Plugins\Plugin_IniFile.pas"/>
-        <DCCReference Include="Plugins\Imports\uPSI_API_IniFile.pas"/>
-        <DCCReference Include="Plugins\API\API_IniFile.pas"/>
-        <DCCReference Include="Plugins\API\API_Folder.pas"/>
-        <DCCReference Include="Plugins\Plugin_Folder.pas"/>
-        <DCCReference Include="Plugins\Imports\uPSI_API_Folder.pas"/>
-        <DCCReference Include="Plugins\API\API_File.pas"/>
-        <DCCReference Include="Plugins\Plugin_File.pas"/>
-        <DCCReference Include="Plugins\Imports\uPSI_API_File.pas"/>
-        <DCCReference Include="Plugins\Imports\uPSI_ExtraClasses.pas"/>
-        <DCCReference Include="Plugins\Imports\uPSR_ExtraClasses.pas"/>
-        <DCCReference Include="Plugins\Plugin_RegEx.pas"/>
-        <DCCReference Include="Plugins\API\API_RegEx.pas"/>
-        <DCCReference Include="Plugins\Imports\uPSI_API_RegEx.pas"/>
-        <DCCReference Include="Plugins\API\API_Task.pas"/>
-        <DCCReference Include="Plugins\Plugin_Task.pas"/>
-        <DCCReference Include="Plugins\Imports\uPSI_API_Task.pas"/>
-        <None Include="Zautomatic.inc"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -204,19 +148,11 @@
                     <VersionInfoKeys Name="CFBundleDevelopmentRegion"/>
                 </VersionInfoKeys>
                 <Source>
-                    <Source Name="MainSource">Zautomatic.dpr</Source>
+                    <Source Name="MainSource">Task.dpr</Source>
                 </Source>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k180.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp180.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k180.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp180.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
-                </Excluded_Packages>
             </Delphi.Personality>
             <Deployment/>
             <Platforms>
-                <Platform value="iOSDevice">False</Platform>
-                <Platform value="iOSSimulator">False</Platform>
                 <Platform value="OSX32">False</Platform>
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">False</Platform>

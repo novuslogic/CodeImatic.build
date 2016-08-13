@@ -158,21 +158,7 @@ begin
                  else
                  if (loprojecttask.Criteria.skip = true) and (loprojecttask.BuildStatus = TBuildStatus.bsFailed) then
                    continue;
-
-
                end;
-                    (*
-            loprojecttask.EndBuild := Now;
-
-            loprojecttask.Duration := loprojecttask.EndBuild-loprojecttask.StartBuild;
-
-            Duration := Duration +  loprojecttask.Duration;
-
-            FinishBuild(loprojecttask);
-
-            FoMessagesLog.projecttask := NIL;
-                      *)
-
           end;
       end;
 

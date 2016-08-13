@@ -2,7 +2,9 @@
 <project>
   <outputconsole>true</outputconsole>
   <messageslogpath></messageslogpath>
-  <projecttask name = "sample5">
-     <projectfilename>sample5.zas</projectfilename>    
+   <projecttask name = "sample8">
+     <projectfilename>sample8.zas</projectfilename>    
   </projecttask>
- </project>
+
+
+</project>

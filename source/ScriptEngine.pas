@@ -127,6 +127,7 @@ function TScriptEngine.ExecuteScript(aprojecttask: TProjectTask; aCompileOnly: B
 var
   liRetry, I: Integer;
   fbOK: Boolean;
+  fbRetry: Boolean;
 begin
   Result := false;
 
@@ -162,13 +163,16 @@ begin
 
     end;
 
-  foMessageslog.WriteLog('Executing');
+  foMessageslog.WriteLog('Executing ... ');
 
+  fbRetry := False;
   liRetry := aprojecttask.Criteria.Retry;
+  if liRetry > 0 then fbRetry := True;
+
+  if liRetry = 0 then liRetry := 1;
 
   for I := 1 to liRetry do
    begin
-
       Try
         FExec := TPSExec.Create;  // Create an instance of the executer.
 
@@ -194,7 +198,8 @@ begin
              foMessageslog.WriteLog('[Runtime Error] : ' + TIFErrorToString(FExec.ExceptionCode, FExec.ExceptionString) +
                 ' in ' + IntToStr(FExec.ExceptionProcNo) + ' at ' + IntToSTr(FExec.ExceptionPos));
 
-             foMessageslog.WriteLog('Retrying executing ... ' + IntToStr(I) + ' of ' + IntToStr(liRetry));
+             if fbRetry then
+               foMessageslog.WriteLog('Retrying executing ... ' + IntToStr(I) + ' of ' + IntToStr(liRetry));
 
              aprojecttask.BuildStatus := TBuildStatus.bsFailed;
            end

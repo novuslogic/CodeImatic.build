@@ -1,0 +1,25 @@
+
+
+function test1: boolean;
+begin
+  MessagesLog.log('Running test1 ...'); 
+  
+  try
+     RaiseException(erCustomError, 'CustomError RaiseException');
+   except
+     Messageslog.LogError;
+   end;
+  
+  Result := false;
+end;
+
+
+
+begin
+  MessagesLog.log('Sample 8');
+
+
+  Task.AddTask('test1');
+
+
+end.
