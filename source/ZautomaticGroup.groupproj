@@ -12,6 +12,9 @@
         <Projects Include="Plugins\Zip.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="Plugins\Task.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -47,14 +50,23 @@
     <Target Name="Zip:Make">
         <MSBuild Projects="Plugins\Zip.dproj" Targets="Make"/>
     </Target>
+    <Target Name="Task">
+        <MSBuild Projects="Plugins\Task.dproj"/>
+    </Target>
+    <Target Name="Task:Clean">
+        <MSBuild Projects="Plugins\Task.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Task:Make">
+        <MSBuild Projects="Plugins\Task.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Zautomatic;ZCore;Zip"/>
+        <CallTarget Targets="Zautomatic;ZCore;Zip;Task"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Zautomatic:Clean;ZCore:Clean;Zip:Clean"/>
+        <CallTarget Targets="Zautomatic:Clean;ZCore:Clean;Zip:Clean;Task:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Zautomatic:Make;ZCore:Make;Zip:Make"/>
+        <CallTarget Targets="Zautomatic:Make;ZCore:Make;Zip:Make;Task:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

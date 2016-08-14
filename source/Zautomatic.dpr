@@ -48,7 +48,6 @@ uses
   API_RegEx in 'Plugins\API\API_RegEx.pas',
   uPSI_API_RegEx in 'Plugins\Imports\uPSI_API_RegEx.pas',
   API_Task in 'Plugins\API\API_Task.pas',
-  Plugin_Task in 'Plugins\Plugin_Task.pas',
   uPSI_API_Task in 'Plugins\Imports\uPSI_API_Task.pas';
 
 begin

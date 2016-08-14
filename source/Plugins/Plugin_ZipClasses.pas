@@ -88,6 +88,8 @@ begin
   RIRegister_API_Zip(FImp);
 end;
 
+
+// Plugin_Zip
 function tPlugin_Zip.GetPluginName: string;
 begin
   Result := 'Zip';
@@ -109,27 +111,6 @@ procedure tPlugin_Zip.Finalize;
 begin
   //if Assigned(FPlugin_Zip) then FPlugin_Zip.Free;
 end;
-
- (*
-function tPlugin_Zip.CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean;
-begin
-  FPlugin_Zip.CustomOnUses(aCompiler);
-end;
-
-procedure tPlugin_Zip.RegisterFunction(var aExec: TPSExec);
-begin
-  FPlugin_Zip.RegisterFunction(aExec);
-end;
-procedure tPlugin_Zip.SetVariantToClass(var aExec: TPSExec);
-begin
-  FPlugin_Zip.SetVariantToClass(aExec);
-end;
-
-procedure tPlugin_Zip.RegisterImport;
-begin
-  FPlugin_Zip.RegisterImport;
-end;
-*)
 
 function GetPluginObject: INovusPlugin;
 begin

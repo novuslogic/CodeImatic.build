@@ -142,7 +142,6 @@
         <DCCReference Include="Plugins\API\API_RegEx.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_API_RegEx.pas"/>
         <DCCReference Include="Plugins\API\API_Task.pas"/>
-        <DCCReference Include="Plugins\Plugin_Task.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_API_Task.pas"/>
         <None Include="Zautomatic.inc"/>
         <BuildConfiguration Include="Release">
