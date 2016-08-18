@@ -44,6 +44,8 @@ implementation
 uses
    APIBase
   ,NovusWindows
+  ,MessagesLog
+  ,Plugin_TaskRunner
   ,API_Task
   ;
  
@@ -60,7 +62,8 @@ begin
   //with RegClassS(CL,'TAPIBase', 'TAPI_Task') do
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_Task') do
   begin
-    RegisterMethod('Procedure AddTask( const aProcedureName : String)');
+    RegisterMethod('Function AddTask( const aProcedureName : String) : boolean');
+    RegisterMethod('Function RunTarget( const aProcedureName : String) : boolean');
   end;
 end;
 
@@ -77,6 +80,7 @@ begin
   with CL.Add(TAPI_Task) do
   begin
     RegisterMethod(@TAPI_Task.AddTask, 'AddTask');
+    RegisterMethod(@TAPI_Task.RunTarget, 'RunTarget');
   end;
 end;
 

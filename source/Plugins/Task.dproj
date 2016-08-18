@@ -81,6 +81,7 @@
         <DCCReference Include="API\API_Task.pas"/>
         <DCCReference Include="Imports\uPSI_API_Task.pas"/>
         <DCCReference Include="Plugin_TaskClasses.pas"/>
+        <DCCReference Include="Plugin_TaskRunner.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

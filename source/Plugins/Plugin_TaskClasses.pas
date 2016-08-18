@@ -3,15 +3,17 @@ unit Plugin_TaskClasses;
 
 interface
 
-uses Classes,Plugin,  uPSRuntime,  uPSCompiler, API_Task,
-    MessagesLog, SysUtils, uPSI_API_Task, NovusPlugin, System.Generics.Defaults;
+uses Classes,Plugin,  uPSRuntime,  uPSCompiler, API_Task, NovusList,
+    MessagesLog, SysUtils, uPSI_API_Task, NovusPlugin, System.Generics.Defaults,
+    Plugin_TaskRunner;
 
 
 type
   tPlugin_TaskBase = class(Tplugin)
   private
   protected
-     foAPI_Task: TAPI_Task;
+    foTaskRunner: TTaskRunner;
+    foAPI_Task: TAPI_Task;
   public
     constructor Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
@@ -49,13 +51,18 @@ constructor tPlugin_TaskBase.Create(aMessagesLog: tMessagesLog; var aImp: TPSRun
 begin
   Inherited;
 
-  foAPI_Task := TAPI_Task.Create(foMessagesLog);
+  foTaskRunner := TTaskRunner.Create(TTaskRunner);
+
+
+  foAPI_Task := TAPI_Task.Create(foMessagesLog, foTaskRunner);
 end;
 
 
 destructor  tPlugin_TaskBase.Destroy;
 begin
   Inherited;
+
+  FreeandNIl(foTaskRunner);
 
   FreeandNIl(foAPI_Task);
 end;

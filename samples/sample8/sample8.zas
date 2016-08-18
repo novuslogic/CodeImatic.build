@@ -13,13 +13,15 @@ begin
   Result := false;
 end;
 
-
-
 begin
   MessagesLog.log('Sample 8');
 
 
-  Task.AddTask('test1');
+  if not Task.AddTask('test1') then 
+    RaiseException(erCustomError, 'missing procedure "test1" ');
+
+  if not Task.RunTarget('test1') then 
+    RaiseException(erCustomError, 'missing procedure "test1" '); 
 
 
 end.
