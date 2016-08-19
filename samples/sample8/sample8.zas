@@ -16,7 +16,6 @@ end;
 begin
   MessagesLog.log('Sample 8');
 
-
   if not Task.AddTask('test1') then 
     RaiseException(erCustomError, 'missing procedure "test1" ');
 
