@@ -60,9 +60,9 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <DCC_ExeOutput>D:\Projects\Zautomatic\build\plugins\</DCC_ExeOutput>
+        <DCC_ExeOutput>..\..\build\plugins\</DCC_ExeOutput>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <DCC_DcuOutput>D:\Projects\Zautomatic\units\win32\</DCC_DcuOutput>
+        <DCC_DcuOutput>..\..\units\win32\</DCC_DcuOutput>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_Namespace>VCL;$(DCC_Namespace)</DCC_Namespace>
         <Manifest_File>None</Manifest_File>
@@ -144,6 +144,8 @@
                     <Source Name="MainSource">Task.dpr</Source>
                 </Source>
                 <Excluded_Packages>
+                    <Excluded_Packages Name="C:\Program Files (x86)\RemObjects Software\RemObjects SDK for Delphi\Dcu\D18\win32\RemObjects_FMX_D18.bpl">File C:\Program Files (x86)\RemObjects Software\RemObjects SDK for Delphi\Dcu\D18\win32\RemObjects_FMX_D18.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Program Files (x86)\RemObjects Software\Data Abstract for Delphi\Dcu\D18\win32\DataAbstract_FMX_D18.bpl">File C:\Program Files (x86)\RemObjects Software\Data Abstract for Delphi\Dcu\D18\win32\DataAbstract_FMX_D18.bpl not found</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k180.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcbofficexp180.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k180.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
