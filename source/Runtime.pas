@@ -180,11 +180,19 @@ begin
 
     FoMessagesLog.CloseLog;
 
+    Showmessage('1');
+
     FoMessagesLog.Free;
 
+    Showmessage('2');
+
     foPlugins.Free;
+
+    Showmessage('3');
   Finally
     foProject.Free;
+
+    Showmessage('4');
   End;
 
 

@@ -146,7 +146,7 @@ begin
             begin
               LsZFile := StrUtils.ReplaceStr(LsFile, lsPath, '');
 
-              loZipFile.AddFiles(LsZFile, 0 );
+              loZipFile.AddFiles(LsZFile, faAnyFile  );
 
               Result := True;
             end
@@ -162,6 +162,8 @@ begin
       oMessagesLog.Log('Saving ' + aZipFilename );
 
       loZipFile.Save;
+
+      loZipFile.CloseArchive;
     Except
       oMessagesLog.InternalError;
 
