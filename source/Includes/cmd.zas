@@ -18,7 +18,7 @@ begin
   try
     Result := ExecEx(aCommandLine,fsOutput);
   Finally
-    MessagesLog.log(fsOutput);
+    Output.log(fsOutput);
   end;
 end;
 
@@ -37,7 +37,7 @@ begin
   try
     Result := ExecCMDEx(aCommandLine, fsOutput);
   Finally
-    MessagesLog.log(fsOutput);
+    Output.log(fsOutput);
   end;
 
   
@@ -50,7 +50,7 @@ begin
   try
     Result := Shell.RunCaptureCommand(aCommandLine, aOutput);
   except
-    Messageslog.LogError;
+    Output.LogError;
   end;
 end;
 

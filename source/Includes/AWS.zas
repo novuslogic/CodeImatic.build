@@ -159,51 +159,51 @@ begin
       fsLastS3Bucket := '';
       fsoutput := '';
 
-     MessagesLog.log('Get Elasticbeanstalk Last S3 Bucket.');
+     Output.log('Get Elasticbeanstalk Last S3 Bucket.');
   
      if GetAWSCliElasticbeanstalkLastS3Bucket(aApplicationname, fsLastS3Bucket) <> 0 then 
        begin
          Exit;
        end; 
 
-     Messageslog.Log('Last S3 Bucket: '+ fsLastS3Bucket);
+     Output.Log('Last S3 Bucket: '+ fsLastS3Bucket);
 
-     Messageslog.Log('Copy Deployment zip filename '+ aS3ZipFullFilepath + ' to '+ fsLastS3Bucket);      
+     Output.Log('Copy Deployment zip filename '+ aS3ZipFullFilepath + ' to '+ fsLastS3Bucket);
 
      Result := CopyFileAWSCliS3Bucket(aS3ZipFullFilepath, fsLastS3Bucket, fsoutput);
      if Result <> 0 then 
         begin
-          if Trim(fsoutput) <> '' then  Messageslog.Log(fsoutput);
+          if Trim(fsoutput) <> '' then  Output.Log(fsoutput);
           
           Exit; 
         end
      else
-      if Trim(fsoutput) <> '' then  Messageslog.Log(fsoutput);
+      if Trim(fsoutput) <> '' then  Output.Log(fsoutput);
  
 
      fsS3ZipFilename := ExtractFileName(aS3ZipFullFilepath);
 
-     Messageslog.Log('Create Appplication Verion with zip filename: '+ fsS3ZipFilename);
+     Output.Log('Create Appplication Verion with zip filename: '+ fsS3ZipFilename);
       
      Result := AWSCliElasticbeanstalkCreateAppVerion(aApplicationname, aVersionlabel, fsS3ZipFilename, fsLastS3Bucket, fsoutput);
      if Result <> 0 then
         begin
-          if Trim(fsoutput) <> '' then  Messageslog.Log(fsoutput);
+          if Trim(fsoutput) <> '' then  Output.Log(fsoutput);
           
           Exit;
         end 
       else
-        if Trim(fsoutput) <> '' then  Messageslog.Log(fsoutput);
+        if Trim(fsoutput) <> '' then  Output.Log(fsoutput);
         
      Result := AWSCliiElasticbeanstalkUpdateEnv( aEnvironmentname,aVersionlabel,fsOutput);
      if Result <> 0 then
         begin
-          if Trim(fsoutput) <> '' then  Messageslog.Log(fsoutput);
+          if Trim(fsoutput) <> '' then  Output.Log(fsoutput);
           
           Exit; 
         end 
       else
-        if Trim(fsoutput) <> '' then  Messageslog.Log(fsoutput);    
+        if Trim(fsoutput) <> '' then  Output.Log(fsoutput);
 
     end
   else   

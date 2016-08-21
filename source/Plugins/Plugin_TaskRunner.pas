@@ -5,29 +5,20 @@ interface
 Uses Classes, NovusList, SysUtils;
 
 type
-  TTask = class(TObject)
-  protected
-    fsProcedureName: String;
-  private
-  public
-    property ProcedureName: String
-      read fsProcedureName
-      write fsProcedureName;
-  end;
-
-
   TTaskRunner = class(TNovusList)
   protected
   private
   public
-    function FindTask(aProcedureName: String): tTask;
+    function FindTask(aProcedureName: String): tObject;
   end;
 
 
 
 implementation
 
-function TTaskRunner.FindTask(aProcedureName: String): tTask;
+Uses API_Task;
+
+function TTaskRunner.FindTask(aProcedureName: String): tObject;
 Var
   I: integer;
   FTask: tTask;

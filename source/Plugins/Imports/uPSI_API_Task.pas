@@ -30,10 +30,12 @@ type
  
 { compile-time registration functions }
 procedure SIRegister_TAPI_Task(CL: TPSPascalCompiler);
+procedure SIRegister_TTask(CL: TPSPascalCompiler);
 procedure SIRegister_API_Task(CL: TPSPascalCompiler);
 
 { run-time registration functions }
 procedure RIRegister_TAPI_Task(CL: TPSRuntimeClassImporter);
+procedure RIRegister_TTask(CL: TPSRuntimeClassImporter);
 procedure RIRegister_API_Task(CL: TPSRuntimeClassImporter);
 
 procedure Register;
@@ -62,18 +64,37 @@ begin
   //with RegClassS(CL,'TAPIBase', 'TAPI_Task') do
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_Task') do
   begin
-    RegisterMethod('Function AddTask( const aProcedureName : String) : boolean');
+    RegisterMethod('Function AddTask( const aProcedureName : String) : TTask');
     RegisterMethod('Function RunTarget( const aProcedureName : String) : boolean');
+  end;
+end;
+
+(*----------------------------------------------------------------------------*)
+procedure SIRegister_TTask(CL: TPSPascalCompiler);
+begin
+  //with RegClassS(CL,'TPersistent', 'TTask') do
+  with CL.AddClassN(CL.FindClass('TPersistent'),'TTask') do
+  begin
+    RegisterProperty('ProcedureName', 'String', iptrw);
   end;
 end;
 
 (*----------------------------------------------------------------------------*)
 procedure SIRegister_API_Task(CL: TPSPascalCompiler);
 begin
+  SIRegister_TTask(CL);
   SIRegister_TAPI_Task(CL);
 end;
 
 (* === run-time registration functions === *)
+(*----------------------------------------------------------------------------*)
+procedure TTaskProcedureName_W(Self: TTask; const T: String);
+begin Self.ProcedureName := T; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TTaskProcedureName_R(Self: TTask; var T: String);
+begin T := Self.ProcedureName; end;
+
 (*----------------------------------------------------------------------------*)
 procedure RIRegister_TAPI_Task(CL: TPSRuntimeClassImporter);
 begin
@@ -85,8 +106,18 @@ begin
 end;
 
 (*----------------------------------------------------------------------------*)
+procedure RIRegister_TTask(CL: TPSRuntimeClassImporter);
+begin
+  with CL.Add(TTask) do
+  begin
+    RegisterPropertyHelper(@TTaskProcedureName_R,@TTaskProcedureName_W,'ProcedureName');
+  end;
+end;
+
+(*----------------------------------------------------------------------------*)
 procedure RIRegister_API_Task(CL: TPSRuntimeClassImporter);
 begin
+  RIRegister_TTask(CL);
   RIRegister_TAPI_Task(CL);
 end;
 

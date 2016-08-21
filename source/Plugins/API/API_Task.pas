@@ -2,9 +2,20 @@ unit API_Task;
 
 interface
 
-uses APIBase, SysUtils, NovusWindows, API_Output, Plugin_TaskRunner, uPSRuntime ;
+uses Classes, APIBase, SysUtils, NovusWindows, API_Output, Plugin_TaskRunner, uPSRuntime ;
 
 type
+  TTask = class(TPersistent)
+  protected
+    fsProcedureName: String;
+  private
+  public
+    property ProcedureName: String
+      read fsProcedureName
+      write fsProcedureName;
+  end;
+
+
    TAPI_Task = class(TAPIBase)
    private
    protected
@@ -12,7 +23,7 @@ type
    public
      constructor Create(aAPI_Output: tAPI_Output; aTaskRunner: TTaskRunner); overload;
 
-     function AddTask(const aProcedureName: String): boolean;
+     function AddTask(const aProcedureName: String): TTask;
      function RunTarget(const aProcedureName: String): boolean;
    end;
 
@@ -28,11 +39,11 @@ begin
 end;
 
 
-function TAPI_Task.AddTask(const aProcedureName: String): Boolean;
+function TAPI_Task.AddTask(const aProcedureName: String): TTask;
 Var
   FTask: tTask;
 begin
-  Result := False;
+  Result := NIl;
   If Self.oExec.GetProc(aProcedureName)= InvalidVal then Exit;
 
   Try
@@ -42,7 +53,7 @@ begin
     FTaskRunner.add( FTask);
 
   Finally
-    Result := True;
+    Result := FTask;
   End;
 end;
 
@@ -56,10 +67,12 @@ begin
 
   If Self.oExec.GetProc(aProcedureName)= InvalidVal then Exit;
 
-  FTask := FTaskRunner.FindTask(aProcedureName);
+  FTask := tTask(FTaskRunner.FindTask(aProcedureName));
   if Assigned(FTask) then
     begin
       Try
+        Result := True;
+
         FProc := Self.oExec.GetProc(aProcedureName);
 
         Self.oExec.RunProcP([], FProc);

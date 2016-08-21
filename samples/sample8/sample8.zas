@@ -4,15 +4,19 @@ procedure test1;
 begin
   output.log('Running test1 ...') ;
 
-  
-  Result := false;
 end;
 
 begin
   output.log('Sample 8');
 
-  if not Task.AddTask('test1') then 
-    RaiseException(erCustomError, 'missing procedure "test1" ');
+  With Task.AddTask('test1')) do
+    begin
+
+
+
+
+    ene; 
+    
 
   if not Task.RunTarget('test1') then 
     RaiseException(erCustomError, 'missing procedure "test1" '); 
