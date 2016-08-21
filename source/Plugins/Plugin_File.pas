@@ -3,7 +3,7 @@ unit Plugin_File;
 interface
 
 uses Classes,Plugin,  uPSRuntime,  uPSCompiler, PluginsMapFactory, API_File,
-    MessagesLog, SysUtils, uPSI_API_File ;
+    API_Output, SysUtils, uPSI_API_File ;
 
 
 type
@@ -12,7 +12,7 @@ type
   protected
      foAPI_File: TAPI_File;
   public
-    constructor Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -26,11 +26,11 @@ type
 implementation
 
 
-constructor tPlugin_File.Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter);
+constructor tPlugin_File.Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter);
 begin
   Inherited;
 
-  foAPI_File := TAPI_File.Create(foMessagesLog);
+  foAPI_File := TAPI_File.Create(foAPI_Output);
 
 end;
 

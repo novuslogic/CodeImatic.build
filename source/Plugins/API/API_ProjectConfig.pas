@@ -54,9 +54,9 @@ begin
       end;
 
     if not oRuntime.oProject.oProjectConfig.CreateProperty(aPropertyname) then
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
   Except
-    oMessagesLog.InternalError;
+    oAPI_Output.InternalError;
   End;
 end;
 
@@ -75,7 +75,7 @@ begin
 
     Result := oRuntime.oProject.oProjectConfig.IsPropertyExists(aPropertyname);
   Except
-    oMessagesLog.InternalError;
+    oAPI_Output.InternalError;
   End;
 end;
 
@@ -97,10 +97,10 @@ begin
       end;
 
     if not oRuntime.oProject.oProjectConfig.SetProperty(aPropertyname, aValue) then
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
 
   Except
-    oMessagesLog.InternalError;
+    oAPI_Output.InternalError;
   End;
 end;
 
@@ -122,9 +122,9 @@ begin
       end;
 
     if not oRuntime.oProject.oProjectConfig.DeleteProperty(aPropertyname) then
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
   Except
-    oMessagesLog.InternalError;
+    oAPI_Output.InternalError;
   End;
 
 end;
@@ -166,7 +166,7 @@ begin
 
     Result := oRuntime.oProject.oProjectConfig.Getproperty(aPropertyName);
   Except
-    oMessagesLog.InternalError;
+    oAPI_Output.InternalError;
   End;
 end;
 

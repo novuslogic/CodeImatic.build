@@ -3,23 +3,23 @@ Var
   I: Integer;
   FZipOptions: TZipOptions;
 begin
-   MessagesLog.log('Test 1');
+   Output.log('Test 1');
 
    try
      RaiseException(erCustomError, 'CustomError RaiseException');
    except
-     Messageslog.LogError;
+     Output.LogError;
    end;
 
   Writeln('function ZipExtractFile');
 
   if not Zip.ExtractFile(wd + 'test.zip', 'test.txt', wd + 'data', NIL) then
-     Messageslog.LogError;
+     Output.LogError;
 
   Writeln('function ZipExtractAll');
 
   if not Zip.ExtractAll(wd + 'test.zip', wd + 'data', NIL) then
-    Messageslog.LogError;
+    Output.LogError;
 
   Writeln('function ZipBrowserList');
 
@@ -37,7 +37,7 @@ begin
 
       end
      else
-        Messageslog.LogError;
+        Output.LogError;
   finally
     FZipStringList.Free;
   end;
@@ -48,12 +48,12 @@ begin
 
     FZipOptions.ExcludedFile.Add('Test2.txt.txt');
     FZipOptions.Password := 'xyz';
-    FZipOptions.Messageslog := true;
+    FZipOptions.Output := true;
 
 
     if not Zip.Compress(wd + 'test2.zip',
              wd + 'data', '*', FZipOptions) then
-            Messageslog.LogError;
+            Output.LogError;
   finally
     FZipOptions.Free;
   end;

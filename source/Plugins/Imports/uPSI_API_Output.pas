@@ -1,0 +1,135 @@
+unit uPSI_API_Output;
+
+interface
+ 
+
+ 
+uses
+   SysUtils
+  ,Classes
+  ,uPSComponent
+  ,uPSRuntime
+  ,uPSCompiler
+  ;
+ 
+type 
+(*----------------------------------------------------------------------------*)
+  TPSImport_API_Output = class(TPSPlugin)
+  public
+    procedure CompileImport1(CompExec: TPSScript); override;
+    procedure ExecImport1(CompExec: TPSScript; const ri: TPSRuntimeClassImporter); override;
+  end;
+ 
+ 
+{ compile-time registration functions }
+procedure SIRegister_TAPI_Output(CL: TPSPascalCompiler);
+procedure SIRegister_API_Output(CL: TPSPascalCompiler);
+
+{ run-time registration functions }
+procedure RIRegister_TAPI_Output(CL: TPSRuntimeClassImporter);
+procedure RIRegister_API_Output(CL: TPSRuntimeClassImporter);
+
+procedure Register;
+
+implementation
+
+
+uses
+   NovusLog
+  ,uPSUtils
+  ,Project
+  ,API_Output
+  ;
+ 
+ 
+procedure Register;
+begin
+  RegisterComponents('Pascal Script', [TPSImport_API_Output]);
+end;
+
+(* === compile-time registration functions === *)
+(*----------------------------------------------------------------------------*)
+procedure SIRegister_TAPI_Output(CL: TPSPascalCompiler);
+begin
+  //with RegClassS(CL,'TNovusLogFile', 'TAPI_Output') do
+  with CL.AddClassN(CL.FindClass('TNovusLogFile'),'TAPI_Output') do
+  begin
+    RegisterMethod('Constructor Create( AFilename : String; aOutputConsole : Boolean)');
+    RegisterMethod('Procedure Log( AMsg : string)');
+    RegisterMethod('Procedure LogError');
+    RegisterMethod('Procedure InternalError');
+    RegisterProperty('projecttask', 'Tprojecttask', iptrw);
+    RegisterProperty('LastExError', 'TPSError', iptrw);
+    RegisterProperty('LastExParam', 'tbtstring', iptrw);
+  end;
+end;
+
+(*----------------------------------------------------------------------------*)
+procedure SIRegister_API_Output(CL: TPSPascalCompiler);
+begin
+  SIRegister_TAPI_Output(CL);
+end;
+
+(* === run-time registration functions === *)
+(*----------------------------------------------------------------------------*)
+procedure TAPI_OutputLastExParam_W(Self: TAPI_Output; const T: tbtstring);
+begin Self.LastExParam := T; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TAPI_OutputLastExParam_R(Self: TAPI_Output; var T: tbtstring);
+begin T := Self.LastExParam; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TAPI_OutputLastExError_W(Self: TAPI_Output; const T: TPSError);
+begin Self.LastExError := T; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TAPI_OutputLastExError_R(Self: TAPI_Output; var T: TPSError);
+begin T := Self.LastExError; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TAPI_Outputprojecttask_W(Self: TAPI_Output; const T: Tprojecttask);
+begin Self.projecttask := T; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TAPI_Outputprojecttask_R(Self: TAPI_Output; var T: Tprojecttask);
+begin T := Self.projecttask; end;
+
+(*----------------------------------------------------------------------------*)
+procedure RIRegister_TAPI_Output(CL: TPSRuntimeClassImporter);
+begin
+  with CL.Add(TAPI_Output) do
+  begin
+    RegisterVirtualConstructor(@TAPI_Output.Create, 'Create');
+    RegisterMethod(@TAPI_Output.Log, 'Log');
+    RegisterMethod(@TAPI_Output.LogError, 'LogError');
+    RegisterMethod(@TAPI_Output.InternalError, 'InternalError');
+    RegisterPropertyHelper(@TAPI_Outputprojecttask_R,@TAPI_Outputprojecttask_W,'projecttask');
+    RegisterPropertyHelper(@TAPI_OutputLastExError_R,@TAPI_OutputLastExError_W,'LastExError');
+    RegisterPropertyHelper(@TAPI_OutputLastExParam_R,@TAPI_OutputLastExParam_W,'LastExParam');
+  end;
+end;
+
+(*----------------------------------------------------------------------------*)
+procedure RIRegister_API_Output(CL: TPSRuntimeClassImporter);
+begin
+  RIRegister_TAPI_Output(CL);
+end;
+
+ 
+ 
+{ TPSImport_API_Output }
+(*----------------------------------------------------------------------------*)
+procedure TPSImport_API_Output.CompileImport1(CompExec: TPSScript);
+begin
+  SIRegister_API_Output(CompExec.Comp);
+end;
+(*----------------------------------------------------------------------------*)
+procedure TPSImport_API_Output.ExecImport1(CompExec: TPSScript; const ri: TPSRuntimeClassImporter);
+begin
+  RIRegister_API_Output(ri);
+end;
+(*----------------------------------------------------------------------------*)
+ 
+ 
+end.

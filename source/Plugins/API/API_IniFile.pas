@@ -2,14 +2,14 @@ unit API_IniFile;
 
 interface
 
-uses APIBase, SysUtils, MessagesLog, Classes, IniFiles;
+uses APIBase, SysUtils, API_Output, Classes, IniFiles;
 
 type
    TAPI_IniFile = class(TAPIBase)
    private
    protected
    public
-     constructor Create(aMessagesLog: tMessagesLog); override;
+     constructor Create(aAPI_Output: tAPI_Output); override;
      destructor Destroy; override;
 
      procedure WriteString(const aFilename: string;const aSection: string; const aKey: String; const aValue: String);
@@ -26,9 +26,9 @@ Const
 implementation
 
 
-constructor TAPI_IniFile.create(aMessagesLog: tMessagesLog);
+constructor TAPI_IniFile.create(aAPI_Output: tAPI_Output);
 begin
-  Inherited create(aMessagesLog);
+  Inherited create(aAPI_Output);
 end;
 
 destructor TAPI_IniFile.destroy;
@@ -55,7 +55,7 @@ begin
 
       foIniFile.WriteString(aSection, aKey, aValue);
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
     End;
   Finally
     foIniFile.Free;
@@ -79,7 +79,7 @@ begin
 
       Result := foIniFile.ReadString(aSection, aKey, '')
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
     End;
   Finally
     foIniFile.Free;
@@ -106,7 +106,7 @@ begin
 
       Result := True;
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
 
       result := False;
     End;
@@ -134,7 +134,7 @@ begin
 
       Result := True;
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
 
       result := False;
     End;

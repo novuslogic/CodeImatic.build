@@ -3,7 +3,7 @@ unit Plugin_Shell;
 interface
 
 uses Classes,Plugin,  uPSRuntime,  uPSCompiler, PluginsMapFactory, API_Shell,
-    MessagesLog, SysUtils, uPSI_API_Shell;
+    API_Output, SysUtils, uPSI_API_Shell;
 
 
 type
@@ -12,7 +12,7 @@ type
   protected
      foAPI_Shell: TAPI_Shell;
   public
-    constructor Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -24,11 +24,11 @@ type
 implementation
 
 
-constructor tPlugin_Shell.Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter);
+constructor tPlugin_Shell.Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter);
 begin
   Inherited;
 
-  foAPI_Shell := TAPI_Shell.Create(foMessagesLog);
+  foAPI_Shell := TAPI_Shell.Create(foAPI_Output);
 
 end;
 

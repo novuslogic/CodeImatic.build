@@ -1,20 +1,15 @@
 
 
-function test1: boolean;
+procedure test1;
 begin
-  MessagesLog.log('Running test1 ...'); 
-  
-  try
-     RaiseException(erCustomError, 'CustomError RaiseException');
-   except
-     Messageslog.LogError;
-   end;
+  output.log('Running test1 ...') ;
+
   
   Result := false;
 end;
 
 begin
-  MessagesLog.log('Sample 8');
+  output.log('Sample 8');
 
   if not Task.AddTask('test1') then 
     RaiseException(erCustomError, 'missing procedure "test1" ');

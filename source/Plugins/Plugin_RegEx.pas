@@ -3,7 +3,7 @@ unit Plugin_RegEx;
 interface
 
 uses Classes,Plugin,  uPSRuntime,  uPSCompiler, PluginsMapFactory, API_RegEx,
-    MessagesLog, SysUtils, uPSI_API_RegEx ;
+    API_Output, SysUtils, uPSI_API_RegEx ;
 
 type
   tPlugin_RegEx = class(Tplugin)
@@ -11,7 +11,7 @@ type
   protected
      foAPI_RegEx: TAPI_RegEx;
   public
-    constructor Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -24,11 +24,11 @@ type
 implementation
 
 
-constructor tPlugin_RegEx.Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter);
+constructor tPlugin_RegEx.Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter);
 begin
   Inherited;
 
-  foAPI_RegEx := TAPI_RegEx.Create(foMessagesLog);
+  foAPI_RegEx := TAPI_RegEx.Create(foAPI_Output);
 
 end;
 

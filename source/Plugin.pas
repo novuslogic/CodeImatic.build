@@ -2,25 +2,25 @@ unit Plugin;
 
 interface
 
-uses classes, uPSRuntime, uPSCompiler, MessagesLog, NovusPlugin;
+uses classes, uPSRuntime, uPSCompiler, API_Output, NovusPlugin;
 
 type
    TPlugin = class(TPersistent)
    private
    protected
-     foMessagesLog: tMessagesLog;
+     foAPI_Output: tAPI_Output;
      fImp: TPSRuntimeClassImporter;
    public
-     constructor Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter); virtual;
+     constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter); virtual;
 
      function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; virtual;
      procedure RegisterFunction(var aExec: TPSExec); virtual;
      procedure SetVariantToClass(var aExec: TPSExec); virtual;
      procedure RegisterImport; virtual;
 
-     property oMessagesLog: tMessagesLog
-       read foMessagesLog
-       write foMessagesLog;
+     property oAPI_Output: tAPI_Output
+       read foAPI_Output
+       write foAPI_Output;
 
      property _Imp: TPSRuntimeClassImporter
        read fImp
@@ -35,7 +35,7 @@ type
      procedure SetVariantToClass(var aExec: TPSExec); safecall;
      procedure RegisterImport;  safecall;
      *)
-     function  CreatePlugin(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter):TPlugin safecall;
+     function  CreatePlugin(aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter):TPlugin safecall;
    end;
 
 
@@ -45,7 +45,7 @@ implementation
 
 constructor TPlugin.create;
 begin
-  foMessagesLog:= aMessagesLog;
+  foAPI_Output:= aAPI_Output;
 
   fImp:= aImp;
 end;

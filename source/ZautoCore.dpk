@@ -1,7 +1,6 @@
-package ZCore;
+package ZautoCore;
 
 {$R *.res}
-{$R *.otares}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
 {$ASSERTIONS ON}
@@ -39,7 +38,7 @@ requires
 
 contains
   Plugin in 'Plugin.pas',
-  MessagesLog in 'Plugins\API\MessagesLog.pas',
+  API_Output in 'Plugins\API\API_Output.pas',
   APIBase in 'Plugins\API\APIBase.pas';
 
 end.

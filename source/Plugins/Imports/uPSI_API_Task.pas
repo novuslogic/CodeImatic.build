@@ -44,7 +44,7 @@ implementation
 uses
    APIBase
   ,NovusWindows
-  ,MessagesLog
+  ,API_Output
   ,Plugin_TaskRunner
   ,API_Task
   ;

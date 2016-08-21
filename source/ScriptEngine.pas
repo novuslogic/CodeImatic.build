@@ -5,7 +5,7 @@ interface
 uses
   Forms,
   Runtime,
-  MessagesLog,
+  API_Output,
   System.Classes,
   System.SysUtils,
   uPSCompiler,
@@ -14,14 +14,14 @@ uses
   Plugins,
   project,
   uPSPreProcessor,
-  uPSI_MessagesLog;
+  uPSI_API_Output;
 
 Type
    TScriptEngine = class
    protected
      foPlugins: TPlugins;
      fImp : TPSRuntimeClassImporter;
-     foMessagesLog: tMessagesLog;
+     foAPI_Output: tAPI_Output;
      FScript: TStringList;
      FsFilename: String;
      FParserStream: TMemoryStream;
@@ -31,7 +31,7 @@ Type
    private
      procedure CompilerOutputMessage;
    public
-     constructor Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter; aPlugins: TPlugins);
+     constructor Create(aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter; aPlugins: TPlugins);
      destructor Destroy;
 
      procedure LoadScript(aFilename: String);
@@ -48,16 +48,16 @@ procedure OnException(Sender: TPSExec; ExError: TPSError; const ExParam: tbtstri
 var
   lsExParam: String;
 begin
-  oruntime.oMessagesLog.LastExError := ExError;
+  oruntime.oAPI_Output.LastExError := ExError;
 
 
   lsExParam := ExParam;
   if ExParam = '' then lsExParam := 'Unknown error.';
 
 
-  oruntime.oMessagesLog.LastExParam := lsExParam;
-//  oruntime.oMessagesLog.Errors := True;
-  oruntime.oMessagesLog.projecttask.BuildStatus := TBuildStatus.bsErrors;
+  oruntime.oAPI_Output.LastExParam := lsExParam;
+//  oruntime.oAPI_Output.Errors := True;
+  oruntime.oAPI_Output.projecttask.BuildStatus := TBuildStatus.bsErrors;
 end;
 
 function CustomOnUses(Sender: TPSPascalCompiler; const Name: AnsiString): Boolean;
@@ -76,7 +76,7 @@ begin
       begin
         Try
           Try
-            oruntime.oMessagesLog.Log('Compiling unit ... ' + name + '.zas' );
+            oruntime.oAPI_Output.Log('Compiling unit ... ' + name + '.zas' );
 
             lList := TStringList.Create;
             lList.LoadFromFile(oruntime.oProject.oProjectConfig.SearchPath +name + '.zas');
@@ -107,7 +107,7 @@ end;
 
 constructor TScriptEngine.create;
 begin
-  foMessagesLog:= aMessagesLog;
+  foAPI_Output:= aAPI_Output;
 
   FParserStream := TMemoryStream.Create;
   FScript := TStringList.Create;
@@ -139,13 +139,13 @@ begin
   FCompiler.AllowNoBegin := true;
   FCompiler.AllowNoEnd := true; // AllowNoBegin and AllowNoEnd allows it that begin and end are not required in a script.
 
-  foMessageslog.WriteLog('Compiling ... ');
+  foAPI_Output.WriteLog('Compiling ... ');
 
   if not FCompiler.Compile(FScript.Text) then  // Compile the Pascal script into bytecode.
   begin
     CompilerOutputMessage;
 
-    foMessagesLog.projecttask.BuildStatus := TBuildStatus.bsFailed;
+    foAPI_Output.projecttask.BuildStatus := TBuildStatus.bsFailed;
 
     Exit;
   end;
@@ -163,7 +163,7 @@ begin
 
     end;
 
-  foMessageslog.WriteLog('Executing ... ');
+  foAPI_Output.WriteLog('Executing ... ');
 
   fbRetry := False;
   liRetry := aprojecttask.Criteria.Retry;
@@ -182,7 +182,7 @@ begin
 
         if not FExec.LoadData(fsData) then
         begin
-          foMessageslog.WriteLog('[Error] : Could not load data: '+TIFErrorToString(FExec.ExceptionCode, FExec.ExceptionString));
+          foAPI_Output.WriteLog('[Error] : Could not load data: '+TIFErrorToString(FExec.ExceptionCode, FExec.ExceptionString));
 
           aprojecttask.BuildStatus := TBuildStatus.bsFailed;
 
@@ -195,11 +195,11 @@ begin
 
         if not fbOK then
            begin
-             foMessageslog.WriteLog('[Runtime Error] : ' + TIFErrorToString(FExec.ExceptionCode, FExec.ExceptionString) +
+             foAPI_Output.WriteLog('[Runtime Error] : ' + TIFErrorToString(FExec.ExceptionCode, FExec.ExceptionString) +
                 ' in ' + IntToStr(FExec.ExceptionProcNo) + ' at ' + IntToSTr(FExec.ExceptionPos));
 
              if fbRetry then
-               foMessageslog.WriteLog('Retrying executing ... ' + IntToStr(I) + ' of ' + IntToStr(liRetry));
+               foAPI_Output.WriteLog('Retrying executing ... ' + IntToStr(I) + ' of ' + IntToStr(liRetry));
 
              aprojecttask.BuildStatus := TBuildStatus.bsFailed;
            end
@@ -228,7 +228,7 @@ var
 begin
   for i := 0 to FCompiler.MsgCount - 1 do
     begin
-      foMessageslog.WriteLog(FCompiler.Msg[i].MessageToString)
+      foAPI_Output.WriteLog(FCompiler.Msg[i].MessageToString)
     end;
 end;
 

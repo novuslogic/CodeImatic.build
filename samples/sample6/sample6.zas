@@ -3,7 +3,7 @@ uses cmd;
 var
   fsInput: string;
 begin
-  MessagesLog.log('Powershell Sample');
+  output.log('Powershell Sample');
 
   fsInput := 'powershell.exe "write-host hello world"';
 

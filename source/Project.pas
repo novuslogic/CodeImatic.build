@@ -78,13 +78,13 @@ Type
     fbOutputConsole: boolean;
     foProjectConfig: TProjectConfig;
     foprojecttaskList: TNovusList;
-    fsMessageslogPath: String;
+    fsOutputPath: String;
     fsProjectFilename: String;
   public
     constructor Create; override;
     destructor Destroy; override;
 
-    function GetMessageslogPath: String;
+    function GetOutputPath: String;
     function GetOutputConsole: Boolean;
     function GetCreateoutputdir: Boolean;
 
@@ -101,9 +101,9 @@ Type
       read fsProjectFileName
       write fsProjectFileName;
 
-    property MessageslogPath: string
-      read fsMessageslogPath
-      write fsMessageslogPath;
+    property OutputPath: string
+      read fsOutputPath
+      write fsOutputPath;
 
     property  OutputConsole: Boolean
       read  fbOutputConsole
@@ -223,14 +223,14 @@ begin
   result := lsWorkingdirectory;
 end;
 
-function TProject.GetMessageslogPath: String;
+function TProject.GetOutputPath: String;
 Var
-  lsmessageslogpath: String;
+  lsOutputpath: String;
 begin
-  lsmessageslogpath := Trim(GetFieldAsString(oXMLDocument.Root, 'messageslogpath'));
+  lsOutputpath := Trim(GetFieldAsString(oXMLDocument.Root, 'Outputpath'));
 
-  if lsmessageslogpath <> '' then
-    Result := TNovusStringUtils.TrailingBackSlash(lsmessageslogpath);
+  if lsOutputpath <> '' then
+    Result := TNovusStringUtils.TrailingBackSlash(lsOutputpath);
 end;
 
 
@@ -250,7 +250,7 @@ begin
   XMLFileName := aProjectFilename;
   Retrieve;
 
-  fsMessageslogPath := GetMessageslogPath;
+  fsOutputPath := GetOutputPath;
   fbOutputConsole := GetoutputConsole;
 
   ProjectFileName := aProjectFilename;

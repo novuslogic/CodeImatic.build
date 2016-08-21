@@ -2,23 +2,23 @@ unit APIBase;
 
 interface
 
-uses Classes, System.Zip, SysUtils, MessagesLog, uPSCompiler, uPSRuntime, uPSUtils;
+uses Classes, System.Zip, SysUtils, API_Output, uPSCompiler, uPSRuntime, uPSUtils;
 
 type
    TAPIBase = class(TPersistent)
    protected
    private
      foCompiler: TPSPascalCompiler;
-     foMessagesLog: tMessagesLog;
+     foAPI_Output: tAPI_Output;
      foExec: TPSExec;
    public
-     constructor Create(aMessagesLog: tMessagesLog); virtual;
+     constructor Create(aAPI_Output: tAPI_Output); virtual;
      destructor Destroy; override;
 
      procedure RuntimeErrorFmt(const aParam: tbtString; const aArgs: array of const);
 
-     property oMessagesLog: tMessagesLog
-       read foMessagesLog;
+     property oAPI_Output: tAPI_Output
+       read foAPI_Output;
 
      property oCompiler: TPSPascalCompiler
         read foCompiler
@@ -34,7 +34,7 @@ implementation
 
 constructor TAPIBase.create;
 begin
-  foMessagesLog:= aMessagesLog;
+  foAPI_Output:= aAPI_Output;
 
   foCompiler := NIL;
 end;
@@ -43,7 +43,7 @@ destructor TAPIBase.destroy;
 begin
   Inherited;
 
-  foMessagesLog := NIL;
+  foAPI_Output := NIL;
   foCompiler := NIL;
   foExec := NIl;
 

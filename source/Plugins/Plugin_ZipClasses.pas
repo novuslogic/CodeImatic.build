@@ -3,7 +3,7 @@ unit Plugin_ZipClasses;
 interface
 
 uses Classes,Plugin,  uPSComponent, uPSRuntime,  uPSCompiler, API_Zip, NovusPlugin,
-    uPSI_API_Zip, MessagesLog, SysUtils, Zip, System.Generics.Defaults,
+    uPSI_API_Zip, API_Output, SysUtils, Zip, System.Generics.Defaults,
     APIBase ;
 
 
@@ -13,7 +13,7 @@ type
   protected
     foAPI_Zip: TAPI_Zip;
   public
-    constructor Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -34,7 +34,7 @@ type
 
     property PluginName: string read GetPluginName;
 
-    function CreatePlugin(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter): TPlugin; safecall;
+    function CreatePlugin(aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter): TPlugin; safecall;
 
   end;
 
@@ -45,11 +45,11 @@ implementation
 var
   _Plugin_Zip: TPlugin_Zip = nil;
 
-constructor tPlugin_ZipBase.Create(aMessagesLog: tMessagesLog;var  aImp: TPSRuntimeClassImporter);
+constructor tPlugin_ZipBase.Create(aAPI_Output: tAPI_Output;var  aImp: TPSRuntimeClassImporter);
 begin
   Inherited;
 
-  foAPI_Zip := TAPI_Zip.Create(foMessagesLog);
+  foAPI_Zip := TAPI_Zip.Create(foAPI_Output);
 end;
 
 
@@ -99,9 +99,9 @@ procedure tPlugin_Zip.Initialize;
 begin
 end;
 
-function tPlugin_Zip.CreatePlugin(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter): TPlugin; safecall;
+function tPlugin_Zip.CreatePlugin(aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter): TPlugin; safecall;
 begin
-  FPlugin_Zip := tPlugin_ZipBase.Create(aMessagesLog,aImp);
+  FPlugin_Zip := tPlugin_ZipBase.Create(aAPI_Output,aImp);
 
   Result := FPlugin_Zip;
 end;

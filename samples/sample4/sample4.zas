@@ -1,7 +1,7 @@
 begin
   Writeln('Get Path Variable');
 
-  MessagesLog.log('path: ' + Environment.GetEnvironmentVar('path'));
+  output.log('path: ' + Environment.GetEnvironmentVar('path'));
 
   Writeln('Set Test Variable');
 
@@ -9,6 +9,6 @@ begin
 
   Writeln('Get Test Variable');
 
-  MessagesLog.log('test: ' + Environment.GetEnvironmentVar('test'));
+  output.log('test: ' + Environment.GetEnvironmentVar('test'));
 
 end.

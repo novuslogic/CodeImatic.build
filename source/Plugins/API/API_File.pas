@@ -2,14 +2,14 @@ unit API_File;
 
 interface
 
-uses APIBase, SysUtils, MessagesLog, Classes, NovusFileUtils;
+uses APIBase, SysUtils, API_Output, Classes, NovusFileUtils;
 
 type
    TAPI_File = class(TAPIBase)
    private
    protected
    public
-     constructor Create(aMessagesLog: tMessagesLog); override;
+     constructor Create(aAPI_Output: tAPI_Output); override;
      destructor Destroy; override;
 
      function IncludeTrailingPathDelimiter(const s: string): String;
@@ -23,9 +23,9 @@ implementation
 
 uses System.IOUtils;
 
-constructor TAPI_File.create(aMessagesLog: tMessagesLog);
+constructor TAPI_File.create(aAPI_Output: tAPI_Output);
 begin
-  Inherited create(aMessagesLog);
+  Inherited create(aAPI_Output);
 end;
 
 destructor TAPI_File.destroy;
@@ -39,7 +39,7 @@ begin
     Try
       Result := FileExists(aFilename);
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
     End;
   Finally
 
@@ -57,7 +57,7 @@ begin
     Except
       Result := False;
 
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
     End;
   Finally
 
@@ -71,7 +71,7 @@ begin
       Result := SysUtils.IncludeTrailingPathDelimiter(s);
 
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
     End;
   Finally
 
@@ -88,7 +88,7 @@ begin
     Except
       Result := False;
 
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
     End;
   Finally
 
@@ -106,7 +106,7 @@ begin
     Except
       Result := False;
 
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
     End;
   Finally
 

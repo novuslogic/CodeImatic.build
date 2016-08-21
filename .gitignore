@@ -36,3 +36,7 @@
 /build/plugins/Zip.dll
 /build/Zautomatic.config
 /build/plugins/Task.dll
+/build/ZautoCore.bpl
+/samples/sample6/__history
+/samples/sample7/__history
+/samples/sample8/__history

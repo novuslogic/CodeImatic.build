@@ -24,7 +24,7 @@ begin
     Try
       Result := GetEnvironmentVariable(aVariableName);
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
     End;
   Finally
   End;
@@ -39,7 +39,7 @@ begin
       if Result = -1 then RuntimeErrorFmt(API_Environment_cannot_set_variable, [aVariableName]);
 
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
     End;
   Finally
   End;

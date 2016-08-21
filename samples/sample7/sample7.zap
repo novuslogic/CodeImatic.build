@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <project>
   <outputconsole>true</outputconsole>
-  <messageslogpath></messageslogpath>
+  <outputpath></outputpath>
   <projecttask name = "sample7a">
      <projectfilename>sample7a.zas</projectfilename>
      <criteria>

@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{8B8D9544-24F9-480D-8CDA-A8D299B682CE}</ProjectGuid>
-        <MainSource>ZCore.dpk</MainSource>
+        <MainSource>ZautoCore.dpk</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <TargetedPlatforms>1</TargetedPlatforms>
@@ -86,7 +86,7 @@
         <DCCReference Include="Jcl.dcp"/>
         <DCCReference Include="JvSystem.dcp"/>
         <DCCReference Include="Plugin.pas"/>
-        <DCCReference Include="Plugins\API\MessagesLog.pas"/>
+        <DCCReference Include="Plugins\API\API_Output.pas"/>
         <DCCReference Include="Plugins\API\APIBase.pas"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
@@ -106,7 +106,7 @@
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">ZCore.dpk</Source>
+                    <Source Name="MainSource">ZautoCore.dpk</Source>
                 </Source>
                 <VersionInfo>
                     <VersionInfo Name="IncludeVerInfo">True</VersionInfo>

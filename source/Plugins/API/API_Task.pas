@@ -2,7 +2,7 @@ unit API_Task;
 
 interface
 
-uses APIBase, SysUtils, NovusWindows, MessagesLog, Plugin_TaskRunner, uPSRuntime ;
+uses APIBase, SysUtils, NovusWindows, API_Output, Plugin_TaskRunner, uPSRuntime ;
 
 type
    TAPI_Task = class(TAPIBase)
@@ -10,7 +10,7 @@ type
    protected
      fTaskRunner: TTaskRunner;
    public
-     constructor Create(aMessagesLog: tMessagesLog; aTaskRunner: TTaskRunner); overload;
+     constructor Create(aAPI_Output: tAPI_Output; aTaskRunner: TTaskRunner); overload;
 
      function AddTask(const aProcedureName: String): boolean;
      function RunTarget(const aProcedureName: String): boolean;
@@ -20,9 +20,9 @@ implementation
 
 
 
-constructor TAPI_Task.create(aMessagesLog: tMessagesLog; aTaskRunner: TTaskRunner);
+constructor TAPI_Task.create(aAPI_Output: tAPI_Output; aTaskRunner: TTaskRunner);
 begin
-  inherited Create(aMessagesLog);
+  inherited Create(aAPI_Output);
 
   fTaskRunner := aTaskRunner;
 end;
@@ -64,29 +64,11 @@ begin
 
         Self.oExec.RunProcP([], FProc);
       Except
-        oMessagesLog.InternalError;
+        oAPI_Output.InternalError;
       End;
     end;
 
-
-
-
-
 end;
-
-
-(*
-Var
-  FProc: Cardinal;
-
-
-
-
-  *)
-
-
-
-
 
 
 end.

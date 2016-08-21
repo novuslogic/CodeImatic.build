@@ -2,14 +2,14 @@ unit API_RegEx;
 
 interface
 
-uses APIBase, SysUtils, MessagesLog, Classes, RegularExpressions;
+uses APIBase, SysUtils, API_Output, Classes, RegularExpressions;
 
 type
    TAPI_RegEx = class(TAPIBase)
    private
    protected
    public
-     constructor Create(aMessagesLog: tMessagesLog); override;
+     constructor Create(aAPI_Output: tAPI_Output); override;
      destructor Destroy; override;
 
      function Match(aRegEx: String; aText: String;var aMatching: String): boolean;
@@ -19,9 +19,9 @@ implementation
 
 uses System.IOUtils;
 
-constructor TAPI_RegEx.create(aMessagesLog: tMessagesLog);
+constructor TAPI_RegEx.create(aAPI_Output: tAPI_Output);
 begin
-  Inherited create(aMessagesLog);
+  Inherited create(aAPI_Output);
 end;
 
 destructor TAPI_RegEx.destroy;
@@ -45,7 +45,7 @@ begin
       if Result then
          aMatching := FMatch.Value;
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
     End;
   Finally
   End;

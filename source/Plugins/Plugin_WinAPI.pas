@@ -3,7 +3,7 @@ unit Plugin_WinAPI;
 interface
 
 uses Classes,Plugin,  uPSRuntime,  uPSCompiler, PluginsMapFactory, API_WinAPI,
-    uPSI_API_WinAPI, MessagesLog, SysUtils;
+    uPSI_API_WinAPI, API_Output, SysUtils;
 
 
 type
@@ -12,7 +12,7 @@ type
   protected
     foAPI_WinAPI: TAPI_WinAPI;
   public
-    constructor Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -23,11 +23,11 @@ type
 
 implementation
 
-constructor tPlugin_WinAPI.Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter);
+constructor tPlugin_WinAPI.Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter);
 begin
   Inherited;
 
-  foAPI_WinAPI := TAPI_WinAPI.Create(foMessagesLog);
+  foAPI_WinAPI := TAPI_WinAPI.Create(foAPI_Output);
 
 end;
 

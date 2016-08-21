@@ -3,14 +3,14 @@ unit PluginsMapFactory;
 
 interface
 
-Uses Plugin, MessagesLog, uPSRuntime, uPSCompiler, Contnrs;
+Uses Plugin, API_Output, uPSRuntime, uPSCompiler, Contnrs;
 
 type
   TPluginsMapFactory = class(Tobject)
   public
     class procedure RegisterClass(AClass: TClass);
     class function FindClass(AClassName: string): TClass;
-    class function FindPlugin(aClassname: String; aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter): tPlugin;
+    class function FindPlugin(aClassname: String; aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter): tPlugin;
   end;
 
 var
@@ -43,13 +43,13 @@ begin
   Result := LClass;
 end;
 
-class function TPluginsMapFactory.FindPlugin(aClassname: String; aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter): tPlugin;
+class function TPluginsMapFactory.FindPlugin(aClassname: String; aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter): tPlugin;
 Var
   fc : TPluginClass;
   f : TPlugin;
 begin
   fc := TPluginClass(TPluginsMapFactory.FindClass(aClassname));
-  f := fc.Create(aMessagesLog, aImp);
+  f := fc.Create(aAPI_Output, aImp);
 
   Result := f;
 end;

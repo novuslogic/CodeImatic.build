@@ -2,7 +2,7 @@ unit Runtime;
 
 interface
 
-Uses Project, MessagesLog, Config, NovusVersionUtils, System.SysUtils,
+Uses Project, API_Output, Config, NovusVersionUtils, System.SysUtils,
      uPSRuntime,  Plugins, dialogs, NovusDateStringUtils, uPSCompiler ;
 
 type
@@ -10,7 +10,7 @@ type
    protected
    private
      fImp:  TPSRuntimeClassImporter;
-     foMessagesLog: tMessagesLog;
+     foAPI_Output: tAPI_Output;
      foProject: tProject;
      foPlugins: TPlugins;
      FdtDuration: TDateTime;
@@ -21,9 +21,9 @@ type
 
      procedure FinishBuild(const aprojecttask: Tprojecttask; const aIncludeItemName: boolean = false);
 
-     property oMessagesLog: tMessagesLog
-       read foMessagesLog
-       write foMessagesLog;
+     property oAPI_Output: tAPI_Output
+       read foAPI_Output
+       write foAPI_Output;
 
      property oPlugins: TPlugins
        read foPlugins
@@ -64,36 +64,36 @@ begin
 
     foProject.LoadProjectFile(oConfig.ProjectFileName, oConfig.ProjectConfigFileName);
 
-    if foProject.MessageslogPath = '' then foProject.MessageslogPath := foProject.GetWorkingdirectory;
+    if foProject.OutputPath = '' then foProject.OutputPath := foProject.GetWorkingdirectory;
 
-    FoMessagesLog := tMessagesLog.Create(foProject.MessageslogPath + oConfig.MessageslogFile, foProject.OutputConsole);
+    FoAPI_Output := tAPI_Output.Create(foProject.OutputPath + oConfig.OutputFile, foProject.OutputConsole);
 
-    FoMessagesLog.DateTimeMask := FormatSettings.ShortDateFormat + ' '+ cTimeformat;
+    FoAPI_Output.DateTimeMask := FormatSettings.ShortDateFormat + ' '+ cTimeformat;
 
-    FoMessagesLog.OpenLog(true);
+    FoAPI_Output.OpenLog(true);
 
-    if not FoMessagesLog.IsFileOpen then
+    if not FoAPI_Output.IsFileOpen then
       begin
-        WriteLn(FoMessagesLog.Filename + ' log file cannot be created.');
+        WriteLn(FoAPI_Output.Filename + ' log file cannot be created.');
 
         Exit;
       end;
 
-    FoMessagesLog.WriteLog('Zautomatic - © Copyright Novuslogic Software 2016 All Rights Reserved');
-    FoMessagesLog.WriteLog('Version: ' + TNovusVersionUtils.GetFullVersionNumber);
+    FoAPI_Output.WriteLog('Zautomatic - © Copyright Novuslogic Software 2016 All Rights Reserved');
+    FoAPI_Output.WriteLog('Version: ' + TNovusVersionUtils.GetFullVersionNumber);
 
-    FoMessagesLog.WriteLog('Project:' + foProject.ProjectFileName);
+    FoAPI_Output.WriteLog('Project:' + foProject.ProjectFileName);
     if (foProject.oProjectConfig.ProjectConfigFileName <> '') then
-      FoMessagesLog.WriteLog('Projectconfig:' + foProject.oProjectConfig.ProjectConfigFileName);
+      FoAPI_Output.WriteLog('Projectconfig:' + foProject.oProjectConfig.ProjectConfigFileName);
 
-    FoMessagesLog.WriteLog('Messagelog file: ' + FoMessagesLog.Filename);
+    FoAPI_Output.WriteLog('Messagelog file: ' + FoAPI_Output.Filename);
 
     if oConfig.CompileOnly then
-      FoMessagesLog.WriteLog('Option:Compile Only.')
+      FoAPI_Output.WriteLog('Option:Compile Only.')
     else
-      FoMessagesLog.WriteLog('Option:Compile and Execute.');
+      FoAPI_Output.WriteLog('Option:Compile and Execute.');
     FImp := TPSRuntimeClassImporter.Create;
-    foPlugins := TPlugins.Create(FoMessagesLog, FImp);
+    foPlugins := TPlugins.Create(FoAPI_Output, FImp);
 
     foPlugins.LoadPlugins;
 
@@ -106,29 +106,29 @@ begin
       begin
         loprojecttask := tprojecttask(foProject.oprojecttaskList.items[i]);
 
-        FoMessagesLog.WriteLog('Project Task:' + loprojecttask.TaskName);
+        FoAPI_Output.WriteLog('Project Task:' + loprojecttask.TaskName);
 
 
         if Not FileExists(loprojecttask.ProjectFileName) then
           begin
-            FoMessagesLog.WriteLog('projectfilename ' + loprojecttask.ProjectFileName+ ' cannot be found.');
+            FoAPI_Output.WriteLog('projectfilename ' + loprojecttask.ProjectFileName+ ' cannot be found.');
 
             Continue;
           end
        else
          begin
-            FoMessagesLog.WriteLog('Project Filename:' + loprojecttask.ProjectFileName);
+            FoAPI_Output.WriteLog('Project Filename:' + loprojecttask.ProjectFileName);
 
             loprojecttask.BuildStatus := TBuildStatus.bsSucceeded;
-            FoMessagesLog.projecttask := loprojecttask;
+            FoAPI_Output.projecttask := loprojecttask;
 
             loprojecttask.StartBuild := Now;
 
-            FoMessagesLog.WriteLog('Build started ' + FoMessagesLog.FormatedNow(loprojecttask.StartBuild));
+            FoAPI_Output.WriteLog('Build started ' + FoAPI_Output.FormatedNow(loprojecttask.StartBuild));
 
 
             Try
-              loScriptEngine := TScriptEngine.Create(FoMessagesLog, FImp, FoPlugins);
+              loScriptEngine := TScriptEngine.Create(FoAPI_Output, FImp, FoPlugins);
 
               loScriptEngine.LoadScript(loprojecttask.ProjectFileName);
 
@@ -145,7 +145,7 @@ begin
 
             FinishBuild(loprojecttask);
 
-            FoMessagesLog.projecttask := NIL;
+            FoAPI_Output.projecttask := NIL;
 
             if Integer(loprojecttask.BuildStatus) > Integer(BuildStatus) then
                begin
@@ -163,7 +163,7 @@ begin
       end;
 
     // Build Time Report
-    FoMessagesLog.WriteLog('Build time report');
+    FoAPI_Output.WriteLog('Build time report');
 
     for I := 0 to foProject.oprojecttaskList.Count - 1 do
       begin
@@ -171,31 +171,21 @@ begin
         FinishBuild(loprojecttask, true);
       end;
 
-    FoMessagesLog.WriteLog('Total build duration: ' + FormatDateTime(cTimeformat, Duration));
-    FoMessagesLog.WriteLog('Build status: ' +  GetBuildStatus(BuildStatus));
+    FoAPI_Output.WriteLog('Total build duration: ' + FormatDateTime(cTimeformat, Duration));
+    FoAPI_Output.WriteLog('Build status: ' +  GetBuildStatus(BuildStatus));
 
     ExitCode := Integer(BuildStatus);
 
     FImp.Free;
 
-    FoMessagesLog.CloseLog;
+    FoAPI_Output.CloseLog;
 
-    Showmessage('1');
-
-    FoMessagesLog.Free;
-
-    Showmessage('2');
+    FoAPI_Output.Free;
 
     foPlugins.Free;
-
-    Showmessage('3');
   Finally
     foProject.Free;
-
-    Showmessage('4');
   End;
-
-
 end;
 
 
@@ -226,14 +216,14 @@ begin
         lsMessageLog := 'Build failed: ';
     end;
 
-  lsMessageLog := lsMessageLog + FoMessagesLog.FormatedNow(aprojecttask.EndBuild);
+  lsMessageLog := lsMessageLog + FoAPI_Output.FormatedNow(aprojecttask.EndBuild);
 
   lsMessageLog := lsMessageLog + ' - duration: ' + FormatDateTime(cTimeformat, aprojecttask.Duration);
 
   if aIncludeItemName then
-    FoMessagesLog.WriteLog(aprojecttask.TaskName + ': ' +lsMessageLog)
+    FoAPI_Output.WriteLog(aprojecttask.TaskName + ': ' +lsMessageLog)
   else
-    FoMessagesLog.WriteLog(lsMessageLog);
+    FoAPI_Output.WriteLog(lsMessageLog);
 
 end;
 

@@ -6,7 +6,7 @@ Uses SysUtils, NovusXMLBO, Registry, Windows, NovusStringUtils, NovusFileUtils,
      JvSimpleXml, NovusSimpleXML, NovusList;
 
 Const
-  csMessageslogFile = 'Messages.log';
+  csOutputFile = 'Output.log';
   csConfigfile = 'zautomatic.config';
 
 Type
@@ -36,7 +36,7 @@ Type
      fConfigPluginsList: tNovusList;
      fsConfigfile: string;
      fsPluginPath: String;
-     fsMessageslogFile: string;
+     fsOutputFile: string;
      fsProjectConfigFileName: String;
      fsProjectFileName: String;
      fsRootPath: String;
@@ -58,9 +58,9 @@ Type
        read fsProjectConfigFileName
        write fsProjectConfigFileName;
 
-      property MessageslogFile: String
-        read fsMessageslogFile
-        write fsMessageslogFile;
+      property OutputFile: String
+        read fsOutputFile
+        write fsOutputFile;
 
      property  RootPath: String
         read fsRootPath
@@ -177,7 +177,7 @@ begin
       //
     end;
 
-  fsmessageslogFile := csMessageslogFile;
+  fsOutputFile := csOutputFile;
 end;
 
 procedure TConfig.LoadConfig;

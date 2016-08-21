@@ -12,7 +12,7 @@ type
    protected
      fExcludedFile: TStringList;
      fsPassword: String;
-     fbMessagesLog: Boolean;
+     fbOutput: Boolean;
    public
      constructor Create; virtual;
      destructor Destroy; virtual;
@@ -23,8 +23,8 @@ type
      property Password: String
        read fsPassword write fsPassword;
 
-     property MessagesLog: Boolean
-       read fbMessagesLog write fbMessagesLog;
+     property Output: Boolean
+       read fbOutput write fbOutput;
 
    end;
 
@@ -70,7 +70,7 @@ begin
     ptFoundUnhandled: lsMessageLog := 'Found Unhandled ..' + Item.DiskPath + Item.FileName;
   end;
 
-  oMessagesLog.Log(lsMessageLog);
+  oAPI_Output.Log(lsMessageLog);
 end;
 
 
@@ -159,13 +159,13 @@ begin
                Exit;
              end;
       end;
-      oMessagesLog.Log('Saving ' + aZipFilename );
+      oAPI_Output.Log('Saving ' + aZipFilename );
 
       loZipFile.Save;
 
       loZipFile.CloseArchive;
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
 
       Result := False;
     End;
@@ -210,7 +210,7 @@ begin
 
       loZipFile.ExtractFiles('*');
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
 
       Result := False;
     End;
@@ -257,7 +257,7 @@ begin
 
       loZipFile.ExtractFiles(aFileName);
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
 
       Result := False;
     End;
@@ -322,7 +322,7 @@ begin
           aZipStringList.Add(s);
         end;
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
 
       Result := False;
     End;

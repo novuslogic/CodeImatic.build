@@ -4,7 +4,7 @@ unit Plugin_TaskClasses;
 interface
 
 uses Classes,Plugin,  uPSRuntime,  uPSCompiler, API_Task, NovusList,
-    MessagesLog, SysUtils, uPSI_API_Task, NovusPlugin, System.Generics.Defaults,
+    API_Output, SysUtils, uPSI_API_Task, NovusPlugin, System.Generics.Defaults,
     Plugin_TaskRunner;
 
 
@@ -15,7 +15,7 @@ type
     foTaskRunner: TTaskRunner;
     foAPI_Task: TAPI_Task;
   public
-    constructor Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -36,7 +36,7 @@ type
 
     property PluginName: string read GetPluginName;
 
-    function CreatePlugin(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter): TPlugin; safecall;
+    function CreatePlugin(aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter): TPlugin; safecall;
   end;
 
 function GetPluginObject: INovusPlugin; stdcall;
@@ -47,14 +47,14 @@ var
   _Plugin_Task: TPlugin_Task = nil;
 
 
-constructor tPlugin_TaskBase.Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter);
+constructor tPlugin_TaskBase.Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter);
 begin
   Inherited;
 
-  foTaskRunner := TTaskRunner.Create(TTaskRunner);
+  foTaskRunner := TTaskRunner.Create(TTask);
 
 
-  foAPI_Task := TAPI_Task.Create(foMessagesLog, foTaskRunner);
+  foAPI_Task := TAPI_Task.Create(foAPI_Output, foTaskRunner);
 end;
 
 
@@ -109,9 +109,9 @@ procedure tPlugin_Task.Initialize;
 begin
 end;
 
-function tPlugin_Task.CreatePlugin(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter): TPlugin; safecall;
+function tPlugin_Task.CreatePlugin(aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter): TPlugin; safecall;
 begin
-  FPlugin_Task := tPlugin_TaskBase.Create(aMessagesLog,aImp);
+  FPlugin_Task := tPlugin_TaskBase.Create(aAPI_Output,aImp);
 
   Result := FPlugin_Task;
 end;

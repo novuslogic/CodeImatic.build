@@ -3,7 +3,7 @@ unit Plugin_IniFile;
 interface
 
 uses Classes,Plugin,  uPSRuntime,  uPSCompiler, PluginsMapFactory, API_IniFile,
-    uPSI_API_IniFile, MessagesLog, SysUtils;
+    uPSI_API_IniFile, API_Output, SysUtils;
 
 
 type
@@ -12,7 +12,7 @@ type
   protected
     foAPI_IniFile: TAPI_IniFile;
   public
-    constructor Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -23,11 +23,11 @@ type
 
 implementation
 
-constructor tPlugin_RegIni.Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter);
+constructor tPlugin_RegIni.Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter);
 begin
   Inherited;
 
-  foAPI_IniFile := TAPI_IniFile.Create(foMessagesLog);
+  foAPI_IniFile := TAPI_IniFile.Create(foAPI_Output);
 
 end;
 

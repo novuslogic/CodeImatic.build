@@ -3,7 +3,7 @@ unit Plugin_Environment;
 interface
 
 uses Classes,Plugin,  uPSRuntime,  uPSCompiler, PluginsMapFactory, API_Environment,
-    MessagesLog, SysUtils, uPSI_API_Environment ;
+    API_Output, SysUtils, uPSI_API_Environment ;
 
 
 type
@@ -12,7 +12,7 @@ type
   protected
      foAPI_Environment: TAPI_Environment;
   public
-    constructor Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -26,11 +26,11 @@ type
 implementation
 
 
-constructor tPlugin_Environment.Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter);
+constructor tPlugin_Environment.Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter);
 begin
   Inherited;
 
-  foAPI_Environment := TAPI_Environment.Create(foMessagesLog);
+  foAPI_Environment := TAPI_Environment.Create(foAPI_Output);
 
 end;
 

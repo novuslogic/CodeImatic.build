@@ -2,14 +2,14 @@ unit API_Folder;
 
 interface
 
-uses APIBase, SysUtils, MessagesLog, Classes, NovusFileUtils;
+uses APIBase, SysUtils, API_Output, Classes, NovusFileUtils;
 
 type
    TAPI_Folder = class(TAPIBase)
    private
    protected
    public
-     constructor Create(aMessagesLog: tMessagesLog); override;
+     constructor Create(aAPI_Output: tAPI_Output); override;
      destructor Destroy; override;
 
      function Exists(const aFolder: String): Boolean;
@@ -24,9 +24,9 @@ type
 implementation
 
 
-constructor TAPI_Folder.create(aMessagesLog: tMessagesLog);
+constructor TAPI_Folder.create(aAPI_Output: tAPI_Output);
 begin
-  Inherited create(aMessagesLog);
+  Inherited create(aAPI_Output);
 end;
 
 destructor TAPI_Folder.destroy;
@@ -39,7 +39,7 @@ begin
     Try
       Result := DirectoryExists(aFolder);
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
     End;
   Finally
  
@@ -52,7 +52,7 @@ Try
     Try
       Result := RemoveDir(aFolder);
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
     End;
   Finally
  
@@ -66,7 +66,7 @@ begin
     Try
       Result := TNovusFileUtils.MoveDir(aSourceFolder, aDestFolder);
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
     End;
   Finally
 
@@ -79,7 +79,7 @@ begin
     Try
       Result := TNovusFileUtils.CopyDir(aSourceFolder, aDestFolder);
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
     End;
   Finally
 
@@ -93,7 +93,7 @@ begin
     Try
       Result := CreateDir(aFolder);
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
     End;
   Finally
 
@@ -106,7 +106,7 @@ begin
     Try
       Result := SetCurrentDir(aFolder);
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
     End;
   Finally
 
@@ -120,7 +120,7 @@ begin
     Try
       Result := GetCurrentDir;
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
     End;
   Finally
 

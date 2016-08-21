@@ -5,14 +5,14 @@ var
   fsOutput: string;
   fsError: string;
 begin
-  MessagesLog.log('Open cmd.exe');
+  Output.log('Open cmd.exe');
 
   fsInput := 'Dir'+CRLF+'Exit'+CRLF;
 
   try
     Shell.RunCaptureCommand('cmd.exe', fsInput, fsOutput,fsError );
   except
-    Messageslog.LogError;
+    Output.LogError;
   end;
 
   writeln(fsoutput);

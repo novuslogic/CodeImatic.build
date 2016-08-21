@@ -2,7 +2,7 @@ unit Plugin_Commands;
 
 interface
 
-uses Classes,runtime, Plugin,  uPSCompiler, uPSI_MessagesLog, PluginsMapFactory,
+uses Classes,runtime, Plugin,  uPSCompiler, uPSI_API_Output, PluginsMapFactory,
      uPSC_classes,  uPSC_std, uPSRuntime, uPSR_std, uPSR_classes, SysUtils,
      uPSI_ExtraClasses, uPSR_ExtraClasses, uPSC_comobj, uPSR_comobj, uPSC_dll, uPSR_dll;
 
@@ -87,7 +87,7 @@ begin
   if Global = nil then begin result := false; exit; end;
   PStart := Stack.Count - 1;
 
-  oRuntime.oMessagesLog.WriteLog(Stack.GetString(PStart));
+  oRuntime.oAPI_Output.WriteLog(Stack.GetString(PStart));
 
   Result := True;
 end;

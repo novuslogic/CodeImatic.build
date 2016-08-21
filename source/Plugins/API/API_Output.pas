@@ -1,18 +1,16 @@
-unit MessagesLog;
+unit API_Output;
 
 interface
 
 Uses NovusLog, uPSRuntime, uPSUtils, Project;
 
 type
-  TMessagesLog = class(TNovusLogFile)
+  TAPI_Output = class(TNovusLogFile)
   private
   protected
     fprojecttask: Tprojecttask;
     fLastExError: TPSError;
     fsLastExParam: tbtstring;
- //   fbFailed: Boolean;
- //   fbErrors: Boolean;
   public
     constructor Create(AFilename: String;aOutputConsole: Boolean);  virtual;
 
@@ -37,22 +35,19 @@ type
 
 implementation
 
-constructor TMessagesLog.Create(AFilename: String;aOutputConsole: Boolean);
+constructor TAPI_Output.Create(AFilename: String;aOutputConsole: Boolean);
 begin
   OutputConsole := aOutputConsole;
-
-  //Failed := False;
-  //Errors := False;
 
   inherited Create(AFilename);
 end;
 
-procedure TMessagesLog.Log(AMsg: string);
+procedure TAPI_Output.Log(AMsg: string);
 begin
   WriteLog(AMsg);
 end;
 
-procedure TMessagesLog.LogError;
+procedure TAPI_Output.LogError;
 begin
   WriteLog(fsLastExParam);
   if fLastExError = TPSError.erCustomError then
@@ -62,7 +57,7 @@ begin
 end;
 
 
-procedure TMessagesLog.InternalError;
+procedure TAPI_Output.InternalError;
 begin
    Log(WriteExceptLog);
    fprojecttask.BuildStatus := TBuildStatus.bsFailed;

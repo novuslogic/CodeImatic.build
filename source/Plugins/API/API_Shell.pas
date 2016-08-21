@@ -38,7 +38,7 @@ begin
                         aDirectory,
                         aParameters) ;
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
      End;
   Finally
 
@@ -60,7 +60,7 @@ begin
                         aDirectory,
                         aParameters);
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
      End;
   Finally
 
@@ -81,7 +81,7 @@ begin
                                 aOutput);
 
     Except
-      oMessagesLog.InternalError;
+      oAPI_Output.InternalError;
      End;
   Finally
     loShell.Free;

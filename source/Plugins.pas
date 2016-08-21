@@ -3,7 +3,7 @@ unit Plugins;
 
 interface
 
-uses  MessagesLog, uPSRuntime, uPSI_MessagesLog, uPSCompiler, PluginsMapFactory, Plugin,
+uses  API_Output, uPSRuntime, uPSI_API_Output, uPSCompiler, PluginsMapFactory, Plugin,
       Classes, SysUtils, NovusPlugin, Config;
 
 type
@@ -12,10 +12,10 @@ type
    protected
      FExternalPlugins: TNovusPlugins;
      fPluginsList: TList;
-     foMessagesLog: tMessagesLog;
+     foAPI_Output: tAPI_Output;
      fImp: TPSRuntimeClassImporter;
    public
-     constructor Create(aMessagesLog: tMessagesLog; aImp: TPSRuntimeClassImporter);
+     constructor Create(aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter);
      destructor Destroy; override;
 
      procedure LoadPlugins;
@@ -33,7 +33,7 @@ Uses Runtime;
 
 constructor TPlugins.create;
 begin
-  foMessagesLog:= aMessagesLog;
+  foAPI_Output:= aAPI_Output;
 
   FExternalPlugins := TNovusPlugins.Create;
 
@@ -84,7 +84,7 @@ begin
   while (i < PluginsMapFactoryClasses.Count) do
     begin
       FPlugin := TPluginsMapFactory.FindPlugin(PluginsMapFactoryClasses.Items[i].ClassName,
-         foMessagesLog,fImp );
+         foAPI_Output,fImp );
 
       fPluginsList.Add(FPlugin);
 
@@ -92,7 +92,7 @@ begin
     end;
 
   //External Plugin
-  foMessagesLog.Log('Loading plugins');
+  foAPI_Output.Log('Loading plugins');
 
   if oConfig.oConfigPluginsList.Count > 0 then
     begin
@@ -104,9 +104,9 @@ begin
             begin
               FExternalPlugin := IExternalPlugin(FExternalPlugins.Plugins[FExternalPlugins.PluginCount-1]);
 
-              fPluginsList.Add(FExternalPlugin.CreatePlugin(foMessagesLog,fImp));
+              fPluginsList.Add(FExternalPlugin.CreatePlugin(foAPI_Output,fImp));
 
-              foMessagesLog.Log('Loaded: ' + FExternalPlugin.PluginName);
+              foAPI_Output.Log('Loaded: ' + FExternalPlugin.PluginName);
             end;
         end;
 
@@ -129,7 +129,7 @@ begin
 
     Result := True;
   Except
-    foMessagesLog.WriteExceptLog;
+    foAPI_Output.WriteExceptLog;
 
     Result := False;
   End;

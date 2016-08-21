@@ -43,7 +43,7 @@ implementation
 
 uses
    APIBase
-  ,MessagesLog
+  ,API_Output
   ,RegularExpressions
   ,API_RegEx
   ;

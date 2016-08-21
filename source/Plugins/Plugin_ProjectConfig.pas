@@ -3,7 +3,7 @@ unit Plugin_ProjectConfig;
 interface
 
 uses Classes,Plugin,  uPSRuntime,  uPSCompiler, PluginsMapFactory, API_ProjectConfig,
-    MessagesLog, SysUtils, uPSI_API_ProjectConfig ;
+    API_Output, SysUtils, uPSI_API_ProjectConfig ;
 
 
 type
@@ -12,7 +12,7 @@ type
   protected
      foAPI_ProjectConfig: TAPI_ProjectConfig;
   public
-    constructor Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -24,11 +24,11 @@ type
 implementation
 
 
-constructor tPlugin_ProjectConfig.Create(aMessagesLog: tMessagesLog; var aImp: TPSRuntimeClassImporter);
+constructor tPlugin_ProjectConfig.Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter);
 begin
   Inherited;
 
-  foAPI_ProjectConfig := TAPI_ProjectConfig.Create(foMessagesLog);
+  foAPI_ProjectConfig := TAPI_ProjectConfig.Create(foAPI_Output);
 
 end;
 
