@@ -1,4 +1,9 @@
 
+procedure Test2;
+begin
+  output.log('Running test2 ...') ;
+end;
+
 
 procedure test1;
 begin
@@ -6,17 +11,21 @@ begin
 
 end;
 
+Var
+  FTaskTest1: tTask;
+  FTaskTest2: tTask;
 begin
   output.log('Sample 8');
 
-  With Task.AddTask('test1')) do
-    begin
+  FTaskTest2 := Task.AddTask('test2');
+  if Not Assigned(FTaskTest2) then
+    RaiseException(erCustomError, 'not assigned FTaskTest2'); 
+  
 
-
-
-
-    ene; 
-    
+  FTaskTest1 := Task.AddTask('test1');
+  if Not Assigned(FTaskTest1) then
+    RaiseException(erCustomError, 'not assigned FTaskTest1'); 
+  FTaskTest1.IsDependentOn('test2');
 
   if not Task.RunTarget('test1') then 
     RaiseException(erCustomError, 'missing procedure "test1" '); 

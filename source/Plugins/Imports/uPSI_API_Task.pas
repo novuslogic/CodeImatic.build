@@ -75,6 +75,7 @@ begin
   //with RegClassS(CL,'TPersistent', 'TTask') do
   with CL.AddClassN(CL.FindClass('TPersistent'),'TTask') do
   begin
+    RegisterMethod('Function IsDependentOn( const aProcedureName : String) : Boolean');
     RegisterProperty('ProcedureName', 'String', iptrw);
   end;
 end;
@@ -110,6 +111,7 @@ procedure RIRegister_TTask(CL: TPSRuntimeClassImporter);
 begin
   with CL.Add(TTask) do
   begin
+    RegisterMethod(@TTask.IsDependentOn, 'IsDependentOn');
     RegisterPropertyHelper(@TTaskProcedureName_R,@TTaskProcedureName_W,'ProcedureName');
   end;
 end;

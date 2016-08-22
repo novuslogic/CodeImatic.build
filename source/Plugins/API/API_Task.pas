@@ -10,6 +10,8 @@ type
     fsProcedureName: String;
   private
   public
+    function IsDependentOn(const aProcedureName: String): Boolean;
+
     property ProcedureName: String
       read fsProcedureName
       write fsProcedureName;
@@ -20,6 +22,8 @@ type
    private
    protected
      fTaskRunner: TTaskRunner;
+     function DoExec(const aProcedureName: string): Boolean;
+     function DoRunTarget(const aProcedureName: String): boolean;
    public
      constructor Create(aAPI_Output: tAPI_Output; aTaskRunner: TTaskRunner); overload;
 
@@ -57,11 +61,23 @@ begin
   End;
 end;
 
+function TAPI_Task.DoExec(const aProcedureName: string): Boolean;
+var
+  FProc: Cardinal;
+begin
+  Result := False;
 
-function TAPI_Task.RunTarget(const aProcedureName: String): boolean;
+  FProc := oExec.GetProc(aProcedureName);
+
+  If FProc = InvalidVal then Exit;
+
+  oExec.RunProcP([], FProc);
+end;
+
+function TAPI_Task.DoRunTarget(const aProcedureName: String): boolean;
 Var
   FTask: tTask;
-  FProc: Cardinal;
+
 begin
   Result := False;
 
@@ -70,18 +86,30 @@ begin
   FTask := tTask(FTaskRunner.FindTask(aProcedureName));
   if Assigned(FTask) then
     begin
+      if True then
+
+
+
       Try
-        Result := True;
-
-        FProc := Self.oExec.GetProc(aProcedureName);
-
-        Self.oExec.RunProcP([], FProc);
+        Result := DoExec(aProcedureName);
       Except
         oAPI_Output.InternalError;
       End;
     end;
-
 end;
+
+
+function TAPI_Task.RunTarget(const aProcedureName: String): boolean;
+begin
+  Result := DoRunTarget(aProcedureName);
+end;
+
+function TTask.IsDependentOn(const aProcedureName: String): Boolean;
+begin
+  Result := False;
+end;
+
+
 
 
 end.
