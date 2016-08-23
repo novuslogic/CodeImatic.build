@@ -7,14 +7,27 @@ uses Classes, APIBase, SysUtils, NovusWindows, API_Output, Plugin_TaskRunner, uP
 type
   TTask = class(TPersistent)
   protected
+    fDependencies: tStringList;
     fsProcedureName: String;
+    fTaskRunner: TTaskRunner;
   private
   public
+    constructor Create;
+    destructor Destroy; override;
+
     function IsDependentOn(const aProcedureName: String): Boolean;
 
     property ProcedureName: String
       read fsProcedureName
       write fsProcedureName;
+
+    property TaskRunner: TTaskRunner
+      read fTaskRunner
+      write fTaskRunner;
+
+    property Dependencies: tStringList
+      read fDependencies
+      write fDependencies;
   end;
 
 
@@ -48,7 +61,7 @@ Var
   FTask: tTask;
 begin
   Result := NIl;
-  If Self.oExec.GetProc(aProcedureName)= InvalidVal then Exit;
+  If Self.oExec.GetProc(aProcedureName) = InvalidVal then Exit;
 
   Try
     FTask := tTask.Create;
@@ -67,11 +80,14 @@ var
 begin
   Result := False;
 
+
   FProc := oExec.GetProc(aProcedureName);
 
   If FProc = InvalidVal then Exit;
 
   oExec.RunProcP([], FProc);
+
+  Result := True;
 end;
 
 function TAPI_Task.DoRunTarget(const aProcedureName: String): boolean;
@@ -104,9 +120,23 @@ begin
   Result := DoRunTarget(aProcedureName);
 end;
 
+
+constructor TTask.Create;
+begin
+  fDependencies:= tStringList.Create;
+end;
+
+destructor TTask.Destroy;
+begin
+  fDependencies.Free;
+end;
+
 function TTask.IsDependentOn(const aProcedureName: String): Boolean;
 begin
   Result := False;
+
+  if fDependencies.IndexOf(aProcedureName) = -1 then
+    fDependencies.Add(aProcedureName);
 end;
 
 
