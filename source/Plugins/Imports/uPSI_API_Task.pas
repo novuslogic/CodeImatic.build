@@ -31,11 +31,15 @@ type
 { compile-time registration functions }
 procedure SIRegister_TAPI_Task(CL: TPSPascalCompiler);
 procedure SIRegister_TTask(CL: TPSPascalCompiler);
+procedure SIRegister_TTaskCriteria(CL: TPSPascalCompiler);
+procedure SIRegister_TTaskFailed(CL: TPSPascalCompiler);
 procedure SIRegister_API_Task(CL: TPSPascalCompiler);
 
 { run-time registration functions }
 procedure RIRegister_TAPI_Task(CL: TPSRuntimeClassImporter);
 procedure RIRegister_TTask(CL: TPSRuntimeClassImporter);
+procedure RIRegister_TTaskCriteria(CL: TPSRuntimeClassImporter);
+procedure RIRegister_TTaskFailed(CL: TPSRuntimeClassImporter);
 procedure RIRegister_API_Task(CL: TPSRuntimeClassImporter);
 
 procedure Register;
@@ -75,19 +79,73 @@ begin
   //with RegClassS(CL,'TPersistent', 'TTask') do
   with CL.AddClassN(CL.FindClass('TPersistent'),'TTask') do
   begin
+    RegisterMethod('Constructor Create');
     RegisterMethod('Function IsDependentOn( const aProcedureName : String) : Boolean');
     RegisterProperty('ProcedureName', 'String', iptrw);
+    RegisterProperty('TaskRunner', 'TTaskRunner', iptrw);
+    RegisterProperty('Dependencies', 'tStringList', iptrw);
+    RegisterProperty('Criteria', 'TTaskCriteria', iptrw);
+  end;
+end;
+
+(*----------------------------------------------------------------------------*)
+procedure SIRegister_TTaskCriteria(CL: TPSPascalCompiler);
+begin
+  //with RegClassS(CL,'TPersistent', 'TTaskCriteria') do
+  with CL.AddClassN(CL.FindClass('TPersistent'),'TTaskCriteria') do
+  begin
+    RegisterMethod('Constructor Create');
+    RegisterProperty('Failed', 'TtaskFailed', iptrw);
+  end;
+end;
+
+(*----------------------------------------------------------------------------*)
+procedure SIRegister_TTaskFailed(CL: TPSPascalCompiler);
+begin
+  //with RegClassS(CL,'TPersistent', 'TTaskFailed') do
+  with CL.AddClassN(CL.FindClass('TPersistent'),'TTaskFailed') do
+  begin
+    RegisterMethod('Constructor Create');
+    RegisterProperty('Retry', 'integer', iptrw);
+    RegisterProperty('Abort', 'Boolean', iptrw);
+    RegisterProperty('Skip', 'Boolean', iptrw);
   end;
 end;
 
 (*----------------------------------------------------------------------------*)
 procedure SIRegister_API_Task(CL: TPSPascalCompiler);
 begin
+  SIRegister_TTaskFailed(CL);
+  SIRegister_TTaskCriteria(CL);
   SIRegister_TTask(CL);
   SIRegister_TAPI_Task(CL);
 end;
 
 (* === run-time registration functions === *)
+(*----------------------------------------------------------------------------*)
+procedure TTaskCriteria_W(Self: TTask; const T: TTaskCriteria);
+begin Self.Criteria := T; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TTaskCriteria_R(Self: TTask; var T: TTaskCriteria);
+begin T := Self.Criteria; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TTaskDependencies_W(Self: TTask; const T: tStringList);
+begin Self.Dependencies := T; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TTaskDependencies_R(Self: TTask; var T: tStringList);
+begin T := Self.Dependencies; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TTaskTaskRunner_W(Self: TTask; const T: TTaskRunner);
+begin Self.TaskRunner := T; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TTaskTaskRunner_R(Self: TTask; var T: TTaskRunner);
+begin T := Self.TaskRunner; end;
+
 (*----------------------------------------------------------------------------*)
 procedure TTaskProcedureName_W(Self: TTask; const T: String);
 begin Self.ProcedureName := T; end;
@@ -95,6 +153,38 @@ begin Self.ProcedureName := T; end;
 (*----------------------------------------------------------------------------*)
 procedure TTaskProcedureName_R(Self: TTask; var T: String);
 begin T := Self.ProcedureName; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TTaskCriteriaFailed_W(Self: TTaskCriteria; const T: TtaskFailed);
+begin Self.Failed := T; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TTaskCriteriaFailed_R(Self: TTaskCriteria; var T: TtaskFailed);
+begin T := Self.Failed; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TTaskFailedSkip_W(Self: TTaskFailed; const T: Boolean);
+begin Self.Skip := T; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TTaskFailedSkip_R(Self: TTaskFailed; var T: Boolean);
+begin T := Self.Skip; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TTaskFailedAbort_W(Self: TTaskFailed; const T: Boolean);
+begin Self.Abort := T; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TTaskFailedAbort_R(Self: TTaskFailed; var T: Boolean);
+begin T := Self.Abort; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TTaskFailedRetry_W(Self: TTaskFailed; const T: integer);
+begin Self.Retry := T; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TTaskFailedRetry_R(Self: TTaskFailed; var T: integer);
+begin T := Self.Retry; end;
 
 (*----------------------------------------------------------------------------*)
 procedure RIRegister_TAPI_Task(CL: TPSRuntimeClassImporter);
@@ -111,14 +201,42 @@ procedure RIRegister_TTask(CL: TPSRuntimeClassImporter);
 begin
   with CL.Add(TTask) do
   begin
+    RegisterConstructor(@TTask.Create, 'Create');
     RegisterMethod(@TTask.IsDependentOn, 'IsDependentOn');
     RegisterPropertyHelper(@TTaskProcedureName_R,@TTaskProcedureName_W,'ProcedureName');
+    RegisterPropertyHelper(@TTaskTaskRunner_R,@TTaskTaskRunner_W,'TaskRunner');
+    RegisterPropertyHelper(@TTaskDependencies_R,@TTaskDependencies_W,'Dependencies');
+    RegisterPropertyHelper(@TTaskCriteria_R,@TTaskCriteria_W,'Criteria');
+  end;
+end;
+
+(*----------------------------------------------------------------------------*)
+procedure RIRegister_TTaskCriteria(CL: TPSRuntimeClassImporter);
+begin
+  with CL.Add(TTaskCriteria) do
+  begin
+    RegisterConstructor(@TTaskCriteria.Create, 'Create');
+    RegisterPropertyHelper(@TTaskCriteriaFailed_R,@TTaskCriteriaFailed_W,'Failed');
+  end;
+end;
+
+(*----------------------------------------------------------------------------*)
+procedure RIRegister_TTaskFailed(CL: TPSRuntimeClassImporter);
+begin
+  with CL.Add(TTaskFailed) do
+  begin
+    RegisterConstructor(@TTaskFailed.Create, 'Create');
+    RegisterPropertyHelper(@TTaskFailedRetry_R,@TTaskFailedRetry_W,'Retry');
+    RegisterPropertyHelper(@TTaskFailedAbort_R,@TTaskFailedAbort_W,'Abort');
+    RegisterPropertyHelper(@TTaskFailedSkip_R,@TTaskFailedSkip_W,'Skip');
   end;
 end;
 
 (*----------------------------------------------------------------------------*)
 procedure RIRegister_API_Task(CL: TPSRuntimeClassImporter);
 begin
+  RIRegister_TTaskFailed(CL);
+  RIRegister_TTaskCriteria(CL);
   RIRegister_TTask(CL);
   RIRegister_TAPI_Task(CL);
 end;
