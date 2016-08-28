@@ -166,7 +166,7 @@ begin
   foAPI_Output.WriteLog('Executing ... ');
 
   fbRetry := False;
-  liRetry := aprojecttask.Criteria.Retry;
+  liRetry := aprojecttask.Criteria.Failed.Retry;
   if liRetry > 0 then fbRetry := True;
 
   if liRetry = 0 then liRetry := 1;

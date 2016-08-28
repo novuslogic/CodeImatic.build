@@ -79,7 +79,7 @@ type
      fTaskRunner: TTaskRunner;
      function DoDependencies(const aTask: tTask): Boolean;
      function DoExec(const aProcedureName: string): Boolean;
-     function DoRunTarget(const aProcedureName: String): boolean;
+     function DoRunTarget(const aTask: tTask): boolean;
    public
      constructor Create(aAPI_Output: tAPI_Output; aTaskRunner: TTaskRunner); overload;
 
@@ -123,12 +123,17 @@ var
 begin
   Result := False;
 
+  Try
+    FProc := oExec.GetProc(aProcedureName);
 
-  FProc := oExec.GetProc(aProcedureName);
+    If FProc = InvalidVal then Exit;
 
-  If FProc = InvalidVal then Exit;
+    oExec.RunProcP([], FProc);
+  Except
+    Result := False;
 
-  oExec.RunProcP([], FProc);
+    Exit;
+  End;
 
   Result := True;
 end;
@@ -136,6 +141,7 @@ end;
 function TAPI_Task.DoDependencies(const aTask: tTask): Boolean;
 var
   I: Integer;
+  LTask: tTask;
 begin
   Result := False;
 
@@ -152,13 +158,18 @@ begin
 
   for I := 0 to aTask.Dependencies.Count - 1 do
     begin
-      if not DoRunTarget(aTask.Dependencies.Strings[i]) then
+      LTask := fTaskRunner.FindTask(aTask.Dependencies.Strings[i]) as Ttask;
+
+      if Assigned(Ltask) then
         begin
+          if not DoRunTarget(LTask) then
+            begin
 
 
-          Exit;
-        end
+              Exit;
+            end
 
+        end;
 
 
     end;
@@ -167,31 +178,67 @@ begin
 
 end;
 
-function TAPI_Task.DoRunTarget(const aProcedureName: String): boolean;
+function TAPI_Task.DoRunTarget(const aTask: tTask): boolean;
 Var
   FTask: tTask;
-
+  liRetry, I: Integer;
+  fbOK: Boolean;
+  fbRetry: Boolean;
 begin
   Result := False;
 
-  If Self.oExec.GetProc(aProcedureName)= InvalidVal then Exit;
+  If Self.oExec.GetProc(aTask.ProcedureName)= InvalidVal then Exit;
 
-  FTask := tTask(FTaskRunner.FindTask(aProcedureName));
+  FTask := tTask(FTaskRunner.FindTask(aTask.ProcedureName));
+
   if Assigned(FTask) then
     begin
       Try
         if DoDependencies(FTask) then
-          Result := DoExec(aProcedureName);
-        Except
-          oAPI_Output.InternalError;
-        End;
+          begin
+            fbRetry := False;
+            liRetry := aTask.Criteria.Failed.Retry;
+            if liRetry > 0 then fbRetry := True;
+
+            if liRetry = 0 then liRetry := 1;
+
+            for I := 1 to liRetry do
+             begin
+               fbOK := DoExec(aTask.ProcedureName);
+
+               if not fbOK then
+                  begin
+                    oAPI_Output.WriteLog('[Runtime Error] : ' + TIFErrorToString(oExec.ExceptionCode, oExec.ExceptionString) +
+                        ' in ' + IntToStr(oExec.ExceptionProcNo) + ' at ' + IntToSTr(oExec.ExceptionPos));
+
+                    if fbRetry then
+                       oAPI_Output.WriteLog('Retrying executing ... ' + IntToStr(I) + ' of ' + IntToStr(liRetry));
+
+                    if aTask.Criteria.Failed.Skip then fbOK := True;
+                    if aTask.Criteria.Failed.Abort then fbOK := False;
+
+                  end;
+
+               Result :=fbOK;
+             end;
+          end;
+
+          Except
+            oAPI_Output.InternalError;
+          end;
     end;
 end;
 
 
 function TAPI_Task.RunTarget(const aProcedureName: String): boolean;
+var
+  FTask: tTask;
 begin
-  Result := DoRunTarget(aProcedureName);
+  Result := False;
+
+  FTask := tTask(FTaskRunner.FindTask(aProcedureName));
+  if Assigned(FTask) then
+    Result := DoRunTarget(FTask);
 end;
 
 

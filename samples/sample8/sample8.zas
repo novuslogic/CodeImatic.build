@@ -2,6 +2,8 @@
 procedure Test3;
 begin
   output.log('Running test3 ...') ;
+
+  RaiseException(erCustomError, 'CustomError RaiseException');
 end;
 
 
@@ -31,6 +33,8 @@ begin
 
 
   FTaskTest3.Criteria.Failed.retry := 5;
+  //FTaskTest3.Criteria.Failed.Skip := true;
+  FTaskTest3.Criteria.Failed.Abort := True;
 
 
   FTaskTest2 := Task.AddTask('test2');

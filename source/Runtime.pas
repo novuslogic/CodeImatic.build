@@ -151,12 +151,12 @@ begin
                begin
                  BuildStatus := loprojecttask.BuildStatus;
 
-                 if (loprojecttask.Criteria.abort = true) and (loprojecttask.BuildStatus = TBuildStatus.bsFailed) then
+                 if (loprojecttask.Criteria.Failed.abort = true) and (loprojecttask.BuildStatus = TBuildStatus.bsFailed) then
                    begin
                      Break;
                    end
                  else
-                 if (loprojecttask.Criteria.skip = true) and (loprojecttask.BuildStatus = TBuildStatus.bsFailed) then
+                 if (loprojecttask.Criteria.Failed.skip = true) and (loprojecttask.BuildStatus = TBuildStatus.bsFailed) then
                    continue;
                end;
           end;
@@ -207,10 +207,10 @@ begin
   else
   if aprojecttask.BuildStatus = TBuildStatus.bsFailed then
     begin
-      if aprojecttask.Criteria.abort = true then
+      if aprojecttask.Criteria.Failed.abort = true then
         lsMessageLog := 'Build failed/abort: '
       else
-      if aprojecttask.Criteria.skip = true then
+      if aprojecttask.Criteria.Failed.skip = true then
         lsMessageLog := 'Build failed/skip: '
       else
         lsMessageLog := 'Build failed: ';

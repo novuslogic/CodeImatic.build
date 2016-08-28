@@ -8,7 +8,7 @@ Uses NovusXMLBO, Classes, SysUtils, NovusStringUtils, NovusBO, NovusList,
 Type
   TBuildStatus = (bsSucceeded, bsErrors, bsFailed);
 
-  TCriteria = class(TNovusBO)
+  TProjectTaskFailed = class(TNovusBO)
   protected
     firetry: integer;
     fbSkip: Boolean;
@@ -28,6 +28,20 @@ Type
       write fbAbort;
   end;
 
+
+  TProjectTaskCriteria = class(TNovusBO)
+  protected
+    fFailed: TProjectTaskFailed;
+  private
+  public
+    constructor Create; override;
+    destructor Destroy; override;
+
+    property Failed: TProjectTaskFailed
+       read fFailed
+       write fFailed;
+  end;
+
   Tprojecttask = class(TNovusBO)
   protected
   private
@@ -37,7 +51,7 @@ Type
     fsProjectFilename: String;
     fBuildStatus: TBuildStatus;
     FdtDuration: TDateTime;
-    FCriteria: TCriteria;
+    FCriteria: TProjectTaskCriteria;
   Public
     constructor Create; override;
     destructor Destroy; override;
@@ -66,7 +80,7 @@ Type
       read FdtDuration
       write FdtDuration;
 
-    property Criteria: TCriteria
+    property Criteria: TProjectTaskCriteria
        read FCriteria
        write FCriteria;
   end;
@@ -159,7 +173,7 @@ begin
         Index := 0;
         if assigned(TNovusSimpleXML.FindNode(fprojecttaskNode, 'projectfilename', Index)) then
           begin
-            aprojecttask.Criteria.retry := 0;
+            aprojecttask.Criteria.Failed.retry := 0;
 
 
             Index := 0;
@@ -167,10 +181,9 @@ begin
 
             fcriteriaNode := TNovusSimpleXML.FindNode(fprojecttaskNode, 'criteria', Index);
 
-            aprojecttask.Criteria.retry := 0;
-            aprojecttask.Criteria.skip := false;
-            aprojecttask.Criteria.Abort := false;
-
+            aprojecttask.Criteria.Failed.retry := 0;
+            aprojecttask.Criteria.Failed.skip := false;
+            aprojecttask.Criteria.Failed.Abort := false;
 
             if Assigned(fcriteriaNode) then
               begin
@@ -181,17 +194,17 @@ begin
                     Index := 0;
                     fretryNode := TNovusSimpleXML.FindNode(ffailedNode, 'retry', Index);
                     if assigned(fretryNode) then
-                      aprojecttask.Criteria.retry := TNovusStringUtils.Str2Int(fretryNode.Value);
+                      aprojecttask.Criteria.Failed.retry := TNovusStringUtils.Str2Int(fretryNode.Value);
 
                     Index := 0;
                     fskipNode := TNovusSimpleXML.FindNode(ffailedNode, 'skip', Index);
                     if assigned(fskipNode) then
-                      aprojecttask.Criteria.skip := TNovusStringUtils.StrToBoolean(fskipNode.Value);
+                      aprojecttask.Criteria.Failed.skip := TNovusStringUtils.StrToBoolean(fskipNode.Value);
 
                     Index := 0;
                     fabortNode := TNovusSimpleXML.FindNode(ffailedNode, 'abort', Index);
                     if assigned(fabortNode) then
-                      aprojecttask.Criteria.abort := TNovusStringUtils.StrToBoolean(fabortNode.Value);
+                      aprojecttask.Criteria.Failed.abort := TNovusStringUtils.StrToBoolean(fabortNode.Value);
                   end;
 
 
@@ -285,7 +298,7 @@ constructor Tprojecttask.Create;
 begin
   inherited Create;
 
-  FCriteria:=  TCriteria.Create;
+  FCriteria:=  TProjectTaskCriteria.Create;
 
 
 end;
@@ -297,7 +310,19 @@ begin
   inherited;
 end;
 
+constructor TprojecttaskCriteria.Create;
+begin
+  inherited Create;
 
+  FFailed:=  TProjectTaskFailed.Create;
+end;
+
+destructor TprojecttaskCriteria.Destroy;
+begin
+  FFailed.Free;
+
+  inherited;
+end;
 
 
 end.
