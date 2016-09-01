@@ -43,11 +43,14 @@ type
 
   TTask = class(TPersistent)
   protected
+    fdtStartBuild: tdatetime;
+    fdtEndBuild: tDatetime;
     fCriteria : TTaskCriteria;
     fDependencies: tStringList;
     fsProcedureName: String;
     fTaskRunner: TTaskRunner;
   private
+
   public
     constructor Create;
     destructor Destroy; override;
@@ -66,6 +69,14 @@ type
       read fDependencies
       write fDependencies;
 
+    property StartBuild: tdatetime
+      read fdtStartBuild
+      write fdtStartBuild;
+
+    property  EndBuild: tDatetime
+       read fdtEndBuild
+       write fdtEndBuild;
+
   published
     property Criteria : TTaskCriteria
       read fCriteria
@@ -73,9 +84,12 @@ type
   end;
 
 
+   TFinishTasksEvent = procedure of object;
+
    TAPI_Task = class(TAPIBase)
    private
    protected
+     fFinishedTasks: TFinishTasksEvent;
      fTaskRunner: TTaskRunner;
      function DoDependencies(const aTask: tTask): Boolean;
      function DoExec(const aProcedureName: string): Boolean;
@@ -85,11 +99,17 @@ type
 
      function AddTask(const aProcedureName: String): TTask;
      function RunTarget(const aProcedureName: String): boolean;
+
+     procedure Buildreport;
+
+   published
+     property FinishedTasks: TFinishTasksEvent
+      read fFinishedTasks write fFinishedTasks;
+
+
    end;
 
 implementation
-
-
 
 constructor TAPI_Task.create(aAPI_Output: tAPI_Output; aTaskRunner: TTaskRunner);
 begin
@@ -182,7 +202,6 @@ function TAPI_Task.DoRunTarget(const aTask: tTask): boolean;
 Var
   FTask: tTask;
   liRetry, I: Integer;
-  fbOK: Boolean;
   fbRetry: Boolean;
 begin
   Result := False;
@@ -196,6 +215,8 @@ begin
       Try
         if DoDependencies(FTask) then
           begin
+            FTask.StartBuild := Now;
+
             fbRetry := False;
             liRetry := aTask.Criteria.Failed.Retry;
             if liRetry > 0 then fbRetry := True;
@@ -204,9 +225,9 @@ begin
 
             for I := 1 to liRetry do
              begin
-               fbOK := DoExec(aTask.ProcedureName);
+               Result := DoExec(aTask.ProcedureName);
 
-               if not fbOK then
+               if not Result then
                   begin
                     oAPI_Output.WriteLog('[Runtime Error] : ' + TIFErrorToString(oExec.ExceptionCode, oExec.ExceptionString) +
                         ' in ' + IntToStr(oExec.ExceptionProcNo) + ' at ' + IntToSTr(oExec.ExceptionPos));
@@ -214,14 +235,18 @@ begin
                     if fbRetry then
                        oAPI_Output.WriteLog('Retrying executing ... ' + IntToStr(I) + ' of ' + IntToStr(liRetry));
 
-                    if aTask.Criteria.Failed.Skip then fbOK := True;
-                    if aTask.Criteria.Failed.Abort then fbOK := False;
+                    if aTask.Criteria.Failed.Skip then Result := True;
+                    if aTask.Criteria.Failed.Abort then Result := False;
 
-                  end;
+                  end
+               else
+                  break;
 
-               Result :=fbOK;
+
              end;
           end;
+
+          FTask.EndBuild := Now;
 
           Except
             oAPI_Output.InternalError;
@@ -239,6 +264,15 @@ begin
   FTask := tTask(FTaskRunner.FindTask(aProcedureName));
   if Assigned(FTask) then
     Result := DoRunTarget(FTask);
+
+  if assigned(fFinishedTasks) then
+    fFinishedTasks();
+
+end;
+
+procedure TAPI_Task.Buildreport;
+begin
+
 end;
 
 
@@ -260,7 +294,6 @@ begin
   Result := False;
 
   if Uppercase(Trim(aProcedurename)) = Uppercase(Trim(Self.Procedurename)) then Exit;
-
 
   if fDependencies.IndexOf(aProcedureName) = -1 then
     fDependencies.Add(aProcedureName);

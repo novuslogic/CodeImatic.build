@@ -1,9 +1,15 @@
 
+procedure FinishedTasks();
+begin
+   output.log('Finished Tasks ...') ;
+ 
+end;
+
 procedure Test3;
 begin
   output.log('Running test3 ...') ;
 
-  RaiseException(erCustomError, 'CustomError RaiseException');
+ // RaiseException(erCustomError, 'CustomError RaiseException');
 end;
 
 
@@ -47,8 +53,15 @@ begin
     RaiseException(erCustomError, 'not assigned FTaskTest1'); 
   FTaskTest1.IsDependentOn('test2');
 
+  Task.FinishedTasks  := @FinishedTasks;
+
+
+
   if not Task.RunTarget('test1') then 
     RaiseException(erCustomError, 'missing procedure "test1" '); 
+   
+
+   
 
 
 end.

@@ -60,6 +60,10 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <Debugger_RunParams>-project D:\Projects\Zautomatic\samples\sample8\sample8.zap -projectconfig D:\Projects\Zautomatic\samples\sample8\sample8.zapconfig </Debugger_RunParams>
+        <Debugger_DebugSourcePath> D:\Projects\Zautomatic\samples\sample8\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
+        <Debugger_CWD> D:\Projects\Zautomatic\samples\sample8\</Debugger_CWD>
+        <Debugger_HostApplication>D:\Projects\Zautomatic\build\Zautomatic.exe</Debugger_HostApplication>
         <DCC_UnitSearchPath>..\..\build\;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_ExeOutput>..\..\build\plugins\</DCC_ExeOutput>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>

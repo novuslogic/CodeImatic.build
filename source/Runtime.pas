@@ -162,7 +162,7 @@ begin
           end;
       end;
 
-    // Build Time Report
+    // Build time Report
     FoAPI_Output.WriteLog('Build time report');
 
     for I := 0 to foProject.oprojecttaskList.Count - 1 do
