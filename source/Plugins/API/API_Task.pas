@@ -2,9 +2,12 @@ unit API_Task;
 
 interface
 
-uses Classes, APIBase, SysUtils, NovusWindows, API_Output, Plugin_TaskRunner, uPSRuntime ;
+uses Classes, APIBase, SysUtils, NovusWindows, API_Output, Plugin_TaskRunner, uPSRuntime, Project ;
 
 type
+  TTaskEvent = procedure of object;
+
+
   TTaskFailed = class(TPersistent)
   protected
     fiRetry: Integer;
@@ -43,12 +46,15 @@ type
 
   TTask = class(TPersistent)
   protected
+    fFinishedTask: TTaskEvent;
     fdtStartBuild: tdatetime;
     fdtEndBuild: tDatetime;
     fCriteria : TTaskCriteria;
     fDependencies: tStringList;
     fsProcedureName: String;
     fTaskRunner: TTaskRunner;
+    fBuildStatus: TBuildStatus;
+    function GetDuration: TdateTime;
   private
 
   public
@@ -73,23 +79,34 @@ type
       read fdtStartBuild
       write fdtStartBuild;
 
+    property Duration: TDateTime
+      read GetDuration;
+
     property  EndBuild: tDatetime
        read fdtEndBuild
        write fdtEndBuild;
+
+    property BuildStatus: TBuildStatus
+       read fBuildStatus
+       write fBuildStatus;
 
   published
     property Criteria : TTaskCriteria
       read fCriteria
       write fCriteria;
+
+    property FinishedTask: TTaskEvent
+      read fFinishedTask write fFinishedTask;
+
   end;
 
 
-   TFinishTasksEvent = procedure of object;
+
 
    TAPI_Task = class(TAPIBase)
    private
    protected
-     fFinishedTasks: TFinishTasksEvent;
+     fFinishedTasks: TTaskEvent;
      fTaskRunner: TTaskRunner;
      function DoDependencies(const aTask: tTask): Boolean;
      function DoExec(const aProcedureName: string): Boolean;
@@ -100,10 +117,10 @@ type
      function AddTask(const aProcedureName: String): TTask;
      function RunTarget(const aProcedureName: String): boolean;
 
-     procedure Buildreport;
+     procedure BuildReport;
 
    published
-     property FinishedTasks: TFinishTasksEvent
+     property FinishedTasks: TTaskEvent
       read fFinishedTasks write fFinishedTasks;
 
 
@@ -229,24 +246,40 @@ begin
 
                if not Result then
                   begin
+                    Ftask.BuildStatus := tBuildStatus.bsFailed;
+
                     oAPI_Output.WriteLog('[Runtime Error] : ' + TIFErrorToString(oExec.ExceptionCode, oExec.ExceptionString) +
                         ' in ' + IntToStr(oExec.ExceptionProcNo) + ' at ' + IntToSTr(oExec.ExceptionPos));
 
                     if fbRetry then
                        oAPI_Output.WriteLog('Retrying executing ... ' + IntToStr(I) + ' of ' + IntToStr(liRetry));
 
-                    if aTask.Criteria.Failed.Skip then Result := True;
-                    if aTask.Criteria.Failed.Abort then Result := False;
+                    if aTask.Criteria.Failed.Skip then
+                      begin
+                        Result := True;
+                      end;
+                    if aTask.Criteria.Failed.Abort then
+                      begin
+                        Result := False;
+
+                      end;
 
                   end
                else
-                  break;
+                 begin
+                   FTask.BuildStatus := tBuildStatus.bsSucceeded;
+
+                   break;
+                 end;
 
 
-             end;
-          end;
+               end;
+            end;
 
-          FTask.EndBuild := Now;
+            FTask.EndBuild := Now;
+
+            if assigned(FTask.FinishedTask) then
+                FTask.FinishedTask();
 
           Except
             oAPI_Output.InternalError;
@@ -271,7 +304,82 @@ begin
 end;
 
 procedure TAPI_Task.Buildreport;
+Var
+  lsMessageLog: string;
+  I: INteger;
+  FTask: tTask;
 begin
+  oAPI_Output.WriteLog('Task Procedure Report');
+
+  lsMessageLog := '';
+
+  for I := 0 to fTaskRunner.Count - 1 do
+    begin
+      fTask := fTaskRunner.Items[i] as Ttask;
+
+      lsMessageLog := fTask.ProcedureName;
+
+      if fTask .BuildStatus <> TBuildStatus.bsFailed then
+       begin
+         if ftask.BuildStatus <> TBuildStatus.bsErrors then
+            lsMessageLog := lsMessageLog + ' - Executed succeeded: '
+         else
+           lsMessageLog := lsMessageLog +  ' - Executed with errors: ' ;
+       end
+      else
+      if ftask.BuildStatus = TBuildStatus.bsFailed then
+        begin
+          if ftask.Criteria.Failed.abort = true then
+            lsMessageLog := lsMessageLog + ' - Executed failed/abort: '
+          else
+          if ftask.Criteria.Failed.skip = true then
+            lsMessageLog := lsMessageLog + ' - Executed failed/skip: '
+          else
+            lsMessageLog := lsMessageLog + ' - Executed failed: ';
+        end;
+
+       lsMessageLog := lsMessageLog + oAPI_Output.FormatedNow(ftask.EndBuild);
+
+       lsMessageLog := lsMessageLog + ' - duration: ' + FormatDateTime(cTimeformat, ftask.Duration);
+
+      oAPI_Output.WriteLog(lsMessageLog);
+    end;
+
+
+
+
+  (*
+  if aprojecttask.BuildStatus <> TBuildStatus.bsFailed then
+    begin
+      if aprojecttask.BuildStatus <> TBuildStatus.bsErrors then
+        lsMessageLog := 'Build succeeded: '
+      else
+        lsMessageLog := 'Build with errors: ' ;
+    end
+  else
+  if aprojecttask.BuildStatus = TBuildStatus.bsFailed then
+    begin
+      if aprojecttask.Criteria.Failed.abort = true then
+        lsMessageLog := 'Build failed/abort: '
+      else
+      if aprojecttask.Criteria.Failed.skip = true then
+        lsMessageLog := 'Build failed/skip: '
+      else
+        lsMessageLog := 'Build failed: ';
+    end;
+
+  lsMessageLog := lsMessageLog + FoAPI_Output.FormatedNow(aprojecttask.EndBuild);
+
+  lsMessageLog := lsMessageLog + ' - duration: ' + FormatDateTime(cTimeformat, aprojecttask.Duration);
+
+  if aIncludeItemName then
+    FoAPI_Output.WriteLog(aprojecttask.TaskName + ': ' +lsMessageLog)
+  else
+    FoAPI_Output.WriteLog(lsMessageLog);
+
+
+  *)
+
 
 end;
 
@@ -297,6 +405,11 @@ begin
 
   if fDependencies.IndexOf(aProcedureName) = -1 then
     fDependencies.Add(aProcedureName);
+end;
+
+function TTask.GetDuration: TdateTime;
+begin
+  Result := EndBuild-StartBuild;
 end;
 
  // TTaskCriteria

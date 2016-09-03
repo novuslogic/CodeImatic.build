@@ -52,6 +52,7 @@ Type
     fBuildStatus: TBuildStatus;
     FdtDuration: TDateTime;
     FCriteria: TProjectTaskCriteria;
+    function GetDuration: TdateTime;
   Public
     constructor Create; override;
     destructor Destroy; override;
@@ -77,8 +78,7 @@ Type
       write fBuildStatus;
 
     property Duration: TDateTime
-      read FdtDuration
-      write FdtDuration;
+      read GetDuration;
 
     property Criteria: TProjectTaskCriteria
        read FCriteria
@@ -128,6 +128,8 @@ Type
       write foProjectConfig;
 
   end;
+
+  const cTimeformat = 'hh:mm:ss.zzz';
 
 implementation
 
@@ -299,8 +301,6 @@ begin
   inherited Create;
 
   FCriteria:=  TProjectTaskCriteria.Create;
-
-
 end;
 
 destructor Tprojecttask.Destroy;
@@ -309,6 +309,12 @@ begin
 
   inherited;
 end;
+
+function Tprojecttask.GetDuration: TdateTime;
+begin
+  Result := EndBuild-StartBuild;
+end;
+
 
 constructor TprojecttaskCriteria.Create;
 begin

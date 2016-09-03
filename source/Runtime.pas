@@ -19,7 +19,7 @@ type
    public
      function RunEnvironment: Boolean;
 
-     procedure FinishBuild(const aprojecttask: Tprojecttask; const aIncludeItemName: boolean = false);
+     procedure BuildTasksReport(const aprojecttask: Tprojecttask; const aIncludeItemName: boolean = false);
 
      property oAPI_Output: tAPI_Output
        read foAPI_Output
@@ -46,7 +46,7 @@ type
      oRuntime: tRuntime;
 
 
-   const cTimeformat = 'hh:mm:ss.zzz';
+
 
 
 implementation
@@ -139,11 +139,9 @@ begin
 
             loprojecttask.EndBuild := Now;
 
-            loprojecttask.Duration := loprojecttask.EndBuild-loprojecttask.StartBuild;
-
             Duration := Duration +  loprojecttask.Duration;
 
-            FinishBuild(loprojecttask);
+            BuildTasksReport(loprojecttask);
 
             FoAPI_Output.projecttask := NIL;
 
@@ -162,13 +160,13 @@ begin
           end;
       end;
 
-    // Build time Report
-    FoAPI_Output.WriteLog('Build time report');
+    // Build Tasks Report
+    FoAPI_Output.WriteLog('Build Tasks Report');
 
     for I := 0 to foProject.oprojecttaskList.Count - 1 do
       begin
         loprojecttask := tprojecttask(foProject.oprojecttaskList.items[i]);
-        FinishBuild(loprojecttask, true);
+        BuildTasksReport(loprojecttask, true);
       end;
 
     FoAPI_Output.WriteLog('Total build duration: ' + FormatDateTime(cTimeformat, Duration));
@@ -189,7 +187,7 @@ begin
 end;
 
 
-procedure tRuntime.FinishBuild(const aprojecttask: Tprojecttask; const aIncludeItemName: boolean = false);
+procedure tRuntime.BuildTasksReport(const aprojecttask: Tprojecttask; const aIncludeItemName: boolean = false);
 Var
   lsMessageLog: string;
 begin

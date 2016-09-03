@@ -6,7 +6,7 @@
         <Config Condition="'$(Config)'==''">Debug</Config>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Package</AppType>
-        <FrameworkType>None</FrameworkType>
+        <FrameworkType>VCL</FrameworkType>
         <ProjectVersion>14.6</ProjectVersion>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
     </PropertyGroup>
@@ -42,7 +42,7 @@
         <DCC_F>false</DCC_F>
         <DCC_S>false</DCC_S>
         <VerInfo_Locale>3081</VerInfo_Locale>
-        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
+        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <DCC_K>false</DCC_K>
         <DCC_N>false</DCC_N>
         <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
@@ -71,7 +71,6 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_BplOutput>..\build\</DCC_BplOutput>
-        <DCC_Namespace>VCL;$(DCC_Namespace)</DCC_Namespace>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <DCC_DcuOutput>..\units\win32\</DCC_DcuOutput>
     </PropertyGroup>
@@ -88,6 +87,7 @@
         <DCCReference Include="Plugin.pas"/>
         <DCCReference Include="Plugins\API\API_Output.pas"/>
         <DCCReference Include="Plugins\API\APIBase.pas"/>
+        <DCCReference Include="Project.pas"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

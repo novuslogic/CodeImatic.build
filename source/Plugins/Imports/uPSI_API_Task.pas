@@ -71,7 +71,7 @@ begin
     RegisterMethod('Function AddTask( const aProcedureName : String) : TTask');
     RegisterMethod('Function RunTarget( const aProcedureName : String) : boolean');
     RegisterMethod('Procedure Buildreport');
-    RegisterProperty('FinishedTasks', 'TFinishTasksEvent', iptrw);
+    RegisterProperty('FinishedTasks', 'TTaskEvent', iptrw);
   end;
 end;
 
@@ -86,9 +86,10 @@ begin
     RegisterProperty('ProcedureName', 'String', iptrw);
     RegisterProperty('TaskRunner', 'TTaskRunner', iptrw);
     RegisterProperty('Dependencies', 'tStringList', iptrw);
-    RegisterProperty('StartBuild', 'tdatetime', iptrw);
-    RegisterProperty('EndBuild', 'tDatetime', iptrw);
+    RegisterProperty('StartBuild', 'tdatetime', iptr);
+    RegisterProperty('EndBuild', 'tDatetime', iptr);
     RegisterProperty('Criteria', 'TTaskCriteria', iptrw);
+    RegisterProperty('FinishedTask', 'TTaskEvent', iptrw);
   end;
 end;
 
@@ -119,21 +120,29 @@ end;
 (*----------------------------------------------------------------------------*)
 procedure SIRegister_API_Task(CL: TPSPascalCompiler);
 begin
+  CL.AddTypeS('TTaskEvent', 'Procedure');
   SIRegister_TTaskFailed(CL);
   SIRegister_TTaskCriteria(CL);
   SIRegister_TTask(CL);
-  CL.AddTypeS('TFinishTasksEvent', 'Procedure');
   SIRegister_TAPI_Task(CL);
 end;
 
 (* === run-time registration functions === *)
 (*----------------------------------------------------------------------------*)
-procedure TAPI_TaskFinishedTasks_W(Self: TAPI_Task; const T: TFinishTasksEvent);
+procedure TAPI_TaskFinishedTasks_W(Self: TAPI_Task; const T: TTaskEvent);
 begin Self.FinishedTasks := T; end;
 
 (*----------------------------------------------------------------------------*)
-procedure TAPI_TaskFinishedTasks_R(Self: TAPI_Task; var T: TFinishTasksEvent);
+procedure TAPI_TaskFinishedTasks_R(Self: TAPI_Task; var T: TTaskEvent);
 begin T := Self.FinishedTasks; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TTaskFinishedTask_W(Self: TTask; const T: TTaskEvent);
+begin Self.FinishedTask := T; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TTaskFinishedTask_R(Self: TTask; var T: TTaskEvent);
+begin T := Self.FinishedTask; end;
 
 (*----------------------------------------------------------------------------*)
 procedure TTaskCriteria_W(Self: TTask; const T: TTaskCriteria);
@@ -144,16 +153,8 @@ procedure TTaskCriteria_R(Self: TTask; var T: TTaskCriteria);
 begin T := Self.Criteria; end;
 
 (*----------------------------------------------------------------------------*)
-procedure TTaskEndBuild_W(Self: TTask; const T: tDatetime);
-begin Self.EndBuild := T; end;
-
-(*----------------------------------------------------------------------------*)
 procedure TTaskEndBuild_R(Self: TTask; var T: tDatetime);
 begin T := Self.EndBuild; end;
-
-(*----------------------------------------------------------------------------*)
-procedure TTaskStartBuild_W(Self: TTask; const T: tdatetime);
-begin Self.StartBuild := T; end;
 
 (*----------------------------------------------------------------------------*)
 procedure TTaskStartBuild_R(Self: TTask; var T: tdatetime);
@@ -237,9 +238,10 @@ begin
     RegisterPropertyHelper(@TTaskProcedureName_R,@TTaskProcedureName_W,'ProcedureName');
     RegisterPropertyHelper(@TTaskTaskRunner_R,@TTaskTaskRunner_W,'TaskRunner');
     RegisterPropertyHelper(@TTaskDependencies_R,@TTaskDependencies_W,'Dependencies');
-    RegisterPropertyHelper(@TTaskStartBuild_R,@TTaskStartBuild_W,'StartBuild');
-    RegisterPropertyHelper(@TTaskEndBuild_R,@TTaskEndBuild_W,'EndBuild');
+    RegisterPropertyHelper(@TTaskStartBuild_R,nil,'StartBuild');
+    RegisterPropertyHelper(@TTaskEndBuild_R,nil,'EndBuild');
     RegisterPropertyHelper(@TTaskCriteria_R,@TTaskCriteria_W,'Criteria');
+    RegisterPropertyHelper(@TTaskFinishedTask_R,@TTaskFinishedTask_W,'FinishedTask');
   end;
 end;
 
