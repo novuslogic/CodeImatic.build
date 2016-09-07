@@ -78,6 +78,8 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <DCC_XmlOutput>..\doc\XMLDocumentation</DCC_XmlOutput>
+        <DCC_OutputXMLDocumentation>true</DCC_OutputXMLDocumentation>
         <DCC_UnitSearchPath>..\build;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <Debugger_CWD>D:\Projects\Zautomatic\samples\sample8\</Debugger_CWD>
         <BRCC_Defines>PS_USESSUPPORT;$(BRCC_Defines)</BRCC_Defines>

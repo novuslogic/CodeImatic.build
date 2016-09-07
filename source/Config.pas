@@ -238,3 +238,4 @@ finalization
   oConfig.Free;
 
 end.
+

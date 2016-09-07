@@ -60,6 +60,8 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <DCC_XmlOutput>..\..\doc\xmldocumentation</DCC_XmlOutput>
+        <DCC_OutputXMLDocumentation>true</DCC_OutputXMLDocumentation>
         <Debugger_RunParams>-project D:\Projects\Zautomatic\samples\sample8\sample8.zap -projectconfig D:\Projects\Zautomatic\samples\sample8\sample8.zapconfig </Debugger_RunParams>
         <Debugger_DebugSourcePath> D:\Projects\Zautomatic\samples\sample8\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
         <Debugger_CWD> D:\Projects\Zautomatic\samples\sample8\</Debugger_CWD>
