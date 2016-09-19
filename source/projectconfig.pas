@@ -1,3 +1,4 @@
+{$I Zautomatic.inc}
 unit projectconfig;
 
 interface

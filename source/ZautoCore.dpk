@@ -30,9 +30,12 @@ package ZautoCore;
 
 requires
   rtl,
-  PascalScript_Core_D18,
-  NovusCodeLibrary_Core_D18,
-  NovusCodeLibrary_Log_D18,
+  PascalScript_Core_D22,
+  NovusCodeLibrary_Core,
+  NovusCodeLibrary_Log,
+  NovusCodeLibrary_XML,
+  NovusCodeLibrary_Parser,
+  NovusCodeLibrary_Plugin,
   Jcl,
   JvSystem;
 

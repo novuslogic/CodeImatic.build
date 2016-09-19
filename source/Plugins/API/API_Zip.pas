@@ -34,11 +34,17 @@ type
      procedure ConfirmProcessItem(Sender: TObject; Item: TAbArchiveItem;
          ProcessType: TAbProcessType; var Confirm: Boolean);
    public
-     /// 	<summary>
+     ///	<summary>
      ///	  Create a new .zip file with specified file(s). The fileMasks may
      ///	  contain wildcards and relative paths to include portion of the path
      ///	  in the zip itself.
      ///	</summary>
+     ///	<param name="aZipFilename">
+     ///	  Zip Filename
+     ///	</param>
+     ///	<param name="aPath">
+     ///	  Path to Zip Filename
+     ///	</param>
      function Compress(const aZipFilename: String;
                           const aPath: String;
                           const aFileMasks: String;
