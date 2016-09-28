@@ -60,6 +60,7 @@ begin
   //with RegClassS(CL,'TAPIBase', 'TAPI_Environment') do
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_Environment') do
   begin
+    RegisterMethod('Function Is64BitOperatingSystem : boolean');
     RegisterMethod('Function GetEnvironmentVar( const aVariableName : string) : string');
     RegisterMethod('Function SetEnvironmentVar( const aVariableName : string; const aValue : string; aIsSystemVariable : Boolean) : integer');
   end;
@@ -78,6 +79,7 @@ procedure RIRegister_TAPI_Environment(CL: TPSRuntimeClassImporter);
 begin
   with CL.Add(TAPI_Environment) do
   begin
+    RegisterMethod(@TAPI_Environment.Is64BitOperatingSystem, 'Is64BitOperatingSystem');
     RegisterMethod(@TAPI_Environment.GetEnvironmentVar, 'GetEnvironmentVar');
     RegisterMethod(@TAPI_Environment.SetEnvironmentVar, 'SetEnvironmentVar');
   end;

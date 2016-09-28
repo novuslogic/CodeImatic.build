@@ -9,6 +9,7 @@ type
    private
    protected
    public
+     function Is64BitOperatingSystem: boolean;
      function GetEnvironmentVar(const aVariableName: string): string;
      function SetEnvironmentVar(const aVariableName: string; const aValue: string;aIsSystemVariable: Boolean): integer;
    end;
@@ -17,6 +18,7 @@ Const
    API_Environment_cannot_set_variable = 'Cannot not set variable [%s]';
 
 implementation
+
 
 function TAPI_Environment.GetEnvironmentVar(const aVariableName: string): String;
 begin
@@ -43,6 +45,11 @@ begin
     End;
   Finally
   End;
+end;
+
+function TAPI_Environment.Is64BitOperatingSystem: Boolean;
+begin
+  Result := TNovusWindows.IsWin64;
 end;
 
 

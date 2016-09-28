@@ -46,7 +46,10 @@ uses
   uPSR_ExtraClasses in 'Plugins\Imports\uPSR_ExtraClasses.pas',
   Plugin_RegEx in 'Plugins\Plugin_RegEx.pas',
   API_RegEx in 'Plugins\API\API_RegEx.pas',
-  uPSI_API_RegEx in 'Plugins\Imports\uPSI_API_RegEx.pas';
+  uPSI_API_RegEx in 'Plugins\Imports\uPSI_API_RegEx.pas',
+  Plugin_Registry in 'Plugins\Plugin_Registry.pas',
+  API_Registry in 'Plugins\API\API_Registry.pas',
+  uPSI_API_Registry in 'Plugins\Imports\uPSI_API_Registry.pas';
 
 begin
   oConfig.LoadConfig;
