@@ -40,7 +40,6 @@ end;
 destructor TAPI_Registry.destroy;
 begin
   Inherited
-
 end;
 
 

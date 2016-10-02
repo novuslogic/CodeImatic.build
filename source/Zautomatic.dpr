@@ -49,7 +49,10 @@ uses
   uPSI_API_RegEx in 'Plugins\Imports\uPSI_API_RegEx.pas',
   Plugin_Registry in 'Plugins\Plugin_Registry.pas',
   API_Registry in 'Plugins\API\API_Registry.pas',
-  uPSI_API_Registry in 'Plugins\Imports\uPSI_API_Registry.pas';
+  uPSI_API_Registry in 'Plugins\Imports\uPSI_API_Registry.pas',
+  API_Path in 'Plugins\API\API_Path.pas',
+  uPSI_API_Path in 'Plugins\Imports\uPSI_API_Path.pas',
+  Plugin_Path in 'Plugins\Plugin_Path.pas';
 
 begin
   oConfig.LoadConfig;

@@ -4,6 +4,10 @@ interface
 
 Uses cmd;
 
+type 
+  TDelpiOptions = record
+    platform: string;
+  end;
 
 const
    DELPHI7    = 7;
@@ -24,11 +28,12 @@ const
    DELPHI10_1 = 24;
 
 function GetBDSRegKey(Key: string; Name: string): string;
-function GetBDS(CompilerVersion: integer; Name: string): string;
+function GetBDSRegistery(CompilerVersion: integer; Name: string): string;
+function DelphiBuild(CompilerVersion: integer;Project: string; DelphiOptions:TDelpiOptions): Integer;
    
 implementation
 
-function GetBDS(CompilerVersion: integer; Name: string): string;
+function GetBDSRegistery(CompilerVersion: integer; Name: string): string;
 var 
   lsKey: string;
 begin
@@ -66,6 +71,61 @@ begin
   else  
   if Registry.KeyExists(HKEY_LOCAL_MACHINE, 'SOFTWARE\Wow6432Node\' + Key + '.0') then
     Result := Registry.ReadString( HKEY_LOCAL_MACHINE, 'SOFTWARE\Wow6432Node\' + Key + '.0', Name);
+end;
+
+function DelphiBuild(CompilerVersion: integer;Project: string; DelphiOptions:TDelpiOptions): Integer;
+var
+  lsrootdir: string;
+  lscommand: string;
+begin
+  result := -1;
+  
+  lsrootdir := GetBDSRegistery(CompilerVersion, 'rootdir');
+
+  if lsrootdir = '' then 
+    RaiseException(erCustomError, 'Cannot find Delphi registry key for '+ IntToStr(CompilerVersion));
+
+  if (CompilerVersion in [DELPHI7, DELPHI2005, DELPHI2006]) and (lowercase(DelphiOptions.platform) = 'msbuild') then 
+    RaiseException(erCustomError, 'Compiler Version 7,9,10 does not support platform = msbuild')
+  else
+  if (CompareText(lowercase(DelphiOptions.platform), 'ios32') = 0) or
+     (CompareText(lowercase(DelphiOptions.platform), 'iossimulator') = 0) then
+    lsRootDir := Path.Combine(Path.Combine(lsRootDir, 'Bin'), 'dccios32.exe')
+  else
+  if (CompareText(lowercase(DelphiOptions.platform), 'ios32') = 0) or
+     (CompareText(lowercase(DelphiOptions.platform), 'iossimulator') = 0) then
+    lsRootDir := Path.Combine(Path.Combine(lsRootDir, 'Bin'), 'dccios32.exe')
+  else
+  if (CompareText(lowercase(DelphiOptions.platform), 'android') = 0) then
+    lsRootDir := Path.Combine(Path.Combine(lsRootDir, 'Bin'), 'dccaarm.EXE')
+  else
+  if (CompareText(lowercase(DelphiOptions.platform), 'macosx') = 0) or
+     (CompareText(lowercase(DelphiOptions.platform), 'osx') = 0) or
+     (CompareText(lowercase(DelphiOptions.platform), 'osx32') = 0) then 
+     lsRootDir := Path.Combine(Path.Combine(lsRootDir, 'Bin'), 'dccosx.exe')
+  else
+  if (CompareText(lowercase(DelphiOptions.platform), '64') = 0) or
+     (CompareText(lowercase(DelphiOptions.platform), 'x64') = 0) or
+     (CompareText(lowercase(DelphiOptions.platform), 'win64') = 0) then    
+     lsRootDir := Path.Combine(Path.Combine(lsRootDir, 'Bin'), 'dcc64.exe')
+  else   
+   if (CompareText(lowercase(DelphiOptions.platform), '32') = 0) or
+     (CompareText(lowercase(DelphiOptions.platform), 'x86') = 0) or
+     (CompareText(lowercase(DelphiOptions.platform), 'win32') = 0) then 
+    lsRootDir := Path.Combine(Path.Combine(lsRootDir, 'Bin'), 'dcc32.exe')
+  else 
+    RaiseException(erCustomError, 'Unsupported platform ("win32", "win64", "osx32", "iossimulator","iosdevice")');
+
+  if not File.Exists(lsRootDir) then RaiseException(erCustomError, 'Delphi dcc not found: '+lsRootDir+' '+DelphiOptions.platform);
+    
+
+
+  lscommand := '""' + lsrootdir  + '"" -Q -B '+ Project;
+
+  output.log(lscommand);
+  
+  result := ExecCMD(lscommand);
+ 
 end;
     
 

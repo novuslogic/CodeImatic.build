@@ -1,10 +1,13 @@
 
 Uses Delphi;
 
+var 
+  FDelphOptions: TDelpiOptions;
 begin
    Output.log('Building ...');
 
-   output.log('BDS Path: ' + GetBDS(DelphiXE8, 'rootdir'));
+   FDelphOptions.platform := 'win32';
 
+   DelphiBuild(DelphiXE8, 'D:\Projects\Zautomatic\source\Zautomatic.dpr', FDelphOptions);
 
 end.

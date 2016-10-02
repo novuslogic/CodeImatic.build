@@ -23,7 +23,7 @@ type
   function CommandGetLastError(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
   function CommandSysErrorMessage(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
   function CommandExtractFileName(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
-
+  function CommandCompareText(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
 
 
 implementation
@@ -44,6 +44,7 @@ begin
   TPSPascalCompiler(aCompiler).AddFunction('function GetLastError():Integer;');
   TPSPascalCompiler(aCompiler).AddFunction('function SysErrorMessage():String;');
   TPSPascalCompiler(aCompiler).AddFunction('function ExtractFileName(aFilename: string): String;');
+  TPSPascalCompiler(aCompiler).AddFunction('function CompareText(const S1, S2: string): Integer;');
 end;
 
 
@@ -62,7 +63,7 @@ begin
   aExec.RegisterFunctionName('GETLASTERROR', CommandGetLastError, nil, nil);
   aExec.RegisterFunctionName('SYSERRORMESSAGE', CommandSysErrorMessage, nil, nil);
   aExec.RegisterFunctionName('EXTRACTFILENAME', CommandExtractFileName, nil, nil);
-
+  aExec.RegisterFunctionName('COMPARETEXT', CommandCompareText, nil, nil);
 end;
 
 
@@ -107,6 +108,9 @@ begin
 
   Result := True;
 end;
+
+
+
 
 function CommandGetLastError(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
 var
@@ -160,11 +164,26 @@ begin
   if Global = nil then begin result := false; exit; end;
   PStart := Stack.Count - 1;
 
-
   Stack.SetString(PStart,cCR);
 
   Result := True;
 
+end;
+
+function CommandCompareText(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
+var
+  PStart: Cardinal;
+  S1, S2: string;
+begin
+  if Global = nil then begin result := false; exit; end;
+  PStart := Stack.Count -3;
+
+  S1 := Stack.GetString(PStart);
+  S2 := Stack.GetString(PStart+ 1);
+
+  Stack.SetInt(PStart + 2,CompareText(S1, S2));
+
+  Result := True;
 end;
 
 Initialization
