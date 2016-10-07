@@ -6,7 +6,10 @@ Uses cmd;
 
 type 
   TDelpiOptions = record
-    platform: string;
+    Platform: string;
+    SearchPath: string;
+    QuietCompile: boolean;
+    UnitAliases: string;
   end;
 
 const
@@ -28,18 +31,18 @@ const
    DELPHI10_1 = 24;
 
 function GetBDSRegKey(Key: string; Name: string): string;
-function GetBDSRegistery(CompilerVersion: integer; Name: string): string;
-function DelphiBuild(CompilerVersion: integer;Project: string; DelphiOptions:TDelpiOptions): Integer;
+function GetBDSRegistery(aCompilerVersion: integer; Name: string): string;
+function DelphiBuild(aCompilerVersion: integer;aProject: string; aDelphiOptions:TDelpiOptions): Integer;
    
 implementation
 
-function GetBDSRegistery(CompilerVersion: integer; Name: string): string;
+function GetBDSRegistery(aCompilerVersion: integer; Name: string): string;
 var 
   lsKey: string;
 begin
   Result := '';
     
-  case CompilerVersion of
+  case aCompilerVersion of
     DELPHI7    : lsKey := 'Borland\Delphi\7';
     DELPHI2005 : lsKey := 'Borland\BDS\3';
     DELPHI2006 : lsKey := 'Borland\BDS\4';
@@ -51,7 +54,7 @@ begin
     DELPHIXE3  : lsKey := 'Embarcadero\BDS\10';
     DELPHIXE4  : lsKey := 'Embarcadero\BDS\11';
     DELPHIXE5  : lsKey := 'Embarcadero\BDS\12';
-    DELPHIXE6..DELPHI10_1  : lsKey := 'Embarcadero\BDS\'+ IntToStr(CompilerVersion-6);
+    DELPHIXE6..DELPHI10_1  : lsKey := 'Embarcadero\BDS\'+ IntToStr(aCompilerVersion-6);
   
   else
     RaiseException(erCustomError, 'Invalid "delphi" constant; Supported compiler versions 7..24');
@@ -73,58 +76,125 @@ begin
     Result := Registry.ReadString( HKEY_LOCAL_MACHINE, 'SOFTWARE\Wow6432Node\' + Key + '.0', Name);
 end;
 
-function DelphiBuild(CompilerVersion: integer;Project: string; DelphiOptions:TDelpiOptions): Integer;
+function DelphiBuild(aCompilerVersion: integer;aProject: string; aDelphiOptions:TDelpiOptions): Integer;
 var
   lsrootdir: string;
   lscommand: string;
+  SB: TStringBuilder;
 begin
   result := -1;
   
-  lsrootdir := GetBDSRegistery(CompilerVersion, 'rootdir');
+  lsrootdir := GetBDSRegistery(aCompilerVersion, 'rootdir');
 
   if lsrootdir = '' then 
-    RaiseException(erCustomError, 'Cannot find Delphi registry key for '+ IntToStr(CompilerVersion));
+    RaiseException(erCustomError, 'Cannot find Delphi registry key for '+ IntToStr(aCompilerVersion));
 
-  if (CompilerVersion in [DELPHI7, DELPHI2005, DELPHI2006]) and (lowercase(DelphiOptions.platform) = 'msbuild') then 
+  if (aCompilerVersion in [DELPHI7, DELPHI2005, DELPHI2006]) and (lowercase(aDelphiOptions.platform) = 'msbuild') then 
     RaiseException(erCustomError, 'Compiler Version 7,9,10 does not support platform = msbuild')
   else
-  if (CompareText(lowercase(DelphiOptions.platform), 'ios32') = 0) or
-     (CompareText(lowercase(DelphiOptions.platform), 'iossimulator') = 0) then
+  if (CompareText(lowercase(aDelphiOptions.platform), 'ios32') = 0) or
+     (CompareText(lowercase(aDelphiOptions.platform), 'iossimulator') = 0) then
     lsRootDir := Path.Combine(Path.Combine(lsRootDir, 'Bin'), 'dccios32.exe')
   else
-  if (CompareText(lowercase(DelphiOptions.platform), 'ios32') = 0) or
-     (CompareText(lowercase(DelphiOptions.platform), 'iossimulator') = 0) then
+  if (CompareText(lowercase(aDelphiOptions.platform), 'ios32') = 0) or
+     (CompareText(lowercase(aDelphiOptions.platform), 'iossimulator') = 0) then
     lsRootDir := Path.Combine(Path.Combine(lsRootDir, 'Bin'), 'dccios32.exe')
   else
-  if (CompareText(lowercase(DelphiOptions.platform), 'android') = 0) then
+  if (CompareText(lowercase(aDelphiOptions.platform), 'android') = 0) then
     lsRootDir := Path.Combine(Path.Combine(lsRootDir, 'Bin'), 'dccaarm.EXE')
   else
-  if (CompareText(lowercase(DelphiOptions.platform), 'macosx') = 0) or
-     (CompareText(lowercase(DelphiOptions.platform), 'osx') = 0) or
-     (CompareText(lowercase(DelphiOptions.platform), 'osx32') = 0) then 
+  if (CompareText(lowercase(aDelphiOptions.platform), 'macosx') = 0) or
+     (CompareText(lowercase(aDelphiOptions.platform), 'osx') = 0) or
+     (CompareText(lowercase(aDelphiOptions.platform), 'osx32') = 0) then 
      lsRootDir := Path.Combine(Path.Combine(lsRootDir, 'Bin'), 'dccosx.exe')
   else
-  if (CompareText(lowercase(DelphiOptions.platform), '64') = 0) or
-     (CompareText(lowercase(DelphiOptions.platform), 'x64') = 0) or
-     (CompareText(lowercase(DelphiOptions.platform), 'win64') = 0) then    
+  if (CompareText(lowercase(aDelphiOptions.platform), '64') = 0) or
+     (CompareText(lowercase(aDelphiOptions.platform), 'x64') = 0) or
+     (CompareText(lowercase(aDelphiOptions.platform), 'win64') = 0) then    
      lsRootDir := Path.Combine(Path.Combine(lsRootDir, 'Bin'), 'dcc64.exe')
   else   
-   if (CompareText(lowercase(DelphiOptions.platform), '32') = 0) or
-     (CompareText(lowercase(DelphiOptions.platform), 'x86') = 0) or
-     (CompareText(lowercase(DelphiOptions.platform), 'win32') = 0) then 
+   if (CompareText(lowercase(aDelphiOptions.platform), '32') = 0) or
+     (CompareText(lowercase(aDelphiOptions.platform), 'x86') = 0) or
+     (CompareText(lowercase(aDelphiOptions.platform), 'win32') = 0) then 
     lsRootDir := Path.Combine(Path.Combine(lsRootDir, 'Bin'), 'dcc32.exe')
   else 
     RaiseException(erCustomError, 'Unsupported platform ("win32", "win64", "osx32", "iossimulator","iosdevice")');
 
-  if not File.Exists(lsRootDir) then RaiseException(erCustomError, 'Delphi dcc not found: '+lsRootDir+' '+DelphiOptions.platform);
+  if not File.Exists(lsRootDir) then RaiseException(erCustomError, 'Delphi dcc not found: '+lsRootDir+' '+aDelphiOptions.platform);
     
+  Try
+    SB:= TStringBuilder.Create;
+
+    SB.Append('""' + lsrootdir  + '""');
+
+    if aDelphiOptions.QuietCompile then 
+      SB.Append(' -Q');
+
+    SB.Append(' -B '+ aProject);
 
 
-  lscommand := '""' + lsrootdir  + '"" -Q -B '+ Project;
+    if Trim(aDelphiOptions.SearchPath) = '' then
+      aDelphiOptions.SearchPath := Path.GetDirectoryName(aProject)
+    else
+      aDelphiOptions.SearchPath := aDelphiOptions.SearchPath +';'+Path.GetDirectoryName(aProject);
+
+    Output.log(SB.ToString);
+
+
+  finally
+    SB.Free;
+  End;
+
+
+
+
+
+
+      (*
+  if Trim(aDelphiOptions.UnitAliases) <> '' then
+    sb.AppendFormat(' -A"{0}"', aOptions.aliases);
+
+(*
+  for each el in aOptions.conditionalDefines do
+    sb.AppendFormat(' -D"{0}"', el);
+
+  if not String.IsNullOrEmpty(aOptions.namespaces) then
+    sb.AppendFormat(' -NS"{0}"', aOptions.namespaces);
+
+  if not String.IsNullOrEmpty(aOptions.dcuDestinationFolder) then
+    if iver > DELPHI_7 then
+      sb.AppendFormat(' -NO"{0}" -N0"{0}"', aServices.ResolveWithBase(ec,aOptions.dcuDestinationFolder,true))
+    else
+      sb.AppendFormat(' -N"{0}"', aServices.ResolveWithBase(ec,aOptions.dcuDestinationFolder, true));
+
+  if not String.IsNullOrEmpty(aOptions.destinationFolder) then
+    sb.AppendFormat(' -LE"{0}" -LN"{0}" -E"{0}"', aServices.ResolveWithBase(ec,aOptions.destinationFolder,True));
+
+  if not String.IsNullOrEmpty(aOptions.includeSearchPath) then
+    sb.AppendFormat(' -I"{0}"', RebuildMultiPath(aServices,ec,lDelphi,aOptions.includeSearchPath,aOptions:platform));
+
+  if not String.IsNullOrEmpty(aOptions.unitSearchPath) then
+    sb.AppendFormat(' -U"{0}"', RebuildMultiPath(aServices,ec,lDelphi,aOptions.unitSearchPath,aOptions:platform));
+
+  if not String.IsNullOrEmpty(aOptions.otherParameters) then
+    sb.Append(' '+aOptions.otherParameters);
+
+  if not String.IsNullOrEmpty(aOptions.updateIcon) or (aOptions.updateVersionInfo <> nil) then begin
+    var lRes := Path.ChangeExtension(aProject, '.res');
+    UpdateResource(lRes, aServices.ResolveWithBase(ec, aOptions.updateIcon, true), aOptions.updateVersionInfo, ec);
+  end;
+
+
+  var lTmp := new DelayedLogger();
+  var lOutput := new StringBuilder;
+  aServices.Logger.LogMessage('Running: {0} {1}', lRootPath, sb.ToString);
+    *)
+
+
 
   output.log(lscommand);
   
-  result := ExecCMD(lscommand);
+  //result := ExecCMD(lscommand);
  
 end;
     

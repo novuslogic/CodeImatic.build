@@ -2,43 +2,30 @@ unit uPSI_ExtraClasses;
 
 interface
 uses
-  uPSCompiler, uPSUtils{, JSONParser};
+  uPSCompiler, uPSUtils, SysUtils, ExtraClasses;
 
-
-//procedure SIRegisterTJSON(Cl: TPSPascalCompiler);
-//procedure SIRegisterTJSONParser(Cl: TPSPascalCompiler);
+procedure SIRegisterTStringBuilder(Cl: TPSPascalCompiler);
 procedure SIRegister_ExtraClasses(Cl: TPSPascalCompiler);
 
 implementation
 
-(*
-procedure SIRegisterTJSON(Cl: TPSPascalCompiler);
-begin
-  with Cl.AddClassN(cl.FindClass('TPersistent'), 'TJSON') do
-  begin
-    RegisterMethod('constructor Create;');
-    RegisterMethod('function IsJSONArray: Boolean;');
-  end;
-end;
-*)
 
-(*
-procedure SIRegisterTJSONParser(Cl: TPSPascalCompiler);
+procedure SIRegisterTStringBuilder(Cl: TPSPascalCompiler);
 begin
-  with Cl.AddClassN(cl.FindClass('TPersistent'), 'TJSONParser') do
+  with Cl.AddClassN(cl.FindClass(''), 'TStringBuilder') do
   begin
     RegisterMethod('constructor Create;');
-    RegisterMethod('function ToString: String;');
-    RegisterMethod('procedure ParseJSONString(aJSONString: String);');
-    RegisterMethod('function GetValue(aParName: string): TJSON;');
+    RegisterMethod('procedure Free;');
+    RegisterMethod('function ToString: string;');
+    RegisterMethod('function Append(const Value: string): TStringBuilder;');
+    RegisterMethod('function AppendFormat(const Format: string; const Args: array of const): TStringBuilder;');
   end;
 end;
-*)
+
 
 procedure SIRegister_ExtraClasses(Cl: TPSPascalCompiler);
 begin
-  //SIRegisterTJSON(Cl);
-  //SIRegisterTJSONParser(Cl);
+  SIRegisterTStringBuilder(Cl);
 end;
 
 end.

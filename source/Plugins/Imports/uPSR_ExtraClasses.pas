@@ -2,29 +2,30 @@ unit uPSR_ExtraClasses;
 
 interface
 uses
-  uPSRuntime, uPSUtils{, JSONParser};
+  uPSRuntime, uPSUtils, SysUtils;
 
-(*
-procedure RIRegisterTJSON(Cl: TPSRuntimeClassImporter);
-procedure RIRegisterTJSONParser(Cl: TPSRuntimeClassImporter);
-*)
-procedure RIRegister_ExtraClasses(Cl: TPSRuntimeClassImporter);
+ procedure RIRegisterTStringBuilder(Cl: TPSRuntimeClassImporter);
+
+ procedure RIRegister_ExtraClasses(Cl: TPSRuntimeClassImporter);
 
 implementation
 
 uses
-  Classes;
+  Classes, ExtraClasses;
 
-  (*
-procedure RIRegisterTJSON(Cl: TPSRuntimeClassImporter);
+
+procedure RIRegisterTStringBuilder(Cl: TPSRuntimeClassImporter);
 begin
-  with Cl.Add(TJSON) do
+  with Cl.Add(TStringBuilder) do
   begin
-    RegisterConstructor(@TJSON.CREATE, 'CREATE');
-    RegisterMethod(@TJSON.IsJSONArray, 'ISJSONARRAY');
+    RegisterConstructor(@TStringBuilder.CREATE, 'CREATE');
+    RegisterMethod(@TStringBuilder.FREE, 'FREE');
+    RegisterMethod(@TStringBuilder.ToString,'ToString');
+    RegisterMethod(@TStringBuilder.AppendasString, 'Append');
+    RegisterMethod(@TStringBuilder.AppendFormat, 'AppendFormat');
   end;
 end;
-    *)
+
            (*
 procedure RIRegisterTJSONParser(Cl: TPSRuntimeClassImporter);
 begin
@@ -40,7 +41,7 @@ end;
 *)
 procedure RIRegister_ExtraClasses(Cl: TPSRuntimeClassImporter);
 begin
-  //RIRegisterTJSON(Cl);
+  RIRegisterTStringBuilder(Cl);
   //RIRegisterTJSONParser(Cl);
 end;
 

@@ -52,7 +52,8 @@ uses
   uPSI_API_Registry in 'Plugins\Imports\uPSI_API_Registry.pas',
   API_Path in 'Plugins\API\API_Path.pas',
   uPSI_API_Path in 'Plugins\Imports\uPSI_API_Path.pas',
-  Plugin_Path in 'Plugins\Plugin_Path.pas';
+  Plugin_Path in 'Plugins\Plugin_Path.pas',
+  ExtraClasses in 'ExtraClasses.pas';
 
 begin
   oConfig.LoadConfig;
