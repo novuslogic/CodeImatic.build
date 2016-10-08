@@ -10,6 +10,10 @@ type
     SearchPath: string;
     QuietCompile: boolean;
     UnitAliases: string;
+    ConditionalDefines: string;
+    Namespaces: string;
+    UnitOutputDirectory: string;
+    OutputDirectory: string;
   end;
 
 const
@@ -138,34 +142,50 @@ begin
     else
       aDelphiOptions.SearchPath := aDelphiOptions.SearchPath +';'+Path.GetDirectoryName(aProject);
 
-    Output.log(SB.ToString);
+    if Trim(aDelphiOptions.UnitAliases) <> '' then
+       sb.AppendFormat(' -A"%s"', [aDelphiOptions.UnitAliases]);
+
+    if Trim(aDelphiOptions.ConditionalDefines) <> '' then
+        sb.AppendFormat(' -D"%s"', [aDelphiOptions.ConditionalDefines]);
+   
+    if Trim(aDelphiOptions.namespaces) <> '' then
+        sb.AppendFormat(' -NS"%s"', [aDelphiOptions.namespaces]);
+
+    if Trim(aDelphiOptions.UnitOutputDirectory) <> '' then
+      begin
+        if aCompilerVersion > DELPHI7 then
+          sb.AppendFormat(' -NO"%s" -N0"%s"', [aDelphiOptions.UnitOutputDirectory, aDelphiOptions.UnitOutputDirectory])
+        else
+         sb.AppendFormat(' -N"%s"', [aDelphiOptions.UnitOutputDirectory]);
+      end;      
+
+    if Trim(aDelphiOptions.OutputDirectory) <> '' then
+       sb.AppendFormat(' -LE"%s" -LN"%s" -E"%s"',[aDelphiOptions.OutputDirectory, aDelphiOptions.OutputDirectory, aDelphiOptions.OutputDirectory]); 
+     
+
+
+
+     Output.log(SB.ToString);
 
 
   finally
     SB.Free;
   End;
 
-
+  
 
 
 
 
       (*
-  if Trim(aDelphiOptions.UnitAliases) <> '' then
-    sb.AppendFormat(' -A"{0}"', aOptions.aliases);
+  
 
 (*
-  for each el in aOptions.conditionalDefines do
-    sb.AppendFormat(' -D"{0}"', el);
 
-  if not String.IsNullOrEmpty(aOptions.namespaces) then
-    sb.AppendFormat(' -NS"{0}"', aOptions.namespaces);
 
-  if not String.IsNullOrEmpty(aOptions.dcuDestinationFolder) then
-    if iver > DELPHI_7 then
-      sb.AppendFormat(' -NO"{0}" -N0"{0}"', aServices.ResolveWithBase(ec,aOptions.dcuDestinationFolder,true))
-    else
-      sb.AppendFormat(' -N"{0}"', aServices.ResolveWithBase(ec,aOptions.dcuDestinationFolder, true));
+
+
+ 
 
   if not String.IsNullOrEmpty(aOptions.destinationFolder) then
     sb.AppendFormat(' -LE"{0}" -LN"{0}" -E"{0}"', aServices.ResolveWithBase(ec,aOptions.destinationFolder,True));

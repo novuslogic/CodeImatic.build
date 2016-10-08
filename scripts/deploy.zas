@@ -2,13 +2,14 @@
 Uses Delphi;
 
 var 
-  FDelphOptions: TDelpiOptions;
+  FDelphiOptions: TDelpiOptions;
 begin
    Output.log('Building ...');
 
-   FDelphOptions.platform := 'win32';
-   FDelphOptions.QuietCompile := true;
+   FDelphiOptions.platform := 'win32';
+   FDelphiOptions.QuietCompile := true;
+   FDelphiOptions.UnitAliases := '';
 
-   DelphiBuild(DelphiXE8, 'D:\Projects\Zautomatic\source\Zautomatic.dpr', FDelphOptions);
+   DelphiBuild(DelphiXE8, 'D:\Projects\Zautomatic\source\Zautomatic.dpr', FDelphiOptions);
 
 end.
