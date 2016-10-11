@@ -9,7 +9,11 @@ begin
    FDelphiOptions.platform := 'win32';
    FDelphiOptions.QuietCompile := true;
    FDelphiOptions.UnitAliases := '';
-
+   FDelphiOptions.ConditionalDefines  := '';
+   FDelphiOptions.Namespaces :='';
+   FDelphiOptions.UnitOutputDirectory := '';
+   FDelphiOptions.OutputDirectory := '';
+   
    DelphiBuild(DelphiXE8, 'D:\Projects\Zautomatic\source\Zautomatic.dpr', FDelphiOptions);
 
 end.

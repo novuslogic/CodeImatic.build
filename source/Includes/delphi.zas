@@ -14,6 +14,9 @@ type
     Namespaces: string;
     UnitOutputDirectory: string;
     OutputDirectory: string;
+    IncludeDirectories: string;
+    UnitDirectories: string;
+    OtherParameters: string;
   end;
 
 const
@@ -162,12 +165,24 @@ begin
     if Trim(aDelphiOptions.OutputDirectory) <> '' then
        sb.AppendFormat(' -LE"%s" -LN"%s" -E"%s"',[aDelphiOptions.OutputDirectory, aDelphiOptions.OutputDirectory, aDelphiOptions.OutputDirectory]); 
      
+    if Trim(aDelphiOptions.IncludeDirectories)  <> '' then
+      sb.AppendFormat(' -I"%s"', [aDelphiOptions.IncludeDirectories])
+    else
+      sb.AppendFormat(' -I"%s"', [aDelphiOptions.SearchPath]);
 
+    if Trim(aDelphiOptions.UnitDirectories)  <> '' then
+      sb.AppendFormat(' -U"%s"', [aDelphiOptions.UnitDirectories])
+    else
+      sb.AppendFormat(' -U"%s"', [aDelphiOptions.SearchPath]);
 
+    if Trim(aDelphiOptions.otherParameters) <> '' then
+      sb.Append(' '+aDelphiOptions.otherParameters);
 
-     Output.log(SB.ToString);
+   
+    Output.logformat('Running: %s', [SB.ToString]);
 
-
+    result := ExecCMD(sb.ToString);
+   
   finally
     SB.Free;
   End;

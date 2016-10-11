@@ -14,7 +14,8 @@ type
   public
     constructor Create(AFilename: String;aOutputConsole: Boolean);  virtual;
 
-    procedure Log(AMsg: string);
+    procedure Log(const aMsg: string);
+    procedure LogFormat(const aFormat: string; const Args: array of const);
     procedure LogError;
 
     procedure InternalError;
@@ -35,6 +36,8 @@ type
 
 implementation
 
+Uses SysUtils;
+
 constructor TAPI_Output.Create(AFilename: String;aOutputConsole: Boolean);
 begin
   OutputConsole := aOutputConsole;
@@ -42,9 +45,14 @@ begin
   inherited Create(AFilename);
 end;
 
-procedure TAPI_Output.Log(AMsg: string);
+procedure TAPI_Output.Log(const aMsg: string);
 begin
-  WriteLog(AMsg);
+  WriteLog(aMsg);
+end;
+
+procedure TAPI_Output.LogFormat(const aFormat: string; const Args: array of const);
+begin
+  WriteLog(SysUtils.format(aFormat, Args));
 end;
 
 procedure TAPI_Output.LogError;
