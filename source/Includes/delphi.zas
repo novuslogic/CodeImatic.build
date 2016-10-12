@@ -2,7 +2,7 @@ unit delphi;
 
 interface
 
-Uses cmd;
+Uses cmd, msbuild;
 
 type 
   TDelpiOptions = record
@@ -86,7 +86,6 @@ end;
 function DelphiBuild(aCompilerVersion: integer;aProject: string; aDelphiOptions:TDelpiOptions): Integer;
 var
   lsrootdir: string;
-  lscommand: string;
   SB: TStringBuilder;
 begin
   result := -1;
@@ -177,7 +176,6 @@ begin
 
     if Trim(aDelphiOptions.otherParameters) <> '' then
       sb.Append(' '+aDelphiOptions.otherParameters);
-
    
     Output.logformat('Running: %s', [SB.ToString]);
 
@@ -186,52 +184,7 @@ begin
   finally
     SB.Free;
   End;
-
-  
-
-
-
-
-      (*
-  
-
-(*
-
-
-
-
- 
-
-  if not String.IsNullOrEmpty(aOptions.destinationFolder) then
-    sb.AppendFormat(' -LE"{0}" -LN"{0}" -E"{0}"', aServices.ResolveWithBase(ec,aOptions.destinationFolder,True));
-
-  if not String.IsNullOrEmpty(aOptions.includeSearchPath) then
-    sb.AppendFormat(' -I"{0}"', RebuildMultiPath(aServices,ec,lDelphi,aOptions.includeSearchPath,aOptions:platform));
-
-  if not String.IsNullOrEmpty(aOptions.unitSearchPath) then
-    sb.AppendFormat(' -U"{0}"', RebuildMultiPath(aServices,ec,lDelphi,aOptions.unitSearchPath,aOptions:platform));
-
-  if not String.IsNullOrEmpty(aOptions.otherParameters) then
-    sb.Append(' '+aOptions.otherParameters);
-
-  if not String.IsNullOrEmpty(aOptions.updateIcon) or (aOptions.updateVersionInfo <> nil) then begin
-    var lRes := Path.ChangeExtension(aProject, '.res');
-    UpdateResource(lRes, aServices.ResolveWithBase(ec, aOptions.updateIcon, true), aOptions.updateVersionInfo, ec);
-  end;
-
-
-  var lTmp := new DelayedLogger();
-  var lOutput := new StringBuilder;
-  aServices.Logger.LogMessage('Running: {0} {1}', lRootPath, sb.ToString);
-    *)
-
-
-
-  output.log(lscommand);
-  
-  //result := ExecCMD(lscommand);
- 
 end;
-    
+   
 
 end.

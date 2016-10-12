@@ -1,0 +1,15 @@
+unit Windows;
+
+interface
+
+function CoCreateGuid(var Guid:TGuid):integer; external 'CoCreateGuid@ole32.dll stdcall';
+function WindowsFolder: string;
+
+implementation
+
+function WindowsFolder: string; 
+begin
+  result := WinAPI.GetSpecialFolder(CSIDL_WINDOWS);
+end;
+
+end.

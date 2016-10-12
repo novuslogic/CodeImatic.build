@@ -1,19 +1,24 @@
 
-Uses Delphi;
+Uses Delphi, MSBuild;
 
 var 
   FDelphiOptions: TDelpiOptions;
 begin
    Output.log('Building ...');
 
-   FDelphiOptions.platform := 'win32';
-   FDelphiOptions.QuietCompile := true;
+
+(*
+   FDelphiOptions.platform := 'msbuild';
+   FDelphiOptions.QuietCompile := false;
    FDelphiOptions.UnitAliases := '';
    FDelphiOptions.ConditionalDefines  := '';
    FDelphiOptions.Namespaces :='';
    FDelphiOptions.UnitOutputDirectory := '';
    FDelphiOptions.OutputDirectory := '';
    
-   DelphiBuild(DelphiXE8, 'D:\Projects\Zautomatic\source\Zautomatic.dpr', FDelphiOptions);
+   DelphiBuild(DelphiXE8, 'D:\Projects\Zautomatic\source\Zautomatic.dproj', FDelphiOptions);
+*)
 
+
+  Output.log(GetMSBuild('2'));
 end.
