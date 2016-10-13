@@ -20,5 +20,5 @@ begin
 *)
 
 
-  Output.log(GetMSBuild('2'));
+  Output.log(GetMSBuild('3.5'));
 end.

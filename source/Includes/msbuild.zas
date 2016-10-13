@@ -26,9 +26,20 @@ function GetMSBuild(aVersion: string): string;
 begin
   if (CompareText(lowercase(aVersion), '2') = 0) or
      (CompareText(lowercase(aVersion), '2.0') = 0) then
-    result := WindowsFolder + '\Microsoft.NET\Framework\v2.0.50727\MSBuild.exe';
-
+    result := WindowsFolder + '\Microsoft.NET\Framework\v2.0.50727\MSBuild.exe'
+  else 
+  if (CompareText(lowercase(aVersion), '3.5') = 0) then
+    result := WindowsFolder + '\Microsoft.NET\Framework\v3.5\MSBuild.exe'
+  else
+  if (CompareText(lowercase(aVersion), '4') = 0) or
+     (CompareText(lowercase(aVersion), '4.0') = 0) then
+     result := WindowsFolder + '\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe'
+  else 
+    RaiseException(erCustomError, 'Unsupported version ("2.0", "3.5", "4.0")');   
+   
+  if not File.Exists(result) then RaiseException(erCustomError, 'msbuild not found: '+result);
 end;
+
 
 
 end.
