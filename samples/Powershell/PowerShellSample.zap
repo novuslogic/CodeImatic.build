@@ -2,8 +2,8 @@
 <project>
   <outputconsole>true</outputconsole>
   <outputpath></outputpath>
-  <projecttask name = "sample6">
-     <projectfilename>sample6.zas</projectfilename>    
+  <projecttask name = "PowerShellSample">
+     <projectfilename>PowerShellSample.zas</projectfilename>    
   </projecttask>
  
 </project>

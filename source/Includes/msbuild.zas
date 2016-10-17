@@ -5,7 +5,7 @@ interface
 Uses cmd, Windows;
 
 
-function GetMSBuild(aVersion: string): string;
+function GetMSBuildFullname(aVersion: string): string;
 
    
 implementation
@@ -18,11 +18,10 @@ C:\Windows\Microsoft.NET\Framework\v3.5\MSBuild.exe
 
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe
-
 *)
 
 
-function GetMSBuild(aVersion: string): string;
+function GetMSBuildFullname(aVersion: string): string;
 begin
   if (CompareText(lowercase(aVersion), '2') = 0) or
      (CompareText(lowercase(aVersion), '2.0') = 0) then
@@ -39,6 +38,8 @@ begin
    
   if not File.Exists(result) then RaiseException(erCustomError, 'msbuild not found: '+result);
 end;
+
+
 
 
 
