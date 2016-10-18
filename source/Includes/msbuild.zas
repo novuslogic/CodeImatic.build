@@ -20,6 +20,26 @@ C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe
 *)
 
+function MSBuild(aVersion: string; aSolutionProjectFile: string): integer;
+var 
+  SB: TStringBuilder;
+begin
+  result := -1;
+
+  Try
+    SB:= TStringBuilder.Create;
+
+    SB.Append( GetMSBuildFullname(aVersion) + ' ');
+    SB.Append( aSolutionProjectFile + ' ');
+    SB.Append('/p:configuration=debug ');
+  
+    Output.logformat('Running: %s', [SB.ToString]);
+
+    result := Exec(SB.ToString);
+  finally
+    SB.Free;
+  End;
+end;
 
 function GetMSBuildFullname(aVersion: string): string;
 begin
@@ -38,7 +58,6 @@ begin
    
   if not File.Exists(result) then RaiseException(erCustomError, 'msbuild not found: '+result);
 end;
-
 
 
 

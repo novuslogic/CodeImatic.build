@@ -18,7 +18,9 @@ begin
    
    DelphiBuild(DelphiXE8, 'D:\Projects\Zautomatic\source\Zautomatic.dproj', FDelphiOptions);
 *)
+  if MSBuild <> 0 then 
+     RaiseException(erCustomError, 'Exception:' +  SysErrorMessage);
+     
 
-
-  Output.log(GetMSBuild('3.5'));
+  Output.log(GetMSBuildFullname('3.5'));
 end.

@@ -39,7 +39,7 @@ const
 
 function GetBDSRegKey(Key: string; Name: string): string;
 function GetBDSRegistery(aCompilerVersion: integer; Name: string): string;
-function DelphiBuild(aCompilerVersion: integer;aProject: string; aDelphiOptions:TDelpiOptions): Integer;
+function Delphi(aCompilerVersion: integer;aProject: string; aDelphiOptions:TDelpiOptions): Integer;
    
 implementation
 
@@ -83,7 +83,7 @@ begin
     Result := Registry.ReadString( HKEY_LOCAL_MACHINE, 'SOFTWARE\Wow6432Node\' + Key + '.0', Name);
 end;
 
-function DelphiBuild(aCompilerVersion: integer;aProject: string; aDelphiOptions:TDelpiOptions): Integer;
+function Delphi(aCompilerVersion: integer;aProject: string; aDelphiOptions:TDelpiOptions): Integer;
 var
   lsrootdir: string;
   SB: TStringBuilder;

@@ -43,3 +43,6 @@
 /samples/sample8/__history
 /doc/XMLDocumentation
 *.stat
+/samples/MSBuild/.vs/TestApp/v14
+/samples/MSBuild/obj/Debug
+/samples/MSBuild/bin/Debug

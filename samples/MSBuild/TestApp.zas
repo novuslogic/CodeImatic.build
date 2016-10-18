@@ -1,0 +1,9 @@
+uses MSBuild;
+
+begin
+  output.log('MSBuild TestApp Sample');
+
+  if (MSBuild('4', 'TestApp.sln') <> 0) then 
+    RaiseException(erCustomError, 'Exception:'+ SysErrorMessage);  
+
+end.
