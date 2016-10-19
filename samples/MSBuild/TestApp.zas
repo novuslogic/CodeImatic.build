@@ -1,9 +1,14 @@
 uses MSBuild;
 
+var 
+  FMSBuildOptions: TMSBUildOptions;
 begin
   output.log('MSBuild TestApp Sample');
 
-  if (MSBuild('4', 'TestApp.sln') <> 0) then 
+  FMSBuildOptions.Configuration := 'debug';
+  FMSBuildOptions.Target := 'rebuild';
+  
+  if (MSBuild('4', 'TestApp.sln', FMSBuildOptions) <> 0) then 
     RaiseException(erCustomError, 'Exception:'+ SysErrorMessage);  
 
 end.

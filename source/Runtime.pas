@@ -184,6 +184,7 @@ begin
     foPlugins.Free;
   Finally
     foProject.Free;
+
   End;
 end;
 

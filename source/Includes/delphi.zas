@@ -179,7 +179,7 @@ begin
    
     Output.logformat('Running: %s', [SB.ToString]);
 
-    result := ExecCMD(sb.ToString);
+    result := Exec(sb.ToString);
    
   finally
     SB.Free;

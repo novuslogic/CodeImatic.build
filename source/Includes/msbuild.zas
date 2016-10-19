@@ -4,6 +4,15 @@ interface
 
 Uses cmd, Windows;
 
+type
+  TMSBuildOptions = record
+    Configuration: string;
+    Platform: string;
+    OutputPath: string;
+    Target: string;
+    OtherParameters: string;
+  end;
+
 
 function GetMSBuildFullname(aVersion: string): string;
 
@@ -18,24 +27,47 @@ C:\Windows\Microsoft.NET\Framework\v3.5\MSBuild.exe
 
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe
+
+MSBuild Command-Line Reference
+https://msdn.microsoft.com/en-us/library/ms164311.aspx
 *)
 
-function MSBuild(aVersion: string; aSolutionProjectFile: string): integer;
+function MSBuild(aVersion: string; aProjectSolutionFilename: string;aMSBuildOptions:TMSBuildOptions): integer;
 var 
   SB: TStringBuilder;
+  lsMSBuildFullname: string;
 begin
   result := -1;
+
+  lsMSBuildFullname := GetMSBuildFullname(aVersion)
 
   Try
     SB:= TStringBuilder.Create;
 
-    SB.Append( GetMSBuildFullname(aVersion) + ' ');
-    SB.Append( aSolutionProjectFile + ' ');
-    SB.Append('/p:configuration=debug ');
+    SB.Append( lsMSBuildFullname + ' ');
+
+    SB.Append('/nologo ');
+
+    SB.Append( aProjectSolutionFilename + ' ');
+
+    if Trim(aMSBuildOptions.Target) <> '' then
+      SB.Append('"/target:' + aMSBuildOptions.Target + '" ');
+
+    if Trim(aMSBuildOptions.Configuration) <> '' then
+      SB.Append('"/property:configuration=' + aMSBuildOptions.Configuration + '" ');
+
+    if Trim(aMSBuildOptions.platform) <> '' then   
+      SB.Append('"/property:Platform='+aMSBuildOptions.platform+'" ');
+    
+    if Trim(aMSBuildOptions.OutputPath) <> '' then 
+      sb.Append('"/property:OutputPath='+aMSBuildOptions.OutputPath+'" ');   
+
+    if Trim(aMSBuildOptions.OtherParameters) <> '' then
+     sb.Append(' ' +aMSBuildOptions.OtherParameters);  
   
     Output.logformat('Running: %s', [SB.ToString]);
 
-    result := Exec(SB.ToString);
+    result := Execcmd(SB.ToString);
   finally
     SB.Free;
   End;
