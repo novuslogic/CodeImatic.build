@@ -1,4 +1,4 @@
-unit delphi;
+unit msbuild;
 
 interface
 

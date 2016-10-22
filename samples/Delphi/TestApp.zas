@@ -6,9 +6,13 @@ begin
   output.log('Delphi TestApp Sample');
 
 
-  Environment.SetEnvironmentVar('BDS', 'C:\Program Files (x86)\Embarcadero\Studio\16.0', false);
-  Environment.SetEnvironmentVar('BDSINCLUDE', 'C:\Program Files (x86)\Embarcadero\Studio\16.0\include', false);
-  Environment.SetEnvironmentVar('BDSCOMMONDIR', 'C:\Users\Public\Documents\Embarcadero\Studio\16.0', false);
+  Environment.SetEnvironmentVar('BDS', GetBDSDIR(DELPHIXE8), false);
+
+  Environment.SetEnvironmentVar('BDSINCLUDE', GetBDSINCLUDE(  DELPHIXE8 ), false);
+  
+  Environment.SetEnvironmentVar('BDSCOMMONDIR',  GetBDSCOMMONDIR(  DELPHIXE8 ), false);
+ 
+
   Environment.SetEnvironmentVar('FrameworkDir', 'C:\Windows\Microsoft.NET\Framework\v3.5', false);
   Environment.SetEnvironmentVar('FrameworkVersion', 'v3.5', false);
 

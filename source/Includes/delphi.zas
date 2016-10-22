@@ -37,6 +37,10 @@ const
    DELPHI10   = 23;
    DELPHI10_1 = 24;
 
+
+function GetBDSDIR(aCompilerVersion: integer): string;
+function GetBDSINCLUDE(aCompilerVersion: integer): string;
+function GetBDSCOMMONDIR(aCompilerVersion: integer): string;
 function GetBDSRegKey(Key: string; Name: string): string;
 function GetBDSRegistery(aCompilerVersion: integer; Name: string): string;
 function Delphi(aCompilerVersion: integer;aProject: string; aDelphiOptions:TDelpiOptions): Integer;
@@ -83,6 +87,55 @@ begin
     Result := Registry.ReadString( HKEY_LOCAL_MACHINE, 'SOFTWARE\Wow6432Node\' + Key + '.0', Name);
 end;
 
+function GetBDSCOMMONDIR(aCompilerVersion: integer): string;
+var
+  lines,
+  lrsvars: tStringlist; 
+  lsmatch,
+  lsRootDir: string;
+begin
+  result := Environment.GetEnvironmentVar('BDSCOMMONDIR');
+  if trim(result) = '' then 
+    begin
+       Try
+         lsRootDir:=GetBDSDIR(aCompilerVersion) + '\bin\rsvars.bat';
+         if File.Exists(lsRootDir) = false then 
+           RaiseException(erCustomError, 'Cannot find Delphi rsbar.bat file: '+ lsRootDir);
+         lrsvars:= tStringlist.Create;
+
+         lrsvars.LoadFromFile(lsRootDir); 
+
+         RegEx.Match('(BDSCOMMONDIR=)([^\0]+)', lrsvars.text, lsmatch);
+
+         Lines := TStringList.Create;
+         try
+           Lines.Text := lsmatch;
+           Result := Lines.Values['BDSCOMMONDIR'];
+         finally
+           Lines.Free;
+         end;
+       finally
+         lrsvars.Free; 
+       End;
+    end;
+end;
+
+function GetBDSDIR(aCompilerVersion: integer): string;
+begin
+  result := GetBDSRegistery(aCompilerVersion, 'rootdir');
+end;
+
+function GetBDSINCLUDE(aCompilerVersion: integer): string;
+begin
+  result := Environment.GetEnvironmentVar('BDSINCLUDE');
+  if trim(result) = '' then 
+    begin
+      result := GetBDSDIR(aCompilerVersion) + '\include';
+    end;
+    
+end;
+
+
 function Delphi(aCompilerVersion: integer;aProject: string; aDelphiOptions:TDelpiOptions): Integer;
 var
   lsrootdir: string;
@@ -90,7 +143,13 @@ var
 begin
   result := -1;
   
-  lsrootdir := GetBDSRegistery(aCompilerVersion, 'rootdir');
+  (* 
+  
+  http://docwiki.embarcadero.com/RADStudio/Berlin/en/Paths_and_Directories_(C%2B%2B)
+  
+  *)
+
+  lsrootdir :=  GetBDSDIR(aCompilerVersion);
 
   if lsrootdir = '' then 
     RaiseException(erCustomError, 'Cannot find Delphi registry key for '+ IntToStr(aCompilerVersion));
