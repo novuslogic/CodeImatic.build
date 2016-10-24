@@ -1,44 +1,15 @@
-uses MSBuild, Delphi;
+uses Delphi;
 
 var 
-  FMSBuildOptions: TMSBUildOptions;
+  FDelphiOptions: TDelphiOptions;
 begin
   output.log('Delphi TestApp Sample');
 
-
-  Environment.SetEnvironmentVar('BDS', GetBDSDIR(DELPHIXE8), false);
-
-  Environment.SetEnvironmentVar('BDSINCLUDE', GetBDSINCLUDE(  DELPHIXE8 ), false);
-  
-  Environment.SetEnvironmentVar('BDSCOMMONDIR',  GetBDSCOMMONDIR(  DELPHIXE8 ), false);
- 
-
-  Environment.SetEnvironmentVar('FrameworkDir', 'C:\Windows\Microsoft.NET\Framework\v3.5', false);
-  Environment.SetEnvironmentVar('FrameworkVersion', 'v3.5', false);
-
-  FMSBuildOptions.Configuration := 'debug';
-  FMSBuildOptions.Target := 'rebuild';
-
-  if (MSBuild('3.5', 'TestApp.dproj', FMSBuildOptions) <> 0) then  
-      RaiseException(erCustomError, 'Exception:'+ SysErrorMessage);  
+  FDelphiOptions.platform := 'msbuild';
+  FDelphiOptions.Configuration := 'debug';
+  FDelphiOptions.Target := 'rebuild';
 
 
-
-(*
-@SET BDS=C:\Program Files (x86)\Embarcadero\Studio\16.0
-@SET BDSINCLUDE=C:\Program Files (x86)\Embarcadero\Studio\16.0\include
-@SET BDSCOMMONDIR=C:\Users\Public\Documents\Embarcadero\Studio\16.0
-@SET FrameworkDir=C:\Windows\Microsoft.NET\Framework\v3.5
-@SET FrameworkVersion=v3.5
-  
-*)
- // FMSBuildOptions.Configuration := 'debug';
-//  FMSBuildOptions.Target := 'rebuild';
-  
- // if (MSBuild('4', 'TestApp.sln', FMSBuildOptions) <> 0) then 
-  //  RaiseException(erCustomError, 'Exception:'+ SysErrorMessage);  
-
-
-
-
+  if  Delphi(DELPHIXE8,'TestApp.dproj', FDelphiOptions) <> 0 then 
+    RaiseException(erCustomError, 'Exception:'+ SysErrorMessage);  
 end.

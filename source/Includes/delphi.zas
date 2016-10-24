@@ -5,7 +5,7 @@ interface
 Uses cmd, msbuild;
 
 type 
-  TDelpiOptions = record
+  TDelphiOptions = record
     Platform: string;
     SearchPath: string;
     QuietCompile: boolean;
@@ -17,6 +17,8 @@ type
     IncludeDirectories: string;
     UnitDirectories: string;
     OtherParameters: string;
+    Configuration: string;
+    Target: string;
   end;
 
 const
@@ -43,7 +45,7 @@ function GetBDSINCLUDE(aCompilerVersion: integer): string;
 function GetBDSCOMMONDIR(aCompilerVersion: integer): string;
 function GetBDSRegKey(Key: string; Name: string): string;
 function GetBDSRegistery(aCompilerVersion: integer; Name: string): string;
-function Delphi(aCompilerVersion: integer;aProject: string; aDelphiOptions:TDelpiOptions): Integer;
+function Delphi(aCompilerVersion: integer;aProject: string; aDelphiOptions:TDelphiOptions): Integer;
    
 implementation
 
@@ -136,10 +138,11 @@ begin
 end;
 
 
-function Delphi(aCompilerVersion: integer;aProject: string; aDelphiOptions:TDelpiOptions): Integer;
+function Delphi(aCompilerVersion: integer;aProject: string; aDelphiOptions:TDelphiOptions): Integer;
 var
   lsrootdir: string;
   SB: TStringBuilder;
+  FMSBuildOptions: TMSBUildOptions;
 begin
   result := -1;
   
@@ -157,6 +160,30 @@ begin
   if (aCompilerVersion in [DELPHI7, DELPHI2005, DELPHI2006]) and (lowercase(aDelphiOptions.platform) = 'msbuild') then 
     RaiseException(erCustomError, 'Compiler Version 7,9,10 does not support platform = msbuild')
   else
+  if (lowercase(aDelphiOptions.platform) = 'msbuild') then
+    begin
+      Environment.SetEnvironmentVar('BDS', GetBDSDIR(aCompilerVersion), false);
+
+      Environment.SetEnvironmentVar('BDSINCLUDE', GetBDSINCLUDE(  aCompilerVersion), false);
+  
+      Environment.SetEnvironmentVar('BDSCOMMONDIR',  GetBDSCOMMONDIR(  aCompilerVersion ), false);
+    
+      Environment.SetEnvironmentVar('FrameworkDir', GetDotNETFrameworkDirectory('3.5'), false);
+      Environment.SetEnvironmentVar('FrameworkVersion', 'v3.5', false);
+
+      FMSBuildOptions.Configuration := aDelphiOptions.Configuration;
+      if FMSBuildOptions.Configuration = '' then FMSBuildOptions.Configuration := 'debug';
+
+      FMSBuildOptions.Target := aDelphiOptions.target;
+      if FMSBuildOptions.Target= '' then FMSBuildOptions.Target := 'rebuild';
+      FMSBuildOptions.OtherParameters := aDelphiOptions.OtherParameters;
+      FMSBuildOptions.OutputPath := aDelphiOptions.OutputDirectory;
+
+      result := MSBuild('3.5', aProject, FMSBuildOptions);
+
+      exit;
+    end
+  else  
   if (CompareText(lowercase(aDelphiOptions.platform), 'ios32') = 0) or
      (CompareText(lowercase(aDelphiOptions.platform), 'iossimulator') = 0) then
     lsRootDir := Path.Combine(Path.Combine(lsRootDir, 'Bin'), 'dccios32.exe')
