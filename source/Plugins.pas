@@ -58,6 +58,7 @@ Var
   I: Integer;
   loPlugin: tPlugin;
 begin
+
   for I := 0 to fPluginsList.Count -1 do
    begin
      loPlugin := TPlugin(fPluginsList.Items[i]);
@@ -100,14 +101,18 @@ begin
         begin
           loConfigPlugins := tConfigPlugins(oConfig.oConfigPluginsList.Items[i]);
 
-          if FExternalPlugins.LoadPlugin(loConfigPlugins.PluginFilenamePathname) then
+          if FileExists(loConfigPlugins.PluginFilenamePathname) then
             begin
-              FExternalPlugin := IExternalPlugin(FExternalPlugins.Plugins[FExternalPlugins.PluginCount-1]);
+              if FExternalPlugins.LoadPlugin(loConfigPlugins.PluginFilenamePathname) then
+                begin
+                  FExternalPlugin := IExternalPlugin(FExternalPlugins.Plugins[FExternalPlugins.PluginCount-1]);
 
-              fPluginsList.Add(FExternalPlugin.CreatePlugin(foAPI_Output,fImp));
+                  fPluginsList.Add(FExternalPlugin.CreatePlugin(foAPI_Output,fImp));
 
-              foAPI_Output.Log('Loaded: ' + FExternalPlugin.PluginName);
-            end;
+                  foAPI_Output.Log('Loaded: ' + FExternalPlugin.PluginName);
+                end;
+            end
+          else foAPI_Output.Log('Missing: ' + loConfigPlugins.PluginFilenamePathname);
         end;
 
     end;

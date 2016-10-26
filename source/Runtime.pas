@@ -177,6 +177,10 @@ begin
 
     FImp.Free;
 
+//    foPlugins.UnRegisterImports;
+
+    foPlugins.UnLoadPlugins;
+
     FoAPI_Output.CloseLog;
 
     FoAPI_Output.Free;

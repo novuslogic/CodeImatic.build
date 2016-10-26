@@ -2,25 +2,20 @@
 Uses Delphi, MSBuild;
 
 var 
-  FDelphiOptions: TDelpiOptions;
+  FDelphiOptions: TDelphiOptions;
 begin
-   Output.log('Building ...');
+  Output.log('Building ...');
+  
+  FDelphiOptions.platform := 'msbuild';
+  FDelphiOptions.Configuration := 'debug';
+  FDelphiOptions.Target := 'rebuild';
+
+  FDelphiOptions.OutputDirectory := 'D:\Projects\Zautomatic\deploy';
+
+  if  Delphi(DELPHIXE8,'D:\Projects\Zautomatic\source\ZautomaticGroup.groupproj', FDelphiOptions) <> 0 then 
+    RaiseException(erCustomError, 'Exception:'+ SysErrorMessage);  
 
 
-(*
-   FDelphiOptions.platform := 'msbuild';
-   FDelphiOptions.QuietCompile := false;
-   FDelphiOptions.UnitAliases := '';
-   FDelphiOptions.ConditionalDefines  := '';
-   FDelphiOptions.Namespaces :='';
-   FDelphiOptions.UnitOutputDirectory := '';
-   FDelphiOptions.OutputDirectory := '';
-   
-   DelphiBuild(DelphiXE8, 'D:\Projects\Zautomatic\source\Zautomatic.dproj', FDelphiOptions);
-*)
-  if MSBuild <> 0 then 
-     RaiseException(erCustomError, 'Exception:' +  SysErrorMessage);
-     
-
-  Output.log(GetMSBuildFullname('3.5'));
+  
+  
 end.

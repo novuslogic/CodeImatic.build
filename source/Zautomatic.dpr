@@ -6,6 +6,7 @@ program Zautomatic;
 {$R *.res}
 
 uses
+  Sharemem,
   System.SysUtils,
   ScriptEngine in 'ScriptEngine.pas',
   Config in 'Config.pas',
