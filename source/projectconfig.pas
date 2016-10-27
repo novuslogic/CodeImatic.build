@@ -85,6 +85,9 @@ end;
 function TProjectConfig.GetSearchPath: String;
 begin
   Result := TNovusStringUtils.TrailingBackSlash(Getproperty('searchpath'));
+
+
+
 end;
 
 function TProjectConfig.Getproperty(aPropertyname: string): String;
