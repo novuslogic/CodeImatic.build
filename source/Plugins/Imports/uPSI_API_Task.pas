@@ -52,6 +52,7 @@ uses
   ,NovusWindows
   ,API_Output
   ,Plugin_TaskRunner
+  ,Project
   ,API_Task
   ;
  
@@ -70,7 +71,8 @@ begin
   begin
     RegisterMethod('Function AddTask( const aProcedureName : String) : TTask');
     RegisterMethod('Function RunTarget( const aProcedureName : String) : boolean');
-    RegisterMethod('Procedure Buildreport');
+    RegisterMethod('Function RunTargets( const aProcedureNames : array of string) : boolean');
+    RegisterMethod('Procedure BuildReport');
     RegisterProperty('FinishedTasks', 'TTaskEvent', iptrw);
   end;
 end;
@@ -86,8 +88,10 @@ begin
     RegisterProperty('ProcedureName', 'String', iptrw);
     RegisterProperty('TaskRunner', 'TTaskRunner', iptrw);
     RegisterProperty('Dependencies', 'tStringList', iptrw);
-    RegisterProperty('StartBuild', 'tdatetime', iptr);
-    RegisterProperty('EndBuild', 'tDatetime', iptr);
+    RegisterProperty('StartBuild', 'tdatetime', iptrw);
+    RegisterProperty('Duration', 'TDateTime', iptr);
+    RegisterProperty('EndBuild', 'tDatetime', iptrw);
+    RegisterProperty('BuildStatus', 'TBuildStatus', iptrw);
     RegisterProperty('Criteria', 'TTaskCriteria', iptrw);
     RegisterProperty('FinishedTask', 'TTaskEvent', iptrw);
   end;
@@ -153,8 +157,28 @@ procedure TTaskCriteria_R(Self: TTask; var T: TTaskCriteria);
 begin T := Self.Criteria; end;
 
 (*----------------------------------------------------------------------------*)
+procedure TTaskBuildStatus_W(Self: TTask; const T: TBuildStatus);
+begin Self.BuildStatus := T; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TTaskBuildStatus_R(Self: TTask; var T: TBuildStatus);
+begin T := Self.BuildStatus; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TTaskEndBuild_W(Self: TTask; const T: tDatetime);
+begin Self.EndBuild := T; end;
+
+(*----------------------------------------------------------------------------*)
 procedure TTaskEndBuild_R(Self: TTask; var T: tDatetime);
 begin T := Self.EndBuild; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TTaskDuration_R(Self: TTask; var T: TDateTime);
+begin T := Self.Duration; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TTaskStartBuild_W(Self: TTask; const T: tdatetime);
+begin Self.StartBuild := T; end;
 
 (*----------------------------------------------------------------------------*)
 procedure TTaskStartBuild_R(Self: TTask; var T: tdatetime);
@@ -223,7 +247,8 @@ begin
   begin
     RegisterMethod(@TAPI_Task.AddTask, 'AddTask');
     RegisterMethod(@TAPI_Task.RunTarget, 'RunTarget');
-    RegisterMethod(@TAPI_Task.Buildreport, 'Buildreport');
+    RegisterMethod(@TAPI_Task.RunTargets, 'RunTargets');
+    RegisterMethod(@TAPI_Task.BuildReport, 'BuildReport');
     RegisterPropertyHelper(@TAPI_TaskFinishedTasks_R,@TAPI_TaskFinishedTasks_W,'FinishedTasks');
   end;
 end;
@@ -238,8 +263,10 @@ begin
     RegisterPropertyHelper(@TTaskProcedureName_R,@TTaskProcedureName_W,'ProcedureName');
     RegisterPropertyHelper(@TTaskTaskRunner_R,@TTaskTaskRunner_W,'TaskRunner');
     RegisterPropertyHelper(@TTaskDependencies_R,@TTaskDependencies_W,'Dependencies');
-    RegisterPropertyHelper(@TTaskStartBuild_R,nil,'StartBuild');
-    RegisterPropertyHelper(@TTaskEndBuild_R,nil,'EndBuild');
+    RegisterPropertyHelper(@TTaskStartBuild_R,@TTaskStartBuild_W,'StartBuild');
+    RegisterPropertyHelper(@TTaskDuration_R,nil,'Duration');
+    RegisterPropertyHelper(@TTaskEndBuild_R,@TTaskEndBuild_W,'EndBuild');
+    RegisterPropertyHelper(@TTaskBuildStatus_R,@TTaskBuildStatus_W,'BuildStatus');
     RegisterPropertyHelper(@TTaskCriteria_R,@TTaskCriteria_W,'Criteria');
     RegisterPropertyHelper(@TTaskFinishedTask_R,@TTaskFinishedTask_W,'FinishedTask');
   end;

@@ -39,7 +39,7 @@ const
    DELPHI10   = 23;
    DELPHI10_1 = 24;
 
-
+function GetDelphiPackageVersion(aCompilerVersion: integer): string;
 function GetBDSDIR(aCompilerVersion: integer): string;
 function GetBDSINCLUDE(aCompilerVersion: integer): string;
 function GetBDSCOMMONDIR(aCompilerVersion: integer): string;
@@ -120,6 +120,8 @@ begin
          lrsvars.Free; 
        End;
     end;
+
+  Result := File.IncludeTrailingPathDelimiter(result);  
 end;
 
 function GetBDSDIR(aCompilerVersion: integer): string;
@@ -270,6 +272,33 @@ begin
   finally
     SB.Free;
   End;
+end;
+
+function GetDelphiPackageVersion(aCompilerVersion: integer): string;
+begin
+  case aCompilerVersion of
+    DELPHI7 : Result := '70';
+    DELPHI2005 : Result := '90';
+    DELPHI2006 : Result := '100';
+    DELPHI2007 : Result := '110';
+    DELPHI2009 : Result := '120';
+    DELPHI2010 : Result := '140';
+    DELPHIXE   : Result := '150';
+    DELPHIXE2  : Result := '160';
+    DELPHIXE3  : Result := '170';
+    DELPHIXE4  : Result := '180';
+    DELPHIXE5  : Result := '190';
+    DELPHIXE6  : Result := '200';
+    DELPHIXE7  : Result := '210';
+    DELPHIXE8  : Result := '220';
+    DELPHI10   : Result := '230';
+    DELPHI10_1 : Result := '240';
+  else
+    RaiseException(erCustomError, 'Invalid "delphi" constant; Supported compiler versions 7..24');
+  end;
+
+
+
 end;
    
 

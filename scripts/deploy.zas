@@ -3,9 +3,48 @@ Uses Delphi, MSBuild;
 
 var 
   FDelphiOptions: TDelphiOptions;
+  BDSCommonDir,
+  BDSDir: String;
+  CompilerVersion: integer;
+  PackageVersion: string;
+  InitialiseTask: tTask;
+
+
+  procedure Initialise;
+  begin
+    Output.log('Initialise ...');
+
+    CompilerVersion := DELPHIXE8 ;
+
+    BDSDir :=  GetBDSDIR(CompilerVersion );
+    Output.log('BDS Directory:' + BDSDir );
+
+    BDSCommonDir := GetBDSCommonDir(CompilerVersion );
+    Output.log('BDS Common Directory:' + BDSCommonDir );
+
+    PackageVersion := GetDelphiPackageVersion(CompilerVersion);
+
+    Output.log('PackageVersion:' + PackageVersion );
+  end;
+
+
 begin
   Output.log('Building ...');
+
+  InitialiseTask := Task.AddTask('Initialise');
+  if Not Assigned(InitialiseTask) then
+    RaiseException(erCustomError, 'not assigned InitialiseTask'); 
+  InitialiseTask.Criteria.Failed.Abort := True;
+
+   if not Task.RunTargets(['Initialise']) then 
+    RaiseException(erCustomError, 'missing procedure.'); 
+
+
+
+  //XCopy.CopyFile( 
+
   
+(*
   FDelphiOptions.platform := 'msbuild';
   FDelphiOptions.Configuration := 'debug';
   FDelphiOptions.Target := 'rebuild';
@@ -14,7 +53,7 @@ begin
 
   if  Delphi(DELPHIXE8,'D:\Projects\Zautomatic\source\ZautomaticGroup.groupproj', FDelphiOptions) <> 0 then 
     RaiseException(erCustomError, 'Exception:'+ SysErrorMessage);  
-
+*)
 
   
   

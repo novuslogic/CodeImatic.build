@@ -116,6 +116,7 @@ type
 
      function AddTask(const aProcedureName: String): TTask;
      function RunTarget(const aProcedureName: String): boolean;
+     function RunTargets(const aProcedureNames: array of string): boolean;
 
      procedure BuildReport;
 
@@ -127,6 +128,7 @@ type
    end;
 
 implementation
+
 
 constructor TAPI_Task.create(aAPI_Output: tAPI_Output; aTaskRunner: TTaskRunner);
 begin
@@ -288,6 +290,24 @@ begin
 end;
 
 
+function TAPI_Task.RunTargets(const aProcedureNames: array of string): boolean;
+var
+  I: Integer;
+  lsProcedureName: string;
+begin
+  result := false;
+
+  for I := 0 to length(aProcedureNames) -1  do
+    begin
+      lsProcedureName := aProcedureNames[i];
+
+      Result := RunTarget(lsProcedureName);
+      if not result then break;
+    end;
+end;
+
+
+
 function TAPI_Task.RunTarget(const aProcedureName: String): boolean;
 var
   FTask: tTask;
@@ -344,42 +364,6 @@ begin
 
       oAPI_Output.WriteLog(lsMessageLog);
     end;
-
-
-
-
-  (*
-  if aprojecttask.BuildStatus <> TBuildStatus.bsFailed then
-    begin
-      if aprojecttask.BuildStatus <> TBuildStatus.bsErrors then
-        lsMessageLog := 'Build succeeded: '
-      else
-        lsMessageLog := 'Build with errors: ' ;
-    end
-  else
-  if aprojecttask.BuildStatus = TBuildStatus.bsFailed then
-    begin
-      if aprojecttask.Criteria.Failed.abort = true then
-        lsMessageLog := 'Build failed/abort: '
-      else
-      if aprojecttask.Criteria.Failed.skip = true then
-        lsMessageLog := 'Build failed/skip: '
-      else
-        lsMessageLog := 'Build failed: ';
-    end;
-
-  lsMessageLog := lsMessageLog + FoAPI_Output.FormatedNow(aprojecttask.EndBuild);
-
-  lsMessageLog := lsMessageLog + ' - duration: ' + FormatDateTime(cTimeformat, aprojecttask.Duration);
-
-  if aIncludeItemName then
-    FoAPI_Output.WriteLog(aprojecttask.TaskName + ': ' +lsMessageLog)
-  else
-    FoAPI_Output.WriteLog(lsMessageLog);
-
-
-  *)
-
 
 end;
 

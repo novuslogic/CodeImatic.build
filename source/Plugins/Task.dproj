@@ -74,11 +74,10 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DCC_XmlOutput>..\..\doc\xmldocumentation</DCC_XmlOutput>
         <DCC_OutputXMLDocumentation>true</DCC_OutputXMLDocumentation>
-        <Debugger_RunParams>-project D:\Projects\Zautomatic\samples\sample8\sample8.zap -projectconfig D:\Projects\Zautomatic\samples\sample8\sample8.zapconfig </Debugger_RunParams>
-        <Debugger_DebugSourcePath> D:\Projects\Zautomatic\samples\sample8\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
-        <Debugger_CWD> D:\Projects\Zautomatic\samples\sample8\</Debugger_CWD>
+        <Debugger_RunParams>-project deploy.zap -projectconfig deploy.zapconfig</Debugger_RunParams>
+        <Debugger_DebugSourcePath>D:\Projects\Zautomatic\scripts;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
+        <Debugger_CWD>D:\Projects\Zautomatic\scripts</Debugger_CWD>
         <Debugger_HostApplication>D:\Projects\Zautomatic\build\Zautomatic.exe</Debugger_HostApplication>
-        <DCC_UnitSearchPath>..\..\build\;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_ExeOutput>..\..\build\plugins\</DCC_ExeOutput>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <DCC_DcuOutput>..\..\units\win32\</DCC_DcuOutput>
@@ -588,13 +587,13 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME)"/>
-                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
             </Deployment>
             <Platforms>
                 <Platform value="OSX32">False</Platform>
