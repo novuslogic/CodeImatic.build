@@ -1,14 +1,19 @@
 
-Uses Delphi, MSBuild;
+Uses Xcopy, stringutils, Delphi;
 
 var 
-  FDelphiOptions: TDelphiOptions;
   BDSCommonDir,
   BDSDir: String;
   CompilerVersion: integer;
   PackageVersion: string;
   InitialiseTask: tTask;
+  DeploymentDir: string;
 
+
+  function GetPackageFilename(aPartFilename: String): string;
+  begin
+    result := format('%s%s.bpl', [aPartFilename, PackageVersion]);
+  end;
 
   procedure Initialise;
   begin
@@ -39,21 +44,13 @@ begin
    if not Task.RunTargets(['Initialise']) then 
     RaiseException(erCustomError, 'missing procedure.'); 
 
+      
+
+   if not Xcopy(BDSCommonDir + 'bpl\' + GetPackageFilename('jvCore'), DeploymentDir) then
+     RaiseException(erCustomError, 'Failed copying ' + BDSCommonDir + 'bpl\' + GetPackageFilename('jvCore')); 
 
 
-  //XCopy.CopyFile( 
 
-  
-(*
-  FDelphiOptions.platform := 'msbuild';
-  FDelphiOptions.Configuration := 'debug';
-  FDelphiOptions.Target := 'rebuild';
-
-  FDelphiOptions.OutputDirectory := 'D:\Projects\Zautomatic\deploy';
-
-  if  Delphi(DELPHIXE8,'D:\Projects\Zautomatic\source\ZautomaticGroup.groupproj', FDelphiOptions) <> 0 then 
-    RaiseException(erCustomError, 'Exception:'+ SysErrorMessage);  
-*)
 
   
   

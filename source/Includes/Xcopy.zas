@@ -1,0 +1,17 @@
+unit Xcopy;
+
+interface
+
+function Xcopy(const Source, destination: string): boolean;
+
+implementation
+
+function Xcopy(const Source, destination: string): boolean;
+begin 
+  Output.log('From:' +Source + ' To: ' + destination );
+
+
+  result := false;
+end;
+
+end.

@@ -4,6 +4,7 @@ interface
 
 uses NumUtils;
 
+
 function ExtractText(const aStr: string; const aDelim1, aDelim2: char): string;
 function ExtractTextPos(const aStr: string; const aPos: Integer; aDelim: char): string;
 function GUIDToString(const Guid: TGUID): string;
@@ -54,5 +55,7 @@ begin
            IntToHex(Guid.D4[4],2)+IntToHex(Guid.D4[5],2)+
            IntToHex(Guid.D4[6],2)+IntToHex(Guid.D4[7],2);
 end;
+
+
 
 end.

@@ -3,8 +3,9 @@ unit Plugin_Commands;
 interface
 
 uses Classes,runtime, Plugin,  uPSCompiler, uPSI_API_Output, PluginsMapFactory,
-     uPSC_classes,  uPSC_std, uPSRuntime, uPSR_std, uPSR_classes, SysUtils,
-     uPSI_ExtraClasses, uPSR_ExtraClasses, uPSC_comobj, uPSR_comobj, uPSC_dll, uPSR_dll;
+     uPSC_classes,  uPSC_std, uPSRuntime, uPSR_std, uPSR_classes, SysUtils, uPSC_dateutils,
+     uPSI_ExtraClasses, uPSR_ExtraClasses, uPSC_comobj, uPSR_comobj, uPSC_dll, uPSR_dll,
+     uPSR_dateutils;
 
 type
   tPlugin_Commands = class(Tplugin)
@@ -37,6 +38,10 @@ begin
   SIRegister_ComObj(aCompiler);
   SIRegister_ExtraClasses(aCompiler);
   RegisterDll_Compiletime(aCompiler);
+  RegisterDateTimeLibrary_C(aCompiler);
+
+
+  aCompiler.AddDelphiFunction('function format( Const Formatting : string; Const Data : array of const ) : string;');
 
   TPSPascalCompiler(aCompiler).AddFunction('procedure Writeln(s: string);');
   TPSPascalCompiler(aCompiler).AddFunction('function wd():string;');
@@ -45,17 +50,18 @@ begin
   TPSPascalCompiler(aCompiler).AddFunction('function SysErrorMessage():String;');
   TPSPascalCompiler(aCompiler).AddFunction('function ExtractFileName(aFilename: string): String;');
   TPSPascalCompiler(aCompiler).AddFunction('function CompareText(const S1, S2: string): Integer;');
+
 end;
 
 
 procedure tPlugin_Commands.RegisterFunction(var aExec: TPSExec);
 begin
   RegisterClassLibraryRuntime(aExec, FImp);
-
   RegisterDLLRuntime(aExec);
-
-
   RIRegister_ComObj(aExec);
+  RegisterDateTimeLibrary_R(aExec);
+
+  aExec.RegisterDelphiFunction(@Format, 'FORMAT', cdRegister);
 
   aExec.RegisterFunctionName('WRITELN', CommandWriteln, nil, nil);
   aExec.RegisterFunctionName('WD', CommandWD, nil, nil);
@@ -64,6 +70,7 @@ begin
   aExec.RegisterFunctionName('SYSERRORMESSAGE', CommandSysErrorMessage, nil, nil);
   aExec.RegisterFunctionName('EXTRACTFILENAME', CommandExtractFileName, nil, nil);
   aExec.RegisterFunctionName('COMPARETEXT', CommandCompareText, nil, nil);
+
 end;
 
 
@@ -185,6 +192,8 @@ begin
 
   Result := True;
 end;
+
+
 
 Initialization
  begin
