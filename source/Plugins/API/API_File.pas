@@ -12,7 +12,8 @@ type
      constructor Create(aAPI_Output: tAPI_Output); override;
      destructor Destroy; override;
 
-     function IncludeTrailingPathDelimiter(const s: string): String;
+     function Extractfilename(const aFilename: string): string;
+     function IncludeTrailingPathDelimiter(const aPath: string): String;
      function Exists(const aFilename: String): Boolean;
      function Copy(const aSourceFilename: String; const aDestFilename: String; const aOverWrite : Boolean ): Boolean;
      function Delete(const aFilename: String): Boolean;
@@ -64,11 +65,25 @@ begin
   End;
 end;
 
-function TAPI_File.IncludeTrailingPathDelimiter(const s: string): String;
+function TAPI_File.IncludeTrailingPathDelimiter(const aPath: string): String;
 begin
   Try
     Try
-      Result := SysUtils.IncludeTrailingPathDelimiter(s);
+      Result := SysUtils.IncludeTrailingPathDelimiter(aPath);
+
+    Except
+      oAPI_Output.InternalError;
+    End;
+  Finally
+
+  End;
+end;
+
+function TAPI_File.Extractfilename(const aFilename: string): String;
+begin
+  Try
+    Try
+      Result := SysUtils.Extractfilename(aFilename);
 
     Except
       oAPI_Output.InternalError;

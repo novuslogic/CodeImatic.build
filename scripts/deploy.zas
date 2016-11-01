@@ -3,6 +3,7 @@ Uses Xcopy, stringutils, Delphi;
 
 var 
   BDSCommonDir,
+  BDSBPLDir,
   BDSDir: String;
   CompilerVersion: integer;
   PackageVersion: string;
@@ -26,10 +27,14 @@ var
 
     BDSCommonDir := GetBDSCommonDir(CompilerVersion );
     Output.log('BDS Common Directory:' + BDSCommonDir );
-
+    
     PackageVersion := GetDelphiPackageVersion(CompilerVersion);
+    Output.log('Delphi Package Version:' + PackageVersion );
 
-    Output.log('PackageVersion:' + PackageVersion );
+    BDSBPLDir := BDSCommonDir + 'bpl\';
+    Output.log('BDS BPL Directory:' + BDSBPLDir );
+
+    DeploymentDir := File.IncludeTrailingPathDelimiter('D:\Projects\Zautomatic\deploy\');
   end;
 
 
@@ -44,9 +49,12 @@ begin
    if not Task.RunTargets(['Initialise']) then 
     RaiseException(erCustomError, 'missing procedure.'); 
 
-      
 
-   if not Xcopy(BDSCommonDir + 'bpl\' + GetPackageFilename('jvCore'), DeploymentDir) then
+   If not Folder.Exists(DeploymentDir +  'bin') then 
+     if not Folder.CreateFolder(DeploymentDir +  'bin') then   
+       RaiseException(erCustomError, format('Failed creating folder [%s]', [DeploymentDir +  'bin'] ));
+
+   if not Xcopy(BDSBPLDir + GetPackageFilename('jvCore'), DeploymentDir) then
      RaiseException(erCustomError, 'Failed copying ' + BDSCommonDir + 'bpl\' + GetPackageFilename('jvCore')); 
 
 
