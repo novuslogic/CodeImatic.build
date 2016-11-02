@@ -7,8 +7,11 @@ var
   BDSDir: String;
   CompilerVersion: integer;
   PackageVersion: string;
-  InitialiseTask: tTask;
+  InitialiseTask,
+  CopyingFilesTask,
+  CheckExistsorCreateFoldersTask: tTask;
   DeploymentDir: string;
+  DeploymentBinDir: string;
 
 
   function GetPackageFilename(aPartFilename: String): string;
@@ -16,6 +19,31 @@ var
     result := format('%s%s.bpl', [aPartFilename, PackageVersion]);
   end;
 
+  procedure CheckExistsorCreateFolders;
+  begin
+   Output.log('Check Exists or Create Folders ...');
+    
+    If not Folder.Exists(DeploymentDir +  'bin') then 
+     if Folder.CreateFolder(DeploymentDir +  'bin') then
+        Output.log('Create Folder: ' + DeploymentDir +  'bin')
+     else    
+        RaiseException(erCustomError, format('Failed creating folder [%s]', [DeploymentDir +  'bin'] )); 
+
+    
+  end;
+
+  procedure CopyingFiles;
+  begin
+    Output.log('Copying Files ...');
+
+    if not Xcopy(BDSBPLDir + GetPackageFilename('jvCore'), DeploymentBinDir) then
+     RaiseException(erCustomError, 'Failed copying ' + BDSCommonDir + 'bpl\' + GetPackageFilename('jvCore')); 
+
+
+
+  end;
+
+  
   procedure Initialise;
   begin
     Output.log('Initialise ...');
@@ -35,7 +63,12 @@ var
     Output.log('BDS BPL Directory:' + BDSBPLDir );
 
     DeploymentDir := File.IncludeTrailingPathDelimiter('D:\Projects\Zautomatic\deploy\');
-  end;
+    Output.log('Depoyment Directory:' +DeploymentDir );
+
+    DeploymentBinDir := DeploymentDir +  'bin\';
+ 
+    Output.log('Depoyment Bin Directory:' +DeploymentBinDir );
+ end;
 
 
 begin
@@ -46,19 +79,19 @@ begin
     RaiseException(erCustomError, 'not assigned InitialiseTask'); 
   InitialiseTask.Criteria.Failed.Abort := True;
 
-   if not Task.RunTargets(['Initialise']) then 
+  CheckExistsorCreateFoldersTask := Task.AddTask('CheckExistsorCreateFolders');
+  if Not Assigned(CheckExistsorCreateFoldersTask) then
+    RaiseException(erCustomError, 'not assigned CheckExistsorCreateFoldersTask'); 
+  CheckExistsorCreateFoldersTask.Criteria.Failed.Abort := True;
+
+  CopyingFilesTask := Task.AddTask('CopyingFiles');
+  if Not Assigned(CopyingFilesTask) then
+    RaiseException(erCustomError, 'not assigned CopyingFilesTask'); 
+  CopyingFilesTask.Criteria.Failed.Abort := True;
+
+  
+  if not Task.RunTargets(['Initialise', 'CheckExistsorCreateFolders', 'CopyingFiles']) then 
     RaiseException(erCustomError, 'missing procedure.'); 
-
-
-   If not Folder.Exists(DeploymentDir +  'bin') then 
-     if not Folder.CreateFolder(DeploymentDir +  'bin') then   
-       RaiseException(erCustomError, format('Failed creating folder [%s]', [DeploymentDir +  'bin'] ));
-
-   if not Xcopy(BDSBPLDir + GetPackageFilename('jvCore'), DeploymentDir) then
-     RaiseException(erCustomError, 'Failed copying ' + BDSCommonDir + 'bpl\' + GetPackageFilename('jvCore')); 
-
-
-
 
   
   
