@@ -2,8 +2,8 @@
 <project>
   <outputconsole>true</outputconsole>
   <outputpath></outputpath>
-  <projecttask name = "sample7a">
-     <projectfilename>sample7a.zas</projectfilename>
+  <projecttask name = "projecttaska">
+     <projectfilename>projecttaska.zas</projectfilename>
      <criteria>
         <failed>
             <retry>5</retry>
@@ -12,8 +12,8 @@
         </failed>
      </criteria>    
   </projecttask>
-   <projecttask name = "sample7b">
-     <projectfilename>sample7b.zas</projectfilename>    
+   <projecttask name = "projecttaskb">
+     <projectfilename>projecttaskb.zas</projectfilename>    
   </projecttask>
 
 

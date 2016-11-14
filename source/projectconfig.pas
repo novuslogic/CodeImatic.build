@@ -19,6 +19,7 @@ type
       destructor Destroy; override;
 
       procedure LoadProjectConfigFile(aProjectConfigFilename: String);
+      function ParseGetEnvironmentVar(aInput: String): String;
 
       function IspropertyExists(aPropertyName: String): boolean;
       function Getproperty(aPropertyName: String): String;
@@ -85,9 +86,6 @@ end;
 function TProjectConfig.GetSearchPath: String;
 begin
   Result := TNovusStringUtils.TrailingBackSlash(Getproperty('searchpath'));
-
-
-
 end;
 
 function TProjectConfig.Getproperty(aPropertyname: string): String;
@@ -97,7 +95,7 @@ begin
 
   if not Assigned(oXMLDocument) then Exit;
 
-  Result := GetFieldAsString(oXMLDocument.Root, Lowercase(aPropertyname));
+  Result :=ParseGetEnvironmentVar(GetFieldAsString(oXMLDocument.Root, Lowercase(aPropertyname)));
 end;
 
 function TProjectConfig.IspropertyExists(aPropertyName: String): boolean;
@@ -140,6 +138,48 @@ begin
       Result := Post;
     end;
 end;
+
+
+
+
+function TProjectConfig.ParseGetEnvironmentVar(aInput: String): String;
+Var
+  loTemplate: tNovusTemplate;
+  I: INteger;
+  FTemplateTag: TTemplateTag;
+begin
+  result := aInput;
+
+  if aInput = '' then Exit;
+
+  Try
+    loTemplate := tNovusTemplate.Create;
+
+
+    loTemplate.StartToken := '{';
+    loTemplate.EndToken := '}';
+    loTemplate.SecondToken := '%';
+
+    loTemplate.TemplateDoc.Text := Trim(aInput);
+
+    loTemplate.ParseTemplate;
+
+    For I := 0 to loTemplate.TemplateTags.Count -1 do
+      begin
+        FTemplateTag := TTemplateTag(loTemplate.TemplateTags.items[i]);
+
+        FTemplateTag.TagValue := GetEnvironmentVariable(FTemplateTag.TagName);
+      end;
+
+    loTemplate.InsertAllTagValues;
+
+    Result := Trim(loTemplate.OutputDoc.Text);
+
+  Finally
+    loTemplate.Free;
+  End;
+end;
+
 
 
 end.

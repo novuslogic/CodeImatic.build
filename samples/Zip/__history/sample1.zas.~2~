@@ -1,0 +1,65 @@
+Var
+  FZipStringList: TStringList;
+  I: Integer;
+  FZipOptions: TZipOptions;
+begin
+   API_Output.log('Test 1');
+
+   try
+     RaiseException(erCustomError, 'CustomError RaiseException');
+   except
+     API_Output.LogError;
+   end;
+
+  Writeln('function ZipExtractFile');
+
+  if not Zip.ExtractFile(wd + 'test.zip', 'test.txt', wd + 'data', NIL) then
+     API_Output.LogError;
+
+  Writeln('function ZipExtractAll');
+
+  if not Zip.ExtractAll(wd + 'test.zip', wd + 'data', NIL) then
+    API_Output.LogError;
+
+  Writeln('function ZipBrowserList');
+
+  Writeln('Files:');
+
+  Try
+    FZipStringList := TStringList.Create;
+
+    if Zip.BrowserList(wd + 'test.zip',
+        FZipStringList,
+        true, NIL) then
+      begin
+        For I := 0 to FZipStringList.Count - 1 do
+          Writeln(FZipStringList.strings[i]);
+
+      end
+     else
+        API_Output.LogError;
+  finally
+    FZipStringList.Free;
+  end;
+  Writeln('function ZipCompress');
+
+  Try
+    FZipOptions := TZipOptions.Create;
+
+    FZipOptions.ExcludedFile.Add('Test2.txt.txt');
+    FZipOptions.Password := 'xyz';
+    FZipOptions.API_Output := true;
+
+
+    if not Zip.Compress(wd + 'test2.zip',
+             wd + 'data', '*', FZipOptions) then
+            API_Output.LogError;
+  finally
+    FZipOptions.Free;
+  end;
+
+  writeln('Working directory');
+
+
+  writeln(wd);
+end.

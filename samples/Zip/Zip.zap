@@ -2,8 +2,8 @@
 <project>
   <outputconsole>true</outputconsole>
   <outputpath></outputpath>
-  <projecttask name = "sample3">
-     <projectfilename>sample3.zas</projectfilename>
+  <projecttask name = "Zip">
+     <projectfilename>Zip.zas</projectfilename>
   </projecttask>
  
 </project>

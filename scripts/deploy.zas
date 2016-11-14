@@ -12,6 +12,14 @@ var
   CheckExistsorCreateFoldersTask: tTask;
   DeploymentDir: string;
   DeploymentBinDir: string;
+  DeploymentPluginsDir: string;
+  DeploymentIncludesDir: string;
+  BuildDir: string;
+  PluginsDir: string;
+  IncludesDir: string;
+  BDSRedistDir: string;
+  Platform: String;
+  PascalScript_CoreDir: string;
 
 
   function GetPackageFilename(aPartFilename: String): string;
@@ -28,19 +36,130 @@ var
         Output.log('Create Folder: ' + DeploymentDir +  'bin')
      else    
         RaiseException(erCustomError, format('Failed creating folder [%s]', [DeploymentDir +  'bin'] )); 
-
     
+    If not Folder.Exists(DeploymentDir +  'bin\plugins\') then 
+      if Folder.CreateFolder(DeploymentDir +  'bin\plugins') then
+        Output.log('Create Folder: ' + DeploymentDir +  'bin\plugins')
+     else    
+        RaiseException(erCustomError, format('Failed creating folder [%s]', [DeploymentDir +  'bin\plugins'] )); 
+
+     If not Folder.Exists(DeploymentDir +  'Includes') then 
+      if Folder.CreateFolder(DeploymentDir +  'Includes') then
+        Output.log('Create Folder: ' + DeploymentDir +  'Includes')
+     else    
+        RaiseException(erCustomError, format('Failed creating folder [%s]', [DeploymentDir +  'Includes'] )); 
+        
   end;
 
   procedure CopyingFiles;
   begin
     Output.log('Copying Files ...');
 
+    // Bin Directory
+
+    if not Xcopy(BuildDir +'ZAutoCore.bpl', DeploymentBinDir) then
+     RaiseException(erCustomError, 'Failed copying ' + BuildDir + 'ZAutoCore.bpl'); 
+
+    if not Xcopy(BuildDir +'Zautomatic.exe', DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BuildDir + 'Zautomatic.exe'); 
+
     if not Xcopy(BDSBPLDir + GetPackageFilename('jvCore'), DeploymentBinDir) then
-     RaiseException(erCustomError, 'Failed copying ' + BDSCommonDir + 'bpl\' + GetPackageFilename('jvCore')); 
+     RaiseException(erCustomError, 'Failed copying ' + BDSBPLDir + GetPackageFilename('jvCore')); 
+
+    if not Xcopy(BDSBPLDir + GetPackageFilename('NovusCodeLibrary_Core'), DeploymentBinDir) then
+     RaiseException(erCustomError, 'Failed copying ' + BDSBPLDir + GetPackageFilename('NovusCodeLibrary_Core')); 
+
+    if not Xcopy(BDSRedistDir + GetPackageFilename('rtl'), DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BDSRedistDir + GetPackageFilename('rtl'));
+
+    if not Xcopy(BDSRedistDir + GetPackageFilename('vclimg'), DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BDSRedistDir + GetPackageFilename('vclimg'));
+
+    if not Xcopy(BDSRedistDir + GetPackageFilename('dbrtl'), DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BDSRedistDir + GetPackageFilename('dbrtl'));
+
+    if not Xcopy(BDSRedistDir + GetPackageFilename('xmlrtl'), DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BDSRedistDir + GetPackageFilename('xmlrtl'));
+
+    if not Xcopy(BDSRedistDir + GetPackageFilename('dbrtl'), DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BDSRedistDir + GetPackageFilename('dbrtl'));
+
+    if not Xcopy(BDSRedistDir + GetPackageFilename('inet'), DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BDSRedistDir + GetPackageFilename('inet'));        
+
+    if not Xcopy(BDSRedistDir + GetPackageFilename('DBXCommonDriver'), DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BDSRedistDir + GetPackageFilename('DBXCommonDriver'));    
+
+    if not Xcopy(BDSRedistDir + GetPackageFilename('vcl'), DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BDSRedistDir + GetPackageFilename('vcl'));   
+
+    if not Xcopy(BDSRedistDir + GetPackageFilename('soaprtl'), DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BDSRedistDir + GetPackageFilename('soaprtl'));
+
+    if not Xcopy(BDSRedistDir + GetPackageFilename('vclx'), DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BDSRedistDir + GetPackageFilename('vclx'));      
+
+    if not Xcopy(BDSBPLDir + GetPackageFilename('jvSystem'), DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BDSBPLDir + GetPackageFilename('jvSystem'));           
+   
+    if not Xcopy(BDSBPLDir + GetPackageFilename('jclvcl'), DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BDSBPLDir + GetPackageFilename('jclvcl'));  
+
+    if not Xcopy(BDSBPLDir + GetPackageFilename('NovusCodeLibrary_XML'), DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BDSBPLDir + GetPackageFilename('NovusCodeLibrary_XML'));     
+
+    if not Xcopy(BDSBPLDir + GetPackageFilename('NovusCodeLibrary_log'), DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BDSBPLDir + GetPackageFilename('NovusCodeLibrary_log'));    
+
+    if not Xcopy(BDSBPLDir + GetPackageFilename('NovusCodeLibrary_plugin'), DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BDSBPLDir + GetPackageFilename('NovusCodeLibrary_plugin'));  
+
+    if not Xcopy(BDSBPLDir + GetPackageFilename('jcl'), DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BDSBPLDir + GetPackageFilename('jcl'));   
+
+    if not Xcopy(PascalScript_CoreDir + 'PascalScript_Core_D22.bpl', DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + PascalScript_CoreDir + 'PascalScript_Core_D22.bpl');     
+
+   // Plugins Directory
+   if not Xcopy(PluginsDir +'Task.dll', DeploymentPluginsDir) then
+      RaiseException(erCustomError, 'Failed copying ' + PluginsDir +'Task.dll'); 
+   
+   if not Xcopy(PluginsDir +'Zip.dll', DeploymentPluginsDir) then
+      RaiseException(erCustomError, 'Failed copying ' + PluginsDir +'Zip.dll');
+      
+
+    // Includes Directory
+ 
+    if not Xcopy(IncludesDir +'AWS.zas', DeploymentIncludesDir) then
+      RaiseException(erCustomError, 'Failed copying ' +IncludesDir +'AWS.zas');
+
+    if not Xcopy(IncludesDir +'cmd.zas', DeploymentIncludesDir) then
+      RaiseException(erCustomError, 'Failed copying ' +IncludesDir +'cmd.zas');  
+
+    if not Xcopy(IncludesDir +'delphi.zas', DeploymentIncludesDir) then
+      RaiseException(erCustomError, 'Failed copying ' +IncludesDir +'delphi.zas');  
+  
+    if not Xcopy(IncludesDir +'dotNET.zas', DeploymentIncludesDir) then
+      RaiseException(erCustomError, 'Failed copying ' +IncludesDir +'dotNET.zas'); 
+
+    if not Xcopy(IncludesDir +'msbuild.zas', DeploymentIncludesDir) then
+      RaiseException(erCustomError, 'Failed copying ' +IncludesDir +'msbuild.zas');   
 
 
+   if not Xcopy(IncludesDir +'numutils.zas', DeploymentIncludesDir) then
+      RaiseException(erCustomError, 'Failed copying ' +IncludesDir +'numutils.zas');    
 
+   if not Xcopy(IncludesDir +'powershell.zas', DeploymentIncludesDir) then
+      RaiseException(erCustomError, 'Failed copying ' +IncludesDir +'powershell.zas');    
+
+   if not Xcopy(IncludesDir +'Windows.zas', DeploymentIncludesDir) then
+      RaiseException(erCustomError, 'Failed copying ' +IncludesDir +'Windows.zas');     
+
+   if not Xcopy(IncludesDir +'Xcopy.zas', DeploymentIncludesDir) then
+      RaiseException(erCustomError, 'Failed copying ' +IncludesDir +'Xcopy.zas');     
+      
+    
+      
   end;
 
   
@@ -49,6 +168,8 @@ var
     Output.log('Initialise ...');
 
     CompilerVersion := DELPHIXE8 ;
+
+    Platform := 'Win32';
 
     BDSDir :=  GetBDSDIR(CompilerVersion );
     Output.log('BDS Directory:' + BDSDir );
@@ -65,9 +186,35 @@ var
     DeploymentDir := File.IncludeTrailingPathDelimiter('D:\Projects\Zautomatic\deploy\');
     Output.log('Depoyment Directory:' +DeploymentDir );
 
+    PascalScript_CoreDir := 'D:\Delphi Components\Pascalscript\Dcu\D22\win32\';
+    Output.log('PascalScript_Core Directory:' +PascalScript_CoreDir); 
+
     DeploymentBinDir := DeploymentDir +  'bin\';
- 
+    Output.log('Deployment Bin Directory:' +DeploymentBinDir );
+
+    DeploymentPluginsDir := DeploymentBinDir + 'plugins\';
+    Output.log('Deployment Plugins Directory:' +DeploymentPluginsDir  );
+
+    DeploymentIncludesDir := DeploymentDir + 'Includes\';
+    Output.log('Deployment Includes Directory:' +DeploymentIncludesDir  );
+
+
+    BDSRedistDir := BDSDir + 'Redist\'+ Platform + '\';
     Output.log('Depoyment Bin Directory:' +DeploymentBinDir );
+
+    BuildDir := 'D:\Projects\Zautomatic\build\'; 
+    Output.log('Build Directory:' +BuildDir);
+
+    
+    PluginsDir := 'D:\Projects\Zautomatic\build\Plugins\'; 
+    Output.log('Plugins Directory:' +PluginsDir);
+
+    IncludesDir := 'D:\Projects\Zautomatic\source\Includes\'; 
+    Output.log('Plugins Directory:' +PluginsDir);
+  
+    
+
+
  end;
 
 
@@ -92,7 +239,7 @@ begin
   
   if not Task.RunTargets(['Initialise', 'CheckExistsorCreateFolders', 'CopyingFiles']) then 
     RaiseException(erCustomError, 'missing procedure.'); 
-
+   
   
   
 end.

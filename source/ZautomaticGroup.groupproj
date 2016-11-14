@@ -15,6 +15,9 @@
         <Projects Include="Plugins\Task.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="Shell\ZautoShell.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -59,14 +62,23 @@
     <Target Name="Task:Make">
         <MSBuild Projects="Plugins\Task.dproj" Targets="Make"/>
     </Target>
+    <Target Name="ZautoShell">
+        <MSBuild Projects="Shell\ZautoShell.dproj"/>
+    </Target>
+    <Target Name="ZautoShell:Clean">
+        <MSBuild Projects="Shell\ZautoShell.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ZautoShell:Make">
+        <MSBuild Projects="Shell\ZautoShell.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Zautomatic;ZautoCore;Zip;Task"/>
+        <CallTarget Targets="Zautomatic;ZautoCore;Zip;Task;ZautoShell"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Zautomatic:Clean;ZautoCore:Clean;Zip:Clean;Task:Clean"/>
+        <CallTarget Targets="Zautomatic:Clean;ZautoCore:Clean;Zip:Clean;Task:Clean;ZautoShell:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Zautomatic:Make;ZautoCore:Make;Zip:Make;Task:Make"/>
+        <CallTarget Targets="Zautomatic:Make;ZautoCore:Make;Zip:Make;Task:Make;ZautoShell:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
