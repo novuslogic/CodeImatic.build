@@ -35,6 +35,7 @@ Type
    TConfig = Class(TNovusXMLBO)
    protected
      fConfigPluginsList: tNovusList;
+     fsSolutionFilename: String;
      fsConfigfile: string;
      fsPluginPath: String;
      fsOutputFile: string;
@@ -50,6 +51,10 @@ Type
      procedure LoadConfig;
 
      function ParseParams: Boolean;
+
+     property SolutionFilename: String
+       read fsSolutionFilename
+       write fsSolutionFilename;
 
      property ProjectFileName: String
        read fsProjectFileName
@@ -119,10 +124,31 @@ begin
     begin
        lsParamStr := Lowercase(ParamStr(i));
 
+       if lsParamStr = '-solution' then
+         begin
+           Inc(i);
+           fsSolutionFilename := Trim(ParamStr(i));
+
+           if Trim(TNovusStringUtils.JustFilename(fsSolutionFilename)) = trim(fsSolutionFilename) then
+             fsSolutionFilename := IncludeTrailingPathDelimiter(TNovusFileUtils.AbsoluteFilePath(ParamStr(i))) + Trim(ParamStr(i));
+
+           if Not FileExists(fsSolutionFilename) then
+              begin
+                writeln ('-solution ' + TNovusStringUtils.JustFilename(fsSolutionFilename) + ' project filename cannot be found.');
+
+                Exit;
+              end;
+
+           Result := True;
+         end
+       else
        if lsParamStr = '-project' then
          begin
            Inc(i);
            fsProjectFileName := Trim(ParamStr(i));
+
+           if Trim(TNovusStringUtils.JustFilename(fsProjectFilename)) = trim(fsProjectFilename) then
+             fsProjectFilename := IncludeTrailingPathDelimiter(TNovusFileUtils.AbsoluteFilePath(ParamStr(i))) + Trim(ParamStr(i));
 
            if Not FileExists(fsProjectFileName) then
               begin
@@ -138,6 +164,9 @@ begin
          begin
            Inc(i);
            fsProjectConfigFileName := Trim(ParamStr(i));
+
+           if Trim(TNovusStringUtils.JustFilename(fsProjectConfigFilename)) = trim(fsProjectConfigFilename) then
+             fsProjectConfigFilename := IncludeTrailingPathDelimiter(TNovusFileUtils.AbsoluteFilePath(ParamStr(i))) + Trim(ParamStr(i));
 
            if Not FileExists(fsProjectConfigFileName) then
              begin
@@ -157,19 +186,22 @@ begin
       if I > ParamCount then fbOK := True;
     end;
 
-  if Trim(fsProjectFileName) = '' then
+  if Trim(fsSolutionFilename) = '' then
     begin
-      writeln ('-project filename cannot be found.');
+      if Trim(fsProjectFileName) = '' then
+        begin
+          writeln ('-project filename cannot be found.');
 
-      Result := false;
+          Result := false;
+        end;
+
+      if Trim(fsProjectConfigFileName) = '' then
+         begin
+           writeln ('-projectconfig filename cannot be found.');
+
+           result := False;
+         end;
     end;
-
-  if Trim(fsProjectConfigFileName) = '' then
-     begin
-       writeln ('-projectconfig filename cannot be found.');
-
-       result := False;
-     end;
 
   if Result = false then
     begin

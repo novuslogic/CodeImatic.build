@@ -249,9 +249,6 @@ begin
     Result := TNovusStringUtils.TrailingBackSlash(lsOutputpath);
 end;
 
-
-
-
 function TProject.GetOutputConsole: Boolean;
 begin
   Result := GetFieldAsBoolean(oXMLDocument.Root, 'outputconsole');

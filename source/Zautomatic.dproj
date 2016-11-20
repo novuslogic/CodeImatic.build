@@ -146,7 +146,7 @@
         <BRCC_Defines>PS_USESSUPPORT;$(BRCC_Defines)</BRCC_Defines>
         <VerInfo_AutoGenVersion>true</VerInfo_AutoGenVersion>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <Debugger_RunParams>-project deploy.zap -projectconfig deploy.zapconfig</Debugger_RunParams>
+        <Debugger_RunParams>-solution deploy.zasolution</Debugger_RunParams>
         <DCC_ExeOutput>..\build</DCC_ExeOutput>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
@@ -211,6 +211,7 @@
         <DCCReference Include="Plugins\Imports\uPSI_API_Path.pas"/>
         <DCCReference Include="Plugins\Plugin_Path.pas"/>
         <DCCReference Include="ExtraClasses.pas"/>
+        <DCCReference Include="Solution.pas"/>
         <None Include="Zautomatic.inc"/>
         <None Include="DelphiVersions.inc"/>
         <BuildConfiguration Include="Release">
@@ -630,9 +631,9 @@
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME)"/>
             </Deployment>
             <Platforms>
                 <Platform value="Android">False</Platform>

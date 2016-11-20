@@ -1,5 +1,5 @@
 
-Uses Xcopy, stringutils, Delphi;
+Uses Xcopy,  Delphi, stringutils;
 
 var 
   BDSCommonDir,
@@ -145,9 +145,11 @@ var
     if not Xcopy(IncludesDir +'msbuild.zas', DeploymentIncludesDir) then
       RaiseException(erCustomError, 'Failed copying ' +IncludesDir +'msbuild.zas');   
 
-
    if not Xcopy(IncludesDir +'numutils.zas', DeploymentIncludesDir) then
       RaiseException(erCustomError, 'Failed copying ' +IncludesDir +'numutils.zas');    
+
+   if not Xcopy(IncludesDir +'stringutils.zas', DeploymentIncludesDir) then
+      RaiseException(erCustomError, 'Failed copying ' +IncludesDir +'stringutils.zas');        
 
    if not Xcopy(IncludesDir +'powershell.zas', DeploymentIncludesDir) then
       RaiseException(erCustomError, 'Failed copying ' +IncludesDir +'powershell.zas');    

@@ -3,13 +3,14 @@ unit Runtime;
 
 interface
 
-Uses Project, API_Output, Config, NovusVersionUtils, System.SysUtils,
-     uPSRuntime,  Plugins, dialogs, NovusDateStringUtils, uPSCompiler ;
+Uses Project, API_Output, Config, NovusVersionUtils, System.SysUtils, NovusStringUtils,
+     uPSRuntime,  Plugins, dialogs, NovusDateStringUtils, uPSCompiler, Solution;
 
 type
    tRuntime = class
    protected
    private
+     foSolution: tSolution;
      fImp:  TPSRuntimeClassImporter;
      foAPI_Output: tAPI_Output;
      foProject: tProject;
@@ -61,6 +62,17 @@ var
   loScriptEngine: TScriptEngine;
 begin
   Try
+    foSolution:= tSolution.Create;
+
+     if Trim(oConfig.SolutionFilename) <> '' then
+       begin
+          if foSolution.LoadSolutionFile(oConfig.SolutionFilename) then
+            begin
+              oConfig.ProjectFileName := foSolution.ProjectFileName;
+              oConfig.ProjectConfigFileName := foSolution.ProjectConfigFileName;
+            end;
+       end;
+
     foProject := tProject.Create;
 
     foProject.LoadProjectFile(oConfig.ProjectFileName, oConfig.ProjectConfigFileName);
@@ -83,11 +95,27 @@ begin
     FoAPI_Output.WriteLog('Zautomatic - © Copyright Novuslogic Software 2016 All Rights Reserved');
     FoAPI_Output.WriteLog('Version: ' + TNovusVersionUtils.GetFullVersionNumber);
 
-    FoAPI_Output.WriteLog('Project:' + foProject.ProjectFileName);
-    if (foProject.oProjectConfig.ProjectConfigFileName <> '') then
-      FoAPI_Output.WriteLog('Projectconfig:' + foProject.oProjectConfig.ProjectConfigFileName);
+    FoAPI_Output.WriteLog('Project: ' + foProject.ProjectFileName);
 
-    FoAPI_Output.WriteLog('Messagelog file: ' + FoAPI_Output.Filename);
+    if Not FileExists(foProject.ProjectFileName) then
+      begin
+        writeln ('Internal error: ' + TNovusStringUtils.JustFilename(foProject.ProjectFileName) + ' project filename cannot be found.');
+
+        Exit;
+      end;
+
+
+    if (foProject.oProjectConfig.ProjectConfigFileName <> '') then
+      FoAPI_Output.WriteLog('Project Config: ' + foProject.oProjectConfig.ProjectConfigFileName);
+
+     if Not FileExists(foProject.oProjectConfig.ProjectConfigFileName) then
+       begin
+         writeln ('Internal error: ' + TNovusStringUtils.JustFilename(foProject.oProjectConfig.ProjectConfigFileName) + ' projectconfig filename cannot be found.');
+
+         Exit;
+       end;
+
+    FoAPI_Output.WriteLog('Output log file: ' + FoAPI_Output.Filename);
 
     if oConfig.CompileOnly then
       FoAPI_Output.WriteLog('Option:Compile Only.')
@@ -107,18 +135,18 @@ begin
       begin
         loprojecttask := tprojecttask(foProject.oprojecttaskList.items[i]);
 
-        FoAPI_Output.WriteLog('Project Task:' + loprojecttask.TaskName);
+        FoAPI_Output.WriteLog('Project Task: ' + loprojecttask.TaskName);
 
 
         if Not FileExists(loprojecttask.ProjectFileName) then
           begin
-            FoAPI_Output.WriteLog('projectfilename ' + loprojecttask.ProjectFileName+ ' cannot be found.');
+            FoAPI_Output.WriteLog('Project Filename:  ' + loprojecttask.ProjectFileName+ ' cannot be found.');
 
             Continue;
           end
        else
          begin
-            FoAPI_Output.WriteLog('Project Filename:' + loprojecttask.ProjectFileName);
+            FoAPI_Output.WriteLog('Project Filename: ' + loprojecttask.ProjectFileName);
 
             loprojecttask.BuildStatus := TBuildStatus.bsSucceeded;
             FoAPI_Output.projecttask := loprojecttask;
@@ -188,7 +216,7 @@ begin
     foPlugins.Free;
   Finally
     foProject.Free;
-
+    foSolution.Free;
   End;
 end;
 

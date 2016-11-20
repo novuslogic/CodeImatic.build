@@ -43,7 +43,8 @@ contains
   Plugin in 'Plugin.pas',
   API_Output in 'Plugins\API\API_Output.pas',
   APIBase in 'Plugins\API\APIBase.pas',
-  Project in 'Project.pas';
+  Project in 'Project.pas',
+  Solution in 'Solution.pas';
 
 end.
 

@@ -3,15 +3,15 @@ unit ZautoMenu;
 interface
 
 uses
-  Windows, ActiveX, ComObj, ShlObj, ShellApi;
+  Windows, ActiveX, ComObj, ShlObj, ShellApi, NovusShell;
 
 type
   TZautoMenu = class(TComObject, IUnknown,
     IContextMenu, IShellExtInit)
   private
-    fFileName: string;
-    fCommand_id: Integer;
-    fpszName: string;
+    fsFileName: string;
+
+    function RunZutomatic: Integer;
   protected
     {Declare IContextMenu methods here}
     function QueryContextMenu(Menu: HMENU; indexMenu, idCmdFirst, idCmdLast,
@@ -64,10 +64,10 @@ begin
       // check if only one file is selected
       if DragQueryFile (medium.hGlobal, $FFFFFFFF, nil, 0) = 1 then
       begin
-        SetLength (fFileName, 1000);
-        DragQueryFile (medium.hGlobal, 0, PChar (fFileName), 1000);
+        SetLength (fsFileName, 1000);
+        DragQueryFile (medium.hGlobal, 0, PChar (fsFileName), 1000);
         // realign string
-        fFileName := PChar (fFileName);
+        fsFileName := PChar (fsFileName);
         Result := NOERROR;
       end
       else
@@ -82,7 +82,7 @@ end;
 function TZautoMenu.QueryContextMenu(Menu: HMENU;
   indexMenu, idCmdFirst, idCmdLast, uFlags: UINT): HResult;
 begin
-  if Trim(lowercase(ExtractFileExt(fFileName))) = '.zamanifest' then
+  if Trim(lowercase(ExtractFileExt(fsFileName))) = '.zasolution' then
     begin
       InsertMenu (Menu, indexMenu,
           {MF_STRING or MF_BYPOSITION}MF_BYPOSITION, idCmdFirst,
@@ -102,7 +102,8 @@ end;
 function TZautoMenu.InvokeCommand(var lpici: TCMInvokeCommandInfo): HResult;
 var
   hwnd: THandle;
-  Item: integer;
+  MenuItem: integer;
+  //loShell: TNovusShell;
 begin
   // Make sure we are not being called by an application
   if HiWord(Integer(lpici.lpVerb)) <> 0 then
@@ -112,16 +113,33 @@ begin
   end;
 
 
-  Item := LoWord(Integer(lpici.lpVerb));
-  showmessage(inttoStr(Item));
+  MenuItem := LoWord(Integer(lpici.lpVerb));
 
-
+  case MenuItem of
+  0: RunZutomatic;
+  1: RunZutomatic;
+  end;
 end;
 
 function TZautoMenu.GetCommandString(idCmd: UINT_PTR; uFlags: UINT; pwReserved: PUINT;
       pszName: LPSTR; cchMax: UINT): HResult; stdcall;
 begin
   //
+end;
+
+function TZautoMenu.RunZutomatic: Integer;
+var
+  loShell: TNovusShell;
+begin
+  Try
+    loShell := TNovusShell.Create;
+
+    Result := loShell.RunCommand('D:\Projects\Zautomatic\build\Zautomatic.exe',
+                        'D:\Projects\Zautomatic\scripts',
+                        '-solution ' + fsFileName);
+  Finally
+    loShell.Free;
+  End;
 end;
 
 { TZautoMenuFactory methods }
@@ -146,6 +164,8 @@ begin
     Reg.Free;
   end;
 end;
+
+
 
 initialization
   TZautoMenuFactory.Create (
