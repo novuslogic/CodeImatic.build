@@ -18,7 +18,7 @@ type
       constructor Create; override;
       destructor Destroy; override;
 
-      procedure LoadProjectConfigFile(aProjectConfigFilename: String);
+      procedure LoadProjectConfigFile(aProjectConfigFilename: String; aWorkingdirectory: string);
       function ParseGetEnvironmentVar(aInput: String): String;
 
       function IspropertyExists(aPropertyName: String): boolean;
@@ -72,7 +72,7 @@ begin
 end;
 
 
-procedure TProjectConfig.LoadProjectConfigFile(aProjectConfigFilename: String);
+procedure TProjectConfig.LoadProjectConfigFile(aProjectConfigFilename: String; aWorkingdirectory: string);
 begin
   XMLFileName := aProjectConfigFilename;
   Retrieve;
@@ -81,6 +81,8 @@ begin
 
   fsSearchPath := GetSearchPath;
   fsworkingdirectory := GetWorkingdirectory;
+  if Trim(fsworkingdirectory) = '' then fsworkingdirectory := aWorkingdirectory;
+
 end;
 
 function TProjectConfig.GetSearchPath: String;

@@ -75,7 +75,7 @@ begin
 
     foProject := tProject.Create;
 
-    foProject.LoadProjectFile(oConfig.ProjectFileName, oConfig.ProjectConfigFileName);
+    foProject.LoadProjectFile(oConfig.ProjectFileName, oConfig.ProjectConfigFileName, foSolution.Workingdirectory);
 
     if foProject.OutputPath = '' then foProject.OutputPath := foProject.GetWorkingdirectory;
 
@@ -99,7 +99,7 @@ begin
 
     if Not FileExists(foProject.ProjectFileName) then
       begin
-        writeln ('Internal error: ' + TNovusStringUtils.JustFilename(foProject.ProjectFileName) + ' project filename cannot be found.');
+        writeln ('Internal error: ' + foProject.ProjectFileName + ' project filename cannot be found.');
 
         Exit;
       end;
@@ -110,7 +110,7 @@ begin
 
      if Not FileExists(foProject.oProjectConfig.ProjectConfigFileName) then
        begin
-         writeln ('Internal error: ' + TNovusStringUtils.JustFilename(foProject.oProjectConfig.ProjectConfigFileName) + ' projectconfig filename cannot be found.');
+         writeln ('Internal error: ' + foProject.oProjectConfig.ProjectConfigFileName + ' projectconfig filename cannot be found.');
 
          Exit;
        end;
@@ -138,15 +138,25 @@ begin
         FoAPI_Output.WriteLog('Project Task: ' + loprojecttask.TaskName);
 
 
+        if Trim(TNovusStringUtils.JustFilename(loprojecttask.ProjectFileName)) = trim(loprojecttask.ProjectFileName) then
+            loprojecttask.ProjectFileName := foproject.Getworkingdirectory + loprojecttask.ProjectFileName;
+
         if Not FileExists(loprojecttask.ProjectFileName) then
           begin
-            FoAPI_Output.WriteLog('Project Filename:  ' + loprojecttask.ProjectFileName+ ' cannot be found.');
+            FoAPI_Output.WriteLog('Filename:  ' + loprojecttask.ProjectFileName+ ' cannot be found.');
+            loprojecttask.BuildStatus := TBuildStatus.bsFailed;
+            BuildStatus := loprojecttask.BuildStatus;
 
-            Continue;
+            if loprojecttask.Criteria.Failed.skip then
+               Continue
+            else
+            if loprojecttask.Criteria.Failed.abort then
+              break;
+
           end
        else
          begin
-            FoAPI_Output.WriteLog('Project Filename: ' + loprojecttask.ProjectFileName);
+            FoAPI_Output.WriteLog('Filename: ' + loprojecttask.ProjectFileName);
 
             loprojecttask.BuildStatus := TBuildStatus.bsSucceeded;
             FoAPI_Output.projecttask := loprojecttask;

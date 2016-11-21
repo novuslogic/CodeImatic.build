@@ -8,6 +8,8 @@ type
    TSolution = class(TNovusXMLBO)
    protected
    private
+     fsworkingdirectory: string;
+     fsSolutionFilename: string;
      fsProjectFileName: string;
      fsProjectConfigFilename: string;
    public
@@ -17,6 +19,11 @@ type
      property ProjectConfigFilename: string
        read fsProjectConfigFilename;
 
+     property SolutionFilename: string
+       read fsSolutionFilename;
+
+     property Workingdirectory: string
+       read fsworkingdirectory;
 
      function LoadSolutionFile(aSolutionFilename: string): Boolean;
    end;
@@ -26,6 +33,12 @@ implementation
 function TSolution.LoadSolutionFile(aSolutionFilename: string): Boolean;
 begin
   Try
+    fsSolutionFilename := aSolutionFilename;
+
+    fsworkingdirectory := IncludeTrailingPathDelimiter(ExtractFilePath(fsSolutionFilename));
+    if Trim(fsworkingdirectory) = '' then
+      fsworkingdirectory := IncludeTrailingPathDelimiter(TNovusFileUtils.AbsoluteFilePath(fsSolutionFilename));
+
     XMLFileName := aSolutionFilename;
     Retrieve;
 
@@ -33,12 +46,10 @@ begin
     fsProjectConfigFilename := Trim(GetFieldAsString(oXMLDocument.Root, 'ProjectConfig'));
 
     if Trim(TNovusStringUtils.JustFilename(fsProjectFilename)) = trim(fsProjectFilename) then
-      fsProjectFilename := IncludeTrailingPathDelimiter(TNovusFileUtils.AbsoluteFilePath(fsProjectFilename)) + Trim(fsProjectFilename);
+      fsProjectFilename := fsworkingdirectory + fsProjectFilename;
 
     if Trim(TNovusStringUtils.JustFilename(fsProjectConfigFilename)) = trim(fsProjectConfigFilename) then
-      fsProjectConfigFilename := IncludeTrailingPathDelimiter(TNovusFileUtils.AbsoluteFilePath(fsProjectConfigFilename)) + Trim(fsProjectConfigFilename);
-
-
+      fsProjectConfigFilename := fsworkingdirectory + fsProjectConfigFilename;
 
     Result := true;
   Except

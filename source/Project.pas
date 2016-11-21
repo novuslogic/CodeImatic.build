@@ -105,7 +105,7 @@ Type
 
     function GetWorkingdirectory: String;
 
-    procedure LoadProjectFile(aProjectFilename: String; aProjectConfigFilename: String);
+    procedure LoadProjectFile(aProjectFilename: String; aProjectConfigFilename: String; aWorkingdirectory: string);
     function Loadprojecttask(aTaskName: String; aprojecttask: Tprojecttask): Boolean;
 
     property oprojecttaskList: TNovusList
@@ -254,7 +254,7 @@ begin
   Result := GetFieldAsBoolean(oXMLDocument.Root, 'outputconsole');
 end;
 
-procedure TProject.LoadProjectFile(aProjectFilename: String; aProjectConfigFilename: String);
+procedure TProject.LoadProjectFile(aProjectFilename: String; aProjectConfigFilename: String; aWorkingdirectory: string);
 Var
   fprojecttaskNode: TJvSimpleXmlElem;
   Index: Integer;
@@ -269,7 +269,7 @@ begin
   ProjectFileName := aProjectFilename;
 
   if FileExists(aProjectConfigFilename) then
-    foProjectConfig.LoadProjectConfigFile(aProjectConfigFilename);
+    foProjectConfig.LoadProjectConfigFile(aProjectConfigFilename, aWorkingdirectory);
 
   //Project task
   Index := 0;
