@@ -212,9 +212,8 @@ var
     Output.log('Plugins Directory:' +PluginsDir);
 
     IncludesDir := 'D:\Projects\Zautomatic\source\Includes\'; 
-    Output.log('Plugins Directory:' +PluginsDir);
-  
-    
+    Output.log('Includes Directory:' +IncludesDir);
+
 
 
  end;

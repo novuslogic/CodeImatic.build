@@ -135,7 +135,7 @@ begin
     loShell := TNovusShell.Create;
 
     Result := loShell.RunCommand('D:\Projects\Zautomatic\build\Zautomatic.exe',
-                        'D:\Projects\Zautomatic\scripts',
+                        ExtractFilePath(fsFileName),
                         '-solution ' + fsFileName);
   Finally
     loShell.Free;

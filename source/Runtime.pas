@@ -48,9 +48,6 @@ type
      oRuntime: tRuntime;
 
 
-
-
-
 implementation
 
 uses ScriptEngine;
@@ -137,11 +134,10 @@ begin
 
         FoAPI_Output.WriteLog('Project Task: ' + loprojecttask.TaskName);
 
-
         if Trim(TNovusStringUtils.JustFilename(loprojecttask.ProjectFileName)) = trim(loprojecttask.ProjectFileName) then
             loprojecttask.ProjectFileName := foproject.Getworkingdirectory + loprojecttask.ProjectFileName;
 
-        if Not FileExists(loprojecttask.ProjectFileName) then
+        if not FileExists(loprojecttask.ProjectFileName) then
           begin
             FoAPI_Output.WriteLog('Filename:  ' + loprojecttask.ProjectFileName+ ' cannot be found.');
             loprojecttask.BuildStatus := TBuildStatus.bsFailed;
@@ -237,7 +233,7 @@ Var
 begin
   lsMessageLog := '';
 
-  if aprojecttask.EndBuild = 0 then Exit;
+  //if aprojecttask.EndBuild = 0 then Exit;
 
   if aprojecttask.BuildStatus <> TBuildStatus.bsFailed then
     begin
