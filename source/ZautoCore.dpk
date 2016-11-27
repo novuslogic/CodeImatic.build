@@ -36,6 +36,7 @@ requires
   NovusCodeLibrary_XML,
   NovusCodeLibrary_Parser,
   NovusCodeLibrary_Plugin,
+  NovusCodeLibrary_Env,
   Jcl,
   JvSystem;
 

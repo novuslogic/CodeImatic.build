@@ -3,7 +3,13 @@ unit ZautoMenu;
 interface
 
 uses
-  Windows, ActiveX, ComObj, ShlObj, ShellApi, NovusShell;
+  Windows, ActiveX, ComObj, ShlObj, ShellApi, NovusShell, NovusEnvironment, NovusFileUtils,
+  Vcl.Dialogs, NovusDialogs;
+
+const
+  cZautomatic = 'Zautomatic.exe';
+  cZauto_env = '{%ZAUTO%}';
+
 
 type
   TZautoMenu = class(TComObject, IUnknown,
@@ -11,7 +17,9 @@ type
   private
     fsFileName: string;
 
-    function RunZutomatic: Integer;
+    function GetZauto_Env: string;
+    function GetZautomatic: string;
+    function RunZutomatic(aMenuItem: integer): Integer;
   protected
     {Declare IContextMenu methods here}
     function QueryContextMenu(Menu: HMENU; indexMenu, idCmdFirst, idCmdLast,
@@ -36,7 +44,7 @@ const
 implementation
 
 uses
-  ComServ, Messages, SysUtils, Registry, dialogs;
+  ComServ, Messages, SysUtils, Registry;
 
 // IShellExtInit method
 function TZautoMenu.InitShellExt(pidlFolder: PItemIDList;
@@ -116,8 +124,8 @@ begin
   MenuItem := LoWord(Integer(lpici.lpVerb));
 
   case MenuItem of
-  0: RunZutomatic;
-  1: RunZutomatic;
+  0: RunZutomatic(MenuItem);
+  1: RunZutomatic(MenuItem);
   end;
 end;
 
@@ -127,16 +135,50 @@ begin
   //
 end;
 
-function TZautoMenu.RunZutomatic: Integer;
+function TZautoMenu.GetZauto_Env;
+begin
+  result := tNovusEnvironment.ParseGetEnvironmentVar(cZauto_env);
+end;
+
+function TZautoMenu.GetZautomatic: string;
+begin
+  Result :=TNovusFileUtils.TrailingBackSlash(GetZauto_Env) + cZautomatic;
+end;
+
+function TZautoMenu.RunZutomatic(aMenuItem: integer): Integer;
 var
   loShell: TNovusShell;
 begin
+  if Trim(GetZauto_Env) = '' then
+    begin
+      TNovusVCLUtils.MessageDlgEx('ZautoShell', 'Environment variable "ZAUTO" is blank.', [mbOK], 0);
+
+      Exit;
+    end;
+
+  if not FileExists(GetZautomatic) then
+    begin
+      TNovusVCLUtils.MessageDlgEx('ZautoShell', '"' + GetZautomatic + '" cannot be found.', [mbOK], 0);
+
+      Exit;
+    end;
+
+
   Try
     loShell := TNovusShell.Create;
 
-    Result := loShell.RunCommand('D:\Projects\Zautomatic\build\Zautomatic.exe',
+    case (aMenuItem) of
+    0: Result := loShell.RunCommand(GetZautomatic,
                         ExtractFilePath(fsFileName),
                         '-solution ' + fsFileName);
+
+    1: Result := loShell.RunCommand(GetZautomatic,
+                        ExtractFilePath(fsFileName),
+                        '-solution ' + fsFileName + ' -compileonly' );
+
+    end;
+
+
   Finally
     loShell.Free;
   End;
