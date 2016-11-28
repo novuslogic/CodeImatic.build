@@ -1,2 +1,2 @@
-ZAUTO D:\Projects\Zautomatic\build
-ZAUTO_INCLUDES - System Env Where Includes path is
+ZAUTO - System Env - zautomatic.exe path.
+ZAUTO_INCLUDES - System Env - Includes path.

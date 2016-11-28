@@ -30,8 +30,18 @@ function MSBuild(aVersion: string; aProjectSolutionFilename: string;aMSBuildOpti
 var 
   SB: TStringBuilder;
   lsMSBuildFullname: string;
+  lsProjectSolutionFilename: string;
 begin
   result := -1;
+
+  if not File.Exists(aProjectSolutionFilename) then
+   begin
+      lsProjectSolutionFilename := WD + aProjectSolutionFilename;
+      
+      if not File.Exists(lsProjectSolutionFilename) then
+        RaiseException(erCustomError, 'Project/Soluation file cannot be found: '+lsProjectSolutionFilename);
+   end;
+     
 
   lsMSBuildFullname := GetMSBuildFullname(aVersion)
 
@@ -42,7 +52,7 @@ begin
 
     SB.Append('/nologo ');
 
-    SB.Append( aProjectSolutionFilename + ' ');
+    SB.Append( lsProjectSolutionFilename + ' ');
 
     if Trim(aMSBuildOptions.Target) <> '' then
       SB.Append('"/target:' + aMSBuildOptions.Target + '" ');
