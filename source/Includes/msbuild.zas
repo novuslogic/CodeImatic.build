@@ -34,14 +34,15 @@ var
 begin
   result := -1;
 
+  lsProjectSolutionFilename := aProjectSolutionFilename; 
   if not File.Exists(aProjectSolutionFilename) then
    begin
-      lsProjectSolutionFilename := WD + aProjectSolutionFilename;
+       lsProjectSolutionFilename := WD + aProjectSolutionFilename;
       
       if not File.Exists(lsProjectSolutionFilename) then
         RaiseException(erCustomError, 'Project/Soluation file cannot be found: '+lsProjectSolutionFilename);
    end;
-     
+  Output.logformat('MSBuild Project/Solution: %s', [lsProjectSolutionFilename]);   
 
   lsMSBuildFullname := GetMSBuildFullname(aVersion)
 

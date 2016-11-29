@@ -12,6 +12,8 @@ type
      constructor Create(aAPI_Output: tAPI_Output); override;
      destructor Destroy; override;
 
+     function ExtractFilePath(const aFilename: string): String;
+     function AbsoluteFilePath(const aFilename: string): string;
      function Extractfilename(const aFilename: string): string;
      function IncludeTrailingPathDelimiter(const aPath: string): String;
      function Exists(const aFilename: String): Boolean;
@@ -79,6 +81,21 @@ begin
   End;
 end;
 
+function TAPI_File.ExtractFilePath(const aFilename: string): String;
+begin
+  Try
+    Try
+      Result := SysUtils.ExtractFilePath(aFilename);
+
+    Except
+      oAPI_Output.InternalError;
+    End;
+  Finally
+
+  End;
+end;
+
+
 function TAPI_File.Extractfilename(const aFilename: string): String;
 begin
   Try
@@ -126,9 +143,20 @@ begin
   Finally
 
   End;
+end;
 
 
+function TAPI_File.AbsoluteFilePath(const aFilename: string): string;
+begin
+  Try
+    Try
+      Result := TNovusFileUtils.AbsoluteFilePath(aFilename);
+    Except
+      oAPI_Output.InternalError;
+    End;
+  Finally
 
+  End;
 end;
 
 end.
