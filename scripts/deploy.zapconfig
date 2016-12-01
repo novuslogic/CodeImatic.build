@@ -2,4 +2,8 @@
 <projectconfig>
     <searchpath>{%ZAUTO_INCLUDES%}</searchpath>
     <workingdirectory></workingdirectory>
+    <Platform>Win32</Platform>
+    <DeploymentDir>D:\Projects\Zautomatic\deploy\</DeploymentDir>
+    <PascalScript_CoreDir>D:\Delphi Components\Pascalscript\Dcu\D22\win32\</PascalScript_CoreDir>
+    <BuildDir>D:\Projects\Zautomatic\build\</BuildDir>
 </projectconfig>

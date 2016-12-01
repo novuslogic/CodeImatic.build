@@ -171,7 +171,8 @@ var
 
     CompilerVersion := DELPHIXE8 ;
 
-    Platform := 'Win32';
+    Platform := ProjectConfig.Getproperty('Platform');
+   
 
     BDSDir :=  GetBDSDIR(CompilerVersion );
     Output.log('BDS Directory:' + BDSDir );
@@ -185,10 +186,10 @@ var
     BDSBPLDir := BDSCommonDir + 'bpl\';
     Output.log('BDS BPL Directory:' + BDSBPLDir );
 
-    DeploymentDir := File.IncludeTrailingPathDelimiter('D:\Projects\Zautomatic\deploy\');
+    DeploymentDir := File.IncludeTrailingPathDelimiter(ProjectConfig.Getproperty('DeploymentDir'));
     Output.log('Depoyment Directory:' +DeploymentDir );
 
-    PascalScript_CoreDir := 'D:\Delphi Components\Pascalscript\Dcu\D22\win32\';
+    PascalScript_CoreDir := ProjectConfig.Getproperty('PascalScript_CoreDir');
     Output.log('PascalScript_Core Directory:' +PascalScript_CoreDir); 
 
     DeploymentBinDir := DeploymentDir +  'bin\';
@@ -204,7 +205,7 @@ var
     BDSRedistDir := BDSDir + 'Redist\'+ Platform + '\';
     Output.log('Depoyment Bin Directory:' +DeploymentBinDir );
 
-    BuildDir := 'D:\Projects\Zautomatic\build\'; 
+    BuildDir := ProjectConfig.Getproperty('BuildDir'); 
     Output.log('Build Directory:' +BuildDir);
 
     

@@ -2,7 +2,8 @@
 <project>
   <outputconsole>true</outputconsole>
   <outputpath></outputpath>
-  <projecttask name = "sample5">
-     <projectfilename>sample5.zas</projectfilename>    
+  <projecttask name = "EnvironmentVar">
+     <projectfilename>EnvironmentVar.zas</projectfilename>
   </projecttask>
- </project>
+ 
+</project>

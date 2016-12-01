@@ -1,24 +1,8 @@
 Uses cmd;
 
-var
-  fsInput: String;
-  fsOutput: string;
-  fsError: string;
+
 begin
-  Output.log('Open cmd.exe');
+  Output.log('Open ExecCMD');
 
-  fsInput := 'Dir'+CRLF+'Exit'+CRLF;
-
-  try
-    Shell.RunCaptureCommand('cmd.exe', fsInput, fsOutput,fsError );
-  except
-    Output.LogError;
-  end;
-
-  writeln(fsoutput);
-  writeln(fserror);
-
-  ExecCMD('Dir');
-
-
+  ExecCMD('dir c:\');
 end.

@@ -2,8 +2,7 @@
 <project>
   <outputconsole>true</outputconsole>
   <outputpath></outputpath>
-  <projecttask name = "sample4">
-     <projectfilename>sample4.zas</projectfilename>
+  <projecttask name = "awscli">
+     <projectfilename>awscli.zas</projectfilename>    
   </projecttask>
- 
-</project>
+ </project>
