@@ -1,4 +1,3 @@
-
 Uses Xcopy,  Delphi, stringutils;
 
 var 
@@ -48,6 +47,11 @@ var
         Output.log('Create Folder: ' + DeploymentDir +  'Includes')
      else    
         RaiseException(erCustomError, format('Failed creating folder [%s]', [DeploymentDir +  'Includes'] )); 
+
+    if File.Exists(DeploymentDir + 'ZautomaticSetup.exe') then 
+      if not File.Delete(DeploymentDir + 'ZautomaticSetup.exe') then
+        RaiseException(erCustomError, SysErrorMessage()); 
+           
         
   end;
 

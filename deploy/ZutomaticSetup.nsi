@@ -1,4 +1,3 @@
-; Script generated with the Venis Install Wizard
 
 ; Define your application name
 !define APPNAME "Zautomatic"
@@ -35,22 +34,50 @@ Section "Zautomatic" Section1
 	SetOverwrite on
 
 	; Set Section Files and Shortcuts
-	SetOutPath "$INSTDIR\"
-	File "..\build\ZautoCore.bpl"
-	File "..\build\Zautomatic.config"
-	File "..\build\Zautomatic.exe"
-	SetOutPath "$INSTDIR\plugins\"
-	File "..\build\plugins\Task.dll"
-	File "..\build\plugins\Zip.dll"
+	SetOutPath "$INSTDIR\bin"
+	File "..\deploy\bin\dbrtl220.bpl"
+    File "..\deploy\bin\dbrtl220.bpl"
+    File "..\deploy\bin\DBXCommonDriver220.bpl"
+    File "..\deploy\bin\inet220.bpl"
+    File "..\deploy\bin\jcl220.bpl"
+    File "..\deploy\bin\jclvcl220.bpl"
+    File "..\deploy\bin\jvCore220.bpl"
+    File "..\deploy\bin\jvSystem220.bpl"
+    File "..\deploy\bin\NovusCodeLibrary_Core220.bpl"
+    File "..\deploy\bin\NovusCodeLibrary_log220.bpl"
+    File "..\deploy\bin\NovusCodeLibrary_plugin220.bpl"
+    File "..\deploy\bin\NovusCodeLibrary_XML220.bpl"
+    File "..\deploy\bin\PascalScript_Core_D22.bpl"
+    File "..\deploy\bin\rtl220.bpl"
+    File "..\deploy\bin\soaprtl220.bpl"
+    File "..\deploy\bin\vcl220.bpl"
+    File "..\deploy\bin\vclimg220.bpl"
+    File "..\deploy\bin\vclx220.bpl"
+    File "..\deploy\bin\xmlrtl220.bpl"
+    File "..\deploy\bin\ZAutoCore.bpl"
+    File "..\deploy\bin\Zautomatic.exe"
+
+
+
+	SetOutPath "$INSTDIR\bin\plugins\"
+	
+    File "..\deploy\bin\plugins\task.dll"
+    File "..\deploy\bin\plugins\zip.dll"
 	
 	SetOutPath "$INSTDIR\includes\"
 	
-	File "..\source\Includes\AWS.zas"
-	File "..\source\Includes\cmd.zas"
-	File "..\source\Includes\numutils.zas"
-	File "..\source\Includes\ole32.zas"
-	File "..\source\Includes\stringutils.zas"
-	
+	File "..\deploy\includes\AWS.zas"
+	File "..\deploy\includes\cmd.zas"
+	File "..\deploy\includes\delphi.zas"
+	File "..\deploy\includes\dotNET.zas"
+	File "..\deploy\includes\msbuild.zas"
+	File "..\deploy\includes\numutils.zas"
+	File "..\deploy\includes\powershell.zas"
+	File "..\deploy\includes\stringutils.zas"
+	File "..\deploy\includes\Windows.zas"
+	File "..\deploy\includes\Xcopy.zas"
+
+
 	CreateDirectory "$SMPROGRAMS\Zautomatic"
 	CreateShortCut "$SMPROGRAMS\Zautomatic\Uninstall.lnk" "$INSTDIR\uninstall.exe"
 
