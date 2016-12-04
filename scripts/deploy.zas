@@ -71,7 +71,13 @@ var
      RaiseException(erCustomError, 'Failed copying ' + BDSBPLDir + GetPackageFilename('jvCore')); 
 
     if not Xcopy(BDSBPLDir + GetPackageFilename('NovusCodeLibrary_Core'), DeploymentBinDir) then
-     RaiseException(erCustomError, 'Failed copying ' + BDSBPLDir + GetPackageFilename('NovusCodeLibrary_Core')); 
+      RaiseException(erCustomError, 'Failed copying ' + BDSBPLDir + GetPackageFilename('NovusCodeLibrary_Core')); 
+
+   if not Xcopy(BDSBPLDir + GetPackageFilename('NovusCodeLibrary_Env'), DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BDSBPLDir + GetPackageFilename('NovusCodeLibrary_Env')); 
+
+   if not Xcopy(BDSBPLDir + GetPackageFilename('NovusCodeLibrary_Parser'), DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BDSBPLDir + GetPackageFilename('NovusCodeLibrary_Parser')); 
 
     if not Xcopy(BDSRedistDir + GetPackageFilename('rtl'), DeploymentBinDir) then
       RaiseException(erCustomError, 'Failed copying ' + BDSRedistDir + GetPackageFilename('rtl'));
@@ -123,6 +129,9 @@ var
 
     if not Xcopy(PascalScript_CoreDir + 'PascalScript_Core_D22.bpl', DeploymentBinDir) then
       RaiseException(erCustomError, 'Failed copying ' + PascalScript_CoreDir + 'PascalScript_Core_D22.bpl');     
+     
+    if not Xcopy( BDSDir + 'bin\borlndmm.dll', DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BDSDir + 'bin\borlndmm.dll'); 
 
    // Plugins Directory
    if not Xcopy(PluginsDir +'Task.dll', DeploymentPluginsDir) then
