@@ -6,4 +6,6 @@
     <DeploymentDir>D:\Projects\Zautomatic\deploy\</DeploymentDir>
     <PascalScript_CoreDir>D:\Delphi Components\Pascalscript\Dcu\D22\win32\</PascalScript_CoreDir>
     <BuildDir>D:\Projects\Zautomatic\build\</BuildDir>
+    <PluginsDir>D:\Projects\Zautomatic\build\Plugins\</PluginsDir>
+    <IncludesDir>D:\Projects\Zautomatic\source\Includes\</IncludesDir>
 </projectconfig>

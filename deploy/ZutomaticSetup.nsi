@@ -10,6 +10,9 @@ InstallDirRegKey HKLM "Software\${APPNAME}" ""
 OutFile "ZautomaticSetup.exe"
 
 !include "winmessages.nsh"
+!include "LogicLib.nsh"
+!include "EnvVarUpdate.nsh" 
+
 
 ; Modern interface settings
 !include "MUI.nsh"
@@ -37,6 +40,7 @@ Section "Zautomatic" Section1
 
 	; Set Section Files and Shortcuts
 	SetOutPath "$INSTDIR\bin"
+    File "..\deploy\bin\Zautomatic.config"
 	File "..\deploy\bin\dbrtl220.bpl"
     File "..\deploy\bin\dbrtl220.bpl"
     File "..\deploy\bin\DBXCommonDriver220.bpl"
@@ -72,6 +76,7 @@ Section "Zautomatic" Section1
 	SetOutPath "$INSTDIR\includes\"
 	
 	File "..\deploy\includes\AWS.zas"
+    File "..\deploy\includes\NSIS.zas"
 	File "..\deploy\includes\cmd.zas"
 	File "..\deploy\includes\delphi.zas"
 	File "..\deploy\includes\dotNET.zas"
@@ -110,6 +115,9 @@ Section -FinishSection
 
    ; make sure windows knows about the change
    SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
+   
+   ${EnvVarUpdate} $0 "PATH" "A" "HKLM" "$INSTDIR\bin\"
+
 
 
 SectionEnd
@@ -133,6 +141,7 @@ Section Uninstall
 	Delete "$SMPROGRAMS\Zautomatic\Uninstall.lnk"
 
 	; Clean up Zautomatic
+    Delete "$INSTDIR\bin\Zautomatic.config"
     Delete "$INSTDIR\bin\dbrtl220.bpl"
     Delete "$INSTDIR\bin\dbrtl220.bpl"
     Delete "$INSTDIR\bin\DBXCommonDriver220.bpl"
@@ -162,6 +171,7 @@ Section Uninstall
     Delete "$INSTDIR\bin\plugins\zip.dll"
 	
 	Delete "$INSTDIR\includes\AWS.zas"
+    Delete "$INSTDIR\includes\NSIS.zas"
 	Delete "$INSTDIR\includes\cmd.zas"
 	Delete "$INSTDIR\includes\delphi.zas"
 	Delete "$INSTDIR\includes\dotNET.zas"

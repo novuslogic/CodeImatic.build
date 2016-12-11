@@ -1,4 +1,4 @@
-Uses Xcopy,  Delphi, stringutils;
+Uses Xcopy,  Delphi, stringutils, Windows, NSIS;
 
 var 
   BDSCommonDir,
@@ -8,6 +8,7 @@ var
   PackageVersion: string;
   InitialiseTask,
   CopyingFilesTask,
+  BuildNSISProjectTask,
   CheckExistsorCreateFoldersTask: tTask;
   DeploymentDir: string;
   DeploymentBinDir: string;
@@ -19,8 +20,7 @@ var
   BDSRedistDir: string;
   Platform: String;
   PascalScript_CoreDir: string;
-
-
+  
   function GetPackageFilename(aPartFilename: String): string;
   begin
     result := format('%s%s.bpl', [aPartFilename, PackageVersion]);
@@ -64,8 +64,11 @@ var
     if not Xcopy(BuildDir +'ZAutoCore.bpl', DeploymentBinDir) then
      RaiseException(erCustomError, 'Failed copying ' + BuildDir + 'ZAutoCore.bpl'); 
 
-    if not Xcopy(BuildDir +'Zautomatic.exe', DeploymentBinDir) then
-      RaiseException(erCustomError, 'Failed copying ' + BuildDir + 'Zautomatic.exe'); 
+    if not Xcopy(BuildDir +'Zautomatic.config', DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BuildDir + 'Zautomatic.config'); 
+
+     if not Xcopy(BuildDir +'Zautomatic.exe', DeploymentBinDir) then
+      RaiseException(erCustomError, 'Failed copying ' + BuildDir + 'Zautomatic.exe');    
 
     if not Xcopy(BDSBPLDir + GetPackageFilename('jvCore'), DeploymentBinDir) then
      RaiseException(erCustomError, 'Failed copying ' + BDSBPLDir + GetPackageFilename('jvCore')); 
@@ -146,6 +149,9 @@ var
     if not Xcopy(IncludesDir +'AWS.zas', DeploymentIncludesDir) then
       RaiseException(erCustomError, 'Failed copying ' +IncludesDir +'AWS.zas');
 
+    if not Xcopy(IncludesDir +'NSIS.zas', DeploymentIncludesDir) then
+      RaiseException(erCustomError, 'Failed copying ' +IncludesDir +'NSIS.zas');  
+
     if not Xcopy(IncludesDir +'cmd.zas', DeploymentIncludesDir) then
       RaiseException(erCustomError, 'Failed copying ' +IncludesDir +'cmd.zas');  
 
@@ -202,7 +208,7 @@ var
     DeploymentDir := File.IncludeTrailingPathDelimiter(ProjectConfig.Getproperty('DeploymentDir'));
     Output.log('Depoyment Directory:' +DeploymentDir );
 
-    PascalScript_CoreDir := ProjectConfig.Getproperty('PascalScript_CoreDir');
+    PascalScript_CoreDir := File.IncludeTrailingPathDelimiter(ProjectConfig.Getproperty('PascalScript_CoreDir'));
     Output.log('PascalScript_Core Directory:' +PascalScript_CoreDir); 
 
     DeploymentBinDir := DeploymentDir +  'bin\';
@@ -222,20 +228,25 @@ var
     Output.log('Build Directory:' +BuildDir);
 
     
-    PluginsDir := 'D:\Projects\Zautomatic\build\Plugins\'; 
+    PluginsDir := File.IncludeTrailingPathDelimiter(ProjectConfig.Getproperty('PluginsDir'));
     Output.log('Plugins Directory:' +PluginsDir);
 
-    IncludesDir := 'D:\Projects\Zautomatic\source\Includes\'; 
+    IncludesDir :=File.IncludeTrailingPathDelimiter(ProjectConfig.Getproperty('IncludesDir'));
     Output.log('Includes Directory:' +IncludesDir);
-
-
 
  end;
 
+procedure BuildNSISProject;
+begin
+  Output.log('Build NSIS Project...');
+    
+  if MakeNSIS(DeploymentDir + 'ZutomaticSetup.nsi', '') <> 0 then
+    RaiseException(erCustomError, 'Failed to build NSIS: ' +SysErrorMessage); 
+end;
 
 begin
   Output.log('Building ...');
-
+  
   InitialiseTask := Task.AddTask('Initialise');
   if Not Assigned(InitialiseTask) then
     RaiseException(erCustomError, 'not assigned InitialiseTask'); 
@@ -251,10 +262,15 @@ begin
     RaiseException(erCustomError, 'not assigned CopyingFilesTask'); 
   CopyingFilesTask.Criteria.Failed.Abort := True;
 
-  
-  if not Task.RunTargets(['Initialise', 'CheckExistsorCreateFolders', 'CopyingFiles']) then 
+  BuildNSISProjectTask := Task.AddTask('BuildNSISProject');
+  if Not Assigned(BuildNSISProjectTask) then
+    RaiseException(erCustomError, 'not assigned BuildNSISProject'); 
+  BuildNSISProjectTask.Criteria.Failed.Abort := True;
+
+
+  if not Task.RunTargets(['Initialise', 'CheckExistsorCreateFolders', 'CopyingFiles', 'BuildNSISProject']) then 
     RaiseException(erCustomError, 'missing procedure.'); 
    
-  
+
   
 end.
