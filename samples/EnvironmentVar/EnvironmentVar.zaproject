@@ -3,7 +3,7 @@
   <outputconsole>true</outputconsole>
   <outputpath></outputpath>
   <projecttask name = "EnvironmentVar">
-     <projectfilename>EnvironmentVar.zas</projectfilename>
+     <projectfilename>EnvironmentVar.pas</projectfilename>
   </projecttask>
  
 </project>

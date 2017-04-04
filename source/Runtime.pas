@@ -19,7 +19,7 @@ type
      fBuildStatus: TBuildStatus;
      function GetBuildStatus(aBuildStatus: TBuildStatus): String;
    public
-     function RunEnvironment: Boolean;
+     function RunEnvironment: Integer;
 
      procedure BuildTasksReport(const aprojecttask: Tprojecttask; const aIncludeItemName: boolean = false);
 
@@ -44,21 +44,23 @@ type
        write fBuildStatus;
    end;
 
-   Var
-     oRuntime: tRuntime;
+Var
+  oRuntime: tRuntime;
 
 
 implementation
 
 uses ScriptEngine;
 
-function tRuntime.RunEnvironment: Boolean;
+function tRuntime.RunEnvironment: Integer;
 var
   liIndex, i, x: integer;
   loprojecttask: tprojecttask;
   loScriptEngine: TScriptEngine;
 begin
   Try
+    Result := 0;
+
     foSolution:= tSolution.Create;
 
      if Trim(oConfig.SolutionFilename) <> '' then
@@ -67,12 +69,41 @@ begin
             begin
               oConfig.ProjectFileName := foSolution.ProjectFileName;
               oConfig.ProjectConfigFileName := foSolution.ProjectConfigFileName;
+            end
+          else
+            begin
+              if Not FileExists(oConfig.SolutionFilename) then
+                begin
+                  writeln ('Solution Filename missing: ' +  oConfig.SolutionFilename);
+
+                  Exit;
+                end;
+
+              writeln ('Loading errror Solution Filename: ' +  oConfig.SolutionFilename);
+
+              Exit;
             end;
        end;
 
     foProject := tProject.Create;
 
-    foProject.LoadProjectFile(oConfig.ProjectFileName, oConfig.ProjectConfigFileName, foSolution.Workingdirectory);
+    if not foProject.LoadProjectFile(oConfig.ProjectFileName, oConfig.ProjectConfigFileName, foSolution.Workingdirectory) then
+      begin
+        if Not FileExists(oConfig.ProjectFileName) then
+          begin
+            writeln ('Project Filename missing: ' +  oConfig.ProjectFileName);
+
+            foProject.Free;
+
+            Exit;
+          end;
+
+        writeln ('Loading errror Project Filename: ' +  oConfig.ProjectFileName);
+
+        foProject.Free;
+
+        Exit;
+      end;
 
     if foProject.OutputPath = '' then foProject.OutputPath := foProject.GetWorkingdirectory;
 
@@ -89,7 +120,7 @@ begin
         Exit;
       end;
 
-    FoAPI_Output.WriteLog('Zautomatic - © Copyright Novuslogic Software 2016 All Rights Reserved');
+    FoAPI_Output.WriteLog('Zautomatic - © Copyright Novuslogic Software 2017 All Rights Reserved');
     FoAPI_Output.WriteLog('Version: ' + TNovusVersionUtils.GetFullVersionNumber);
 
     FoAPI_Output.WriteLog('Project: ' + foProject.ProjectFileName);
@@ -210,8 +241,6 @@ begin
     ExitCode := Integer(BuildStatus);
 
     FImp.Free;
-
-//    foPlugins.UnRegisterImports;
 
     foPlugins.UnLoadPlugins;
 

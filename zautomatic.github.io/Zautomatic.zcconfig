@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<projectconfig>
+   <properties> 
+     <outputpath>D:\Projects\Zautomatic\zautomatic.github.io\Site\</outputpath>
+     <propertiespath>D:\Projects\Zautomatic\zautomatic.github.io\Properties\</propertiespath>
+     <sourcepath>D:\Projects\Zautomatic\zautomatic.github.io\Source\</sourcepath>
+   </properties>
+  
+</projectconfig>

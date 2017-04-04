@@ -232,10 +232,9 @@ begin
       XMLFileName := fsRootPath + csConfigfile;
       Retrieve;
 
-
       Index := 0;
-       fPluginsElem  := TNovusSimpleXML.FindNode(oXMLDocument.Root, 'plugins', Index);
-       if Assigned(fPluginsElem) then
+      fPluginsElem  := TNovusSimpleXML.FindNode(oXMLDocument.Root, 'plugins', Index);
+      if Assigned(fPluginsElem) then
          begin
            For I := 0 to fPluginsElem.Items.count -1 do
              begin

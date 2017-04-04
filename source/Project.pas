@@ -90,10 +90,11 @@ Type
   TProject = class(TXMLlist)
   protected
   private
+    fsOutputPath: string;
     fbOutputConsole: boolean;
     foProjectConfig: TProjectConfig;
     foprojecttaskList: TNovusList;
-    fsOutputPath: String;
+    fsBasePath: String;
     fsProjectFilename: String;
   public
     constructor Create; override;
@@ -105,7 +106,7 @@ Type
 
     function GetWorkingdirectory: String;
 
-    procedure LoadProjectFile(aProjectFilename: String; aProjectConfigFilename: String; aWorkingdirectory: string);
+    function LoadProjectFile(aProjectFilename: String; aProjectConfigFilename: String; aWorkingdirectory: string): boolean;
     function Loadprojecttask(aTaskName: String; aprojecttask: Tprojecttask): Boolean;
 
     property oprojecttaskList: TNovusList
@@ -116,7 +117,7 @@ Type
       read fsProjectFileName
       write fsProjectFileName;
 
-    property OutputPath: string
+     property OutputPath: string
       read fsOutputPath
       write fsOutputPath;
 
@@ -254,15 +255,16 @@ begin
   Result := GetFieldAsBoolean(oXMLDocument.Root, 'outputconsole');
 end;
 
-procedure TProject.LoadProjectFile(aProjectFilename: String; aProjectConfigFilename: String; aWorkingdirectory: string);
+function TProject.LoadProjectFile(aProjectFilename: String; aProjectConfigFilename: String; aWorkingdirectory: string): boolean;
 Var
   fprojecttaskNode: TJvSimpleXmlElem;
   Index: Integer;
   loprojecttask: Tprojecttask;
 begin
   XMLFileName := aProjectFilename;
-  Retrieve;
-
+  result := Retrieve;
+  if not result then exit;
+                          
   fsOutputPath := GetOutputPath;
   fbOutputConsole := GetoutputConsole;
 

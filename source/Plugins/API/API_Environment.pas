@@ -1,3 +1,6 @@
+/// <summary>
+///   API Environment
+/// </summary>
 unit API_Environment;
 
 interface
@@ -9,8 +12,45 @@ type
    private
    protected
    public
+     /// <summary>
+     ///   Call Is64BitOperatingSystem to check for host operating system is a
+     ///   64Bit version.
+     /// </summary>
+     /// <returns>
+     ///   boolean
+     /// </returns>
      function Is64BitOperatingSystem: boolean;
+     /// <summary>
+     ///   Call GetEnvironmentVar retrieve a value from a environment variable.
+     /// </summary>
+     /// <param name="aVariableName">
+     ///   Environment variable name <br />
+     /// </param>
+     /// <returns>
+     ///   string
+     /// </returns>
+     /// <seealso cref="SetEnvironmentVar">
+     ///   SetEnvironmentVar
+     /// </seealso>
      function GetEnvironmentVar(const aVariableName: string): string;
+     /// <summary>
+     ///   Call SetEnvironmentVar set a value to an environment variable.
+     /// </summary>
+     /// <param name="aVariableName">
+     ///   Environment variable name <br />
+     /// </param>
+     /// <param name="aValue">
+     ///   Value <br />
+     /// </param>
+     /// <param name="aIsSystemVariable">
+     ///   Is system variable <br />
+     /// </param>
+     /// <returns>
+     ///   Integer
+     /// </returns>
+     /// <seealso cref="SetEnvironmentVar">
+     ///   SetEnvironmentVar
+     /// </seealso>
      function SetEnvironmentVar(const aVariableName: string; const aValue: string;aIsSystemVariable: Boolean): integer;
    end;
 

@@ -3,7 +3,7 @@
   <outputconsole>true</outputconsole>
   <outputpath></outputpath>
   <projecttask name = "Zip">
-     <projectfilename>Zip.zas</projectfilename>
+     <projectfilename>Zip.pas</projectfilename>
   </projecttask>
  
 </project>

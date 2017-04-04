@@ -139,14 +139,14 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <DCC_UsePackage>ZautoCore;NovusCodeLibrary_Core;NovusCodeLibrary_Log;NovusCodeLibrary_XML;NovusCodeLibrary_Env</DCC_UsePackage>
-        <DCC_XmlOutput>..\doc\XMLDocumentation</DCC_XmlOutput>
-        <DCC_OutputXMLDocumentation>true</DCC_OutputXMLDocumentation>
-        <Debugger_CWD>D:\Projects\Zautomatic\scripts</Debugger_CWD>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.11;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Build>11</VerInfo_Build>
+        <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
+        <DCC_UsePackage>ZautoCore;NovusCodeLibrary_Core;NovusCodeLibrary_Log;NovusCodeLibrary_XML;NovusCodeLibrary_Env;NovusCodeLibrary_Plugin</DCC_UsePackage>
+        <Debugger_CWD>D:\Projects\NovuscodeLibrary\Scripts</Debugger_CWD>
         <BRCC_Defines>PS_USESSUPPORT;$(BRCC_Defines)</BRCC_Defines>
-        <VerInfo_AutoGenVersion>true</VerInfo_AutoGenVersion>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <Debugger_RunParams>-solution deploy.zasolution</Debugger_RunParams>
+        <Debugger_RunParams>-solution packages.zasolution</Debugger_RunParams>
         <DCC_ExeOutput>..\build</DCC_ExeOutput>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
@@ -175,7 +175,7 @@
         <DCCReference Include="Plugin.pas"/>
         <DCCReference Include="PluginsMapFactory.pas"/>
         <DCCReference Include="Plugins\Plugin_Output.pas"/>
-        <DCCReference Include="Plugins\Plugin_Commands.pas"/>
+        <DCCReference Include="Plugins\Plugin_SystemExt.pas"/>
         <DCCReference Include="Plugins\API\APIBase.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_API_Output.pas"/>
         <DCCReference Include="Plugins\Plugin_Shell.pas"/>
@@ -627,13 +627,13 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME)"/>
             </Deployment>
             <Platforms>
                 <Platform value="Android">False</Platform>

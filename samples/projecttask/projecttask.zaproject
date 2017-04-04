@@ -3,7 +3,7 @@
   <outputconsole>true</outputconsole>
   <outputpath></outputpath>
   <projecttask name = "projecttaska">
-     <projectfilename>projecttaska.zas</projectfilename>
+     <projectfilename>projecttaska.pas</projectfilename>
      <criteria>
         <failed>
             <retry>5</retry>
@@ -13,7 +13,7 @@
      </criteria>    
   </projecttask>
    <projecttask name = "projecttaskb">
-     <projectfilename>projecttaskb.zas</projectfilename>    
+     <projectfilename>projecttaskb.pas</projectfilename>    
   </projecttask>
 
 

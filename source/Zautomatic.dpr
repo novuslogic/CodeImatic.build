@@ -19,7 +19,7 @@ uses
   Plugin in 'Plugin.pas',
   PluginsMapFactory in 'PluginsMapFactory.pas',
   Plugin_Output in 'Plugins\Plugin_Output.pas',
-  Plugin_Commands in 'Plugins\Plugin_Commands.pas',
+  Plugin_SystemExt in 'Plugins\Plugin_SystemExt.pas',
   APIBase in 'Plugins\API\APIBase.pas',
   uPSI_API_Output in 'Plugins\Imports\uPSI_API_Output.pas',
   Plugin_Shell in 'Plugins\Plugin_Shell.pas',

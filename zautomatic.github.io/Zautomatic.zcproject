@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project>
+  <outputconsole>true</outputconsole>
+  <messageslogpath></messageslogpath>
+  <Createoutputdir>true</Createoutputdir>
+  
+  <projectitem name = "index.html">
+    <template>[%sourcepath%]default.html</template>
+    <properties>[%propertiespath%]zautomatic.xml</properties>
+    <overrideoutput>true</overrideoutput>
+    <output>[%outputpath%]index.html</output>
+  </projectitem>
+    <projectitem name = "bootstrap.min.css">
+    <template>[%sourcepath%]css</template>
+    <properties>[%propertiespath%]zautomatic.xml</properties>
+    <overrideoutput>true</overrideoutput>
+    <output>[%outputpath%]css</output>
+  </projectitem>
+  <projectitem name = "font-awesome.min.css">
+    <template>[%sourcepath%]css</template>
+    <properties>[%propertiespath%]zautomatic.xml</properties>
+    <overrideoutput>true</overrideoutput>
+    <output>[%outputpath%]css</output>
+  </projectitem>
+  <projectitem name = "zautomatic.css">
+    <template>[%sourcepath%]css</template>
+    <properties>[%propertiespath%]zautomatic.xml</properties>
+    <overrideoutput>true</overrideoutput>
+    <output>[%outputpath%]css</output>
+  </projectitem>
+  <projectitem name = "index.md">
+    <template>[%sourcepath%]docs</template>
+    <properties>[%propertiespath%]zautomatic.xml</properties>
+    <overrideoutput>true</overrideoutput>
+    <output>[%outputpath%]docs</output>
+  </projectitem>
+  
+</project>

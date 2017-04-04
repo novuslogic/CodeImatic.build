@@ -4,7 +4,7 @@ unit ScriptEngine;
 interface
 
 uses
-  Forms,
+ // Forms,
   Runtime,
   API_Output,
   System.Classes,
@@ -73,14 +73,14 @@ begin
   else
   begin
 
-    if FileExists(oruntime.oProject.oProjectConfig.SearchPath +name + '.zas') then
+    if FileExists(oruntime.oProject.oProjectConfig.SearchPath +name + '.pas') then
       begin
         Try
           Try
-            oruntime.oAPI_Output.Log('Compiling unit ... ' + name + '.zas' );
+            oruntime.oAPI_Output.Log('Compiling unit ... ' + name + '.pas' );
 
             lList := TStringList.Create;
-            lList.LoadFromFile(oruntime.oProject.oProjectConfig.SearchPath +name + '.zas');
+            lList.LoadFromFile(oruntime.oProject.oProjectConfig.SearchPath +name + '.pas');
 
             if Sender.Compile(lList.Text) then
               begin

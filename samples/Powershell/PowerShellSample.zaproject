@@ -3,7 +3,7 @@
   <outputconsole>true</outputconsole>
   <outputpath></outputpath>
   <projecttask name = "PowerShellSample">
-     <projectfilename>PowerShellSample.zas</projectfilename>    
+     <projectfilename>PowerShellSample.pas</projectfilename>    
   </projecttask>
  
 </project>

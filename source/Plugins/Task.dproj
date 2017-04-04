@@ -72,8 +72,6 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <DCC_XmlOutput>..\..\doc\xmldocumentation</DCC_XmlOutput>
-        <DCC_OutputXMLDocumentation>true</DCC_OutputXMLDocumentation>
         <Debugger_RunParams>-project deploy.zap -projectconfig deploy.zapconfig</Debugger_RunParams>
         <Debugger_DebugSourcePath>D:\Projects\Zautomatic\scripts;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
         <Debugger_CWD>D:\Projects\Zautomatic\scripts</Debugger_CWD>
@@ -83,7 +81,6 @@
         <DCC_DcuOutput>..\..\units\win32\</DCC_DcuOutput>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_Namespace>VCL;$(DCC_Namespace)</DCC_Namespace>
-        <Manifest_File>None</Manifest_File>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -587,13 +584,13 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME)"/>
-                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
             </Deployment>
             <Platforms>
                 <Platform value="OSX32">False</Platform>

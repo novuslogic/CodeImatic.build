@@ -35,9 +35,9 @@ begin
   Try
     fsSolutionFilename := aSolutionFilename;
 
-    fsworkingdirectory := IncludeTrailingPathDelimiter(ExtractFilePath(fsSolutionFilename));
+    fsworkingdirectory := TNovusFileUtils.TrailingBackSlash(ExtractFilePath(fsSolutionFilename));
     if Trim(fsworkingdirectory) = '' then
-      fsworkingdirectory := IncludeTrailingPathDelimiter(TNovusFileUtils.AbsoluteFilePath(fsSolutionFilename));
+      fsworkingdirectory := TNovusFileUtils.TrailingBackSlash(TNovusFileUtils.AbsoluteFilePath(fsSolutionFilename));
 
     XMLFileName := aSolutionFilename;
     Retrieve;

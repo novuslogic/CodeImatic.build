@@ -3,6 +3,6 @@
   <outputconsole>true</outputconsole>
   <outputpath></outputpath>
   <projecttask name = "awscli">
-     <projectfilename>awscli.zas</projectfilename>    
+     <projectfilename>awscli.pas</projectfilename>    
   </projecttask>
  </project>

@@ -3,7 +3,7 @@
   <outputconsole>true</outputconsole>
   <messageslogpath></messageslogpath>
   <projecttask name = "Shell">
-     <projectfilename>Shell.zas</projectfilename>    
+     <projectfilename>Shell.pas</projectfilename>    
   </projecttask>
  
 </project>

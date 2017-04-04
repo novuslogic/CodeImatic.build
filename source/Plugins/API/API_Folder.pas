@@ -33,6 +33,8 @@ destructor TAPI_Folder.destroy;
 begin
 end;
 
+
+
 function TAPI_Folder.Exists(Const aFolder: String): Boolean;
 begin
   Try

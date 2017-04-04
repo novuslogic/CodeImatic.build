@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<properties>
+  <site_title>Zautomatic is a PascalScript based build automation system</site_title>
+  <urlbase>https://localhost:8080/</urlbase>
+</properties>

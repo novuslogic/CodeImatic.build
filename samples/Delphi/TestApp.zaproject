@@ -3,6 +3,6 @@
   <outputconsole>true</outputconsole>
   <outputpath></outputpath>
   <projecttask name = "TestApp">
-     <projectfilename>TestApp.zas</projectfilename>    
+     <projectfilename>TestApp.pas</projectfilename>    
   </projecttask>
 </project>
