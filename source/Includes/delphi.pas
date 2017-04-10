@@ -301,7 +301,6 @@ begin
   end;
 end;
 
-
 function GetDelphiCompilerVersion(aCompilerVersion: integer): string;
 begin
   case aCompilerVersion of

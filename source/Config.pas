@@ -7,7 +7,7 @@ Uses SysUtils, NovusXMLBO, Registry, Windows, NovusStringUtils, NovusFileUtils,
      JvSimpleXml, NovusSimpleXML, NovusList;
 
 Const
-  csOutputFile = 'Output.log';
+  csOutputFile = 'zaoutput.log';
   csConfigfile = 'zautomatic.config';
 
 Type
