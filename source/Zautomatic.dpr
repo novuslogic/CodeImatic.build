@@ -63,7 +63,7 @@ begin
   If Not oConfig.ParseParams then Exit;
 
   try
-    oruntime.RunEnvironment;
+    ExitCode := oruntime.RunEnvironment;
 
   except
     on E: Exception do

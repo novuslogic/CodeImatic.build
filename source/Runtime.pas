@@ -59,7 +59,7 @@ var
   loScriptEngine: TScriptEngine;
 begin
   Try
-    Result := 0;
+    Result := -1;
 
     foSolution:= tSolution.Create;
 
@@ -238,7 +238,7 @@ begin
     FoAPI_Output.WriteLog('Total build duration: ' + FormatDateTime(cTimeformat, Duration));
     FoAPI_Output.WriteLog('Build status: ' +  GetBuildStatus(BuildStatus));
 
-    ExitCode := Integer(BuildStatus);
+    Result := Integer(BuildStatus);
 
     FImp.Free;
 

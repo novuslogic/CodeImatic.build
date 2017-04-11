@@ -4,7 +4,7 @@ interface
 
 Uses cmd;
 
-function Zcodegen(aProject: string; aProjectconfig: string; aVariables: string; aOptions: string): Integer;
+function Zcodegen(aProject: string; aProjectconfig: string; aVariables: string; aWorkingdirectory: string;aOptions: string): Integer;
 function GetZodegenPath: String;
 
 
@@ -16,7 +16,7 @@ begin
   Result := File.IncludeTrailingPathDelimiter(Environment.GetEnvironmentVar('ZCODE'));
 end;
 
-function Zcodegen(aProject: string; aProjectconfig: string; aVariables: string; aOptions: string): Integer;
+function Zcodegen(aProject: string; aProjectconfig: string; aVariables: string; aWorkingdirectory: string;aOptions: string): Integer;
 var
   SB: TStringBuilder;
 begin
@@ -39,12 +39,16 @@ begin
     SB.Append('-projectconfig ' + aProjectconfig + ' ');
     SB.Append('-consoleoutputonly ');
 
+    if aWorkingdirectory <> '' then 
+      SB.Append('-workingdirectory '+  aWorkingdirectory+ ' ');   
+
     if aVariables <> '' then 
        SB.Append('-var ' + aVariables + ' ');
 
     if aOptions <> '' then
       SB.Append(aOptions + ' ');   
 
+  
     Output.logformat('Running: %s', [SB.ToString]);
 
     result := Exec(sb.ToString);
