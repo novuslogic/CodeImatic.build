@@ -1,3 +1,32 @@
+{********************************************************************}
+{                                                                    }
+{           AWS.pas                                      }
+{                                                                    }
+{           Apache License                                           }
+{           Version 2.0, January 2004                                }
+{           License at http://www.apache.org/licenses/               }
+{                                                                    }
+{                                                                    }
+{           Copyright (c) 2017 Novuslogic Software                   }
+{           http://www.novuslogic.com                                }
+{                                                                    }
+{********************************************************************}
+
+
+{********************************************************************}
+{                                                                    }
+{           DelphiVersions.inc                                       }
+{                                                                    }
+{           Apache License                                           }
+{           Version 2.0, January 2004                                }
+{           License at http://www.apache.org/licenses/               }
+{                                                                    }
+{                                                                    }
+{           Copyright (c) 2017 Novuslogic Software                   }
+{           http://www.novuslogic.com                                }
+{                                                                    }
+{********************************************************************}
+
 unit AWS;
 
 interface
@@ -10,8 +39,17 @@ Const
   aws_S3Bucket = 'S3Bucket';
   aws_json = '": "';
 
+
+/// <summary>
+///   Execute an AWSCLI command
+/// </summary>
 function ExecAWSCliEx(const aCommandLine: String; var aOutput: String): Integer;
+
+/// <summary>
+///   Check if ASWCli has been installed
+/// </summary>
 function IsAWSCliConfigured: Boolean;
+
 function GetAWSCliConfigPath: String;
 function ExecAWSCli(const aCommandLine: String): Integer;
 function GetAWSCliElasticbeanstalkLastS3Bucket(const aApplicationname: string;var aLastS3Bucket: String): Integer;

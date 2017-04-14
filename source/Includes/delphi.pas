@@ -45,6 +45,7 @@ function GetDelphiCompilerVersion(aCompilerVersion: integer): string;
 function GetBDSDIR(aCompilerVersion: integer): string;
 function GetBDSINCLUDE(aCompilerVersion: integer): string;
 function GetBDSCOMMONDIR(aCompilerVersion: integer): string;
+function GetBDSBPLDIR(aCompilerVersion: integer): string;
 function GetBDSRegKey(Key: string; Name: string): string;
 function GetBDSRegistery(aCompilerVersion: integer; Name: string): string;
 function Delphi(aCompilerVersion: integer;aProject: string; aDelphiOptions:TDelphiOptions): Integer;
@@ -136,9 +137,14 @@ begin
   result := Environment.GetEnvironmentVar('BDSINCLUDE');
   if trim(result) = '' then 
     begin
-      result := GetBDSDIR(aCompilerVersion) + '\include';
+      result := File.IncludeTrailingPathDelimiter(GetBDSDIR(aCompilerVersion) + '\include');
     end;
     
+end;
+
+function GetBDSBPLDir(aCompilerVersion: integer): string;
+begin
+  result := File.IncludeTrailingPathDelimiter(GetBDSDIR(aCompilerVersion) + '\bpl');
 end;
 
 
