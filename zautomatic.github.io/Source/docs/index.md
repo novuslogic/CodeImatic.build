@@ -1,2 +1,0 @@
-Zautomatic Documentation
-========================

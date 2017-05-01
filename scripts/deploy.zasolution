@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<solution>
-  <Project>deploy.zaproject</Project>
-  <ProjectConfig>deploy.zapconfig</ProjectConfig>
-</solution>
