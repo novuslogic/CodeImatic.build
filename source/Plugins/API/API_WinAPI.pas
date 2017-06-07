@@ -2,7 +2,7 @@ unit API_WinAPI;
 
 interface
 
-uses APIBase, ShlObj, SysUtils, Windows;
+uses APIBase, ShlObj, SysUtils, Windows, NovusWindows;
 
 type
    TAPI_WinAPI = class(TAPIBase)
@@ -10,6 +10,7 @@ type
    protected
    public
      function GetSpecialFolder(const CSIDL: integer) : string;
+     function IsProcess32Exists(const aFilename: String): boolean;
    end;
 
 
@@ -94,5 +95,11 @@ begin
       StrDispose(RecPath);
     end;
 end;
+
+function TAPI_WinAPI.IsProcess32Exists(const aFilename: String): boolean;
+begin
+  Result := TNovusWindows.IsProcess32Exists(aFileName);
+end;
+
 
 end.

@@ -62,6 +62,7 @@ begin
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_WinAPI') do
   begin
     RegisterMethod('Function GetSpecialFolder( const CSIDL : integer) : string');
+    RegisterMethod('Function IsProcess32Exists(const aFilename: String): boolean');
   end;
 end;
 
@@ -140,6 +141,7 @@ begin
   with CL.Add(TAPI_WinAPI) do
   begin
     RegisterMethod(@TAPI_WinAPI.GetSpecialFolder, 'GetSpecialFolder');
+    RegisterMethod(@TAPI_WinAPI.IsProcess32Exists, 'IsProcess32Exists');
   end;
 end;
 
