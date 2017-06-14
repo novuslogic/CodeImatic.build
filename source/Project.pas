@@ -247,7 +247,7 @@ begin
   lsOutputpath := Trim(GetFieldAsString(oXMLDocument.Root, 'Outputpath'));
 
   if lsOutputpath <> '' then
-    Result := TNovusStringUtils.TrailingBackSlash(lsOutputpath);
+    Result := TNovusFileUtils.TrailingBackSlash(lsOutputpath);
 end;
 
 function TProject.GetOutputConsole: Boolean;
