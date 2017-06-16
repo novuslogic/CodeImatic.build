@@ -8,6 +8,8 @@ function WindowsFolder: string;
 function Program_FilesFolder: String;
 function Program_Filesx86Folder: String;
 function IsProcess32Exists(aFilename: String): boolean;
+function IsWin64: Boolean;
+
 
 implementation
 
@@ -29,6 +31,11 @@ end;
 function IsProcess32Exists(aFilename: String): boolean;
 begin
   Result := WinAPI.IsProcess32Exists(aFilename);
+end;
+
+function IsWin64: boolean;
+begin
+  result := Environment.Is64BitOperatingSystem;
 end;
 
 end.
