@@ -7,7 +7,7 @@ function CoCreateGuid(var Guid:TGuid):integer; external 'CoCreateGuid@ole32.dll 
 function WindowsFolder: string;
 function Program_FilesFolder: String;
 function Program_Filesx86Folder: String;
-function IsProcessExists(aFilename: String): boolean;
+function IsProcess32Exists(aFilename: String): boolean;
 
 implementation
 
