@@ -20,6 +20,8 @@ type
      function Copy(const aSourceFilename: String; const aDestFilename: String; const aOverWrite : Boolean ): Boolean;
      function Delete(const aFilename: String): Boolean;
      function Move(const aSourceFilename: String; const aDestFilename: String): Boolean;
+     function IsFileInUse(const aFilename: String): Boolean;
+     function IsFileReadonly(const aFilename: String): Boolean;
    end;
 
 implementation
@@ -158,5 +160,32 @@ begin
 
   End;
 end;
+
+function TAPI_File.IsFileInUse(const aFilename: string): boolean;
+begin
+  Try
+    Try
+      Result := TNovusFileUtils.IsFileInUse(aFilename);
+    Except
+      oAPI_Output.InternalError;
+    End;
+  Finally
+
+  End;
+end;
+
+function TAPI_File.IsFileReadonly(const aFilename: string): boolean;
+begin
+  Try
+    Try
+      Result := TNovusFileUtils.IsFileReadonly(aFilename);
+    Except
+      oAPI_Output.InternalError;
+    End;
+  Finally
+
+  End;
+end;
+
 
 end.

@@ -68,6 +68,8 @@ begin
     RegisterMethod('Function Copy( const aSourceFilename : String; const aDestFilename : String; const aOverWrite : Boolean) : Boolean');
     RegisterMethod('Function Delete( const aFilename : String) : Boolean');
     RegisterMethod('Function Move( const aSourceFilename : String; const aDestFilename : String) : Boolean');
+    RegisterMethod('Function IsFileInUse(const aFilename: string): boolean');
+    RegisterMethod('Function IsFileReadonly(const aFilename: string): boolean');
   end;
 end;
 
@@ -83,6 +85,8 @@ procedure RIRegister_TAPI_File(CL: TPSRuntimeClassImporter);
 begin
   with CL.Add(TAPI_File) do
   begin
+    RegisterMethod(@TAPI_File.IsFileReadonly, 'IsFileReadonly');
+    RegisterMethod(@TAPI_File.IsFileInUse, 'IsFileInUse');
     RegisterMethod(@TAPI_File.AbsoluteFilePath, 'AbsoluteFilePath');
     RegisterMethod(@TAPI_File.Extractfilename, 'Extractfilename');
     RegisterMethod(@TAPI_File.IncludeTrailingPathDelimiter, 'IncludeTrailingPathDelimiter');
@@ -99,8 +103,8 @@ begin
   RIRegister_TAPI_File(CL);
 end;
 
- 
- 
+
+
 { TPSImport_API_File }
 (*----------------------------------------------------------------------------*)
 procedure TPSImport_API_File.CompileImport1(CompExec: TPSScript);

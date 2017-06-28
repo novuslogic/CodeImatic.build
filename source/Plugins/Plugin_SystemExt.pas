@@ -18,6 +18,7 @@ type
     procedure RegisterImport; override;
   end;
 
+  function CommandSleep(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
   function CommandWriteln(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
   function CommandWD(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
   function CommandCRF(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
@@ -50,6 +51,8 @@ begin
   TPSPascalCompiler(aCompiler).AddFunction('function SysErrorMessage():String;');
   TPSPascalCompiler(aCompiler).AddFunction('function ExtractFileName(aFilename: string): String;');
   TPSPascalCompiler(aCompiler).AddFunction('function CompareText(const S1, S2: string): Integer;');
+  TPSPascalCompiler(aCompiler).AddFunction('procedure Sleep(milliseconds: Cardinal);');
+
 
 end;
 
@@ -70,6 +73,7 @@ begin
   aExec.RegisterFunctionName('SYSERRORMESSAGE', CommandSysErrorMessage, nil, nil);
   aExec.RegisterFunctionName('EXTRACTFILENAME', CommandExtractFileName, nil, nil);
   aExec.RegisterFunctionName('COMPARETEXT', CommandCompareText, nil, nil);
+  aExec.RegisterFunctionName('SLEEP', CommandSleep, nil, nil);
 
 end;
 
@@ -96,6 +100,18 @@ begin
   PStart := Stack.Count - 1;
 
   oRuntime.oAPI_Output.WriteLog(Stack.GetString(PStart));
+
+  Result := True;
+end;
+
+function CommandSleep(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
+var
+  PStart: Cardinal;
+begin
+  if Global = nil then begin result := false; exit; end;
+  PStart := Stack.Count - 1;
+
+  Sleep(Cardinal(Stack.GetUInt(PStart)));
 
   Result := True;
 end;

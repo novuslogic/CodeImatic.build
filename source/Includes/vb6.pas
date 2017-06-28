@@ -49,16 +49,19 @@ begin
   
    SB.Append(' /make '+ '"'+ aProject + '"');
 
-   if (aVB6Options.Outdir <> '') then 
+   if (aVB6Options.Outdir <> '') then
       SB.Append(' /outdir '+ '"' + aVB6Options.Outdir + '"');
 
-    Output.logformat('Running: %s', [SB.ToString]);
+   Output.logformat('Running: %s', [SB.ToString]);
 
-    result := Exec(sb.ToString);
-   
-  finally
-    SB.Free;
-  End;
+   result := Exec(sb.ToString);
+
+   //sleep(1000);
+
+
+ finally
+   SB.Free;
+ End;
 end;
 
 function GetVB6BinDir: String;
