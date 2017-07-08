@@ -2,10 +2,11 @@ unit Plugin_Output;
 
 interface
 
-uses Classes,Plugin,  uPSRuntime,  uPSCompiler, uPSI_API_Output, PluginsMapFactory;
+uses Classes, Plugin, uPSRuntime, uPSCompiler, uPSI_API_Output,
+  PluginsMapFactory;
 
 type
-  tPlugin_Output= class(Tplugin)
+  tPlugin_Output = class(Tplugin)
   private
   protected
   public
@@ -32,7 +33,8 @@ end;
 
 procedure tPlugin_Output.SetVariantToClass(var aExec: TPSExec);
 begin
-  uPSRuntime.SetVariantToClass(aExec.GetVarNo(aExec.GetVar('Output')), foAPI_Output);
+  uPSRuntime.SetVariantToClass(aExec.GetVarNo(aExec.GetVar('Output')),
+    foAPI_Output);
 end;
 
 procedure tPlugin_Output.RegisterImport;
@@ -41,8 +43,9 @@ begin
 end;
 
 Initialization
- begin
-   tPluginsMapFactory.RegisterClass(tPlugin_Output);
- end;
+
+begin
+  tPluginsMapFactory.RegisterClass(tPlugin_Output);
+end;
 
 end.

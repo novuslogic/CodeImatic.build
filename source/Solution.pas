@@ -5,28 +5,24 @@ interface
 uses NovusXMLBO, SysUtils, NovusStringUtils, NovusFileUtils;
 
 type
-   TSolution = class(TNovusXMLBO)
-   protected
-   private
-     fsworkingdirectory: string;
-     fsSolutionFilename: string;
-     fsProjectFileName: string;
-     fsProjectConfigFilename: string;
-   public
-     property ProjectFileName: string
-       read fsProjectFileName;
+  TSolution = class(TNovusXMLBO)
+  protected
+  private
+    fsworkingdirectory: string;
+    fsSolutionFilename: string;
+    fsProjectFileName: string;
+    fsProjectConfigFilename: string;
+  public
+    property ProjectFileName: string read fsProjectFileName;
 
-     property ProjectConfigFilename: string
-       read fsProjectConfigFilename;
+    property ProjectConfigFilename: string read fsProjectConfigFilename;
 
-     property SolutionFilename: string
-       read fsSolutionFilename;
+    property SolutionFilename: string read fsSolutionFilename;
 
-     property Workingdirectory: string
-       read fsworkingdirectory;
+    property Workingdirectory: string read fsworkingdirectory;
 
-     function LoadSolutionFile(aSolutionFilename: string): Boolean;
-   end;
+    function LoadSolutionFile(aSolutionFilename: string): Boolean;
+  end;
 
 implementation
 
@@ -35,20 +31,25 @@ begin
   Try
     fsSolutionFilename := aSolutionFilename;
 
-    fsworkingdirectory := TNovusFileUtils.TrailingBackSlash(ExtractFilePath(fsSolutionFilename));
+    fsworkingdirectory := TNovusFileUtils.TrailingBackSlash
+      (ExtractFilePath(fsSolutionFilename));
     if Trim(fsworkingdirectory) = '' then
-      fsworkingdirectory := TNovusFileUtils.TrailingBackSlash(TNovusFileUtils.AbsoluteFilePath(fsSolutionFilename));
+      fsworkingdirectory := TNovusFileUtils.TrailingBackSlash
+        (TNovusFileUtils.AbsoluteFilePath(fsSolutionFilename));
 
     XMLFileName := aSolutionFilename;
     Retrieve;
 
     fsProjectFileName := Trim(GetFieldAsString(oXMLDocument.Root, 'Project'));
-    fsProjectConfigFilename := Trim(GetFieldAsString(oXMLDocument.Root, 'ProjectConfig'));
+    fsProjectConfigFilename :=
+      Trim(GetFieldAsString(oXMLDocument.Root, 'ProjectConfig'));
 
-    if Trim(TNovusStringUtils.JustFilename(fsProjectFilename)) = trim(fsProjectFilename) then
-      fsProjectFilename := fsworkingdirectory + fsProjectFilename;
+    if Trim(TNovusStringUtils.JustFilename(fsProjectFileName))
+      = Trim(fsProjectFileName) then
+      fsProjectFileName := fsworkingdirectory + fsProjectFileName;
 
-    if Trim(TNovusStringUtils.JustFilename(fsProjectConfigFilename)) = trim(fsProjectConfigFilename) then
+    if Trim(TNovusStringUtils.JustFilename(fsProjectConfigFilename))
+      = Trim(fsProjectConfigFilename) then
       fsProjectConfigFilename := fsworkingdirectory + fsProjectConfigFilename;
 
     Result := true;

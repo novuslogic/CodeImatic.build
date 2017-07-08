@@ -2,7 +2,7 @@ unit vb6;
 
 interface
 
-Uses cmd, msbuild, Windows;
+Uses cmd, msbuild, Windows, stringutils;
 
 type
   TVB6Options = record
@@ -32,6 +32,10 @@ end;
 
 function VB6(aProject: string; aVB6Options: TVB6Options): Integer;
 var
+  lipos: Integer;
+  lLogFileSL: tStringList;
+  lsTmplogfile,
+  lslogfile,
   lsvb6bindir: string;
   SB: TStringBuilder;
 begin
@@ -43,6 +47,9 @@ begin
     RaiseException(erCustomError, 'Cannot find vb6.exe');
 
  Try
+   lslogfile := File.MakeTmpFileName('log', true);
+   lsTmpLogFile :=  lslogfile;
+        
    SB:= TStringBuilder.Create;
 
    SB.Append('"' + lsvb6bindir  + '"');
@@ -50,23 +57,53 @@ begin
    SB.Append(' /make '+ '"'+ aProject + '"');
 
    if (aVB6Options.Outdir <> '') then
-      SB.Append(' /outdir '+ '"' + aVB6Options.Outdir + '"');
+      begin
+        SB.Append(' /outdir '+ '"' + aVB6Options.Outdir + '"');
 
+        lsTmpLogFile := File.IncludeTrailingPathDelimiter(aVB6Options.Outdir) + lslogfile;
+      end;  
+
+   SB.Append(' /out '+ '"'+ lsTmplogfile + '"');
+   
    Output.logformat('Running: %s', [SB.ToString]);
 
    result := Exec(sb.ToString);
 
-   //sleep(1000);
+   lipos := 0;
+   if File.Exists(lsTmpLogFile) then
+     begin
+       Try
+         lLogFileSL := tStringList.Create;
 
+         lLogFileSL.LoadFromFile(lsTmpLogFile);
+       finally
+         lipos := Pos('succeeded', trim(lLogFileSL.Text)) ;
+         Output.Log(trim(lLogFileSL.Text))
 
+         lLogFileSL.Free;
+
+         File.Delete(lsTmpLogFile);
+       end;  
+     end;
+   
  finally
    SB.Free;
+
+  if lipos = 0 then 
+   begin 
+     result := -1;
+     RaiseException(erCustomError, 'build failed.');
+   end;  
+
  End;
 end;
 
 function GetVB6BinDir: String;
 begin
   Result := '';
+
+  if ProjectConfig.IsPropertyExists('vb6bindir') then
+    result := File.IncludeTrailingPathDelimiter(ProjectConfig.Getproperty('vb6bindir'));
 
   If Result = '' then 
     begin

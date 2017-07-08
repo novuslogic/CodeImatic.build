@@ -5,30 +5,28 @@ interface
 uses APIBase, SysUtils, API_Output, Classes, IOUtils;
 
 type
-   TAPI_Path = class(TAPIBase)
-   private
-   protected
-   public
-     constructor Create(aAPI_Output: tAPI_Output); override;
-     destructor Destroy; override;
-     function Combine(const aPath1, aPath2: string): string;
-     function GetFullPath(const aPath: string): string;
-     function GetFileName(const aFileName: string): string;
-     function GetDirectoryName(aFileName: string): string;
-     function GetExtension(const aFileName: string): string;
-     function GetFileNameWithoutExtension(const aFileName: string): string;
-   end;
-
+  TAPI_Path = class(TAPIBase)
+  private
+  protected
+  public
+    constructor Create(aAPI_Output: tAPI_Output); override;
+    destructor Destroy; override;
+    function Combine(const aPath1, aPath2: string): string;
+    function GetFullPath(const aPath: string): string;
+    function GetFileName(const aFileName: string): string;
+    function GetDirectoryName(aFileName: string): string;
+    function GetExtension(const aFileName: string): string;
+    function GetFileNameWithoutExtension(const aFileName: string): string;
+  end;
 
 implementation
 
-
-constructor TAPI_Path.create(aAPI_Output: tAPI_Output);
+constructor TAPI_Path.Create(aAPI_Output: tAPI_Output);
 begin
-  Inherited create(aAPI_Output);
+  Inherited Create(aAPI_Output);
 end;
 
-destructor TAPI_Path.destroy;
+destructor TAPI_Path.Destroy;
 begin
   Inherited
 
@@ -105,7 +103,5 @@ begin
   Finally
   End;
 end;
-
-
 
 end.

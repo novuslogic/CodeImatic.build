@@ -2,9 +2,8 @@ unit Plugin_IniFile;
 
 interface
 
-uses Classes,Plugin,  uPSRuntime,  uPSCompiler, PluginsMapFactory, API_IniFile,
-    uPSI_API_IniFile, API_Output, SysUtils;
-
+uses Classes, Plugin, uPSRuntime, uPSCompiler, PluginsMapFactory, API_IniFile,
+  uPSI_API_IniFile, API_Output, SysUtils;
 
 type
   tPlugin_RegIni = class(Tplugin)
@@ -12,7 +11,8 @@ type
   protected
     foAPI_IniFile: TAPI_IniFile;
   public
-    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aAPI_Output: tAPI_Output;
+      var aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -23,7 +23,8 @@ type
 
 implementation
 
-constructor tPlugin_RegIni.Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter);
+constructor tPlugin_RegIni.Create(aAPI_Output: tAPI_Output;
+  var aImp: TPSRuntimeClassImporter);
 begin
   Inherited;
 
@@ -31,15 +32,12 @@ begin
 
 end;
 
-
-destructor  tPlugin_RegIni.Destroy;
+destructor tPlugin_RegIni.Destroy;
 begin
   Inherited;
 
   FreeandNIl(foAPI_IniFile);
 end;
-
-
 
 function tPlugin_RegIni.CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean;
 begin
@@ -60,7 +58,8 @@ procedure tPlugin_RegIni.SetVariantToClass(var aExec: TPSExec);
 begin
   foAPI_IniFile.oExec := aExec;
 
-  uPSRuntime.SetVariantToClass(aExec.GetVarNo(aExec.GetVar('IniFile')), foAPI_IniFile);
+  uPSRuntime.SetVariantToClass(aExec.GetVarNo(aExec.GetVar('IniFile')),
+    foAPI_IniFile);
 end;
 
 procedure tPlugin_RegIni.RegisterImport;
@@ -70,10 +69,9 @@ begin
 end;
 
 Initialization
- begin
-   tPluginsMapFactory.RegisterClass(tPlugin_RegIni);
- end;
+
+begin
+  tPluginsMapFactory.RegisterClass(tPlugin_RegIni);
+end;
 
 end.
-
-

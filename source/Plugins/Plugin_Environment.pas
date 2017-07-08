@@ -2,17 +2,18 @@ unit Plugin_Environment;
 
 interface
 
-uses Classes,Plugin,  uPSRuntime,  uPSCompiler, PluginsMapFactory, API_Environment,
-    API_Output, SysUtils, uPSI_API_Environment ;
-
+uses Classes, Plugin, uPSRuntime, uPSCompiler, PluginsMapFactory,
+  API_Environment,
+  API_Output, SysUtils, uPSI_API_Environment;
 
 type
   tPlugin_Environment = class(Tplugin)
   private
   protected
-     foAPI_Environment: TAPI_Environment;
+    foAPI_Environment: TAPI_Environment;
   public
-    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aAPI_Output: tAPI_Output;
+      var aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -21,12 +22,10 @@ type
     procedure RegisterImport; override;
   end;
 
-
-
 implementation
 
-
-constructor tPlugin_Environment.Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter);
+constructor tPlugin_Environment.Create(aAPI_Output: tAPI_Output;
+  var aImp: TPSRuntimeClassImporter);
 begin
   Inherited;
 
@@ -34,17 +33,15 @@ begin
 
 end;
 
-
-destructor  tPlugin_Environment.Destroy;
+destructor tPlugin_Environment.Destroy;
 begin
   Inherited;
 
   FreeandNIl(foAPI_Environment);
 end;
 
-
-
-function tPlugin_Environment.CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean;
+function tPlugin_Environment.CustomOnUses(var aCompiler
+  : TPSPascalCompiler): Boolean;
 begin
   Result := True;
 
@@ -53,7 +50,6 @@ begin
   SIRegister_API_Environment(aCompiler);
 
   AddImportedClassVariable(aCompiler, 'Environment', 'TAPI_Environment');
-
 
 end;
 
@@ -65,7 +61,8 @@ procedure tPlugin_Environment.SetVariantToClass(var aExec: TPSExec);
 begin
   foAPI_Environment.oExec := aExec;
 
-  uPSRuntime.SetVariantToClass(aExec.GetVarNo(aExec.GetVar('Environment')), foAPI_Environment);
+  uPSRuntime.SetVariantToClass(aExec.GetVarNo(aExec.GetVar('Environment')),
+    foAPI_Environment);
 end;
 
 procedure tPlugin_Environment.RegisterImport;
@@ -75,12 +72,9 @@ begin
 end;
 
 Initialization
- begin
-   tPluginsMapFactory.RegisterClass(tPlugin_Environment);
- end;
 
-
-
+begin
+  tPluginsMapFactory.RegisterClass(tPlugin_Environment);
+end;
 
 end.
-

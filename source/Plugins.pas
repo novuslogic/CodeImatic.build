@@ -3,46 +3,47 @@ unit Plugins;
 
 interface
 
-uses  API_Output, uPSRuntime, uPSI_API_Output, uPSCompiler, PluginsMapFactory, Plugin,
-      Classes, SysUtils, NovusPlugin, Config;
+uses API_Output, uPSRuntime, uPSI_API_Output, uPSCompiler, PluginsMapFactory,
+  Plugin,
+  Classes, SysUtils, NovusPlugin, Config;
 
 type
-   TPlugins = class
-   private
-   protected
-     FExternalPlugins: TNovusPlugins;
-     fPluginsList: TList;
-     foAPI_Output: tAPI_Output;
-     fImp: TPSRuntimeClassImporter;
-   public
-     constructor Create(aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter);
-     destructor Destroy; override;
+  TPlugins = class
+  private
+  protected
+    FExternalPlugins: TNovusPlugins;
+    fPluginsList: TList;
+    foAPI_Output: tAPI_Output;
+    fImp: TPSRuntimeClassImporter;
+  public
+    constructor Create(aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter);
+    destructor Destroy; override;
 
-     procedure LoadPlugins;
-     procedure UnloadPlugins;
+    procedure LoadPlugins;
+    procedure UnloadPlugins;
 
-     function CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
-     procedure RegisterFunctions(aExec: TPSExec);
-     procedure SetVariantToClasses(aExec: TPSExec);
-     procedure RegisterImports;
-   end;
+    function CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
+    procedure RegisterFunctions(aExec: TPSExec);
+    procedure SetVariantToClasses(aExec: TPSExec);
+    procedure RegisterImports;
+  end;
 
 implementation
 
 Uses Runtime;
 
-constructor TPlugins.create;
+constructor TPlugins.Create;
 begin
-  foAPI_Output:= aAPI_Output;
+  foAPI_Output := aAPI_Output;
 
   FExternalPlugins := TNovusPlugins.Create;
 
   fPluginsList := TList.Create;
 
-  fImp:= aImp;
+  fImp := aImp;
 end;
 
-destructor TPlugins.destroy;
+destructor TPlugins.Destroy;
 begin
   Inherited;
 
@@ -59,12 +60,12 @@ Var
   loPlugin: tPlugin;
 begin
 
-  for I := 0 to fPluginsList.Count -1 do
-   begin
-     loPlugin := TPlugin(fPluginsList.Items[i]);
-     loPlugin.Free;
-     loPlugin := nil;
-   end;
+  for I := 0 to fPluginsList.Count - 1 do
+  begin
+    loPlugin := tPlugin(fPluginsList.Items[I]);
+    loPlugin.Free;
+    loPlugin := nil;
+  end;
 
   fPluginsList.Clear;
 
@@ -82,55 +83,58 @@ begin
 
   I := 0;
 
-  while (i < PluginsMapFactoryClasses.Count) do
-    begin
-      FPlugin := TPluginsMapFactory.FindPlugin(PluginsMapFactoryClasses.Items[i].ClassName,
-         foAPI_Output,fImp );
+  while (I < PluginsMapFactoryClasses.Count) do
+  begin
+    FPlugin := TPluginsMapFactory.FindPlugin(PluginsMapFactoryClasses.Items[I]
+      .ClassName, foAPI_Output, fImp);
 
-      fPluginsList.Add(FPlugin);
+    fPluginsList.Add(FPlugin);
 
-      Inc(i);
-    end;
+    Inc(I);
+  end;
 
-  //External Plugin
+  // External Plugin
   foAPI_Output.Log('Loading plugins');
 
   if oConfig.oConfigPluginsList.Count > 0 then
+  begin
+    for I := 0 to oConfig.oConfigPluginsList.Count - 1 do
     begin
-      for I := 0 to oConfig.oConfigPluginsList.Count - 1do
+      loConfigPlugins := TConfigPlugins(oConfig.oConfigPluginsList.Items[I]);
+
+      if FileExists(loConfigPlugins.PluginFilenamePathname) then
+      begin
+        if FExternalPlugins.LoadPlugin(loConfigPlugins.PluginFilenamePathname)
+        then
         begin
-          loConfigPlugins := tConfigPlugins(oConfig.oConfigPluginsList.Items[i]);
+          FExternalPlugin :=
+            IExternalPlugin(FExternalPlugins.Plugins
+            [FExternalPlugins.PluginCount - 1]);
 
-          if FileExists(loConfigPlugins.PluginFilenamePathname) then
-            begin
-              if FExternalPlugins.LoadPlugin(loConfigPlugins.PluginFilenamePathname) then
-                begin
-                  FExternalPlugin := IExternalPlugin(FExternalPlugins.Plugins[FExternalPlugins.PluginCount-1]);
+          fPluginsList.Add(FExternalPlugin.CreatePlugin(foAPI_Output, fImp));
 
-                  fPluginsList.Add(FExternalPlugin.CreatePlugin(foAPI_Output,fImp));
-
-                  foAPI_Output.Log('Loaded: ' + FExternalPlugin.PluginName);
-                end;
-            end
-          else foAPI_Output.Log('Missing: ' + loConfigPlugins.PluginFilenamePathname);
+          foAPI_Output.Log('Loaded: ' + FExternalPlugin.PluginName);
         end;
-
+      end
+      else
+        foAPI_Output.Log('Missing: ' + loConfigPlugins.PluginFilenamePathname);
     end;
 
+  end;
 
 end;
 
 function TPlugins.CustomOnUses(aCompiler: TPSPascalCompiler): Boolean;
 Var
   I: Integer;
-  loPlugin: TPlugin;
+  loPlugin: tPlugin;
 begin
   Try
-    for I := 0 to fPluginsList.Count -1 do
-      begin
-        loPlugin := TPlugin(fPluginsList.Items[i]);
-        loPlugin.CustomOnUses(aCompiler)
-      end;
+    for I := 0 to fPluginsList.Count - 1 do
+    begin
+      loPlugin := tPlugin(fPluginsList.Items[I]);
+      loPlugin.CustomOnUses(aCompiler)
+    end;
 
     Result := True;
   Except
@@ -139,48 +143,47 @@ begin
     Result := False;
   End;
 
-
 end;
 
 procedure TPlugins.RegisterFunctions(aExec: TPSExec);
 var
-  I: integer;
-  loPlugin: TPlugin;
+  I: Integer;
+  loPlugin: tPlugin;
   FExternalPlugin: IExternalPlugin;
 begin
-  for I := 0 to fPluginsList.Count -1 do
-   begin
-     loPlugin := TPlugin(fPluginsList.Items[i]);
-     loPlugin.RegisterFunction(aExec);
-   end;
+  for I := 0 to fPluginsList.Count - 1 do
+  begin
+    loPlugin := tPlugin(fPluginsList.Items[I]);
+    loPlugin.RegisterFunction(aExec);
+  end;
 
-  RegisterClassLibraryRuntime(aExec, FImp);
+  RegisterClassLibraryRuntime(aExec, fImp);
 end;
 
 procedure TPlugins.RegisterImports;
 var
-  loPlugin: TPlugin;
+  loPlugin: tPlugin;
   I: Integer;
   FExternalPlugin: IExternalPlugin;
 begin
-  for I := 0 to fPluginsList.Count -1 do
-    begin
-      loPlugin := TPlugin(fPluginsList.Items[i]);
-      loPlugin.RegisterImport;
-    end;
+  for I := 0 to fPluginsList.Count - 1 do
+  begin
+    loPlugin := tPlugin(fPluginsList.Items[I]);
+    loPlugin.RegisterImport;
+  end;
 end;
 
 procedure TPlugins.SetVariantToClasses(aExec: TPSExec);
 var
-  loPlugin: TPlugin;
+  loPlugin: tPlugin;
   I: Integer;
   FExternalPlugin: IExternalPlugin;
 begin
-  for I := 0 to fPluginsList.Count -1 do
-    begin
-      loPlugin := TPlugin(fPluginsList.Items[i]);
-      loPlugin.SetVariantToClass(aExec);
-    end;
+  for I := 0 to fPluginsList.Count - 1 do
+  begin
+    loPlugin := tPlugin(fPluginsList.Items[I]);
+    loPlugin.SetVariantToClass(aExec);
+  end;
 
 end;
 

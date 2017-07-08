@@ -1,6 +1,7 @@
 unit uPSI_ExtraClasses;
 
 interface
+
 uses
   uPSCompiler, uPSUtils, SysUtils, ExtraClasses;
 
@@ -9,19 +10,18 @@ procedure SIRegister_ExtraClasses(Cl: TPSPascalCompiler);
 
 implementation
 
-
 procedure SIRegisterTStringBuilder(Cl: TPSPascalCompiler);
 begin
-  with Cl.AddClassN(cl.FindClass(''), 'TStringBuilder') do
+  with Cl.AddClassN(Cl.FindClass(''), 'TStringBuilder') do
   begin
     RegisterMethod('constructor Create;');
     RegisterMethod('procedure Free;');
     RegisterMethod('function ToString: string;');
     RegisterMethod('function Append(const Value: string): TStringBuilder;');
-    RegisterMethod('function AppendFormat(const Format: string; const Args: array of const): TStringBuilder;');
+    RegisterMethod
+      ('function AppendFormat(const Format: string; const Args: array of const): TStringBuilder;');
   end;
 end;
-
 
 procedure SIRegister_ExtraClasses(Cl: TPSPascalCompiler);
 begin

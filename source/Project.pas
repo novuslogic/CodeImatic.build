@@ -4,7 +4,7 @@ unit Project;
 interface
 
 Uses NovusXMLBO, Classes, SysUtils, NovusStringUtils, NovusBO, NovusList,
-     JvSimpleXml, NovusSimpleXML, XMLlist, ProjectConfig, Dialogs, NovusFileUtils ;
+  JvSimpleXml, NovusSimpleXML, XMLlist, ProjectConfig, Dialogs, NovusFileUtils;
 
 Type
   TBuildStatus = (bsSucceeded, bsErrors, bsFailed);
@@ -16,19 +16,12 @@ Type
     fbAbort: Boolean;
   private
   public
-    property Retry:integer
-      read firetry
-      write firetry;
+    property Retry: integer read firetry write firetry;
 
-    property skip: Boolean
-      read fbSkip
-      write fbSkip;
+    property skip: Boolean read fbSkip write fbSkip;
 
-    property abort: Boolean
-      read fbAbort
-      write fbAbort;
+    property abort: Boolean read fbAbort write fbAbort;
   end;
-
 
   TProjectTaskCriteria = class(TNovusBO)
   protected
@@ -38,60 +31,45 @@ Type
     constructor Create; override;
     destructor Destroy; override;
 
-    property Failed: TProjectTaskFailed
-       read fFailed
-       write fFailed;
+    property Failed: TProjectTaskFailed read fFailed write fFailed;
   end;
 
   Tprojecttask = class(TNovusBO)
   protected
   private
     fdtStartBuild: tdatetime;
-    fdtEndBuild: tDatetime;
+    fdtEndBuild: tdatetime;
     fsTaskName: String;
     fsProjectFilename: String;
     fBuildStatus: TBuildStatus;
-    FdtDuration: TDateTime;
+    FdtDuration: tdatetime;
     FCriteria: TProjectTaskCriteria;
-    function GetDuration: TdateTime;
+    function GetDuration: tdatetime;
   Public
     constructor Create; override;
     destructor Destroy; override;
 
-    property ProjectFilename: String
-      read fsProjectFilename
+    property ProjectFilename: String read fsProjectFilename
       write fsProjectFilename;
 
-    property TaskName: String
-      read fsTaskName
-      write fsTaskName;
+    property TaskName: String read fsTaskName write fsTaskName;
 
-    property StartBuild: tdatetime
-      read fdtStartBuild
-      write fdtStartBuild;
+    property StartBuild: tdatetime read fdtStartBuild write fdtStartBuild;
 
-    property  EndBuild: tDatetime
-       read fdtEndBuild
-       write fdtEndBuild;
+    property EndBuild: tdatetime read fdtEndBuild write fdtEndBuild;
 
-    property BuildStatus: TBuildStatus
-      read  fBuildStatus
-      write fBuildStatus;
+    property BuildStatus: TBuildStatus read fBuildStatus write fBuildStatus;
 
-    property Duration: TDateTime
-      read GetDuration;
+    property Duration: tdatetime read GetDuration;
 
-    property Criteria: TProjectTaskCriteria
-       read FCriteria
-       write FCriteria;
+    property Criteria: TProjectTaskCriteria read FCriteria write FCriteria;
   end;
-
 
   TProject = class(TXMLlist)
   protected
   private
     fsOutputPath: string;
-    fbOutputConsole: boolean;
+    fbOutputConsole: Boolean;
     foProjectConfig: TProjectConfig;
     foprojecttaskList: TNovusList;
     fsBasePath: String;
@@ -106,35 +84,30 @@ Type
 
     function GetWorkingdirectory: String;
 
-    function LoadProjectFile(aProjectFilename: String; aProjectConfigFilename: String; aWorkingdirectory: string): boolean;
-    function Loadprojecttask(aTaskName: String; aprojecttask: Tprojecttask): Boolean;
+    function LoadProjectFile(aProjectFilename: String;
+      aProjectConfigFilename: String; aWorkingdirectory: string): Boolean;
+    function Loadprojecttask(aTaskName: String;
+      aprojecttask: Tprojecttask): Boolean;
 
-    property oprojecttaskList: TNovusList
-      read foprojecttaskList
+    property oprojecttaskList: TNovusList read foprojecttaskList
       write foprojecttaskList;
 
-    property ProjectFileName: String
-      read fsProjectFileName
-      write fsProjectFileName;
+    property ProjectFilename: String read fsProjectFilename
+      write fsProjectFilename;
 
-     property OutputPath: string
-      read fsOutputPath
-      write fsOutputPath;
+    property OutputPath: string read fsOutputPath write fsOutputPath;
 
-    property  OutputConsole: Boolean
-      read  fbOutputConsole
-      write fbOutputConsole;
+    property OutputConsole: Boolean read fbOutputConsole write fbOutputConsole;
 
-    property oProjectConfig: TProjectConfig
-      read foProjectConfig
+    property oProjectConfig: TProjectConfig read foProjectConfig
       write foProjectConfig;
 
   end;
 
-  const cTimeformat = 'hh:mm:ss.zzz';
+const
+  cTimeformat = 'hh:mm:ss.zzz';
 
 implementation
-
 
 constructor TProject.Create;
 begin
@@ -142,7 +115,7 @@ begin
 
   foProjectConfig := TProjectConfig.Create;
 
-  foprojecttaskList:= TNovusList.Create(Tprojecttask);
+  foprojecttaskList := TNovusList.Create(Tprojecttask);
 
 end;
 
@@ -155,69 +128,68 @@ begin
   inherited;
 end;
 
-function TProject.Loadprojecttask(aTaskName: String; aprojecttask: Tprojecttask): Boolean;
+function TProject.Loadprojecttask(aTaskName: String;
+  aprojecttask: Tprojecttask): Boolean;
 Var
-  fprojecttaskNode,
-  fsucceededNode,
-  ferrorsNode,
-  ffailedNode,
-  fAbortNode,
-  fskipNode,
-  fretryNode,
-  fcriteriaNode: TJvSimpleXmlElem;
-  Index: Integer;
+  fprojecttaskNode, fsucceededNode, ferrorsNode, ffailedNode, fAbortNode,
+    fskipNode, fretryNode, fcriteriaNode: TJvSimpleXmlElem;
+  Index: integer;
 begin
   Result := False;
 
   Try
-    fprojecttaskNode  := TnovusSimpleXML.FindNodeByValue(oXMLDocument.Root, 'projecttask', 'name', aTaskName);
+    fprojecttaskNode := TnovusSimpleXML.FindNodeByValue(oXMLDocument.Root,
+      'projecttask', 'name', aTaskName);
 
     If Assigned(fprojecttaskNode) then
+    begin
+      Index := 0;
+      if Assigned(TnovusSimpleXML.FindNode(fprojecttaskNode, 'projectfilename',
+        Index)) then
       begin
-        Index := 0;
-        if assigned(TNovusSimpleXML.FindNode(fprojecttaskNode, 'projectfilename', Index)) then
-          begin
-            aprojecttask.Criteria.Failed.retry := 0;
+        aprojecttask.Criteria.Failed.Retry := 0;
 
+        Index := 0;
+        aprojecttask.ProjectFilename := TnovusSimpleXML.FindNode
+          (fprojecttaskNode, 'projectfilename', Index).Value;
+
+        fcriteriaNode := TnovusSimpleXML.FindNode(fprojecttaskNode,
+          'criteria', Index);
+
+        aprojecttask.Criteria.Failed.Retry := 0;
+        aprojecttask.Criteria.Failed.skip := False;
+        aprojecttask.Criteria.Failed.abort := False;
+
+        if Assigned(fcriteriaNode) then
+        begin
+          Index := 0;
+          ffailedNode := TnovusSimpleXML.FindNode(fcriteriaNode,
+            'failed', Index);
+          if Assigned(ffailedNode) then
+          begin
+            Index := 0;
+            fretryNode := TnovusSimpleXML.FindNode(ffailedNode, 'retry', Index);
+            if Assigned(fretryNode) then
+              aprojecttask.Criteria.Failed.Retry :=
+                TNovusStringUtils.Str2Int(fretryNode.Value);
 
             Index := 0;
-            aprojecttask.projectfilename := TNovusSimpleXML.FindNode(fprojecttaskNode, 'projectfilename', Index).Value;
+            fskipNode := TnovusSimpleXML.FindNode(ffailedNode, 'skip', Index);
+            if Assigned(fskipNode) then
+              aprojecttask.Criteria.Failed.skip :=
+                TNovusStringUtils.StrToBoolean(fskipNode.Value);
 
-            fcriteriaNode := TNovusSimpleXML.FindNode(fprojecttaskNode, 'criteria', Index);
-
-            aprojecttask.Criteria.Failed.retry := 0;
-            aprojecttask.Criteria.Failed.skip := false;
-            aprojecttask.Criteria.Failed.Abort := false;
-
-            if Assigned(fcriteriaNode) then
-              begin
-                Index := 0;
-                ffailedNode := TNovusSimpleXML.FindNode(fcriteriaNode, 'failed', Index);
-                if Assigned(ffailedNode) then
-                  begin
-                    Index := 0;
-                    fretryNode := TNovusSimpleXML.FindNode(ffailedNode, 'retry', Index);
-                    if assigned(fretryNode) then
-                      aprojecttask.Criteria.Failed.retry := TNovusStringUtils.Str2Int(fretryNode.Value);
-
-                    Index := 0;
-                    fskipNode := TNovusSimpleXML.FindNode(ffailedNode, 'skip', Index);
-                    if assigned(fskipNode) then
-                      aprojecttask.Criteria.Failed.skip := TNovusStringUtils.StrToBoolean(fskipNode.Value);
-
-                    Index := 0;
-                    fabortNode := TNovusSimpleXML.FindNode(ffailedNode, 'abort', Index);
-                    if assigned(fabortNode) then
-                      aprojecttask.Criteria.Failed.abort := TNovusStringUtils.StrToBoolean(fabortNode.Value);
-                  end;
-
-
-              end;
-            
-
-
+            Index := 0;
+            fAbortNode := TnovusSimpleXML.FindNode(ffailedNode, 'abort', Index);
+            if Assigned(fAbortNode) then
+              aprojecttask.Criteria.Failed.abort :=
+                TNovusStringUtils.StrToBoolean(fAbortNode.Value);
           end;
+
+        end;
+
       end;
+    end;
   Finally
     Result := True;
   end;
@@ -232,12 +204,15 @@ begin
   lsWorkingdirectory := Trim(foProjectConfig.workingdirectory);
 
   if lsWorkingdirectory <> '' then
-    lsWorkingdirectory :=  IncludeTrailingPathDelimiter(foProjectConfig.workingdirectory);
+    lsWorkingdirectory := IncludeTrailingPathDelimiter
+      (foProjectConfig.workingdirectory);
 
-  if (Not DirectoryExists(lsWorkingdirectory))  or (Trim(lsWorkingdirectory) = '') then
-    lsWorkingdirectory := IncludeTrailingPathDelimiter(TNovusFileUtils.AbsoluteFilePath(ProjectFileName));
+  if (Not DirectoryExists(lsWorkingdirectory)) or (Trim(lsWorkingdirectory) = '')
+  then
+    lsWorkingdirectory := IncludeTrailingPathDelimiter
+      (TNovusFileUtils.AbsoluteFilePath(ProjectFilename));
 
-  result := lsWorkingdirectory;
+  Result := lsWorkingdirectory;
 end;
 
 function TProject.GetOutputPath: String;
@@ -255,39 +230,44 @@ begin
   Result := GetFieldAsBoolean(oXMLDocument.Root, 'outputconsole');
 end;
 
-function TProject.LoadProjectFile(aProjectFilename: String; aProjectConfigFilename: String; aWorkingdirectory: string): boolean;
+function TProject.LoadProjectFile(aProjectFilename: String;
+  aProjectConfigFilename: String; aWorkingdirectory: string): Boolean;
 Var
   fprojecttaskNode: TJvSimpleXmlElem;
-  Index: Integer;
+  Index: integer;
   loprojecttask: Tprojecttask;
 begin
   XMLFileName := aProjectFilename;
-  result := Retrieve;
-  if not result then exit;
-                          
-  fsOutputPath := GetOutputPath;
-  fbOutputConsole := GetoutputConsole;
+  Result := Retrieve;
+  if not Result then
+    exit;
 
-  ProjectFileName := aProjectFilename;
+  fsOutputPath := GetOutputPath;
+  fbOutputConsole := GetOutputConsole;
+
+  ProjectFilename := aProjectFilename;
 
   if FileExists(aProjectConfigFilename) then
-    foProjectConfig.LoadProjectConfigFile(aProjectConfigFilename, aWorkingdirectory);
+    foProjectConfig.LoadProjectConfigFile(aProjectConfigFilename,
+      aWorkingdirectory);
 
-  //Project task
+  // Project task
   Index := 0;
-  fprojecttaskNode  := TNovusSimpleXML.FindNode(oXMLDocument.Root, 'projecttask', Index);
-  While(fprojecttaskNode <> NIL) do
-    begin
-      loprojecttask:= Tprojecttask.Create;
+  fprojecttaskNode := TnovusSimpleXML.FindNode(oXMLDocument.Root,
+    'projecttask', Index);
+  While (fprojecttaskNode <> NIL) do
+  begin
+    loprojecttask := Tprojecttask.Create;
 
-      loprojecttask.TaskName := fprojecttaskNode.Properties[0].Value;
+    loprojecttask.TaskName := fprojecttaskNode.Properties[0].Value;
 
-      Loadprojecttask(loprojecttask.TaskName, loprojecttask);
+    Loadprojecttask(loprojecttask.TaskName, loprojecttask);
 
-      oprojecttaskList.Add(loprojecttask);
+    oprojecttaskList.Add(loprojecttask);
 
-      fprojecttaskNode  := TNovusSimpleXML.FindNode(oXMLDocument.Root, 'projecttask', Index);
-    end;
+    fprojecttaskNode := TnovusSimpleXML.FindNode(oXMLDocument.Root,
+      'projecttask', Index);
+  end;
 
 end;
 
@@ -300,7 +280,7 @@ constructor Tprojecttask.Create;
 begin
   inherited Create;
 
-  FCriteria:=  TProjectTaskCriteria.Create;
+  FCriteria := TProjectTaskCriteria.Create;
 end;
 
 destructor Tprojecttask.Destroy;
@@ -310,25 +290,23 @@ begin
   inherited;
 end;
 
-function Tprojecttask.GetDuration: TdateTime;
+function Tprojecttask.GetDuration: tdatetime;
 begin
-  Result := EndBuild-StartBuild;
+  Result := EndBuild - StartBuild;
 end;
 
-
-constructor TprojecttaskCriteria.Create;
+constructor TProjectTaskCriteria.Create;
 begin
   inherited Create;
 
-  FFailed:=  TProjectTaskFailed.Create;
+  fFailed := TProjectTaskFailed.Create;
 end;
 
-destructor TprojecttaskCriteria.Destroy;
+destructor TProjectTaskCriteria.Destroy;
 begin
-  FFailed.Free;
+  fFailed.Free;
 
   inherited;
 end;
-
 
 end.

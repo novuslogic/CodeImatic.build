@@ -1,19 +1,18 @@
 unit Plugin_Folder;
 
-
 interface
 
-uses Classes,Plugin,  uPSRuntime,  uPSCompiler, PluginsMapFactory, API_Folder,
-    API_Output, SysUtils, uPSI_API_Folder ;
-
+uses Classes, Plugin, uPSRuntime, uPSCompiler, PluginsMapFactory, API_Folder,
+  API_Output, SysUtils, uPSI_API_Folder;
 
 type
   tPlugin_Folder = class(Tplugin)
   private
   protected
-     foAPI_Folder: TAPI_Folder;
+    foAPI_Folder: TAPI_Folder;
   public
-    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aAPI_Output: tAPI_Output;
+      var aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -22,12 +21,10 @@ type
     procedure RegisterImport; override;
   end;
 
-
-
 implementation
 
-
-constructor tPlugin_Folder.Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter);
+constructor tPlugin_Folder.Create(aAPI_Output: tAPI_Output;
+  var aImp: TPSRuntimeClassImporter);
 begin
   Inherited;
 
@@ -35,15 +32,12 @@ begin
 
 end;
 
-
-destructor  tPlugin_Folder.Destroy;
+destructor tPlugin_Folder.Destroy;
 begin
   Inherited;
 
   FreeandNIl(foAPI_Folder);
 end;
-
-
 
 function tPlugin_Folder.CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean;
 begin
@@ -64,7 +58,8 @@ procedure tPlugin_Folder.SetVariantToClass(var aExec: TPSExec);
 begin
   foAPI_Folder.oExec := aExec;
 
-  uPSRuntime.SetVariantToClass(aExec.GetVarNo(aExec.GetVar('Folder')), foAPI_Folder);
+  uPSRuntime.SetVariantToClass(aExec.GetVarNo(aExec.GetVar('Folder')),
+    foAPI_Folder);
 end;
 
 procedure tPlugin_Folder.RegisterImport;
@@ -74,12 +69,9 @@ begin
 end;
 
 Initialization
- begin
-   tPluginsMapFactory.RegisterClass(tPlugin_Folder);
- end;
 
-
-
+begin
+  tPluginsMapFactory.RegisterClass(tPlugin_Folder);
+end;
 
 end.
-

@@ -1,7 +1,6 @@
 {$I Zautomatic.inc}
 unit PluginsMapFactory;
 
-
 interface
 
 Uses Plugin, API_Output, uPSRuntime, uPSCompiler, Contnrs;
@@ -11,7 +10,8 @@ type
   public
     class procedure RegisterClass(AClass: TClass);
     class function FindClass(AClassName: string): TClass;
-    class function FindPlugin(aClassname: String; aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter): tPlugin;
+    class function FindPlugin(AClassName: String; aAPI_Output: tAPI_Output;
+      aImp: TPSRuntimeClassImporter): tPlugin;
   end;
 
 var
@@ -27,7 +27,7 @@ end;
 class function TPluginsMapFactory.FindClass(AClassName: string): TClass;
 var
   i: Integer;
-  LClass: tClass;
+  LClass: TClass;
 begin
   i := 0;
 
@@ -39,29 +39,32 @@ begin
       LClass := PluginsMapFactoryClasses[i]
     else
       Inc(i);
-    end;
+  end;
 
   Result := LClass;
 end;
 
-class function TPluginsMapFactory.FindPlugin(aClassname: String; aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter): tPlugin;
+class function TPluginsMapFactory.FindPlugin(AClassName: String;
+  aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter): tPlugin;
 Var
-  fc : TPluginClass;
-  f : TPlugin;
+  fc: TPluginClass;
+  f: tPlugin;
 begin
-  fc := TPluginClass(TPluginsMapFactory.FindClass(aClassname));
+  fc := TPluginClass(TPluginsMapFactory.FindClass(AClassName));
   f := fc.Create(aAPI_Output, aImp);
 
   Result := f;
 end;
 
 initialization
-  PluginsMapFactoryClasses := TClassList.Create;
+
+PluginsMapFactoryClasses := TClassList.Create;
 
 finalization
-  begin
-    PluginsMapFactoryClasses.Clear;
-    PluginsMapFactoryClasses.Free;
-  end;
+
+begin
+  PluginsMapFactoryClasses.Clear;
+  PluginsMapFactoryClasses.Free;
+end;
 
 end.

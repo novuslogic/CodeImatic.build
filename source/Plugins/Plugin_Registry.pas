@@ -2,9 +2,8 @@ unit Plugin_Registry;
 
 interface
 
-uses Classes,Plugin,  uPSRuntime,  uPSCompiler, PluginsMapFactory, API_Registry,
-    uPSI_API_Registry, API_Output, SysUtils;
-
+uses Classes, Plugin, uPSRuntime, uPSCompiler, PluginsMapFactory, API_Registry,
+  uPSI_API_Registry, API_Output, SysUtils;
 
 type
   tPlugin_Registry = class(Tplugin)
@@ -12,7 +11,8 @@ type
   protected
     foAPI_Registry: TAPI_Registry;
   public
-    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aAPI_Output: tAPI_Output;
+      var aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -23,7 +23,8 @@ type
 
 implementation
 
-constructor tPlugin_Registry.Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter);
+constructor tPlugin_Registry.Create(aAPI_Output: tAPI_Output;
+  var aImp: TPSRuntimeClassImporter);
 begin
   Inherited;
 
@@ -31,17 +32,15 @@ begin
 
 end;
 
-
-destructor  tPlugin_Registry.Destroy;
+destructor tPlugin_Registry.Destroy;
 begin
   Inherited;
 
   FreeandNIl(foAPI_Registry);
 end;
 
-
-
-function tPlugin_Registry.CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean;
+function tPlugin_Registry.CustomOnUses(var aCompiler
+  : TPSPascalCompiler): Boolean;
 begin
   Result := True;
 
@@ -60,7 +59,8 @@ procedure tPlugin_Registry.SetVariantToClass(var aExec: TPSExec);
 begin
   foAPI_Registry.oExec := aExec;
 
-  uPSRuntime.SetVariantToClass(aExec.GetVarNo(aExec.GetVar('Registry')), foAPI_Registry);
+  uPSRuntime.SetVariantToClass(aExec.GetVarNo(aExec.GetVar('Registry')),
+    foAPI_Registry);
 end;
 
 procedure tPlugin_Registry.RegisterImport;
@@ -70,10 +70,9 @@ begin
 end;
 
 Initialization
- begin
-   tPluginsMapFactory.RegisterClass(tPlugin_Registry);
- end;
+
+begin
+  tPluginsMapFactory.RegisterClass(tPlugin_Registry);
+end;
 
 end.
-
-

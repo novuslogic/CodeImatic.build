@@ -2,17 +2,17 @@ unit Plugin_Path;
 
 interface
 
-uses Classes,Plugin,  uPSRuntime,  uPSCompiler, PluginsMapFactory, API_Path,
-    API_Output, SysUtils, uPSI_API_Path ;
-
+uses Classes, Plugin, uPSRuntime, uPSCompiler, PluginsMapFactory, API_Path,
+  API_Output, SysUtils, uPSI_API_Path;
 
 type
   tPlugin_Path = class(Tplugin)
   private
   protected
-     foAPI_Path: TAPI_Path;
+    foAPI_Path: TAPI_Path;
   public
-    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aAPI_Output: tAPI_Output;
+      var aImp: TPSRuntimeClassImporter); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -21,12 +21,10 @@ type
     procedure RegisterImport; override;
   end;
 
-
-
 implementation
 
-
-constructor tPlugin_Path.Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter);
+constructor tPlugin_Path.Create(aAPI_Output: tAPI_Output;
+  var aImp: TPSRuntimeClassImporter);
 begin
   Inherited;
 
@@ -34,15 +32,12 @@ begin
 
 end;
 
-
-destructor  tPlugin_Path.Destroy;
+destructor tPlugin_Path.Destroy;
 begin
   Inherited;
 
   FreeandNIl(foAPI_Path);
 end;
-
-
 
 function tPlugin_Path.CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean;
 begin
@@ -54,7 +49,6 @@ begin
 
   AddImportedClassVariable(aCompiler, 'Path', 'TAPI_Path');
 
-
 end;
 
 procedure tPlugin_Path.RegisterFunction(var aExec: TPSExec);
@@ -65,7 +59,8 @@ procedure tPlugin_Path.SetVariantToClass(var aExec: TPSExec);
 begin
   foAPI_Path.oExec := aExec;
 
-  uPSRuntime.SetVariantToClass(aExec.GetVarNo(aExec.GetVar('Path')), foAPI_Path);
+  uPSRuntime.SetVariantToClass(aExec.GetVarNo(aExec.GetVar('Path')),
+    foAPI_Path);
 end;
 
 procedure tPlugin_Path.RegisterImport;
@@ -75,12 +70,9 @@ begin
 end;
 
 Initialization
- begin
-   tPluginsMapFactory.RegisterClass(tPlugin_Path);
- end;
 
-
-
+begin
+  tPluginsMapFactory.RegisterClass(tPlugin_Path);
+end;
 
 end.
-

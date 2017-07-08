@@ -13,18 +13,17 @@ Type
   public
     constructor Create; override;
 
-
     function IsLoaded: Boolean;
     function IsNodeNameExists(ANodeName: String): Boolean;
-    function GetFirstNodeName(aNodeName: String; aParentNodeName: String = ''): String;
-    function GetNextNodeName(aNodeName: String; aParentNodeName: String = ''): String;
+    function GetFirstNodeName(ANodeName: String;
+      aParentNodeName: String = ''): String;
+    function GetNextNodeName(ANodeName: String;
+      aParentNodeName: String = ''): String;
     function GetValueByIndex(aIndex: Integer): String;
     function GetNameByIndex(aIndex: Integer): String;
     function GetCount: Integer;
 
-    property Position: Integer
-      read fiPosition
-      write fiPosition;
+    property Position: Integer read fiPosition write fiPosition;
 
   end;
 
@@ -37,22 +36,25 @@ begin
   fiPosition := 0;
 end;
 
-function tXMLlist.GetNextNodeName(aNodeName: String; aParentNodeName: String = ''): String;
+function tXMLlist.GetNextNodeName(ANodeName: String;
+  aParentNodeName: String = ''): String;
 var
   aNodeList: TJvSimpleXmlElem;
   liIndex: Integer;
 begin
   if aParentNodeName <> '' then
-    aNodeList := FindNode(oXMLDocument.Root, aParentNodeName,fiPosition)
+    aNodeList := FindNode(oXMLDocument.Root, aParentNodeName, fiPosition)
   else
     aNodeList := oXMLDocument.Root;
 
-  if aNodeList = nil then aNodeList := oXMLDocument.Root;
+  if aNodeList = nil then
+    aNodeList := oXMLDocument.Root;
 
   Result := GetFieldAsString(aNodeList, ANodeName);
 end;
 
-function tXMLlist.GetFirstNodeName(aNodeName: String; aParentNodeName: String = ''): String;
+function tXMLlist.GetFirstNodeName(ANodeName: String;
+  aParentNodeName: String = ''): String;
 var
   aNodeList: TJvSimpleXmlElem;
   liIndex: Integer;
@@ -60,31 +62,32 @@ begin
   fiPosition := 0;
 
   if aParentNodeName <> '' then
-    aNodeList := FindNode(oXMLDocument.Root, aParentNodeName,fiPosition)
+    aNodeList := FindNode(oXMLDocument.Root, aParentNodeName, fiPosition)
   else
     aNodeList := oXMLDocument.Root;
 
-  if aNodeList = nil then aNodeList := oXMLDocument.Root;
+  if aNodeList = nil then
+    aNodeList := oXMLDocument.Root;
 
   Result := GetFieldAsString(aNodeList, ANodeName);
 end;
 
 function tXMLlist.IsNodeNameExists(ANodeName: String): Boolean;
 Var
-  I: integer;
+  I: Integer;
   lsNodeName: String;
 begin
   Result := False;
 
-  for i := 0 to NodeNames.Count - 1 do
+  for I := 0 to NodeNames.Count - 1 do
+  begin
+    If Uppercase(NodeNames.Strings[I]) = Uppercase(ANodeName) then
     begin
-      If Uppercase(NodeNames.Strings[i]) = Uppercase(ANodeName) then
-        begin
-          Result := True;
+      Result := True;
 
-          Exit;
-        end;
+      Exit;
     end;
+  end;
 end;
 
 function tXMLlist.GetCount: Integer;
@@ -98,10 +101,10 @@ Var
 begin
   Result := '';
 
-  If aIndex > (NodeNames.Count - 1) then Exit;
+  If aIndex > (NodeNames.Count - 1) then
+    Exit;
 
-
-  lsNodeName := NodeNames.Strings[AIndex];
+  lsNodeName := NodeNames.Strings[aIndex];
   Result := GetFirstNodeName(lsNodeName);
 end;
 
@@ -109,15 +112,15 @@ function tXMLlist.GetNameByIndex(aIndex: Integer): String;
 begin
   Result := '';
 
-  If aIndex > (NodeNames.Count - 1) then Exit;
+  If aIndex > (NodeNames.Count - 1) then
+    Exit;
 
-  Result := NodeNames.Strings[AIndex];
+  Result := NodeNames.Strings[aIndex];
 end;
 
 function tXMLlist.IsLoaded: Boolean;
 begin
-  result := (NodeNames.Count > 0);
+  Result := (NodeNames.Count > 0);
 end;
-
 
 end.

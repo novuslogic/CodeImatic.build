@@ -2,7 +2,6 @@
 program Zautomatic;
 
 {$APPTYPE CONSOLE}
-
 {$R *.res}
 
 uses
@@ -60,7 +59,8 @@ uses
 begin
   oConfig.LoadConfig;
 
-  If Not oConfig.ParseParams then Exit;
+  If Not oConfig.ParseParams then
+    Exit;
 
   try
     ExitCode := oruntime.RunEnvironment;

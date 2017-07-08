@@ -2,41 +2,43 @@ unit API_File;
 
 interface
 
-uses APIBase, SysUtils, API_Output, Classes, NovusFileUtils;
+uses APIBase, SysUtils, API_Output, Classes, NovusFileUtils, NovusStringUtils;
 
 type
-   TAPI_File = class(TAPIBase)
-   private
-   protected
-   public
-     constructor Create(aAPI_Output: tAPI_Output); override;
-     destructor Destroy; override;
+  TAPI_File = class(TAPIBase)
+  private
+  protected
+  public
+    constructor Create(aAPI_Output: tAPI_Output); override;
+    destructor Destroy; override;
 
-     function ExtractFilePath(const aFilename: string): String;
-     function AbsoluteFilePath(const aFilename: string): string;
-     function Extractfilename(const aFilename: string): string;
-     function IncludeTrailingPathDelimiter(const aPath: string): String;
-     function Exists(const aFilename: String): Boolean;
-     function Copy(const aSourceFilename: String; const aDestFilename: String; const aOverWrite : Boolean ): Boolean;
-     function Delete(const aFilename: String): Boolean;
-     function Move(const aSourceFilename: String; const aDestFilename: String): Boolean;
-     function IsFileInUse(const aFilename: String): Boolean;
-     function IsFileReadonly(const aFilename: String): Boolean;
-   end;
+    function ExtractFilePath(const aFilename: string): String;
+    function AbsoluteFilePath(const aFilename: string): string;
+    function Extractfilename(const aFilename: string): string;
+    function IncludeTrailingPathDelimiter(const aPath: string): String;
+    function Exists(const aFilename: String): Boolean;
+    function Copy(const aSourceFilename: String; const aDestFilename: String;
+      const aOverWrite: Boolean): Boolean;
+    function Delete(const aFilename: String): Boolean;
+    function Move(const aSourceFilename: String;
+      const aDestFilename: String): Boolean;
+    function IsFileInUse(const aFilename: String): Boolean;
+    function IsFileReadonly(const aFilename: String): Boolean;
+    function MakeTmpFileName(aExt: string; aUseGUID: Boolean): String;
+  end;
 
 implementation
 
 uses System.IOUtils;
 
-constructor TAPI_File.create(aAPI_Output: tAPI_Output);
+constructor TAPI_File.Create(aAPI_Output: tAPI_Output);
 begin
-  Inherited create(aAPI_Output);
+  Inherited Create(aAPI_Output);
 end;
 
-destructor TAPI_File.destroy;
+destructor TAPI_File.Destroy;
 begin
 end;
-
 
 function TAPI_File.Exists(const aFilename: String): Boolean;
 begin
@@ -51,7 +53,8 @@ begin
   End;
 end;
 
-function TAPI_File.Copy(const aSourceFilename: String; const aDestFilename: String; const aOverWrite : Boolean ): Boolean;
+function TAPI_File.Copy(const aSourceFilename: String;
+  const aDestFilename: String; const aOverWrite: Boolean): Boolean;
 begin
   Try
     Try
@@ -97,7 +100,6 @@ begin
   End;
 end;
 
-
 function TAPI_File.Extractfilename(const aFilename: string): String;
 begin
   Try
@@ -114,7 +116,7 @@ end;
 
 function TAPI_File.Delete(const aFilename: String): Boolean;
 begin
-   Try
+  Try
     Try
       TFile.Delete(aFilename);
 
@@ -129,14 +131,14 @@ begin
   End;
 end;
 
-
-function TAPI_File.Move(const aSourceFilename: String; const aDestFilename: String): Boolean;
+function TAPI_File.Move(const aSourceFilename: String;
+  const aDestFilename: String): Boolean;
 begin
   Try
     Try
-      TFile.Move(aSourceFilename,aDestFilename);
+      TFile.Move(aSourceFilename, aDestFilename);
 
-      Result := true;
+      Result := True;
     Except
       Result := False;
 
@@ -146,7 +148,6 @@ begin
 
   End;
 end;
-
 
 function TAPI_File.AbsoluteFilePath(const aFilename: string): string;
 begin
@@ -161,7 +162,7 @@ begin
   End;
 end;
 
-function TAPI_File.IsFileInUse(const aFilename: string): boolean;
+function TAPI_File.IsFileInUse(const aFilename: string): Boolean;
 begin
   Try
     Try
@@ -174,7 +175,7 @@ begin
   End;
 end;
 
-function TAPI_File.IsFileReadonly(const aFilename: string): boolean;
+function TAPI_File.IsFileReadonly(const aFilename: string): Boolean;
 begin
   Try
     Try
@@ -187,5 +188,17 @@ begin
   End;
 end;
 
+function TAPI_File.MakeTmpFileName(aExt: string; aUseGUID: Boolean): String;
+begin
+  Try
+    Try
+      Result := TNovusStringUtils.MakeTmpFileName(aExt, aUseGUID);
+    Except
+      oAPI_Output.InternalError;
+    End;
+  Finally
+
+  End;
+end;
 
 end.

@@ -9,13 +9,12 @@ type
     function AppendasString(const Value: string): TStringBuilder;
   end;
 
-
 implementation
 
-function TStringBuilderHelper.AppendasString(const Value: string): TStringBuilder;
+function TStringBuilderHelper.AppendasString(const Value: string)
+  : TStringBuilder;
 begin
   Self.Append(Value);
 end;
-
 
 end.
