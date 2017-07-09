@@ -5,6 +5,9 @@ interface
 Uses cmd, msbuild;
 
 type 
+  TDelphiVersion = (DELPHI7, DELPHI2005, DELPHI2006, DELPHI2007, DELPHI2009, DELPHI2010, DELPHIXE,  DELPHIXE2,
+                   DELPHIXE3, DELPHIXE4, DELPHIXE5, DELPHIXE6, DELPHIXE7, DELPHIXE8, DELPHI10,  DELPHI10_1,  DELPHI10_2);
+
   TDelphiOptions = record
     Platform: string;
     SearchPath: string;
@@ -21,44 +24,26 @@ type
     Target: string;
   end;
 
-const
-   DELPHI7    = 7;
-   DELPHI2005 = 9;
-   DELPHI2006 = 10;
-   DELPHI2007 = 11;
-   DELPHI2009 = 12;
-   DELPHI2010 = 14;
-   DELPHIXE   = 15;
-   DELPHIXE2  = 16;
-   DELPHIXE3  = 17;
-   DELPHIXE4  = 18;
-   DELPHIXE5  = 19;
-   DELPHIXE6  = 20;
-   DELPHIXE7  = 21;
-   DELPHIXE8  = 22;
-   DELPHI10   = 23;
-   DELPHI10_1 = 24;
-   DELPHI10_2 = 25;
-
-function GetDelphiPackageVersion(aCompilerVersion: integer): string;
-function GetDelphiCompilerVersion(aCompilerVersion: integer): string;
-function GetBDSDIR(aCompilerVersion: integer): string;
-function GetBDSINCLUDE(aCompilerVersion: integer): string;
-function GetBDSCOMMONDIR(aCompilerVersion: integer): string;
-function GetBDSBPLDIR(aCompilerVersion: integer): string;
+function DelphiVersionMax: Integer;
+function GetDelphiPackageVersion(aDelphiVersion:  TDelphiVersion): string;
+function GetDelphiCompilerVersion(aDelphiVersion:  TDelphiVersion): string;
+function GetBDSDIR(aDelphiVersion:  TDelphiVersion): string;
+function GetBDSINCLUDE(aDelphiVersion:  TDelphiVersion): string;
+function GetBDSCOMMONDIR(aDelphiVersion:  TDelphiVersion): string;
+function GetBDSBPLDIR(aDelphiVersion:  TDelphiVersion): string;
 function GetBDSRegKey(Key: string; Name: string): string;
-function GetBDSRegistery(aCompilerVersion: integer; Name: string): string;
-function Delphi(aCompilerVersion: integer;aProject: string; aDelphiOptions:TDelphiOptions): Integer;
+function GetBDSRegistery(aDelphiVersion:  TDelphiVersion; Name: string): string;
+function Delphi(aDelphiVersion:  TDelphiVersion;aProject: string; aDelphiOptions:TDelphiOptions): Integer;
    
 implementation
 
-function GetBDSRegistery(aCompilerVersion: integer; Name: string): string;
+function GetBDSRegistery(aDelphiVersion:  TDelphiVersion; Name: string): string;
 var 
   lsKey: string;
 begin
   Result := '';
     
-  case aCompilerVersion of
+  case aDelphiVersion of
     DELPHI7    : lsKey := 'Borland\Delphi\7';
     DELPHI2005 : lsKey := 'Borland\BDS\3';
     DELPHI2006 : lsKey := 'Borland\BDS\4';
@@ -70,10 +55,10 @@ begin
     DELPHIXE3  : lsKey := 'Embarcadero\BDS\10';
     DELPHIXE4  : lsKey := 'Embarcadero\BDS\11';
     DELPHIXE5  : lsKey := 'Embarcadero\BDS\12';
-    DELPHIXE6..DELPHI10_2  : lsKey := 'Embarcadero\BDS\'+ IntToStr(aCompilerVersion-6);
+    DELPHIXE6..DELPHI10_2  : lsKey := 'Embarcadero\BDS\'+ IntToStr(Integer(aDelphiVersion) + 3);
   
   else
-    RaiseException(erCustomError, 'Invalid "delphi" constant; Supported compiler versions 7..25');
+    RaiseException(erCustomError, 'Invalid "delphi" constant; Supported compiler versions DELPHI7..DELPHI10_2');
   end;
 
   Result := GetBDSRegKey(lsKey, Name);
@@ -92,7 +77,7 @@ begin
     Result := Registry.ReadString( HKEY_LOCAL_MACHINE, 'SOFTWARE\Wow6432Node\' + Key + '.0', Name);
 end;
 
-function GetBDSCOMMONDIR(aCompilerVersion: integer): string;
+function GetBDSCOMMONDIR(aDelphiVersion:  TDelphiVersion): string;
 var
   lines,
   lrsvars: tStringlist; 
@@ -103,7 +88,7 @@ begin
   if trim(result) = '' then 
     begin
        Try
-         lsRootDir:=GetBDSDIR(aCompilerVersion) + '\bin\rsvars.bat';
+         lsRootDir:=GetBDSDIR(aDelphiVersion) + '\bin\rsvars.bat';
          if File.Exists(lsRootDir) = false then 
            RaiseException(erCustomError, 'Cannot find Delphi rsbar.bat file: '+ lsRootDir);
          lrsvars:= tStringlist.Create;
@@ -127,28 +112,28 @@ begin
   Result := File.IncludeTrailingPathDelimiter(result);  
 end;
 
-function GetBDSDIR(aCompilerVersion: integer): string;
+function GetBDSDIR(aDelphiVersion:  TDelphiVersion): string;
 begin
-  result := GetBDSRegistery(aCompilerVersion, 'rootdir');
+  result := GetBDSRegistery(aDelphiVersion, 'rootdir');
 end;
 
-function GetBDSINCLUDE(aCompilerVersion: integer): string;
+function GetBDSINCLUDE(aDelphiVersion:  TDelphiVersion): string;
 begin
   result := Environment.GetEnvironmentVar('BDSINCLUDE');
   if trim(result) = '' then 
     begin
-      result := File.IncludeTrailingPathDelimiter(GetBDSDIR(aCompilerVersion) + '\include');
+      result := File.IncludeTrailingPathDelimiter(GetBDSDIR(aDelphiVersion) + '\include');
     end;
     
 end;
 
-function GetBDSBPLDir(aCompilerVersion: integer): string;
+function GetBDSBPLDir(aDelphiVersion:  TDelphiVersion): string;
 begin
-  result := File.IncludeTrailingPathDelimiter(GetBDSDIR(aCompilerVersion) + '\bpl');
+  result := File.IncludeTrailingPathDelimiter(GetBDSDIR(aDelphiVersion) + '\bpl');
 end;
 
 
-function Delphi(aCompilerVersion: integer;aProject: string; aDelphiOptions:TDelphiOptions): Integer;
+function Delphi(aDelphiVersion:  TDelphiVersion;aProject: string; aDelphiOptions:TDelphiOptions): Integer;
 var
   lsrootdir: string;
   SB: TStringBuilder;
@@ -162,21 +147,21 @@ begin
   
   *)
 
-  lsrootdir :=  GetBDSDIR(aCompilerVersion);
+  lsrootdir :=  GetBDSDIR(aDelphiVersion);
 
   if lsrootdir = '' then 
-    RaiseException(erCustomError, 'Cannot find Delphi registry key for '+ IntToStr(aCompilerVersion));
+    RaiseException(erCustomError, 'Cannot find Delphi registry key for '+ GetDelphiCompilerVersion(aDelphiVersion));
 
-  if (aCompilerVersion in [DELPHI7, DELPHI2005, DELPHI2006]) and (lowercase(aDelphiOptions.platform) = 'msbuild') then 
+  if (aDelphiVersion in [DELPHI7, DELPHI2005, DELPHI2006]) and (lowercase(aDelphiOptions.platform) = 'msbuild') then 
     RaiseException(erCustomError, 'Compiler Version 7,9,10 does not support platform = msbuild')
   else
   if (lowercase(aDelphiOptions.platform) = 'msbuild') then
     begin
-      Environment.SetEnvironmentVar('BDS', GetBDSDIR(aCompilerVersion), false);
+      Environment.SetEnvironmentVar('BDS', GetBDSDIR(aDelphiVersion), false);
 
-      Environment.SetEnvironmentVar('BDSINCLUDE', GetBDSINCLUDE(  aCompilerVersion), false);
+      Environment.SetEnvironmentVar('BDSINCLUDE', GetBDSINCLUDE(  aDelphiVersion), false);
   
-      Environment.SetEnvironmentVar('BDSCOMMONDIR',  GetBDSCOMMONDIR(  aCompilerVersion ), false);
+      Environment.SetEnvironmentVar('BDSCOMMONDIR',  GetBDSCOMMONDIR(  aDelphiVersion ), false);
     
       Environment.SetEnvironmentVar('FrameworkDir', GetDotNETFrameworkDirectory('3.5'), false);
       Environment.SetEnvironmentVar('FrameworkVersion', 'v3.5', false);
@@ -251,10 +236,10 @@ begin
 
     if Trim(aDelphiOptions.UnitOutputDirectory) <> '' then
       begin
-        if aCompilerVersion > DELPHI7 then
-          sb.AppendFormat(' -NO"%s" -N0"%s"', [aDelphiOptions.UnitOutputDirectory, aDelphiOptions.UnitOutputDirectory])
+        if aDelphiVersion = DELPHI7 then       
+          sb.AppendFormat(' -N"%s"', [aDelphiOptions.UnitOutputDirectory])
         else
-         sb.AppendFormat(' -N"%s"', [aDelphiOptions.UnitOutputDirectory]);
+          sb.AppendFormat(' -NO"%s" -N0"%s"', [aDelphiOptions.UnitOutputDirectory, aDelphiOptions.UnitOutputDirectory]);  
       end;      
 
     if Trim(aDelphiOptions.OutputDirectory) <> '' then
@@ -282,9 +267,9 @@ begin
   End;
 end;
 
-function GetDelphiPackageVersion(aCompilerVersion: integer): string;
+function GetDelphiPackageVersion(aDelphiVersion:  TDelphiVersion): string;
 begin
-  case aCompilerVersion of
+  case aDelphiVersion of
     DELPHI7 : Result := '70';
     DELPHI2005 : Result := '90';
     DELPHI2006 : Result := '100';
@@ -303,13 +288,13 @@ begin
     DELPHI10_1 : Result := '240';
     DELPHI10_2 : Result := '250';
   else
-    RaiseException(erCustomError, 'Invalid "delphi" constant; Supported compiler versions 7..25');
+    RaiseException(erCustomError, 'Invalid supported delphi versions');
   end;
 end;
 
-function GetDelphiCompilerVersion(aCompilerVersion: integer): string;
+function GetDelphiCompilerVersion(aDelphiVersion:  TDelphiVersion): string;
 begin
-  case aCompilerVersion of
+  case aDelphiVersion of
     DELPHI7 : Result := 'DELPHI7';
     DELPHI2005 : Result := 'DELPHI2005';
     DELPHI2006 : Result := 'DELPHI2006';
@@ -328,8 +313,13 @@ begin
     DELPHI10_1 : Result := 'DELPHI10_1';
     DELPHI10_2 : Result := 'DELPHI10_2';
   else
-    RaiseException(erCustomError, 'Invalid "delphi" constant; Supported compiler versions 7..25');
+    RaiseException(erCustomError, 'Invalid supported delphi versions');
   end;
+end;
+
+function DelphiVersionMax: Integer;
+begin
+  Result := 16;
 end;
 
 
