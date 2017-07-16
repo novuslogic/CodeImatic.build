@@ -5,7 +5,7 @@ program Zautomatic;
 {$R *.res}
 
 uses
-  Sharemem,
+  FastMM4,
   System.SysUtils,
   ScriptEngine in 'ScriptEngine.pas',
   Config in 'Config.pas',
