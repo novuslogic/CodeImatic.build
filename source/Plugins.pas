@@ -184,7 +184,6 @@ begin
     loPlugin := tPlugin(fPluginsList.Items[I]);
     loPlugin.SetVariantToClass(aExec);
   end;
-
 end;
 
 end.

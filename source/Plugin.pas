@@ -27,12 +27,7 @@ type
 
   IExternalPlugin = interface(INovusPlugin)
     ['{838468EA-1750-4CB5-B6B3-E7078F59A46A}']
-    (*
-      function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; safecall;
-      procedure RegisterFunction(var aExec: TPSExec); safecall;
-      procedure SetVariantToClass(var aExec: TPSExec); safecall;
-      procedure RegisterImport;  safecall;
-    *)
+   
     function CreatePlugin(aAPI_Output: tAPI_Output;
       aImp: TPSRuntimeClassImporter): TPlugin safecall;
   end;

@@ -4,7 +4,6 @@ unit ScriptEngine;
 interface
 
 uses
-  // Forms,
   Runtime,
   API_Output,
   System.Classes,
@@ -139,8 +138,6 @@ begin
 
   FCompiler := TPSPascalCompiler.Create; // create an instance of the compiler.
   FCompiler.OnUses := CustomOnUses; // assign the OnUses event.
-
-  // FCompiler.OnExportCheck := ScriptOnExportCheck; // Assign the onExportCheck event.
 
   FCompiler.AllowNoBegin := true;
   FCompiler.AllowNoEnd := true;

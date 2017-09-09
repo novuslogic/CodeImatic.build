@@ -10,7 +10,7 @@ uses Classes, runtime, Plugin, uPSCompiler, uPSI_API_Output, PluginsMapFactory,
   uPSR_dateutils;
 
 type
-  tPlugin_Commands = class(Tplugin)
+  tPlugin_SystemExtBase = class(Tplugin)
   private
   protected
   public
@@ -39,7 +39,7 @@ function CommandCompareText(Caller: TPSExec; p: TIFExternalProcRec;
 
 implementation
 
-function tPlugin_Commands.CustomOnUses(var aCompiler
+function tPlugin_SystemExtBase.CustomOnUses(var aCompiler
   : TPSPascalCompiler): Boolean;
 begin
   Result := True;
@@ -69,7 +69,7 @@ begin
 
 end;
 
-procedure tPlugin_Commands.RegisterFunction(var aExec: TPSExec);
+procedure tPlugin_SystemExtBase.RegisterFunction(var aExec: TPSExec);
 begin
   RegisterClassLibraryRuntime(aExec, FImp);
   RegisterDLLRuntime(aExec);
@@ -91,11 +91,11 @@ begin
 
 end;
 
-procedure tPlugin_Commands.SetVariantToClass(var aExec: TPSExec);
+procedure tPlugin_SystemExtBase.SetVariantToClass(var aExec: TPSExec);
 begin
 end;
 
-procedure tPlugin_Commands.RegisterImport;
+procedure tPlugin_SystemExtBase.RegisterImport;
 begin
   RIRegister_Std(FImp);
   RIRegister_Classes(FImp, True);
@@ -258,7 +258,7 @@ end;
 Initialization
 
 begin
-  tPluginsMapFactory.RegisterClass(tPlugin_Commands);
+  tPluginsMapFactory.RegisterClass(tPlugin_SystemExtBase);
 end;
 
 end.

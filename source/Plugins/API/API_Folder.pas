@@ -2,7 +2,7 @@ unit API_Folder;
 
 interface
 
-uses APIBase, SysUtils, API_Output, Classes, NovusFileUtils;
+uses APIBase, SysUtils, API_Output, Classes, NovusFileUtils, System.IOUtils;
 
 type
   TAPI_Folder = class(TAPIBase)
@@ -51,7 +51,7 @@ function TAPI_Folder.RemoveFolder(Const aFolder: String): Boolean;
 begin
   Try
     Try
-      Result := RemoveDir(aFolder);
+      TDirectory.Delete(aFolder, true);
     Except
       oAPI_Output.InternalError;
     End;
@@ -92,7 +92,7 @@ function TAPI_Folder.CreateFolder(Const aFolder: String): Boolean;
 begin
   Try
     Try
-      Result := CreateDir(aFolder);
+      TDirectory.CreateDirectory(aFolder);
     Except
       oAPI_Output.InternalError;
     End;

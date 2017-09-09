@@ -22,7 +22,7 @@ type
       aWorkingdirectory: string);
 
     function IspropertyExists(aPropertyName: String): boolean;
-    function Getproperty(aPropertyName: String): String;
+    function Getproperties(aPropertyName: String): String;
 
     function GetSearchPath: String;
     function GetWorkingdirectory: String;
@@ -59,7 +59,7 @@ function tProjectConfig.GetWorkingdirectory: String;
 var
   lsworkingdirectory: string;
 begin
-  lsworkingdirectory := Trim(Getproperty('workingdirectory'));
+  lsworkingdirectory := Trim(Getproperties('workingdirectory'));
 
   Result := '';
   if lsworkingdirectory <> '' then
@@ -83,10 +83,10 @@ end;
 
 function tProjectConfig.GetSearchPath: String;
 begin
-  Result := TNovusFileUtils.TrailingBackSlash(Getproperty('searchpath'));
+  Result := TNovusFileUtils.TrailingBackSlash(Getproperties('searchpath'));
 end;
 
-function tProjectConfig.Getproperty(aPropertyName: string): String;
+function tProjectConfig.Getproperties(aPropertyName: string): String;
 begin
   Result := '';
   if aPropertyName = '' then
