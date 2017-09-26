@@ -161,7 +161,7 @@ begin
       Exit;
     end;
 
-    Result := oRuntime.oProject.oProjectConfig.Getproperty(aPropertyName);
+    Result := oRuntime.oProject.oProjectConfig.Getproperties(aPropertyName);
   Except
     oAPI_Output.InternalError;
   End;
