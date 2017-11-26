@@ -1,6 +1,6 @@
 {********************************************************************}
 {                                                                    }
-{           AWS.pas                                      }
+{           AWS.pas                                                  }
 {                                                                    }
 {           Apache License                                           }
 {           Version 2.0, January 2004                                }
@@ -12,21 +12,9 @@
 {                                                                    }
 {********************************************************************}
 
-
-{********************************************************************}
-{                                                                    }
-{           DelphiVersions.inc                                       }
-{                                                                    }
-{           Apache License                                           }
-{           Version 2.0, January 2004                                }
-{           License at http://www.apache.org/licenses/               }
-{                                                                    }
-{                                                                    }
-{           Copyright (c) 2017 Novuslogic Software                   }
-{           http://www.novuslogic.com                                }
-{                                                                    }
-{********************************************************************}
-
+/// <summary>
+///   Amazon Web Services
+/// </summary>
 unit AWS;
 
 interface

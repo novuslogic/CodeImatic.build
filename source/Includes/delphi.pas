@@ -33,7 +33,10 @@ function GetBDSCOMMONDIR(aDelphiVersion:  TDelphiVersion): string;
 function GetBDSBPLDIR(aDelphiVersion:  TDelphiVersion): string;
 function GetBDSRegKey(Key: string; Name: string): string;
 function GetBDSRegistery(aDelphiVersion:  TDelphiVersion; Name: string): string;
-function Delphi(aDelphiVersion:  TDelphiVersion;aProject: string; aDelphiOptions:TDelphiOptions): Integer;
+/// <remarks>
+///   http://docwiki.embarcadero.com/RADStudio/Tokyo/en/Compiler_Versions
+/// </remarks>
+function Delphi(aDelphiVersion: TDelphiVersion;aProject: string; aDelphiOptions:TDelphiOptions): Integer;
    
 implementation
 
@@ -140,12 +143,6 @@ var
   FMSBuildOptions: TMSBUildOptions;
 begin
   result := -1;
-  
-  (* 
-  
- http://docwiki.embarcadero.com/RADStudio/Tokyo/en/Compiler_Versions
-  
-  *)
 
   lsrootdir :=  GetBDSDIR(aDelphiVersion);
 
@@ -321,8 +318,6 @@ function DelphiVersionMax: Integer;
 begin
   Result := 16;
 end;
-
-
-   
+ 
 
 end.

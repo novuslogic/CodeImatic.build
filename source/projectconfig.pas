@@ -96,7 +96,9 @@ begin
     Exit;
 
   Result := tNovusEnvironment.ParseGetEnvironmentVar
-    (GetFieldAsString(oXMLDocument.Root, Lowercase(aPropertyName)));
+    (GetFieldAsString(oXMLDocument.Root, Lowercase(aPropertyName)), ETTToken2);
+
+  Result :=  tNovusEnvironment.ParseGetEnvironmentVar(result, ETTToken1);
 end;
 
 function tProjectConfig.IspropertyExists(aPropertyName: String): boolean;
