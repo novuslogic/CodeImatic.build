@@ -27,6 +27,7 @@ package ZautoCore;
 {$ENDIF IMPLICITBUILDING}
 {$RUNONLY}
 {$IMPLICITBUILD OFF}
+{$G-}
 
 requires
   rtl,
