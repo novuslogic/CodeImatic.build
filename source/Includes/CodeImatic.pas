@@ -4,28 +4,28 @@ interface
 
 Uses cmd;
 
-function Zcodegen(aProject: string; aProjectconfig: string; aVariables: string; aWorkingdirectory: string;aOptions: string): Integer;
-function GetZodegenPath: String;
+function codegen(aProject: string; aProjectconfig: string; aVariables: string; aWorkingdirectory: string;aOptions: string): Integer;
+function GetcodegenPath: String;
 
 
 implementation
 
 
-function GetZodegenPath: String;
+function GetcodegenPath: String;
 begin
   Result := File.IncludeTrailingPathDelimiter(Environment.GetEnvironmentVar('ZCODE'));
 end;
 
-function Zcodegen(aProject: string; aProjectconfig: string; aVariables: string; aWorkingdirectory: string;aOptions: string): Integer;
+function ccodegen(aProject: string; aProjectconfig: string; aVariables: string; aWorkingdirectory: string;aOptions: string): Integer;
 var
   SB: TStringBuilder;
 begin
   Result := -1;
 
   
-  if not Folder.Exists(GetZodegenPath) then 
+  if not Folder.Exists(GetcodegenPath) then 
     begin
-      RaiseException(erCustomError, 'Zcodegen Configured path [' + GetZodegenPath +'] cannot not be found.');
+      RaiseException(erCustomError, 'CodeImatic.codegen Configured path [' + GetcodegenPath +'] cannot not be found.');
 
       Exit;
     end;
@@ -33,7 +33,7 @@ begin
   try
     SB:= TStringBuilder.Create;
 
-    SB.Append(GetZodegenPath + 'zcodegen.exe ');
+    SB.Append(GetcodegenPath + 'codeitmatic.codegen.exe ');
 
     SB.Append('-project ' + aProject + ' ');
     SB.Append('-projectconfig ' + aProjectconfig + ' ');
