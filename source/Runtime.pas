@@ -5,7 +5,7 @@ interface
 
 Uses Project, API_Output, Config, NovusVersionUtils, System.SysUtils,
   NovusStringUtils,
-  uPSRuntime, Plugins, dialogs, NovusDateStringUtils, uPSCompiler, Solution;
+  uPSRuntime, Plugins, NovusDateStringUtils, uPSCompiler, Solution;
 
 type
   tRuntime = class
@@ -117,7 +117,7 @@ begin
     end;
 
     foAPI_Output.WriteLog
-      ('Zautomatic - © Copyright Novuslogic Software 2017 All Rights Reserved');
+      ('CodeImatic.build - © Copyright Novuslogic Software 2018 All Rights Reserved');
     foAPI_Output.WriteLog('Version: ' +
       TNovusVersionUtils.GetFullVersionNumber);
 

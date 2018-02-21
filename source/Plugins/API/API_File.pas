@@ -42,6 +42,8 @@ end;
 
 function TAPI_File.Exists(const aFilename: String): Boolean;
 begin
+  Result := False;
+
   Try
     Try
       Result := FileExists(aFilename);
@@ -164,6 +166,8 @@ end;
 
 function TAPI_File.IsFileInUse(const aFilename: string): Boolean;
 begin
+  Result := False;
+
   Try
     Try
       Result := TNovusFileUtils.IsFileInUse(aFilename);

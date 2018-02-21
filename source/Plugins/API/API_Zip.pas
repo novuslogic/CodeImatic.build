@@ -104,6 +104,8 @@ begin
   var
       I: Integer;
     begin
+      Result := False;
+
       if Assigned(aZIPOptions) then
         begin
           for I := 0 to aZIPOptions.ExcludedFile.Count - 1 do

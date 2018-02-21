@@ -7,7 +7,7 @@ uses
   Vcl.Dialogs, NovusDialogs;
 
 const
-  cZautomatic = 'Zautomatic.exe';
+  cZautomatic = 'codeimatic.build.exe';
   cZauto_env = '{%ZAUTO%}';
 
 
