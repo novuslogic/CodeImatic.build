@@ -1,0 +1,7 @@
+[Main]
+OutputDir=D:\temp\PSUnitImporter\Import\
+SingleUnit=1
+UseUnitAtDT=0
+FilePrefix=uPSImport
+[Files]
+File0=D:\Projects\CodeImatic.build\source\Plugins\API\API_Task.pas

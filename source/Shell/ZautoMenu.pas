@@ -94,11 +94,11 @@ begin
     begin
       InsertMenu (Menu, indexMenu,
           {MF_STRING or MF_BYPOSITION}MF_BYPOSITION, idCmdFirst,
-          'Compile and Execute Zautomatic');
+          'Compile and Execute CodeImatic.build Solution');
 
           InsertMenu (Menu, indexMenu + 1,
           {MF_STRING or MF_BYPOSITION}MF_BYPOSITION, idCmdFirst + 1,
-          'Compile Zautomatic');
+          'Compile CodeImatic.build Solution');
 
       Result := 2;
     end

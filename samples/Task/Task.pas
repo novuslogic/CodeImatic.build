@@ -1,9 +1,9 @@
 
 procedure FinishedTasks();
 begin
-  output.log('Finished Tasks ...') ;
+  //output.log('Finished Tasks ...') ;
 
-  Task.BuildReport;
+  //Task.BuildReport;
 end;
 
 procedure Test3;
@@ -37,7 +37,7 @@ begin
   FTaskTest3 := Task.AddTask('test3');
   if Not Assigned(FTaskTest3) then
     RaiseException(erCustomError, 'not assigned FTaskTest3'); 
-
+ 
 
   FTaskTest3.Criteria.Failed.retry := 5;
   FTaskTest3.Criteria.Failed.Skip := true;
@@ -54,6 +54,8 @@ begin
     RaiseException(erCustomError, 'not assigned FTaskTest1'); 
   FTaskTest1.IsDependentOn('test2');
 
+
+  //Task.BeforeTasks  := @FinishedTasks;
   Task.FinishedTasks  := @FinishedTasks;
 
 

@@ -1,4 +1,4 @@
-{$I Zautomatic.inc}
+{$I CodeImatic.build.inc}
 unit PluginsMapFactory;
 
 interface

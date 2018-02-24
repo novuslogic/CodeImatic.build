@@ -102,10 +102,10 @@ type
 
 
 
-
    TAPI_Task = class(TAPIBase)
    private
    protected
+     fBeforeTasks: TTaskEvent;
      fFinishedTasks: TTaskEvent;
      fTaskRunner: TTaskRunner;
      function DoDependencies(const aTask: tTask): Boolean;
@@ -120,7 +120,12 @@ type
 
      procedure BuildReport;
 
+
    published
+     property BeforeTasks: TTaskEvent
+       read fBeforeTasks write fBeforeTasks;
+
+
      property FinishedTasks: TTaskEvent
       read fFinishedTasks write fFinishedTasks;
 
@@ -316,10 +321,16 @@ begin
 
   FTask := tTask(FTaskRunner.FindTask(aProcedureName));
   if Assigned(FTask) then
-    Result := DoRunTarget(FTask);
+    begin
+      if assigned(fBeforeTasks) then
+       fBeforeTasks();
 
-  if assigned(fFinishedTasks) then
-    fFinishedTasks();
+      Result := DoRunTarget(FTask);
+    end;
+
+  if Result  then
+    if assigned(fFinishedTasks) then
+       fFinishedTasks();
 
 end;
 
