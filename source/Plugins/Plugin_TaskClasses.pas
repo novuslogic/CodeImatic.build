@@ -96,7 +96,7 @@ end;
 procedure tPlugin_TaskBase.RegisterImport;
 begin
   RIRegister_API_Task(FImp);
-  RIRegister_API_Task(FImp);
+//  RIRegister_API_Task(FImp);
 end;
 
 // Plugin_Task

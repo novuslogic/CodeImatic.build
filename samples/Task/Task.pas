@@ -55,7 +55,6 @@ begin
   FTaskTest1.IsDependentOn('test2');
 
 
-  //Task.BeforeTasks  := @FinishedTasks;
   Task.FinishedTasks  := @FinishedTasks;
 
 

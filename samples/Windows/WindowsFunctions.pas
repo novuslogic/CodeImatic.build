@@ -1,12 +1,17 @@
 
-Uses Windows;
+Uses Windows, stringutils;
+
+Var
+  FGUID: tGUID;
 
 begin
   Writeln('IsProcessExists: notepad.exe');
 
-  if IsProcessExists('notepad.exe') then  Writeln('Running...');
+  if IsProcess32Exists('notepad.exe') then  Writeln('Running...');
   
+  CoCreateGuid(fGuid);
 
+  Writeln(GUIDToString(fGuid));
 
 
 end.

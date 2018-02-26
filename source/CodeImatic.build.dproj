@@ -112,6 +112,7 @@
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
+        <Debugger_DebugSourcePath>D:\Delphi Components\Pascalscript\Source\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
         <Debugger_RunParams>-solution Task.zasolution</Debugger_RunParams>
         <Debugger_CWD>D:\Projects\CodeImatic.build\samples\Task</Debugger_CWD>
         <VerInfo_Locale>1033</VerInfo_Locale>

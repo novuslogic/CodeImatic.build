@@ -134,11 +134,15 @@ end;
 (* === run-time registration functions === *)
 (*----------------------------------------------------------------------------*)
 procedure TAPI_TaskFinishedTasks_W(Self: TAPI_Task; const T: TTaskEvent);
-begin Self.FinishedTasks := T; end;
+begin
+  Self.FinishedTasks := T;
+end;
 
 (*----------------------------------------------------------------------------*)
 procedure TAPI_TaskFinishedTasks_R(Self: TAPI_Task; var T: TTaskEvent);
-begin T := Self.FinishedTasks; end;
+begin
+  T := Self.FinishedTasks;
+end;
 
 (*----------------------------------------------------------------------------*)
 procedure TAPI_TaskBeforeTasks_W(Self: TAPI_Task; const T: TTaskEvent);

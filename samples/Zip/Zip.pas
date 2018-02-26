@@ -1,3 +1,10 @@
+procedure BeforeZIPEvent;
+begin
+  Writeln('BeforeZIPEvent');
+end;
+
+
+
 Var
   FZipStringList: TStringList;
   I: Integer;
@@ -5,7 +12,7 @@ Var
 begin
    Output.log('Zip Sample');
 
-
+  //Zip.BeforeZIPEvent:=@BeforeZIPEvent;
 
   Writeln('function ZipExtractFile');
 

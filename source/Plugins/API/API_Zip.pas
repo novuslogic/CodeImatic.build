@@ -7,6 +7,8 @@ uses Classes, SysUtils, APIBase, uPSRuntime, IOUtils, NovusFileUtils,
      AbZipTyp, AbUtils, StrUtils ;
 
 type
+   TZIPEvent = procedure of object;
+
    TZIPOptions = class(TPersistent)
    private
    protected
@@ -31,6 +33,8 @@ type
    TAPI_Zip = class(TAPIBase)
    private
    protected
+     fBeforeZIPEvent: TZIPEvent;
+     fAfterZIPEvent: TZIPEvent;
      procedure ConfirmProcessItem(Sender: TObject; Item: TAbArchiveItem;
          ProcessType: TAbProcessType; var Confirm: Boolean);
    public
@@ -56,6 +60,13 @@ type
                              const aFileName: string;
                              const aPath: string;
                              const aZIPOptions: TZIPOptions): Boolean;
+
+
+     property BeforeZIPEvent: TZIPEvent
+       read fBeforeZIPEvent write fBeforeZIPEvent;
+
+      property AfterZIPEvent: TZIPEvent
+       read fAfterZIPEvent write fAfterZIPEvent;
    end;
 
 Const
@@ -127,6 +138,8 @@ begin
       loZipFile.CompressionMethodToUse := smBestMethod;
       loZipFile.DeflationOption := doNormal;
 
+      if assigned(fBeforeZipEvent) then
+         fBeforeZipEvent();
 
       if Assigned(aZIPOptions) then
         begin
@@ -177,6 +190,10 @@ begin
       loZipFile.Save;
 
       loZipFile.CloseArchive;
+
+
+      if assigned(fAfterZipEvent) then
+         fAfterZipEvent();
     Except
       oAPI_Output.InternalError;
 
