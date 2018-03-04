@@ -95,7 +95,7 @@ type
       read fCriteria
       write fCriteria;
 
-    property FinishedTask: TTaskEvent
+    property OnFinishedTask: TTaskEvent
       read fFinishedTask write fFinishedTask;
 
   end;
@@ -122,11 +122,11 @@ type
 
 
    published
-     property BeforeTasks: TTaskEvent
+     property OnBeforeTasks: TTaskEvent
        read fBeforeTasks write fBeforeTasks;
 
 
-     property FinishedTasks: TTaskEvent
+     property OnFinishedTasks: TTaskEvent
       read fFinishedTasks write fFinishedTasks;
 
 
@@ -285,8 +285,8 @@ begin
 
             FTask.EndBuild := Now;
 
-            if assigned(FTask.FinishedTask) then
-                FTask.FinishedTask();
+            if assigned(FTask.OnFinishedTask) then
+                FTask.OnFinishedTask();
 
           Except
             oAPI_Output.InternalError;

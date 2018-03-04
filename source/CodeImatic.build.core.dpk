@@ -1,4 +1,5 @@
-package ZautoCore;
+package CodeImatic.build.core;
+
 
 {$R *.res}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
@@ -25,9 +26,9 @@ package ZautoCore;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
+{$DESCRIPTION 'CodeImatic.build.core runtime'}
 {$RUNONLY}
 {$IMPLICITBUILD OFF}
-{$G-}
 
 requires
   rtl,

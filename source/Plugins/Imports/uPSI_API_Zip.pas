@@ -76,8 +76,8 @@ begin
     RegisterMethod('Function BrowserList( const aZipFilename : String; var aZipStringList : TStringList; const aIncludePath : Boolean; const aZIPOptions : TZIPOptions) : Boolean');
     RegisterMethod('Function ExtractAll( const aZipFilename : String; const aPath : string; const aZIPOptions : TZIPOptions) : Boolean');
     RegisterMethod('Function ExtractFile( const aZipFilename : String; const aFileName : string; const aPath : string; const aZIPOptions : TZIPOptions) : Boolean');
-    RegisterProperty('BeforeZIPEvent', 'TZIPEvent', iptrw);
-    RegisterProperty('AfterZIPEvent', 'TZIPEvent', iptrw);
+    RegisterProperty('OnBeforeZIPEvent', 'TZIPEvent', iptrw);
+    RegisterProperty('OnAfterZIPEvent', 'TZIPEvent', iptrw);
   end;
 end;
 
@@ -107,19 +107,19 @@ end;
 (* === run-time registration functions === *)
 (*----------------------------------------------------------------------------*)
 procedure TAPI_ZipAfterZIPEvent_W(Self: TAPI_Zip; const T: TZIPEvent);
-begin Self.AfterZIPEvent := T; end;
+begin Self.OnAfterZIPEvent := T; end;
 
 (*----------------------------------------------------------------------------*)
 procedure TAPI_ZipAfterZIPEvent_R(Self: TAPI_Zip; var T: TZIPEvent);
-begin T := Self.AfterZIPEvent; end;
+begin T := Self.OnAfterZIPEvent; end;
 
 (*----------------------------------------------------------------------------*)
 procedure TAPI_ZipBeforeZIPEvent_W(Self: TAPI_Zip; const T: TZIPEvent);
-begin Self.BeforeZIPEvent := T; end;
+begin Self.OnBeforeZIPEvent := T; end;
 
 (*----------------------------------------------------------------------------*)
 procedure TAPI_ZipBeforeZIPEvent_R(Self: TAPI_Zip; var T: TZIPEvent);
-begin T := Self.BeforeZIPEvent; end;
+begin T := Self.OnBeforeZIPEvent; end;
 
 (*----------------------------------------------------------------------------*)
 procedure TZIPOptionsOutput_W(Self: TZIPOptions; const T: Boolean);

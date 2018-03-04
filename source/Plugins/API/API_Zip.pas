@@ -62,10 +62,10 @@ type
                              const aZIPOptions: TZIPOptions): Boolean;
 
 
-     property BeforeZIPEvent: TZIPEvent
+     property OnBeforeZIPEvent: TZIPEvent
        read fBeforeZIPEvent write fBeforeZIPEvent;
 
-      property AfterZIPEvent: TZIPEvent
+      property OnAfterZIPEvent: TZIPEvent
        read fAfterZIPEvent write fAfterZIPEvent;
    end;
 

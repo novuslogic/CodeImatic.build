@@ -4,7 +4,7 @@ unit Project;
 interface
 
 Uses NovusXMLBO, Classes, SysUtils, NovusStringUtils, NovusBO, NovusList,
-  JvSimpleXml, NovusSimpleXML, XMLlist, ProjectConfig, Dialogs, NovusFileUtils;
+  JvSimpleXml, NovusSimpleXML, XMLlist, ProjectConfig, NovusFileUtils;
 
 Type
   TBuildStatus = (bsSucceeded, bsErrors, bsFailed);

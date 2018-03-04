@@ -4,9 +4,9 @@
     </PropertyGroup>
     <ItemGroup>
         <Projects Include="CodeImatic.build.dproj">
-            <Dependencies>ZautoCore.dproj</Dependencies>
+            <Dependencies>CodeImatic.build.core.dproj</Dependencies>
         </Projects>
-        <Projects Include="ZautoCore.dproj">
+        <Projects Include="CodeImatic.build.core.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="Plugins\Zip.dproj">
@@ -26,23 +26,23 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="CodeImatic_build" DependsOnTargets="ZautoCore">
+    <Target Name="CodeImatic_build" DependsOnTargets="CodeImatic.build.core">
         <MSBuild Projects="CodeImatic.build.dproj"/>
     </Target>
-    <Target Name="CodeImatic_build:Clean" DependsOnTargets="ZautoCore:Clean">
+    <Target Name="CodeImatic_build:Clean" DependsOnTargets="CodeImatic.build.core:Clean">
         <MSBuild Projects="CodeImatic.build.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="CodeImatic_build:Make" DependsOnTargets="ZautoCore:Make">
+    <Target Name="CodeImatic_build:Make" DependsOnTargets="CodeImatic.build.core:Make">
         <MSBuild Projects="CodeImatic.build.dproj" Targets="Make"/>
     </Target>
-    <Target Name="ZautoCore">
-        <MSBuild Projects="ZautoCore.dproj"/>
+    <Target Name="CodeImatic_build_core">
+        <MSBuild Projects="CodeImatic.build.core.dproj"/>
     </Target>
-    <Target Name="ZautoCore:Clean">
-        <MSBuild Projects="ZautoCore.dproj" Targets="Clean"/>
+    <Target Name="CodeImatic_build_core:Clean">
+        <MSBuild Projects="CodeImatic.build.core.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="ZautoCore:Make">
-        <MSBuild Projects="ZautoCore.dproj" Targets="Make"/>
+    <Target Name="CodeImatic_build_core:Make">
+        <MSBuild Projects="CodeImatic.build.core.dproj" Targets="Make"/>
     </Target>
     <Target Name="Zip">
         <MSBuild Projects="Plugins\Zip.dproj"/>
@@ -72,13 +72,13 @@
         <MSBuild Projects="Shell\CodeImaticShell.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="CodeImatic_build;ZautoCore;Zip;Task;CodeImaticShell"/>
+        <CallTarget Targets="CodeImatic_build;CodeImatic_build_core;Zip;Task;CodeImaticShell"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="CodeImatic_build:Clean;ZautoCore:Clean;Zip:Clean;Task:Clean;CodeImaticShell:Clean"/>
+        <CallTarget Targets="CodeImatic_build:Clean;CodeImatic_build_core:Clean;Zip:Clean;Task:Clean;CodeImaticShell:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="CodeImatic_build:Make;ZautoCore:Make;Zip:Make;Task:Make;CodeImaticShell:Make"/>
+        <CallTarget Targets="CodeImatic_build:Make;CodeImatic_build_core:Make;Zip:Make;Task:Make;CodeImaticShell:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
