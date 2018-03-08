@@ -9,6 +9,9 @@
         <Projects Include="CodeImatic.build.core.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="Plugins\VCLControls.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="Plugins\Zip.dproj">
             <Dependencies/>
         </Projects>
@@ -44,6 +47,15 @@
     <Target Name="CodeImatic_build_core:Make">
         <MSBuild Projects="CodeImatic.build.core.dproj" Targets="Make"/>
     </Target>
+    <Target Name="VCLControls">
+        <MSBuild Projects="Plugins\VCLControls.dproj"/>
+    </Target>
+    <Target Name="VCLControls:Clean">
+        <MSBuild Projects="Plugins\VCLControls.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="VCLControls:Make">
+        <MSBuild Projects="Plugins\VCLControls.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Zip">
         <MSBuild Projects="Plugins\Zip.dproj"/>
     </Target>
@@ -72,13 +84,13 @@
         <MSBuild Projects="Shell\CodeImaticShell.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="CodeImatic_build;CodeImatic_build_core;Zip;Task;CodeImaticShell"/>
+        <CallTarget Targets="CodeImatic_build;CodeImatic_build_core;VCLControls;Zip;Task;CodeImaticShell"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="CodeImatic_build:Clean;CodeImatic_build_core:Clean;Zip:Clean;Task:Clean;CodeImaticShell:Clean"/>
+        <CallTarget Targets="CodeImatic_build:Clean;CodeImatic_build_core:Clean;VCLControls:Clean;Zip:Clean;Task:Clean;CodeImaticShell:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="CodeImatic_build:Make;CodeImatic_build_core:Make;Zip:Make;Task:Make;CodeImaticShell:Make"/>
+        <CallTarget Targets="CodeImatic_build:Make;CodeImatic_build_core:Make;VCLControls:Make;Zip:Make;Task:Make;CodeImaticShell:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

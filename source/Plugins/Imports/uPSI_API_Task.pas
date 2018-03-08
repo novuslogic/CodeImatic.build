@@ -137,7 +137,6 @@ end;
 procedure TAPI_TaskFinishedTasks_W(Self: TAPI_Task; const T: TTaskEvent);
 begin
   if Assigned(Self) then    ;
- // if Assigned(T) then;
 
 
   self.OnFinishedTasks := T;
