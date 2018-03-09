@@ -205,20 +205,20 @@ begin
   SIRegister_TReplaceDialog(CL);
   CL.AddTypeS('TMsgDlgType', '(mtWarning, mtError, mtInformation, mtConfirmation, mtCustom)');
 
-  CL.AddTypeS('TMsgDlgBtn', '(mbYes, mbNo, mbOK, mbCancel, mbAbort, mbRetry, mbIgnore, mbAll, mbNoToAll, mbYesToAll, mbHelp)');
+  CL.AddTypeS('TMsgDlgBtn', '(mbYes, mbNo, mbOK, mbCancel, mbAbort, mbRetry, mbIgnore,  mbAll, mbNoToAll, mbYesToAll, mbHelp, mbClose)');
 
   CL.AddTypeS('TMsgDlgButtons', 'set of TMsgDlgBtn');
- CL.AddConstantN('mbYesNoCancel','LongInt').Value.ts32 := ord(mbYes) or ord(mbNo) or ord(mbCancel);
- CL.AddConstantN('mbOKCancel','LongInt').Value.ts32 := ord(mbOK) or ord(mbCancel);
- CL.AddConstantN('mbAbortRetryIgnore','LongInt').Value.ts32 := ord(mbAbort) or ord(mbRetry) or ord(mbIgnore);
- CL.AddDelphiFunction('function CreateMessageDialog(const Msg: string; DlgType: TMsgDlgType; Buttons: TMsgDlgButtons): TForm');
- CL.AddDelphiFunction('function MessageDlg(const Msg: string; DlgType: TMsgDlgType; Buttons: TMsgDlgButtons; HelpCtx: LongInt): Integer');
- CL.AddDelphiFunction('function MessageDlgPos(const Msg: string; DlgType: TMsgDlgType; Buttons: TMsgDlgButtons; HelpCtx: LongInt; X, Y: Integer): Integer');
- CL.AddDelphiFunction('function MessageDlgPosHelp(const Msg: string; DlgType: TMsgDlgType; Buttons: TMsgDlgButtons; HelpCtx: LongInt; X, Y: Integer; const HelpFileName: string): Integer');
- CL.AddDelphiFunction('procedure ShowMessage(const Msg: string)');
- CL.AddDelphiFunction('procedure ShowMessagePos(const Msg: string; X, Y: Integer)');
- CL.AddDelphiFunction('function InputBox(const ACaption, APrompt, ADefault: string): string');
- CL.AddDelphiFunction('function InputQuery(const ACaption, APrompt: string; var Value: string): Boolean');
+  CL.AddConstantN('mbYesNoCancel','LongInt').Value.ts32 := ord(mbYes) or ord(mbNo) or ord(mbCancel);
+  CL.AddConstantN('mbOKCancel','LongInt').Value.ts32 := ord(mbOK) or ord(mbCancel);
+  CL.AddConstantN('mbAbortRetryIgnore','LongInt').Value.ts32 := ord(mbAbort) or ord(mbRetry) or ord(mbIgnore);
+  CL.AddDelphiFunction('function CreateMessageDialog(const Msg: string; DlgType: TMsgDlgType; Buttons: TMsgDlgButtons): TForm');
+  CL.AddDelphiFunction('function MessageDlg(const Msg: string; DlgType: TMsgDlgType; Buttons: TMsgDlgButtons; HelpCtx: LongInt): Integer');
+  CL.AddDelphiFunction('function MessageDlgPos(const Msg: string; DlgType: TMsgDlgType; Buttons: TMsgDlgButtons; HelpCtx: LongInt; X, Y: Integer): Integer');
+  CL.AddDelphiFunction('function MessageDlgPosHelp(const Msg: string; DlgType: TMsgDlgType; Buttons: TMsgDlgButtons; HelpCtx: LongInt; X, Y: Integer; const HelpFileName: string): Integer');
+  CL.AddDelphiFunction('procedure ShowMessage(const Msg: string)');
+  CL.AddDelphiFunction('procedure ShowMessagePos(const Msg: string; X, Y: Integer)');
+  CL.AddDelphiFunction('function InputBox(const ACaption, APrompt, ADefault: string): string');
+  CL.AddDelphiFunction('function InputQuery(const ACaption, APrompt: string; var Value: string): Boolean');
 end;
 
 (* === run-time registration functions === *)
