@@ -7,8 +7,9 @@ Uses SysUtils, NovusXMLBO, Registry, Windows, NovusStringUtils, NovusFileUtils,
   JvSimpleXml, NovusSimpleXML, NovusList;
 
 Const
-  csOutputFile = 'zaoutput.log';
-  csConfigfile = 'zautomatic.config';
+  csOutputFile = 'codeimatic.build.log';
+  csConfigfile = 'codeimatic.build.config';
+  csConfigfileversion = 'codeimatic.build1.0';
 
 Type
   TConfigPlugins = class(Tobject)
@@ -43,7 +44,7 @@ Type
     constructor Create; virtual; // override;
     destructor Destroy; override;
 
-    procedure LoadConfig;
+    function LoadConfig: Integer;
 
     function ParseParams: Boolean;
 
@@ -104,7 +105,7 @@ begin
   While Not fbOK do
   begin
     lsParamStr := Lowercase(ParamStr(I));
-
+    (*
     if lsParamStr = '-solution' then
     begin
       Inc(I);
@@ -125,7 +126,10 @@ begin
 
       Result := True;
     end
-    else if lsParamStr = '-project' then
+
+    else
+    *)
+    if lsParamStr = '-project' then
     begin
       Inc(I);
       fsProjectFileName := Trim(ParamStr(I));
@@ -202,13 +206,17 @@ begin
   fsOutputFile := csOutputFile;
 end;
 
-procedure TConfig.LoadConfig;
+function TConfig.LoadConfig: integer;
 Var
-  fPluginElem, fPluginsElem: TJvSimpleXmlElem;
+  fConfigElem,
+  fPluginElem,
+  fPluginsElem: TJvSimpleXmlElem;
   I, Index: integer;
   fsPluginName, fsPluginFilename: String;
   loConfigPlugins: TConfigPlugins;
 begin
+  result := 0;
+
   if fsRootPath = '' then
     fsRootPath := TNovusFileUtils.TrailingBackSlash
       (TNovusStringUtils.RootDirectory);
@@ -217,37 +225,57 @@ begin
 
   if FileExists(fsConfigfile) then
   begin
-    XMLFileName := fsRootPath + csConfigfile;
+    XMLFileName := fsConfigfile;
     Retrieve;
 
     Index := 0;
-    fPluginsElem := TNovusSimpleXML.FindNode(oXMLDocument.Root,
-      'plugins', Index);
-    if Assigned(fPluginsElem) then
+    fConfigElem := TNovusSimpleXML.FindNode(oXMLDocument.Root, 'config', Index);
+    if assigned(fConfigElem) then
     begin
-      For I := 0 to fPluginsElem.Items.count - 1 do
-      begin
-        loConfigPlugins := TConfigPlugins.Create;
+      if TNovusSimpleXML.HasProperties(fConfigElem, 'version')  =  csConfigfileversion then
+        begin
+          Index := 0;
+          fPluginsElem := TNovusSimpleXML.FindNode(oXMLDocument.Root,
+            'plugins', Index);
+          if assigned(fPluginsElem) then
+          begin
+            For I := 0 to fPluginsElem.Items.count - 1 do
+            begin
+              loConfigPlugins := TConfigPlugins.Create;
 
-        fsPluginName := fPluginsElem.Items[I].Name;
+              fsPluginName := fPluginsElem.Items[I].Name;
 
-        Index := 0;
-        fsPluginFilename := '';
-        fPluginElem := TNovusSimpleXML.FindNode(fPluginsElem.Items[I],
-          'filename', Index);
-        if Assigned(fPluginElem) then
-          fsPluginFilename := fPluginElem.Value;
+              Index := 0;
+              fsPluginFilename := '';
+              fPluginElem := TNovusSimpleXML.FindNode(fPluginsElem.Items[I],
+                'filename', Index);
+              if assigned(fPluginElem) then
+                fsPluginFilename := fPluginElem.Value;
 
-        loConfigPlugins.PluginName := fsPluginName;
-        loConfigPlugins.Pluginfilename := fsPluginFilename;
-        loConfigPlugins.PluginFilenamePathname := RootPath + 'plugins\' +
-          fsPluginFilename;
+              if FileExists( fsPluginFilename) then
+                begin
 
-        fConfigPluginsList.Add(loConfigPlugins);
+                  loconfigplugins.pluginname := fspluginname;
+                  loconfigplugins.pluginfilename := fspluginfilename;
+                  loconfigplugins.pluginfilenamepathname := rootpath + 'plugins\' +
+                    fspluginfilename;
+
+                  fconfigpluginslist.add(loconfigplugins);
+                end
+              else
+                begin
+                  Result := -1002;
+
+                  break;
+                end;
+             end;
+          end
+        else result := -1003;
       end;
-    end;
-
-  end;
+    end
+     else Result := -1001;
+  end
+  else Result := -1000;
 
 end;
 

@@ -62,3 +62,7 @@
 /source/Shell/__history
 /build/ZautoShell.dll
 *.dcp
+/build/plugins
+/build/CodeImatic.build.core.bpl
+/build/CodeImatic.build.core.rsm
+/build/CodeImatic.build.rsm

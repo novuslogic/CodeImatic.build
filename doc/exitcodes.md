@@ -1,0 +1,4 @@
+-1000 - codeimatic.build.config cannot be found.
+-1001 - codeimatic.build.config unkown solution file.
+-1002 - codeimatic.build.config cannot find plugin.
+-1003 - codeimatic.build.config wrong version 1.0

@@ -1,2 +1,0 @@
-ZAUTO - System Env - zautomatic.exe path.
-ZAUTO_INCLUDES - System Env - Includes path.

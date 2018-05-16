@@ -4,14 +4,15 @@ unit Runtime;
 interface
 
 Uses Project, API_Output, Config, NovusVersionUtils, System.SysUtils,
-  NovusStringUtils,
+  NovusStringUtils,   NovusFileUtils,
   uPSRuntime, Plugins, NovusDateStringUtils, uPSCompiler, Solution;
 
 type
   tRuntime = class
   protected
   private
-    foSolution: tSolution;
+    //foSolution: tSolution;
+    fsWorkingdirectory: string;
     fImp: TPSRuntimeClassImporter;
     foAPI_Output: tAPI_Output;
     foProject: tProject;
@@ -19,6 +20,7 @@ type
     FdtDuration: TDateTime;
     fBuildStatus: TBuildStatus;
     function GetBuildStatus(aBuildStatus: TBuildStatus): String;
+
   public
     function RunEnvironment: Integer;
 
@@ -34,6 +36,9 @@ type
     property Duration: TDateTime read FdtDuration write FdtDuration;
 
     property BuildStatus: TBuildStatus read fBuildStatus write fBuildStatus;
+
+    property Workingdirectory: string read fsWorkingdirectory write fsWorkingdirectory;
+
   end;
 
 Var
@@ -52,6 +57,13 @@ begin
   Try
     Result := -1;
 
+    fsworkingdirectory := TNovusFileUtils.TrailingBackSlash
+      (ExtractFilePath(oConfig.ProjectFileName));
+    if Trim(fsworkingdirectory) = '' then
+      fsworkingdirectory := TNovusFileUtils.TrailingBackSlash
+        (TNovusFileUtils.AbsoluteFilePath(oConfig.ProjectFileName));
+
+    (*
     foSolution := tSolution.Create;
 
     if Trim(oConfig.SolutionFilename) <> '' then
@@ -76,11 +88,12 @@ begin
         Exit;
       end;
     end;
+    *)
 
     foProject := tProject.Create;
 
     if not foProject.LoadProjectFile(oConfig.ProjectFileName,
-      oConfig.ProjectConfigFileName, foSolution.Workingdirectory) then
+      oConfig.ProjectConfigFileName, fsWorkingdirectory) then
     begin
       if Not FileExists(oConfig.ProjectFileName) then
       begin
@@ -255,7 +268,7 @@ begin
     foPlugins.Free;
   Finally
     foProject.Free;
-    foSolution.Free;
+    //foSolution.Free;
   End;
 end;
 

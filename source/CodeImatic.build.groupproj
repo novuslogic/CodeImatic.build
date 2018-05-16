@@ -18,9 +18,6 @@
         <Projects Include="Plugins\Task.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="Shell\CodeImaticShell.dproj">
-            <Dependencies/>
-        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -74,23 +71,14 @@
     <Target Name="Task:Make">
         <MSBuild Projects="Plugins\Task.dproj" Targets="Make"/>
     </Target>
-    <Target Name="CodeImaticShell">
-        <MSBuild Projects="Shell\CodeImaticShell.dproj"/>
-    </Target>
-    <Target Name="CodeImaticShell:Clean">
-        <MSBuild Projects="Shell\CodeImaticShell.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="CodeImaticShell:Make">
-        <MSBuild Projects="Shell\CodeImaticShell.dproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="CodeImatic_build;CodeImatic_build_core;VCLControls;Zip;Task;CodeImaticShell"/>
+        <CallTarget Targets="CodeImatic_build;CodeImatic_build_core;VCLControls;Zip;Task"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="CodeImatic_build:Clean;CodeImatic_build_core:Clean;VCLControls:Clean;Zip:Clean;Task:Clean;CodeImaticShell:Clean"/>
+        <CallTarget Targets="CodeImatic_build:Clean;CodeImatic_build_core:Clean;VCLControls:Clean;Zip:Clean;Task:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="CodeImatic_build:Make;CodeImatic_build_core:Make;VCLControls:Make;Zip:Make;Task:Make;CodeImaticShell:Make"/>
+        <CallTarget Targets="CodeImatic_build:Make;CodeImatic_build_core:Make;VCLControls:Make;Zip:Make;Task:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

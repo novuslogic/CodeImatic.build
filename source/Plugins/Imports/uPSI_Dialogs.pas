@@ -11,18 +11,6 @@ interface
 uses
   SysUtils, Classes, uPSComponent, uPSCompiler, uPSRuntime;
 
-type
-(*----------------------------------------------------------------------------*)
-  TPSImport_Dialogs = class(TPSPlugin)
-  public
-    procedure CompOnUses(CompExec: TPSScript); override;
-    procedure ExecOnUses(CompExec: TPSScript); override;
-    procedure CompileImport1(CompExec: TPSScript); override;
-    procedure CompileImport2(CompExec: TPSScript); override;
-    procedure ExecImport1(CompExec: TPSScript; const ri: TPSRuntimeClassImporter); override;
-    procedure ExecImport2(CompExec: TPSScript; const ri: TPSRuntimeClassImporter); override;
-  end;
-
   procedure SIRegister_Dialogs(CL: TPSPascalCompiler);
   procedure RIRegister_Dialogs_Routines(S: TPSExec);
   procedure RIRegister_Dialogs(CL: TPSRuntimeClassImporter);
@@ -143,6 +131,8 @@ begin
     RegisterProperty('OnSelectionChange', 'TNotifyEvent', iptrw);
     RegisterProperty('OnTypeChange', 'TNotifyEvent', iptrw);
     RegisterProperty('OnIncludeItem', 'TIncludeItemEvent', iptrw);
+    RegisterMethod
+      ('function Execute: Boolean;');
   end;
 end;
 
@@ -710,39 +700,5 @@ begin
   RIRegister_TReplaceDialog(CL);
 end;
 
- 
- 
-{ TPSImport_Dialogs }
-(*----------------------------------------------------------------------------*)
-procedure TPSImport_Dialogs.CompOnUses(CompExec: TPSScript);
-begin
-  { nothing } 
-end;
-(*----------------------------------------------------------------------------*)
-procedure TPSImport_Dialogs.ExecOnUses(CompExec: TPSScript);
-begin
-  { nothing } 
-end;
-(*----------------------------------------------------------------------------*)
-procedure TPSImport_Dialogs.CompileImport1(CompExec: TPSScript);
-begin
-  SIRegister_Dialogs(CompExec.Comp);
-end;
-(*----------------------------------------------------------------------------*)
-procedure TPSImport_Dialogs.CompileImport2(CompExec: TPSScript);
-begin
-  { nothing } 
-end;
-(*----------------------------------------------------------------------------*)
-procedure TPSImport_Dialogs.ExecImport1(CompExec: TPSScript; const ri: TPSRuntimeClassImporter);
-begin
-  RIRegister_Dialogs(ri);
-  RIRegister_Dialogs_Routines(CompExec.Exec); // comment it if no routines
-end;
-(*----------------------------------------------------------------------------*)
-procedure TPSImport_Dialogs.ExecImport2(CompExec: TPSScript; const ri: TPSRuntimeClassImporter);
-begin
-  { nothing } 
-end;
- 
+
 end.

@@ -113,8 +113,8 @@
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
-        <Debugger_DebugSourcePath>D:\Delphi Components\Pascalscript\Source\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
-        <Debugger_RunParams>-solution Task.zasolution</Debugger_RunParams>
+        <Debugger_DebugSourcePath>D:\Projects\NovuscodeLibrary\Source\Core\Utilities\jvcl\;D:\Projects\NovuscodeLibrary\Source\Core\Utilities\jvcl\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
+        <Debugger_RunParams>-project Task.zaproject --projectconfig Task.zapconfig</Debugger_RunParams>
         <Debugger_CWD>D:\Projects\CodeImatic.build\samples\Task</Debugger_CWD>
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
@@ -184,7 +184,6 @@
         <DCCReference Include="Plugins\Imports\uPSI_API_Path.pas"/>
         <DCCReference Include="Plugins\Plugin_Path.pas"/>
         <DCCReference Include="ExtraClasses.pas"/>
-        <DCCReference Include="Solution.pas"/>
         <None Include="CodeIMatic.build.inc"/>
         <None Include="DelphiVersions.inc"/>
         <BuildConfiguration Include="Release">
@@ -616,9 +615,9 @@
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME)"/>
             </Deployment>
             <Platforms>
                 <Platform value="Win32">False</Platform>
