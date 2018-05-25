@@ -5,7 +5,7 @@ interface
 
 Uses Project, API_Output, Config, NovusVersionUtils, System.SysUtils,
   NovusStringUtils,   NovusFileUtils,
-  uPSRuntime, Plugins, NovusDateStringUtils, uPSCompiler, Solution;
+  uPSRuntime, Plugins, NovusDateStringUtils, uPSCompiler{, Solution};
 
 type
   tRuntime = class

@@ -105,30 +105,7 @@ begin
   While Not fbOK do
   begin
     lsParamStr := Lowercase(ParamStr(I));
-    (*
-    if lsParamStr = '-solution' then
-    begin
-      Inc(I);
-      fsSolutionFilename := Trim(ParamStr(I));
 
-      if Trim(TNovusStringUtils.JustFilename(fsSolutionFilename))
-        = Trim(fsSolutionFilename) then
-        fsSolutionFilename := IncludeTrailingPathDelimiter
-          (TNovusFileUtils.AbsoluteFilePath(ParamStr(I))) + Trim(ParamStr(I));
-
-      if Not FileExists(fsSolutionFilename) then
-      begin
-        writeln('-solution ' + TNovusStringUtils.JustFilename
-          (fsSolutionFilename) + ' project filename cannot be found.');
-
-        Exit;
-      end;
-
-      Result := True;
-    end
-
-    else
-    *)
     if lsParamStr = '-project' then
     begin
       Inc(I);
@@ -212,7 +189,7 @@ Var
   fPluginElem,
   fPluginsElem: TJvSimpleXmlElem;
   I, Index: integer;
-  fsPluginName, fsPluginFilename: String;
+  lsPluginName, lsPluginFilename, lspluginfilenamepathname: String;
   loConfigPlugins: TConfigPlugins;
 begin
   result := 0;
@@ -227,6 +204,8 @@ begin
   begin
     XMLFileName := fsConfigfile;
     Retrieve;
+
+    fsPluginPath := fsrootpath + 'plugins\';
 
     Index := 0;
     fConfigElem := TNovusSimpleXML.FindNode(oXMLDocument.Root, 'config', Index);
@@ -243,22 +222,22 @@ begin
             begin
               loConfigPlugins := TConfigPlugins.Create;
 
-              fsPluginName := fPluginsElem.Items[I].Name;
+              lsPluginName := fPluginsElem.Items[I].Name;
 
               Index := 0;
-              fsPluginFilename := '';
+              lsPluginFilename := '';
               fPluginElem := TNovusSimpleXML.FindNode(fPluginsElem.Items[I],
                 'filename', Index);
               if assigned(fPluginElem) then
-                fsPluginFilename := fPluginElem.Value;
+                lsPluginFilename := fPluginElem.Value;
 
-              if FileExists( fsPluginFilename) then
+              lspluginfilenamepathname := fsPluginPath + lspluginfilename;
+
+              if FileExists( lspluginfilenamepathname) then
                 begin
-
-                  loconfigplugins.pluginname := fspluginname;
-                  loconfigplugins.pluginfilename := fspluginfilename;
-                  loconfigplugins.pluginfilenamepathname := rootpath + 'plugins\' +
-                    fspluginfilename;
+                  loconfigplugins.pluginname := lspluginname;
+                  loconfigplugins.pluginfilename := lspluginfilename;
+                  loconfigplugins.pluginfilenamepathname := lspluginfilenamepathname;
 
                   fconfigpluginslist.add(loconfigplugins);
                 end
