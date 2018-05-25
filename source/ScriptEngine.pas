@@ -13,6 +13,8 @@ uses
   uPSUtils,
   Plugins,
   project,
+  VCL.dialogs,
+  NovusFileUtils,
   uPSPreProcessor,
   uPSI_API_Output;
 
@@ -60,6 +62,21 @@ begin
   oruntime.oAPI_Output.projecttask.BuildStatus := TBuildStatus.bsErrors;
 end;
 
+function GetUnitFilename(aUnitName: String): string;
+Var
+  lsUnitNameFilename: String;
+begin
+  lsUnitNameFilename := aUnitName + '.pas';
+
+  if FileExists(TNovusFileUtils.TrailingBackSlash(oruntime.oProject.oProjectConfig.Workingdirectory) +lsUnitNameFilename) then
+    Result := TNovusFileUtils.TrailingBackSlash(oruntime.oProject.oProjectConfig.Workingdirectory) +lsUnitNameFilename
+  else
+  if FileExists(TNovusFileUtils.TrailingBackSlash(oruntime.oProject.oProjectConfig.SearchPath)+ lsUnitNameFilename) then
+    Result := TNovusFileUtils.TrailingBackSlash(oruntime.oProject.oProjectConfig.SearchPath)+ lsUnitNameFilename
+  else
+    result := lsUnitNameFilename;
+end;
+
 function CustomOnUses(Sender: TPSPascalCompiler;
   const Name: AnsiString): Boolean;
 Var
@@ -72,17 +89,14 @@ begin
   end
   else
   begin
-
-    if FileExists(oruntime.oProject.oProjectConfig.SearchPath + name + '.pas')
-    then
+    if FileExists(GetUnitFilename(name)) then
     begin
       Try
         Try
-          oruntime.oAPI_Output.Log('Compiling unit ... ' + name + '.pas');
+          oruntime.oAPI_Output.Log('Compiling unit ... ' + GetUnitFilename(name));
 
           lList := TStringList.Create;
-          lList.LoadFromFile(oruntime.oProject.oProjectConfig.SearchPath + name
-            + '.pas');
+          lList.LoadFromFile(GetUnitFilename(name));
 
           if Sender.Compile(lList.Text) then
           begin
