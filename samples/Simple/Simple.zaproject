@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project>
+  <outputconsole>true</outputconsole>
+  <outputpath></outputpath>
+  <projecttask name = "Simple">
+     <projectfilename>Simple.pas</projectfilename>
+  </projecttask>
+ 
+</project>

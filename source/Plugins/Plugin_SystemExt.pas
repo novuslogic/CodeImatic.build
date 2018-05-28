@@ -51,7 +51,7 @@ begin
   RegisterDll_Compiletime(aCompiler);
   RegisterDateTimeLibrary_C(aCompiler);
 
-  TPSPascalCompiler(aCompiler).AddDelphiFunction
+   TPSPascalCompiler(aCompiler).AddDelphiFunction
     ('function format( Const Formatting : string; Const Data : array of const ) : string;');
 
   TPSPascalCompiler(aCompiler).AddFunction('procedure Writeln(s: string);');
@@ -76,8 +76,7 @@ begin
   RIRegister_ComObj(aExec);
   RegisterDateTimeLibrary_R(aExec);
 
-//  aExec.RegisterDelphiFunction(@Format, 'FORMAT', cdRegister);
-  aExec.RegisterDelphiFunction(@Format, 'FORMAT', cdPasal);
+  aExec.RegisterDelphiFunction(@Format, 'FORMAT', cdPascal);
 
   aExec.RegisterFunctionName('WRITELN', CommandWriteln, nil, nil);
   aExec.RegisterFunctionName('WD', CommandWD, nil, nil);
