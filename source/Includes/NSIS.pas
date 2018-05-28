@@ -43,10 +43,14 @@ begin
 
   if not Folder.Exists(result) then 
     begin
-      if ProjectConfig.IsPropertyExists('NSISDIR') then 
-        result := File.IncludeTrailingPathDelimiter(ProjectConfig.Getproperty('NSISDIR'));
-        if not Folder.Exists(result) then
-           RaiseException(erCustomError, 'NSIS folder cannot be found.');      
+      Result := 'C:\Program Files (x86)\NSIS\';
+      if not Folder.Exists(result) then 
+        begin
+          if ProjectConfig.IsPropertyExists('NSISDIR') then 
+               result := File.IncludeTrailingPathDelimiter(ProjectConfig.Getproperty('NSISDIR'));
+          if not Folder.Exists(result) then
+             RaiseException(erCustomError, 'NSIS folder cannot be found ['+ result + ']');      
+        end;      
     end;
     
 end;

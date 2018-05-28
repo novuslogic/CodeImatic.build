@@ -41,6 +41,8 @@ begin
       Result := DirectoryExists(aFolder);
     Except
       oAPI_Output.InternalError;
+
+      Result := False;
     End;
   Finally
 
@@ -51,9 +53,13 @@ function TAPI_Folder.RemoveFolder(Const aFolder: String): Boolean;
 begin
   Try
     Try
+      Result := True;
+
       TDirectory.Delete(aFolder, true);
     Except
       oAPI_Output.InternalError;
+
+      Result := False;
     End;
   Finally
 
@@ -67,7 +73,9 @@ begin
     Try
       Result := TNovusFileUtils.MoveDir(aSourceFolder, aDestFolder);
     Except
-      oAPI_Output.InternalError;
+
+
+      Result := False;
     End;
   Finally
 
@@ -79,9 +87,14 @@ function TAPI_Folder.Copy(Const aSourceFolder: String;
 begin
   Try
     Try
-      Result := TNovusFileUtils.CopyDir(aSourceFolder, aDestFolder);
+//      Result := TNovusFileUtils.CopyDir(aSourceFolder, aDestFolder);
+      Result := true;
+
+      TDirectory.Copy(aSourceFolder, aDestFolder);
     Except
       oAPI_Output.InternalError;
+
+      Result := False;
     End;
   Finally
 
@@ -92,9 +105,13 @@ function TAPI_Folder.CreateFolder(Const aFolder: String): Boolean;
 begin
   Try
     Try
+      Result := True;
+
       TDirectory.CreateDirectory(aFolder);
     Except
       oAPI_Output.InternalError;
+
+      Result := False;
     End;
   Finally
 
@@ -108,6 +125,8 @@ begin
       Result := SetCurrentDir(aFolder);
     Except
       oAPI_Output.InternalError;
+
+      Result := False;
     End;
   Finally
 
@@ -121,6 +140,8 @@ begin
       Result := GetCurrentDir;
     Except
       oAPI_Output.InternalError;
+
+      Result := '';
     End;
   Finally
 

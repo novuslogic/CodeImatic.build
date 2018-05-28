@@ -51,7 +51,7 @@ begin
   RegisterDll_Compiletime(aCompiler);
   RegisterDateTimeLibrary_C(aCompiler);
 
-  aCompiler.AddDelphiFunction
+   TPSPascalCompiler(aCompiler).AddDelphiFunction
     ('function format( Const Formatting : string; Const Data : array of const ) : string;');
 
   TPSPascalCompiler(aCompiler).AddFunction('procedure Writeln(s: string);');
