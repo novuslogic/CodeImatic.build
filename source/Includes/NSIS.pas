@@ -17,23 +17,26 @@ function MakeNSIS(const aFilename: string;const aOption: string): Integer;
 var
   SB: TStringBuilder;
 begin
- 
+   Result := -1;
+   
+
    Try
      SB:= TStringBuilder.Create;
-  
      SB.Append('"' + FindNSISFolder + 'MakeNSIS.exe'  + '" ');
 
+  
      if Trim(aOption) <> '' then SB.Append(aOption + ' ');
 
      SB.Append('"' + aFilename  + '"');
 
      Output.logformat('Running: %s', [SB.ToString]);
 
-    result := Exec(sb.ToString);
-   
+     result := Exec(sb.ToString);
+  
   finally
     SB.Free;
   End;
+ 
 end;
 
 
@@ -43,7 +46,7 @@ begin
 
   if not Folder.Exists(result) then 
     begin
-      Result := 'C:\Program Files (x86)\NSIS\';
+      Result := File.IncludeTrailingPathDelimiter(Program_Filesx86Folder) + 'NSIS\';
       if not Folder.Exists(result) then 
         begin
           if ProjectConfig.IsPropertyExists('NSISDIR') then 

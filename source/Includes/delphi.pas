@@ -33,6 +33,7 @@ function GetBDSCOMMONDIR(aDelphiVersion:  TDelphiVersion): string;
 function GetBDSBPLDIR(aDelphiVersion:  TDelphiVersion): string;
 function GetBDSRegKey(Key: string; Name: string): string;
 function GetBDSRegistery(aDelphiVersion:  TDelphiVersion; Name: string): string;
+function brcc32(aDelphiVersion: TDelphiVersion; aOptions: string; aFilename: string): integer;
 /// <remarks>
 ///   http://docwiki.embarcadero.com/RADStudio/Tokyo/en/Compiler_Versions
 /// </remarks>
@@ -135,6 +136,34 @@ begin
   result := File.IncludeTrailingPathDelimiter(GetBDSDIR(aDelphiVersion) + '\bpl');
 end;
 
+
+function brcc32(aDelphiVersion: TDelphiVersion; aOptions: string; aFilename: string): integer;
+var 
+  lsrootdir: string;
+  SB: TStringBuilder;
+begin
+  lsrootdir :=  GetBDSDIR(aDelphiVersion);
+  if lsrootdir = '' then 
+    RaiseException(erCustomError, 'Cannot find Delphi registry key for '+ GetDelphiCompilerVersion(aDelphiVersion));
+   
+  Try
+    SB:= TStringBuilder.Create;
+
+    SB.Append('"' + lsrootdir  +  '\bin\brcc32.exe"');
+
+    if trim(aOptions) <> '' then 
+       SB.Append(' ' + aOptions);
+    
+    if trim(aFilename) <> '' then 
+       SB.Append(' ' + aFilename);       
+  
+    Output.logformat('Running: %s', [SB.ToString]);
+
+    result := Exec(sb.ToString);
+  finally
+    SB.Free;
+  End; 
+end;
 
 function Delphi(aDelphiVersion:  TDelphiVersion;aProject: string; aDelphiOptions:TDelphiOptions): Integer;
 var

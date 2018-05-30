@@ -3,7 +3,7 @@ unit uPSR_ExtraClasses;
 interface
 
 uses
-  uPSRuntime, uPSUtils, SysUtils;
+  uPSRuntime, uPSUtils, SysUtils, ExtraClasses;
 
 procedure RIRegisterTStringBuilder(Cl: TPSRuntimeClassImporter);
 
@@ -12,7 +12,7 @@ procedure RIRegister_ExtraClasses(Cl: TPSRuntimeClassImporter);
 implementation
 
 uses
-  Classes, ExtraClasses;
+  Classes;
 
 procedure RIRegisterTStringBuilder(Cl: TPSRuntimeClassImporter);
 begin

@@ -41,7 +41,7 @@ begin
   else
   if (liIsFileOrFolder = 2)  then
     begin
-      Output.log('Folder Copy: ' + aDestination);
+      Output.log('Folder Copy: [' + aDestination + ']');
 
       If Folder.Exists(aSource)  = false then 
         RaiseException(erCustomError, 'Mssing source folder [' + aSource +']');
