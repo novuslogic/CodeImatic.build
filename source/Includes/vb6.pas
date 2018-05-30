@@ -4,13 +4,6 @@ interface
 
 Uses cmd, msbuild, Windows, stringutils;
 
-type
-  TVB6Options = record
-    Outdir: string;
-
-  end;
-
-
 const 
   cvb6 = 'vb6.exe'; 
   
@@ -20,7 +13,7 @@ const
 //$vb6bin /m $project /out $logfile /outdir $outdir
 
 function IsVB6Running: boolean;
-function VB6(aProject: string; aVB6Options: TVB6Options): Integer;
+function VB6(aProject: string;  aOutdir: string): Integer;
 function GetVB6BinDir: String;
 
 implementation
@@ -30,7 +23,7 @@ begin
   result := IsProcess32Exists(cvb6);  
 end;
 
-function VB6(aProject: string; aVB6Options: TVB6Options): Integer;
+function VB6(aProject: string; aOutdir: string): Integer;
 var
   lipos: Integer;
   lLogFileSL: tStringList;
@@ -44,7 +37,7 @@ begin
   lsvb6bindir := GetVB6BinDir;
   
   if not File.Exists(lsvb6bindir) then 
-    RaiseException(erCustomError, 'Cannot find vb6.exe');
+    RaiseException(erCustomError, 'Cannot find vb6.exe ['+ lsvb6bindir +']');
 
  Try
    lslogfile := File.MakeTmpFileName('log', true);
@@ -56,11 +49,11 @@ begin
   
    SB.Append(' /make '+ '"'+ aProject + '"');
 
-   if (aVB6Options.Outdir <> '') then
+   if (aOutdir <> '') then
       begin
-        SB.Append(' /outdir '+ '"' + aVB6Options.Outdir + '"');
+        SB.Append(' /outdir '+ '"' + aOutdir + '"');
 
-        lsTmpLogFile := File.IncludeTrailingPathDelimiter(aVB6Options.Outdir) + lslogfile;
+        lsTmpLogFile := File.IncludeTrailingPathDelimiter(aOutdir) + lslogfile;
       end;  
 
    SB.Append(' /out '+ '"'+ lsTmplogfile + '"');
