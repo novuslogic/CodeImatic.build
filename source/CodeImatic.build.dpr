@@ -59,7 +59,6 @@ begin
   ExitCode := oConfig.LoadConfig;
   if ExitCode <> 0 then Exit;
 
-
   If Not oConfig.ParseParams then
     Exit;
 

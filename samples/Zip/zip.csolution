@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<solution version = "ctsolution1.0">
+<solution version = "csolution1.0">
   <project name = "zip">
-     <type>CodeImatic.build</type>
+     <projecttype>codeimatic.build</projecttype>
      <filename>Zip.zaproject</filename>
      <config>Zip.zapconfig</config>
   </project>

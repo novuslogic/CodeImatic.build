@@ -77,7 +77,7 @@ Var
   I: Integer;
   FPlugin: tPlugin;
   FExternalPlugin: IExternalPlugin;
-  loConfigPlugins: TConfigPlugins;
+  loConfigPlugin: TConfigPlugin;
 begin
   // Internal Plugin Class
 
@@ -100,11 +100,11 @@ begin
   begin
     for I := 0 to oConfig.oConfigPluginsList.Count - 1 do
     begin
-      loConfigPlugins := TConfigPlugins(oConfig.oConfigPluginsList.Items[I]);
+      loConfigPlugin := TConfigPlugin(oConfig.oConfigPluginsList.Items[I]);
 
-      if FileExists(loConfigPlugins.PluginFilenamePathname) then
+      if FileExists(loConfigPlugin.PluginFilenamePathname) then
       begin
-        if FExternalPlugins.LoadPlugin(loConfigPlugins.PluginFilenamePathname)
+        if FExternalPlugins.LoadPlugin(loConfigPlugin.PluginFilenamePathname)
         then
         begin
           FExternalPlugin :=
@@ -117,7 +117,7 @@ begin
         end;
       end
       else
-        foAPI_Output.Log('Missing: ' + loConfigPlugins.PluginFilenamePathname);
+        foAPI_Output.Log('Missing: ' + loConfigPlugin.PluginFilenamePathname);
     end;
 
   end;
