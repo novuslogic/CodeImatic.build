@@ -12,7 +12,7 @@ Const
   csConfigfileversion = 'codeimatic.build1.0';
 
 Type
-  TConfigPlugins = class(Tobject)
+  TConfigPlugin = class(Tobject)
   private
     fsPluginName: String;
     fsPluginFilename: string;
@@ -31,7 +31,6 @@ Type
   TConfig = Class(TNovusXMLBO)
   protected
     fConfigPluginsList: tNovusList;
-    fsSolutionFilename: String;
     fsConfigfile: string;
     fsPluginPath: String;
     fsOutputFile: string;
@@ -47,9 +46,6 @@ Type
     function LoadConfig: Integer;
 
     function ParseParams: Boolean;
-
-    property SolutionFilename: String read fsSolutionFilename
-      write fsSolutionFilename;
 
     property ProjectFileName: String read fsProjectFileName
       write fsProjectFileName;
@@ -80,7 +76,7 @@ constructor TConfig.Create;
 begin
   inherited Create;
 
-  fConfigPluginsList := tNovusList.Create(TConfigPlugins);
+  fConfigPluginsList := tNovusList.Create(TConfigPlugin);
 
   fbCompileOnly := False;
 end;
@@ -156,22 +152,21 @@ begin
       fbOK := True;
   end;
 
-  if Trim(fsSolutionFilename) = '' then
+
+  if Trim(fsProjectFileName) = '' then
   begin
-    if Trim(fsProjectFileName) = '' then
-    begin
-      writeln('-project filename cannot be found.');
+    writeln('-project filename cannot be found.');
 
-      Result := False;
-    end;
-
-    if Trim(fsProjectConfigFileName) = '' then
-    begin
-      writeln('-projectconfig filename cannot be found.');
-
-      Result := False;
-    end;
+    Result := False;
   end;
+
+  if Trim(fsProjectConfigFileName) = '' then
+  begin
+    writeln('-projectconfig filename cannot be found.');
+
+    Result := False;
+  end;
+
 
   if Result = False then
   begin
@@ -190,7 +185,7 @@ Var
   fPluginsElem: TJvSimpleXmlElem;
   I, Index: integer;
   lsPluginName, lsPluginFilename, lspluginfilenamepathname: String;
-  loConfigPlugins: TConfigPlugins;
+  loConfigPlugin: TConfigPlugin;
 begin
   result := 0;
 
@@ -220,7 +215,7 @@ begin
           begin
             For I := 0 to fPluginsElem.Items.count - 1 do
             begin
-              loConfigPlugins := TConfigPlugins.Create;
+              loConfigPlugin := TConfigPlugin.Create;
 
               lsPluginName := fPluginsElem.Items[I].Name;
 
@@ -235,11 +230,11 @@ begin
 
               if FileExists( lspluginfilenamepathname) then
                 begin
-                  loconfigplugins.pluginname := lspluginname;
-                  loconfigplugins.pluginfilename := lspluginfilename;
-                  loconfigplugins.pluginfilenamepathname := lspluginfilenamepathname;
+                  loconfigplugin.pluginname := lspluginname;
+                  loconfigplugin.pluginfilename := lspluginfilename;
+                  loconfigplugin.pluginfilenamepathname := lspluginfilenamepathname;
 
-                  fconfigpluginslist.add(loconfigplugins);
+                  fconfigpluginslist.add(loconfigplugin);
                 end
               else
                 begin
@@ -248,13 +243,13 @@ begin
                   break;
                 end;
              end;
-          end
-        else result := -1003;
+          end;
+
       end;
     end
      else Result := -1001;
   end
-  else Result := -1000;
+    else Result := -1000;
 
 end;
 
