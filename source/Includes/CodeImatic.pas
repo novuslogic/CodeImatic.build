@@ -13,7 +13,8 @@ implementation
 
 function GetcodegenPath: String;
 begin
-  Result := File.IncludeTrailingPathDelimiter(Environment.GetEnvironmentVar('ZCODE'));
+  Result := File.IncludeTrailingPathDelimiter(Environment.GetEnvironmentVar('CODEIMATIC_CODE'));
+  if Trim(Result) = '' then Result := File.IncludeTrailingPathDelimiter(Environment.GetEnvironmentVar('ZCODE'));
 end;
 
 function codegen(aProject: string; aProjectconfig: string; aVariables: string; aWorkingdirectory: string;aOptions: string): Integer;
@@ -39,7 +40,7 @@ begin
     SB:= TStringBuilder.Create;
 
     if not aPreCompatible then 
-       SB.Append(GetcodegenPath + 'codeitmatic.codegen.exe ')
+       SB.Append(GetcodegenPath + 'codeimatic.codegen.exe ')
     else
        SB.Append(GetcodegenPath + 'zcodegen.exe ');
     

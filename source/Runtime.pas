@@ -11,7 +11,6 @@ type
   tRuntime = class
   protected
   private
-    //foSolution: tSolution;
     fsWorkingdirectory: string;
     fImp: TPSRuntimeClassImporter;
     foAPI_Output: tAPI_Output;
@@ -23,6 +22,9 @@ type
 
   public
     function RunEnvironment: Integer;
+
+    function GetVersionCopyright: string;
+    function GetVersion: string;
 
     procedure BuildTasksReport(const aprojecttask: Tprojecttask;
       const aIncludeItemName: boolean = false);
@@ -47,6 +49,18 @@ Var
 implementation
 
 uses ScriptEngine;
+
+function tRuntime.GetVersionCopyright: string;
+begin
+  Result := 'CodeImatic.build - © Copyright Novuslogic Software 2018 All Rights Reserved';
+end;
+
+function tRuntime.GetVersion: string;
+begin
+  Result := 'Version: ' +
+      TNovusVersionUtils.GetFullVersionNumber;
+end;
+
 
 function tRuntime.RunEnvironment: Integer;
 var
@@ -130,9 +144,9 @@ begin
     end;
 
     foAPI_Output.WriteLog
-      ('CodeImatic.build - © Copyright Novuslogic Software 2018 All Rights Reserved');
-    foAPI_Output.WriteLog('Version: ' +
-      TNovusVersionUtils.GetFullVersionNumber);
+      (GetVersionCopyright);
+    foAPI_Output.WriteLog
+      (GetVersionCopyright);
 
     foAPI_Output.WriteLog('Project: ' + foProject.ProjectFileName);
 
