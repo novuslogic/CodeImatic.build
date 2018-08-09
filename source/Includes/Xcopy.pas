@@ -18,7 +18,7 @@ begin
   liIsFileOrFolder := IsFileOrFolder(aSource);
 
   if liIsFileOrFolder = -1 then
-    RaiseException(erCustomError, format('Source [%s] is not a valid file or directory.', aSource)); 
+    RaiseException(erCustomError, 'Source ['+ aSource+ '] is not a valid file or directory.'); 
 
   if Folder.Exists(aDestination) = false then 
     if not Folder.CreateFolder(aDestination) then
@@ -35,13 +35,13 @@ begin
       lsDestiantionFilename := File.IncludeTrailingPathDelimiter(aDestination) + File.Extractfilename(aSource);
 
       if not File.Copy(aSource, lsDestiantionFilename, fbOverWrite) then
-        RaiseException(erCustomError, format('Failed copying file [%s] ', aSource))
+        RaiseException(erCustomError, 'Failed copying file [' + aSource +'] ')
       else result := true;  
     end
   else
   if (liIsFileOrFolder = 2)  then
     begin
-      Output.log('Folder Copy: [' + aDestination + ']');
+      Output.log('Copying folder: [' + aSource + ']');
 
       If Folder.Exists(aSource)  = false then 
         RaiseException(erCustomError, 'Mssing source folder [' + aSource +']');
