@@ -1,3 +1,4 @@
+{$I CodeImatic.build.inc}
 package CodeImatic.build.core;
 
 
@@ -32,7 +33,9 @@ package CodeImatic.build.core;
 
 requires
   rtl,
+{$IFDEF DELPHI10_2}
   PascalScript_Core_D25,
+{$ENDIF}
   NovusCodeLibrary_Core,
   NovusCodeLibrary_Log,
   NovusCodeLibrary_XML,
@@ -41,8 +44,7 @@ requires
   NovusCodeLibrary_Env,
   NovusCodeLibrary_Console,
   Jcl,
-  JvSystem,
-  CodeImatc.cli.core;
+  JvSystem;
 
 contains
   Plugin in 'Plugin.pas',

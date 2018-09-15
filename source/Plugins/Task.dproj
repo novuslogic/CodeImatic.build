@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{05EF412B-8451-4337-A9D6-6685C5B72615}</ProjectGuid>
-        <ProjectVersion>18.2</ProjectVersion>
+        <ProjectVersion>18.4</ProjectVersion>
         <FrameworkType>None</FrameworkType>
         <MainSource>Task.dpr</MainSource>
         <Base>True</Base>
@@ -204,42 +204,42 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
-                <DeployFile LocalName="..\..\build\plugins\Task.dll" Configuration="Debug" Class="ProjectOutput"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\inet180.bpl" Configuration="Debug" Class="DependencyPackage"/>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\rtl180.bpl" Configuration="Debug" Class="DependencyPackage"/>
+                <DeployFile LocalName="D:\Delphi Components\Pascalscript\Dcu\D18\win32\PascalScript_Core_D18.bpl" Configuration="Debug" Class="DependencyPackage"/>
                 <DeployFile LocalName="$(BDS)\Redist\Win32\DBXCommonDriver180.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\xmlrtl180.bpl" Configuration="Debug" Class="DependencyPackage"/>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\vcl180.bpl" Configuration="Debug" Class="DependencyPackage"/>
+                <DeployFile LocalName="..\..\build\plugins\Task.dll" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\dbrtl180.bpl" Configuration="Debug" Class="DependencyPackage"/>
                 <DeployFile LocalName="$(BDSCOMMONDIR)\Bpl\NovusCodeLibrary_Log_D18.bpl" Configuration="Debug" Class="DependencyPackage"/>
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib" Class="DependencyModule">
                     <Platform Name="iOSSimulator">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\rtl180.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDSCOMMONDIR)\Bpl\NovusCodeLibrary_Core_D18.bpl" Configuration="Debug" Class="DependencyPackage"/>
                 <DeployFile LocalName="$(BDS)\Redist\osx32\libcgsqlite3.dylib" Class="DependencyModule">
                     <Platform Name="OSX32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\soaprtl180.bpl" Configuration="Debug" Class="DependencyPackage"/>
+                <DeployFile LocalName="..\..\build\plugins\Task.rsm" Configuration="Debug" Class="DebugSymbols"/>
+                <DeployFile LocalName="$(BDS)\Redist\iossim32\libcgunwind.1.0.dylib" Class="DependencyModule"/>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\inet180.bpl" Configuration="Debug" Class="DependencyPackage"/>
+                <DeployFile LocalName="$(BDSCOMMONDIR)\Bpl\NovusCodeLibrary_Core_D18.bpl" Configuration="Debug" Class="DependencyPackage"/>
                 <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
                     <Platform Name="OSX32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="ZautoCore.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\soaprtl180.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="..\..\build\plugins\Task.rsm" Configuration="Debug" Class="DebugSymbols"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\dbrtl180.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\Win32\vcl180.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDS)\Redist\iossim32\libcgunwind.1.0.dylib" Class="DependencyModule"/>
-                <DeployFile LocalName="D:\Delphi Components\Pascalscript\Dcu\D18\win32\PascalScript_Core_D18.bpl" Configuration="Debug" Class="DependencyPackage"/>
+                <DeployFile LocalName="$(BDSCOMMONDIR)\Bpl\Jcl180.bpl" Configuration="Debug" Class="DependencyPackage"/>
+                <DeployFile LocalName="$(BDSCOMMONDIR)\Bpl\JvSystem180.bpl" Configuration="Debug" Class="DependencyPackage"/>
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib" Class="DependencyModule">
                     <Platform Name="iOSSimulator">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="$(BDSCOMMONDIR)\Bpl\Jcl180.bpl" Configuration="Debug" Class="DependencyPackage"/>
-                <DeployFile LocalName="$(BDSCOMMONDIR)\Bpl\JvSystem180.bpl" Configuration="Debug" Class="DependencyPackage"/>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\xmlrtl180.bpl" Configuration="Debug" Class="DependencyPackage"/>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="OSX32">
                         <Operation>1</Operation>

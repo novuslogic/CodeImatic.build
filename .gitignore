@@ -70,3 +70,6 @@ build/CodeImaticShell.64.dll
 source/Plugins/Zip.identcache
 source/Plugins/Zip.identcache
 source/Plugins/Zip.identcache
+*.~1~
+*.~1~
+*.~1~

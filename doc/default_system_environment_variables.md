@@ -1,4 +1,4 @@
-CTBUILD- System Env - codeimatic.build.exe path.
-CTBUILD_INCLUDES - System Env - Includes path.
+CODEIMATIC_BUILD - System Env - codeimatic.build.exe path.
+CODEIMATIC_INCLUDES - System Env - Includes path.
 
 

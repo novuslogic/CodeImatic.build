@@ -7,7 +7,7 @@
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Package</AppType>
         <FrameworkType>None</FrameworkType>
-        <ProjectVersion>18.2</ProjectVersion>
+        <ProjectVersion>18.4</ProjectVersion>
         <Platform Condition="'$(Platform)'==''">Win64</Platform>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
@@ -112,7 +112,6 @@
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="rtl.dcp"/>
-        <DCCReference Include="PascalScript_Core_D25.dcp"/>
         <DCCReference Include="NovusCodeLibrary_Core.dcp"/>
         <DCCReference Include="NovusCodeLibrary_Log.dcp"/>
         <DCCReference Include="NovusCodeLibrary_XML.dcp"/>
@@ -122,7 +121,6 @@
         <DCCReference Include="NovusCodeLibrary_Console.dcp"/>
         <DCCReference Include="Jcl.dcp"/>
         <DCCReference Include="JvSystem.dcp"/>
-        <DCCReference Include="CodeImatc.cli.core.dcp"/>
         <DCCReference Include="Plugin.pas"/>
         <DCCReference Include="Plugins\API\API_Output.pas"/>
         <DCCReference Include="Plugins\API\APIBase.pas"/>
@@ -159,7 +157,6 @@
                 <Platform value="iOSDevice32">False</Platform>
                 <Platform value="iOSDevice64">False</Platform>
                 <Platform value="iOSSimulator">False</Platform>
-                <Platform value="Linux64">False</Platform>
                 <Platform value="OSX32">False</Platform>
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">True</Platform>
