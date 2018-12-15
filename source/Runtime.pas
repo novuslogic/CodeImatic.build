@@ -145,8 +145,6 @@ begin
 
     foAPI_Output.WriteLog
       (GetVersionCopyright);
-    foAPI_Output.WriteLog
-      (GetVersionCopyright);
 
     foAPI_Output.WriteLog('Project: ' + foProject.ProjectFileName);
 

@@ -147,6 +147,7 @@ var
   liRetry, I: Integer;
   fbOK: Boolean;
   fbRetry: Boolean;
+  fInternalProcRec: TPSInternalProcRec;
 begin
   Result := False;
 
@@ -219,10 +220,18 @@ begin
 
       if not fbOK then
       begin
-        foAPI_Output.WriteLog('[Runtime Error] : ' +
-          TIFErrorToString(FExec.ExceptionCode, FExec.ExceptionString) + ' in '
-          + IntToStr(FExec.ExceptionProcNo) + ' at ' +
-          IntToStr(FExec.ExceptionPos));
+        //FExec.ExceptionProcNo;
+
+
+
+        ///fInternalProcRec := (FExec.GetProcNo(FExec.ExceptionProcNo) as TPSInternalProcRec);
+
+        foAPI_Output.WriteLog('[Runtime Error] : ' + PSErrorToString(FExec.ExceptionCode,FExec.ExceptionString));
+
+       // foAPI_Output.WriteLog('[Runtime Error] : ' +
+       //   TIFErrorToString(FExec.ExceptionCode, FExec.ExceptionString) + ' in '
+       //   + IntToStr(FExec.ExceptionProcNo) + ' at ' +
+       //   IntToStr(FExec.ExceptionPos));
 
         if fbRetry then
           foAPI_Output.WriteLog('Retrying executing ... ' + IntToStr(I) + ' of '
