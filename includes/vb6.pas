@@ -14,7 +14,7 @@ const
 
 function IsVB6Running: boolean;
 function VB6(aProject: string;  aOutdir: string): Integer;
-function GetVB6BinDir: String;
+function GetVB6BinFolder: String;
 
 implementation
 
@@ -34,7 +34,7 @@ var
 begin
   Result := -1;
 
-  lsvb6bindir := GetVB6BinDir;
+  lsvb6bindir := GetVB6BinFolder;
   
   if not File.Exists(lsvb6bindir) then 
     RaiseException(erCustomError, 'Cannot find vb6.exe ['+ lsvb6bindir +']');
@@ -91,12 +91,12 @@ begin
  End;
 end;
 
-function GetVB6BinDir: String;
+function GetVB6BinFolder: String;
 begin
   Result := '';
 
-  if ProjectConfig.IsPropertyExists('vb6bindir') then
-    result := File.IncludeTrailingPathDelimiter(ProjectConfig.Getproperty('vb6bindir'));
+  if ProjectConfig.IsPropertyExists('vb6binfolder') then
+    result := File.IncludeTrailingPathDelimiter(ProjectConfig.Getproperty('vb6binfolder'));
 
   If Result = '' then 
     begin
