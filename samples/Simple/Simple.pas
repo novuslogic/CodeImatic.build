@@ -6,6 +6,6 @@ begin
   writeln('Hello World'+ Format('String           = %s', ['Hello']));
 
   StringBuilderTest;
-  //RaiseExceptionTest;
+  RaiseExceptionTest;
 
 end.

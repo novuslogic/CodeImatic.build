@@ -33,10 +33,6 @@ package CodeImatic.build.core;
 
 requires
   rtl,
-  (*
-{$IFDEF DELPHI10_2}
-  PascalScript_Core_D25,
-{$ENDIF}  *)
   NovusCodeLibrary_Core,
   NovusCodeLibrary_Log,
   NovusCodeLibrary_XML,
