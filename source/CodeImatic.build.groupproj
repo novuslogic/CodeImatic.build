@@ -18,6 +18,9 @@
         <Projects Include="Plugins\Task.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="Plugins\cURL.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -71,14 +74,23 @@
     <Target Name="Task:Make">
         <MSBuild Projects="Plugins\Task.dproj" Targets="Make"/>
     </Target>
+    <Target Name="cURL">
+        <MSBuild Projects="Plugins\cURL.dproj"/>
+    </Target>
+    <Target Name="cURL:Clean">
+        <MSBuild Projects="Plugins\cURL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="cURL:Make">
+        <MSBuild Projects="Plugins\cURL.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="CodeImatic_build;CodeImatic_build_core;VCLControls;Zip;Task"/>
+        <CallTarget Targets="CodeImatic_build;CodeImatic_build_core;VCLControls;Zip;Task;cURL"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="CodeImatic_build:Clean;CodeImatic_build_core:Clean;VCLControls:Clean;Zip:Clean;Task:Clean"/>
+        <CallTarget Targets="CodeImatic_build:Clean;CodeImatic_build_core:Clean;VCLControls:Clean;Zip:Clean;Task:Clean;cURL:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="CodeImatic_build:Make;CodeImatic_build_core:Make;VCLControls:Make;Zip:Make;Task:Make"/>
+        <CallTarget Targets="CodeImatic_build:Make;CodeImatic_build_core:Make;VCLControls:Make;Zip:Make;Task:Make;cURL:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
