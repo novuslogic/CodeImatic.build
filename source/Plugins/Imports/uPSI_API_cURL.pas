@@ -44,6 +44,7 @@ implementation
 uses
    APIBase
   ,API_Output
+  ,NovuscURLUtils
   ,API_cURL
   ;
  
@@ -61,7 +62,8 @@ begin
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_cURL') do
   begin
     RegisterMethod('Constructor Create( aAPI_Output : tAPI_Output)');
-    RegisterMethod('Function test : string');
+    RegisterMethod('Function DownloadFile( aURL : UnicodeString; aDownloadPath : String) : boolean');
+    RegisterProperty('HTTPMessage', 'String', iptr);
   end;
 end;
 
@@ -73,12 +75,17 @@ end;
 
 (* === run-time registration functions === *)
 (*----------------------------------------------------------------------------*)
+procedure TAPI_cURLHTTPMessage_R(Self: TAPI_cURL; var T: String);
+begin T := Self.HTTPMessage; end;
+
+(*----------------------------------------------------------------------------*)
 procedure RIRegister_TAPI_cURL(CL: TPSRuntimeClassImporter);
 begin
   with CL.Add(TAPI_cURL) do
   begin
     RegisterConstructor(@TAPI_cURL.Create, 'Create');
-    RegisterMethod(@TAPI_cURL.test, 'test');
+    RegisterMethod(@TAPI_cURL.DownloadFile, 'DownloadFile');
+    RegisterPropertyHelper(@TAPI_cURLHTTPMessage_R,nil,'HTTPMessage');
   end;
 end;
 

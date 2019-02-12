@@ -68,7 +68,7 @@
         <DCC_UsePackage>CodeImatic.build.core;$(DCC_UsePackage)</DCC_UsePackage>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <SanitizedProjectName>cURL</SanitizedProjectName>
-        <DCC_UnitSearchPath>..\..\build\;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>..\..\build\;D:\Projects\NovuscodeLibrary\Source\Core\Utilities\curl;D:\Projects\NovuscodeLibrary\Source\Core\Utilities;D:\Delphi Components\curl4delphi\Src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Locale>3081</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <UsePackages>true</UsePackages>
@@ -105,6 +105,9 @@
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <Debugger_HostApplication>D:\Projects\CodeImatic.build\build\CodeImatic.build.exe</Debugger_HostApplication>
+        <Debugger_RunParams>-project curl.zaproject -projectconfig curl.zapconfig</Debugger_RunParams>
+        <Debugger_CWD>D:\Projects\CodeImatic.build\samples\cURL</Debugger_CWD>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -123,6 +126,7 @@
         <DCCReference Include="Plugin_cURLClasses.pas"/>
         <DCCReference Include="API\API_cURL.pas"/>
         <DCCReference Include="Imports\uPSI_API_cURL.pas"/>
+        <DCCReference Include="..\..\..\NovuscodeLibrary\Source\Core\Utilities\curl\NovuscURLUtils.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

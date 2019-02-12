@@ -8,7 +8,9 @@
 5. Add a Plugin_???Classes unit
 6. Add a API_???
 7. Use unit-importing from PascslScript cmdimp.exe. Note constructor and destructor cannot overload causing it to crash. 
-8. 
+8. Runtime Packages 
+     1. Link with runtime packages set True
+     2. Runtime Packages set to only CodeImatic.build.core
 
 
 

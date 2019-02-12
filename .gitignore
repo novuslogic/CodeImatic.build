@@ -73,3 +73,10 @@ source/Plugins/Zip.identcache
 *.~1~
 *.~1~
 *.~1~
+build/codeimatic.build.config
+build/codeimatic.build.config
+build/codeimatic.build.config
+build/codeimatic.build.config
+build/libcrypto-1_1-x64.dll
+build/libcurl-x64.dll
+build/libssl-1_1-x64.dll
