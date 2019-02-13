@@ -7,16 +7,19 @@ uses APIBase, SysUtils, API_Output, Classes, NovuscURLUtils;
 type
    TAPI_cURL = class(TAPIBase)
    private
-     fsHTTPMessage: string;
+     fiHTTPResponseCode: longint;
+     fsHTTPResponse: string;
    protected
   public
      constructor Create(aAPI_Output: tAPI_Output); 
      destructor Destroy; 
      function DownloadFile(aURL: UnicodeString; aDownloadPath: String): boolean;
 
-      property HTTPMessage: String
-         read fsHTTPMessage;
+     property HTTPResponseCode: longint
+      read fiHTTPResponseCode;
 
+     property HTTPResponse: string
+       read fsHTTPResponse;
    end;
 
 implementation
@@ -43,7 +46,8 @@ begin
 
       Result := loNovuscURLUtils.DownloadFile(aURL, aDownloadPath);
 
-      fsHTTPMessage := loNovuscURLUtils.HTTPMessage;
+      fiHTTPResponseCode := loNovuscURLUtils.HTTPResponseCode;
+      fsHTTPResponse := loNovuscURLUtils.HTTPResponse;
     Except
       oAPI_Output.InternalError;
     End;

@@ -63,7 +63,8 @@ begin
   begin
     RegisterMethod('Constructor Create( aAPI_Output : tAPI_Output)');
     RegisterMethod('Function DownloadFile( aURL : UnicodeString; aDownloadPath : String) : boolean');
-    RegisterProperty('HTTPMessage', 'String', iptr);
+    RegisterProperty('HTTPResponseCode', 'longint', iptr);
+    RegisterProperty('HTTPResponse', 'string', iptr);
   end;
 end;
 
@@ -75,8 +76,12 @@ end;
 
 (* === run-time registration functions === *)
 (*----------------------------------------------------------------------------*)
-procedure TAPI_cURLHTTPMessage_R(Self: TAPI_cURL; var T: String);
-begin T := Self.HTTPMessage; end;
+procedure TAPI_cURLHTTPResponse_R(Self: TAPI_cURL; var T: string);
+begin T := Self.HTTPResponse; end;
+
+(*----------------------------------------------------------------------------*)
+procedure TAPI_cURLHTTPResponseCode_R(Self: TAPI_cURL; var T: longint);
+begin T := Self.HTTPResponseCode; end;
 
 (*----------------------------------------------------------------------------*)
 procedure RIRegister_TAPI_cURL(CL: TPSRuntimeClassImporter);
@@ -85,7 +90,8 @@ begin
   begin
     RegisterConstructor(@TAPI_cURL.Create, 'Create');
     RegisterMethod(@TAPI_cURL.DownloadFile, 'DownloadFile');
-    RegisterPropertyHelper(@TAPI_cURLHTTPMessage_R,nil,'HTTPMessage');
+    RegisterPropertyHelper(@TAPI_cURLHTTPResponseCode_R,nil,'HTTPResponseCode');
+    RegisterPropertyHelper(@TAPI_cURLHTTPResponse_R,nil,'HTTPResponse');
   end;
 end;
 

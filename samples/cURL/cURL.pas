@@ -9,6 +9,6 @@ begin
 
   if cURl.DownloadFile(lsURL, Folder.GetCurrentFolder) then
     writeln('Downloaded.')
- else  RaiseException(erCustomError, 'HTTP Message: '+  cURl.HTTPMessage); 
+ else  RaiseException(erCustomError, 'Response Code: '+  cURL.HTTPResponse); 
 
 end.
