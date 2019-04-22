@@ -235,13 +235,15 @@ begin
                   loconfigplugin.pluginfilenamepathname := lspluginfilenamepathname;
 
                   fconfigpluginslist.add(loconfigplugin);
-                end
+                end;
+                (*
               else
                 begin
                   Result := -1002;
 
                   break;
                 end;
+                *)
              end;
           end;
 
