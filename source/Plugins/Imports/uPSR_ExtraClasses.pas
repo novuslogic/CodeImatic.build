@@ -26,23 +26,9 @@ begin
   end;
 end;
 
-(*
-  procedure RIRegisterTJSONParser(Cl: TPSRuntimeClassImporter);
-  begin
-  with Cl.Add(TJSONParser) do
-  begin
-  RegisterConstructor(@TJSONParser.CREATE, 'CREATE');
-  RegisterMethod(@TJSONParser.ToString, 'TOSTRING');
-  RegisterMethod(@TJSONParser.ParseJSONString, 'PARSEJSONSTRING');
-  RegisterMethod(@TJSONParser.GetValue, 'GETVALUE');
-
-  end;
-  end;
-*)
 procedure RIRegister_ExtraClasses(Cl: TPSRuntimeClassImporter);
 begin
   RIRegisterTStringBuilder(Cl);
-  // RIRegisterTJSONParser(Cl);
 end;
 
 end.

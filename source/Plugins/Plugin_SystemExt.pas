@@ -51,7 +51,10 @@ begin
   RegisterDll_Compiletime(aCompiler);
   RegisterDateTimeLibrary_C(aCompiler);
 
-   TPSPascalCompiler(aCompiler).AddDelphiFunction
+  TPSPascalCompiler(aCompiler).AddTypeCopyN('RawByteString', 'AnsiString');
+  TPSPascalCompiler(aCompiler).AddTypeCopyN('UTF8String', 'AnsiString');
+
+  TPSPascalCompiler(aCompiler).AddDelphiFunction
     ('function format( Const Formatting : string; Const Data : array of const ) : string;');
 
   TPSPascalCompiler(aCompiler).AddFunction('procedure Writeln(s: string);');
@@ -76,6 +79,8 @@ begin
   RIRegister_ComObj(aExec);
   RegisterDateTimeLibrary_R(aExec);
 
+  //aExec.RegisterAttributeType();
+
   aExec.RegisterDelphiFunction(@Format, 'FORMAT', cdPascal);
 
   aExec.RegisterFunctionName('WRITELN', CommandWriteln, nil, nil);
@@ -88,6 +93,8 @@ begin
     nil, nil);
   aExec.RegisterFunctionName('COMPARETEXT', CommandCompareText, nil, nil);
   aExec.RegisterFunctionName('SLEEP', CommandSleep, nil, nil);
+
+
 
 end;
 
