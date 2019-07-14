@@ -4,7 +4,7 @@ unit Runtime;
 interface
 
 Uses Project, API_Output, Config, NovusVersionUtils, System.SysUtils,
-  NovusStringUtils,   NovusFileUtils,
+  NovusStringUtils,   NovusFileUtils, vcl.dialogs,
   uPSRuntime, Plugins, NovusDateStringUtils, uPSCompiler{, Solution};
 
 type
@@ -52,7 +52,7 @@ uses ScriptEngine;
 
 function tRuntime.GetVersionCopyright: string;
 begin
-  Result := 'CodeImatic.build - © Copyright Novuslogic Software 2018 All Rights Reserved';
+  Result := 'CodeImatic.build - © Copyright Novuslogic Software 2019 All Rights Reserved';
 end;
 
 function tRuntime.GetVersion: string;
@@ -77,32 +77,7 @@ begin
       fsworkingdirectory := TNovusFileUtils.TrailingBackSlash
         (TNovusFileUtils.AbsoluteFilePath(oConfig.ProjectFileName));
 
-    (*
-    foSolution := tSolution.Create;
-
-    if Trim(oConfig.SolutionFilename) <> '' then
-    begin
-      if foSolution.LoadSolutionFile(oConfig.SolutionFilename) then
-      begin
-        oConfig.ProjectFileName := foSolution.ProjectFileName;
-        oConfig.ProjectConfigFileName := foSolution.ProjectConfigFileName;
-      end
-      else
-      begin
-        if Not FileExists(oConfig.SolutionFilename) then
-        begin
-          writeln('Solution Filename missing: ' + oConfig.SolutionFilename);
-
-          Exit;
-        end;
-
-        writeln('Loading errror Solution Filename: ' +
-          oConfig.SolutionFilename);
-
-        Exit;
-      end;
-    end;
-    *)
+    
 
     foProject := tProject.Create;
 
@@ -134,14 +109,15 @@ begin
     foAPI_Output.DateTimeMask := FormatSettings.ShortDateFormat + ' ' +
       cTimeformat;
 
-    foAPI_Output.OpenLog(true);
 
-    if not foAPI_Output.IsFileOpen then
+    if not foAPI_Output.OpenLog then
     begin
       writeln(foAPI_Output.Filename + ' log file cannot be created.');
 
       Exit;
     end;
+
+    foAPI_Output.WriteLog('Logging started');
 
     foAPI_Output.WriteLog
       (GetVersionCopyright);
@@ -257,15 +233,20 @@ begin
     // Build Tasks Report
     foAPI_Output.WriteLog('Build Tasks Report');
 
+
     for i := 0 to foProject.oprojecttaskList.Count - 1 do
     begin
       loprojecttask := Tprojecttask(foProject.oprojecttaskList.items[i]);
+
       BuildTasksReport(loprojecttask, true);
+
     end;
 
     foAPI_Output.WriteLog('Total build duration: ' + FormatDateTime(cTimeformat,
       Duration));
+
     foAPI_Output.WriteLog('Build status: ' + GetBuildStatus(BuildStatus));
+
 
     Result := Integer(BuildStatus);
 
@@ -273,13 +254,22 @@ begin
 
     foPlugins.UnLoadPlugins;
 
+
+    foAPI_Output.WriteLog('Logging finished');
     foAPI_Output.CloseLog;
+
+ ;
 
     foAPI_Output.Free;
 
+
+
     foPlugins.Free;
+
   Finally
     foProject.Free;
+
+
     //foSolution.Free;
   End;
 end;

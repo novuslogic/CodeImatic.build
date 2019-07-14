@@ -87,7 +87,7 @@ begin
      (CompareText(lowercase(aVersion), '4.0') = 0) then
      result := GetDotNETFrameworkDirectory(aVersion) + 'MSBuild.exe'
   else 
-    RaiseException(erCustomError, 'Unsupported version ("2.0", "3.5", "4.0")');   
+    RaiseException(erCustomError, 'Unsupported version ("2.0", "3.5", "4.0") of msbuild');   
    
   if not File.Exists(result) then RaiseException(erCustomError, 'msbuild not found: '+result);
 end;
