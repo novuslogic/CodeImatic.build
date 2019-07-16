@@ -9,6 +9,6 @@ begin
   FDelphiOptions.Configuration := 'debug';
   FDelphiOptions.Target := 'rebuild';
 
-  if  Delphi(DELPHIXE8,'TestApp.dproj', FDelphiOptions) <> 0 then 
+  if  Delphi(DELPHI10_2,'TestApp.dproj', FDelphiOptions) <> 0 then 
     RaiseException(erCustomError, 'Delphi Exception:'+ SysErrorMessage);  
 end.
