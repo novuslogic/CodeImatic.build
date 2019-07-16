@@ -34,6 +34,10 @@ var
 begin
   Result := -1;
 
+  if IsVB6Running then 
+    RaiseException(erCustomError, 'vb6.exe is running');
+
+
   lsvb6bindir := GetVB6BinFolder;
   
   if not File.Exists(lsvb6bindir) then 
@@ -78,7 +82,7 @@ begin
          File.Delete(lsTmpLogFile);
        end;  
      end;
-   
+  
  finally
    SB.Free;
 
