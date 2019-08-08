@@ -122,6 +122,7 @@ begin
 
       Result := True;
     end
+    (*
     else if lsParamStr = '-projectconfig' then
     begin
       Inc(I);
@@ -143,6 +144,7 @@ begin
 
       Result := True;
     end
+    *)
     else if lsParamStr = '-compileonly' then
       fbCompileOnly := True;
 
@@ -160,13 +162,14 @@ begin
     Result := False;
   end;
 
+  (*
   if Trim(fsProjectConfigFileName) = '' then
   begin
     writeln('-projectconfig filename cannot be found.');
 
     Result := False;
   end;
-
+  *)
 
   if Result = False then
   begin

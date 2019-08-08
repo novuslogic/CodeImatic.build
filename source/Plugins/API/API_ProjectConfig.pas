@@ -8,11 +8,11 @@ type
   TAPI_ProjectConfig = class(TAPIBase)
   private
   protected
-    function GetProjectConfigFileName: String;
+    //function GetProjectConfigFileName: String;
     function GetSearchPath: String;
     function Getworkingdirectory: String;
   public
-    property ProjectConfigFileName: String read GetProjectConfigFileName;
+    //property ProjectConfigFileName: String read GetProjectConfigFileName;
 
     property SearchPath: String read GetSearchPath;
 
@@ -43,14 +43,14 @@ begin
       Exit;
     end;
 
-    if oRuntime.oProject.oProjectConfig.IsPropertyExists(aPropertyName) then
+    if oRuntime.oProject.oProjectConfigLoader.IsPropertyExists(aPropertyName) then
     begin
       RuntimeErrorFmt(API_ProjectConfig_propertyExists, [aPropertyName]);
 
       Exit;
     end;
 
-    if not oRuntime.oProject.oProjectConfig.Createproperty(aPropertyName) then
+    if not oRuntime.oProject.oProjectConfigLoader.Createproperty(aPropertyName) then
       oAPI_Output.InternalError;
   Except
     oAPI_Output.InternalError;
@@ -69,7 +69,7 @@ begin
       Exit;
     end;
 
-    Result := oRuntime.oProject.oProjectConfig.IsPropertyExists(aPropertyName);
+    Result := oRuntime.oProject.oProjectConfigLoader.IsPropertyExists(aPropertyName);
   Except
     oAPI_Output.InternalError;
   End;
@@ -86,14 +86,14 @@ begin
       Exit;
     end;
 
-    if Not oRuntime.oProject.oProjectConfig.IsPropertyExists(aPropertyName) then
+    if Not oRuntime.oProject.oProjectConfigLoader.IsPropertyExists(aPropertyName) then
     begin
       RuntimeErrorFmt(API_ProjectConfig_NopropertyExists, [aPropertyName]);
 
       Exit;
     end;
 
-    if not oRuntime.oProject.oProjectConfig.SetProperty(aPropertyName, aValue)
+    if not oRuntime.oProject.oProjectConfigLoader.SetProperty(aPropertyName, aValue)
     then
       oAPI_Output.InternalError;
 
@@ -112,14 +112,14 @@ begin
       Exit;
     end;
 
-    if not oRuntime.oProject.oProjectConfig.IsPropertyExists(aPropertyName) then
+    if not oRuntime.oProject.oProjectConfigLoader.IsPropertyExists(aPropertyName) then
     begin
       RuntimeErrorFmt(API_ProjectConfig_NopropertyExists, [aPropertyName]);
 
       Exit;
     end;
 
-    if not oRuntime.oProject.oProjectConfig.DeleteProperty(aPropertyName) then
+    if not oRuntime.oProject.oProjectConfigLoader.DeleteProperty(aPropertyName) then
       oAPI_Output.InternalError;
   Except
     oAPI_Output.InternalError;
@@ -127,19 +127,21 @@ begin
 
 end;
 
+(*
 function TAPI_ProjectConfig.GetProjectConfigFileName: String;
 begin
   Result := oRuntime.oProject.oProjectConfig.ProjectConfigFileName;
 end;
+*)
 
 function TAPI_ProjectConfig.GetSearchPath: String;
 begin
-  Result := oRuntime.oProject.oProjectConfig.SearchPath;
+  Result := oRuntime.oProject.oProjectConfigLoader.SearchPath;
 end;
 
 function TAPI_ProjectConfig.Getworkingdirectory: String;
 begin
-  Result := oRuntime.oProject.oProjectConfig.Workingdirectory;
+  Result := oRuntime.oProject.oProjectConfigLoader.Workingdirectory;
 end;
 
 function TAPI_ProjectConfig.Getproperty(aPropertyName: String): String;
@@ -154,14 +156,14 @@ begin
       Exit;
     end;
 
-    if not oRuntime.oProject.oProjectConfig.IsPropertyExists(aPropertyName) then
+    if not oRuntime.oProject.oProjectConfigLoader.IsPropertyExists(aPropertyName) then
     begin
       RuntimeErrorFmt(API_ProjectConfig_NopropertyExists, [aPropertyName]);
 
       Exit;
     end;
 
-    Result := oRuntime.oProject.oProjectConfig.Getproperties(aPropertyName);
+    Result := oRuntime.oProject.oProjectConfigLoader.Getproperties(aPropertyName);
   Except
     oAPI_Output.InternalError;
   End;

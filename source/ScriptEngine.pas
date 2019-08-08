@@ -68,11 +68,11 @@ Var
 begin
   lsUnitNameFilename := aUnitName + '.pas';
 
-  if FileExists(TNovusFileUtils.TrailingBackSlash(oruntime.oProject.oProjectConfig.Workingdirectory) +lsUnitNameFilename) then
-    Result := TNovusFileUtils.TrailingBackSlash(oruntime.oProject.oProjectConfig.Workingdirectory) +lsUnitNameFilename
+  if FileExists(TNovusFileUtils.TrailingBackSlash(oruntime.oProject.oProjectConfigLoader.Workingdirectory) +lsUnitNameFilename) then
+    Result := TNovusFileUtils.TrailingBackSlash(oruntime.oProject.oProjectConfigLoader.Workingdirectory) +lsUnitNameFilename
   else
-  if FileExists(TNovusFileUtils.TrailingBackSlash(oruntime.oProject.oProjectConfig.SearchPath)+ lsUnitNameFilename) then
-    Result := TNovusFileUtils.TrailingBackSlash(oruntime.oProject.oProjectConfig.SearchPath)+ lsUnitNameFilename
+  if FileExists(TNovusFileUtils.TrailingBackSlash(oruntime.oProject.oProjectConfigLoader.SearchPath)+ lsUnitNameFilename) then
+    Result := TNovusFileUtils.TrailingBackSlash(oruntime.oProject.oProjectConfigLoader.SearchPath)+ lsUnitNameFilename
   else
     result := lsUnitNameFilename;
 end;

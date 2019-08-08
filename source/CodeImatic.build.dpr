@@ -7,15 +7,10 @@ program CodeImatic.build;
 uses
   FastMM4,
   System.SysUtils,
-  ScriptEngine in 'ScriptEngine.pas',
-  Config in 'Config.pas',
-  Project in 'Project.pas',
-  projectconfig in 'projectconfig.pas',
-  XMLList in 'XMLList.pas',
-  Runtime in 'Runtime.pas',
+  Config,
+  Runtime,
   API_Output in 'Plugins\API\API_Output.pas',
   Plugins in 'Plugins.pas',
-  Plugin in 'Plugin.pas',
   PluginsMapFactory in 'PluginsMapFactory.pas',
   Plugin_Output in 'Plugins\Plugin_Output.pas',
   Plugin_SystemExt in 'Plugins\Plugin_SystemExt.pas',
@@ -52,8 +47,7 @@ uses
   uPSI_API_Registry in 'Plugins\Imports\uPSI_API_Registry.pas',
   API_Path in 'Plugins\API\API_Path.pas',
   uPSI_API_Path in 'Plugins\Imports\uPSI_API_Path.pas',
-  Plugin_Path in 'Plugins\Plugin_Path.pas',
-  ExtraClasses in 'ExtraClasses.pas';
+  Plugin_Path in 'Plugins\Plugin_Path.pas';
 
 begin
   ExitCode := oConfig.LoadConfig;

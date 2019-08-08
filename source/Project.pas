@@ -4,7 +4,7 @@ unit Project;
 interface
 
 Uses NovusXMLBO, Classes, SysUtils, NovusStringUtils, NovusBO, NovusList,
-  JvSimpleXml, NovusSimpleXML, XMLlist, ProjectConfig, NovusFileUtils;
+  JvSimpleXml, NovusSimpleXML, XMLlist, ProjectConfigLoader, NovusFileUtils;
 
 Type
   TBuildStatus = (bsSucceeded, bsErrors, bsFailed);
@@ -70,7 +70,7 @@ Type
   private
     fsOutputPath: string;
     fbOutputConsole: Boolean;
-    foProjectConfig: TProjectConfig;
+    foProjectConfigLoader: TProjectConfigLoader;
     foprojecttaskList: TNovusList;
     fsBasePath: String;
     fsProjectFilename: String;
@@ -99,8 +99,8 @@ Type
 
     property OutputConsole: Boolean read fbOutputConsole write fbOutputConsole;
 
-    property oProjectConfig: TProjectConfig read foProjectConfig
-      write foProjectConfig;
+    property oProjectConfigLoader: TProjectConfigLoader read foProjectConfigLoader
+      write foProjectConfigLoader;
 
   end;
 
@@ -113,7 +113,7 @@ constructor TProject.Create;
 begin
   inherited Create;
 
-  foProjectConfig := TProjectConfig.Create;
+  foProjectConfigLoader := TProjectConfigLoader.Create(self);
 
   foprojecttaskList := TNovusList.Create(Tprojecttask);
 
@@ -121,7 +121,7 @@ end;
 
 destructor TProject.Destroy;
 begin
-  foProjectConfig.Free;
+  foProjectConfigLoader.Free;
 
   foprojecttaskList.Free;
 
@@ -201,11 +201,11 @@ var
 begin
   Result := '';
 
-  lsWorkingdirectory := Trim(foProjectConfig.workingdirectory);
+  lsWorkingdirectory := Trim(foProjectConfigLoader.workingdirectory);
 
   if lsWorkingdirectory <> '' then
     lsWorkingdirectory := IncludeTrailingPathDelimiter
-      (foProjectConfig.workingdirectory);
+      (foProjectConfigLoader.workingdirectory);
 
   if (Not DirectoryExists(lsWorkingdirectory)) or (Trim(lsWorkingdirectory) = '')
   then
@@ -247,9 +247,7 @@ begin
 
   ProjectFilename := aProjectFilename;
 
-  if FileExists(aProjectConfigFilename) then
-    foProjectConfig.LoadProjectConfigFile(aProjectConfigFilename,
-      aWorkingdirectory);
+  foProjectConfigLoader.LoadProjectConfig(aWorkingdirectory);
 
   // Project task
   Index := 0;

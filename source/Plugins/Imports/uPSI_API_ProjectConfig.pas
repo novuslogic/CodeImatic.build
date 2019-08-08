@@ -91,19 +91,19 @@ begin
 end;
 
 (* ---------------------------------------------------------------------------- *)
-procedure TAPI_ProjectConfigProjectConfigFileName_R(Self: TAPI_ProjectConfig;
-  var T: String);
-begin
-  T := Self.ProjectConfigFileName;
-end;
+//procedure TAPI_ProjectConfigProjectConfigFileName_R(Self: TAPI_ProjectConfig;
+//  var T: String);
+//begin
+///  T := Self.ProjectConfigFileName;
+//end;
 
 (* ---------------------------------------------------------------------------- *)
 procedure RIRegister_TAPI_ProjectConfig(CL: TPSRuntimeClassImporter);
 begin
   with CL.Add(TAPI_ProjectConfig) do
   begin
-    RegisterPropertyHelper(@TAPI_ProjectConfigProjectConfigFileName_R, nil,
-      'ProjectConfigFileName');
+    //RegisterPropertyHelper(@TAPI_ProjectConfigProjectConfigFileName_R, nil,
+    //  'ProjectConfigFileName');
     RegisterPropertyHelper(@TAPI_ProjectConfigSearchPath_R, nil, 'SearchPath');
     RegisterPropertyHelper(@TAPI_ProjectConfigWorkingdirectory_R, nil,
       'Workingdirectory');

@@ -3,7 +3,7 @@ unit API_Zip;
 interface
 
 uses Classes, SysUtils, APIBase, uPSRuntime, IOUtils, NovusFileUtils,
-     AbZipper, AbArcTyp, AbZBrows, AbMeter, AbBrowse, AbBase, AbUnzper, AbZipKit,
+     AbZipper, AbArcTyp, AbZBrows, {AbMeter,} AbBrowse, AbBase, AbUnzper, AbZipKit,
      AbZipTyp, AbUtils, StrUtils ;
 
 type

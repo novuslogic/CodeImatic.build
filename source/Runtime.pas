@@ -77,8 +77,6 @@ begin
       fsworkingdirectory := TNovusFileUtils.TrailingBackSlash
         (TNovusFileUtils.AbsoluteFilePath(oConfig.ProjectFileName));
 
-    
-
     foProject := tProject.Create;
 
     if not foProject.LoadProjectFile(oConfig.ProjectFileName,
@@ -126,12 +124,13 @@ begin
 
     if Not FileExists(foProject.ProjectFileName) then
     begin
-      writeln('Internal error: ' + foProject.ProjectFileName +
+      writeln('Project : ' + foProject.ProjectFileName +
         ' project filename cannot be found.');
 
       Exit;
     end;
 
+    (*
     if (foProject.oProjectConfig.ProjectConfigFileName <> '') then
       foAPI_Output.WriteLog('Project Config: ' +
         foProject.oProjectConfig.ProjectConfigFileName);
@@ -143,6 +142,9 @@ begin
 
       Exit;
     end;
+    *)
+
+
 
     foAPI_Output.WriteLog('Output log file: ' + foAPI_Output.Filename);
 

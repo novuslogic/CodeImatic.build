@@ -13,10 +13,16 @@ Type
   public
     constructor Create; override;
 
+    function GetNode(aNodeName: string): TJvSimpleXmlElem;
+
     function IsLoaded: Boolean;
     function IsNodeNameExists(ANodeName: String): Boolean;
     function GetFirstNodeName(ANodeName: String;
-      aParentNodeName: String = ''): String;
+      aParentNodeName: String = ''): String; overload;
+
+    function GetFirstNodeNameEx(ANodeName: String;
+      aParentNodeName: String = ''): TJvSimpleXmlElem;
+
     function GetNextNodeName(ANodeName: String;
       aParentNodeName: String = ''): String;
     function GetValueByIndex(aIndex: Integer): String;
@@ -53,8 +59,28 @@ begin
   Result := GetFieldAsString(aNodeList, ANodeName);
 end;
 
+
+function tXMLlist.GetNode(aNodeName: string): TJvSimpleXmlElem;
+begin
+  Result := FindNode(oXMLDocument.Root, aNodeName,
+      fiPosition );
+end;
+
 function tXMLlist.GetFirstNodeName(ANodeName: String;
   aParentNodeName: String = ''): String;
+var
+  aNodeList: TJvSimpleXmlElem;
+  liIndex: Integer;
+begin
+  aNodeList := GetFirstNodeNameEx(ANodeName, aParentNodeName);
+
+
+  Result := GetFieldAsString(aNodeList, ANodeName);
+end;
+
+
+function tXMLlist.GetFirstNodeNameEx(ANodeName: String;
+  aParentNodeName: String = ''): TJvSimpleXmlElem;
 var
   aNodeList: TJvSimpleXmlElem;
   liIndex: Integer;
@@ -69,7 +95,7 @@ begin
   if aNodeList = nil then
     aNodeList := oXMLDocument.Root;
 
-  Result := GetFieldAsString(aNodeList, ANodeName);
+  Result := aNodeList;
 end;
 
 function tXMLlist.IsNodeNameExists(ANodeName: String): Boolean;

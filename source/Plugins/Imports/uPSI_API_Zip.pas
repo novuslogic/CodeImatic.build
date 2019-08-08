@@ -48,7 +48,7 @@ uses
   ,AbZipper
   ,AbArcTyp
   ,AbZBrows
-  ,AbMeter
+ // ,AbMeter
   ,AbBrowse
   ,AbBase
   ,AbUnzper

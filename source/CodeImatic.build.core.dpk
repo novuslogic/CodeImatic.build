@@ -47,7 +47,15 @@ contains
   Plugin in 'Plugin.pas',
   API_Output in 'Plugins\API\API_Output.pas',
   APIBase in 'Plugins\API\APIBase.pas',
-  Project in 'Project.pas';
+  Project in 'Project.pas',
+  ScriptEngine in 'ScriptEngine.pas',
+  XMLList in 'XMLList.pas',
+  Runtime in 'Runtime.pas',
+  ProjectConfigLoader in 'ProjectConfigLoader.pas',
+  Config in 'Config.pas',
+  ExtraClasses in 'ExtraClasses.pas',
+  uPSI_API_Output in 'Plugins\Imports\uPSI_API_Output.pas',
+  Loader in 'Loader.pas';
 
 end.
 
