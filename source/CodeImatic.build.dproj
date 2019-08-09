@@ -240,8 +240,8 @@
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
-        <Debugger_RunParams>-project testapp.cbproject</Debugger_RunParams>
-        <Debugger_CWD>D:\Projects\CodeImatic.build\samples\MSBuild</Debugger_CWD>
+        <Debugger_RunParams>-project ProjectConfig.cbproject</Debugger_RunParams>
+        <Debugger_CWD>D:\Projects\CodeImatic.build\samples\ProjectConfig</Debugger_CWD>
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -370,9 +370,9 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
-                <DeployFile LocalName="..\build\CodeImatic.build.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="CodeIMatic.build.inc" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win64">
-                        <RemoteName>CodeImatic_build.exe</RemoteName>
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -410,9 +410,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="CodeIMatic.build.inc" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="..\build\CodeImatic.build.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win64">
-                        <RemoteDir>.\</RemoteDir>
+                        <RemoteName>CodeImatic_build.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

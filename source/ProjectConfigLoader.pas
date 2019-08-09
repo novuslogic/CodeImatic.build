@@ -104,7 +104,7 @@ Var
   FNodeLoader: TNodeLoader;
 begin
   Result := '';
-  if aPropertyName = '' then
+  if Trim(aPropertyName) = '' then
     Exit;
 
   FNodeLoader := GetNode(FoRootNodeLoader, aPropertyName);
@@ -129,8 +129,16 @@ begin
 end;
 
 function tProjectConfigLoader.IspropertyExists(aPropertyName: String): boolean;
+Var
+  FNodeLoader: TNodeLoader;                                                                                   '
 begin
   Result := False;
+
+  if Trim(aPropertyName) = '' then
+    Exit;
+
+  FNodeLoader := GetNode(FoRootNodeLoader, aPropertyName);
+  Result := FNodeLoader.IsExists;
 
   (*
   if not Assigned(oXMLDocument) then
