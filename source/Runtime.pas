@@ -80,7 +80,7 @@ begin
     foProject := tProject.Create;
 
     if not foProject.LoadProjectFile(oConfig.ProjectFileName,
-      oConfig.ProjectConfigFileName, fsWorkingdirectory) then
+       fsWorkingdirectory) then
     begin
       if Not FileExists(oConfig.ProjectFileName) then
       begin

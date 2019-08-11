@@ -50,9 +50,7 @@ Type
     property ProjectFileName: String read fsProjectFileName
       write fsProjectFileName;
 
-    property ProjectConfigFileName: String read fsProjectConfigFileName
-      write fsProjectConfigFileName;
-
+   
     property OutputFile: String read fsOutputFile write fsOutputFile;
 
     property RootPath: String read fsRootPath write fsRootPath;

@@ -13,6 +13,7 @@ type
     function GetPropertyValue: string;
     function GetPropertyValueA: string;
     function GetValue: string;
+    procedure SetValue(Value: string);
   public
     constructor Create(aIndexPos: Integer);
     function IsExists: Boolean;
@@ -21,7 +22,7 @@ type
 
     property PropertyName: String read GetPropertyName;
 
-    property Value: String read GetValue;
+    property Value: String read GetValue write SetValue;
 
     property PropertyValue: String read GetPropertyValue;
     property PropertyValueA: String read GetPropertyValueA;
@@ -40,6 +41,8 @@ type
     procedure Init(aNodeLoader: tNodeLoader);
 
     function GetNode(aNodeLoader: TNodeLoader; aNodeName: String; aIndexPos: integer = 0): TNodeLoader;
+
+
     function GetRootNode: TNodeLoader;
 
     function GetValue(aValue: String): String; virtual;
@@ -129,5 +132,13 @@ begin
   if IsExists then
     Result := uppercase(Node.Value);
 end;
+
+procedure tNodeLoader.SetValue(Value: string);
+begin
+ if IsExists then
+    Node.Value := Value;
+end;
+
+
 
 end.

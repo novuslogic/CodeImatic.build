@@ -84,8 +84,7 @@ Type
 
     function GetWorkingdirectory: String;
 
-    function LoadProjectFile(aProjectFilename: String;
-      aProjectConfigFilename: String; aWorkingdirectory: string): Boolean;
+    function LoadProjectFile(aProjectFilename: String; aWorkingdirectory: string): Boolean;
     function Loadprojecttask(aTaskName: String;
       aprojecttask: Tprojecttask): Boolean;
 
@@ -231,7 +230,7 @@ begin
 end;
 
 function TProject.LoadProjectFile(aProjectFilename: String;
-  aProjectConfigFilename: String; aWorkingdirectory: string): Boolean;
+  aWorkingdirectory: string): Boolean;
 Var
   fprojecttaskNode: TJvSimpleXmlElem;
   Index: integer;

@@ -7,5 +7,6 @@
   </projecttask>
   <projectconfig>
     <searchpath>{%CODEIMATIC_BUILD_INCLUDES%}</searchpath>
+   <test>foo2</test>
   </projectconfig>
 </project>

@@ -49,7 +49,7 @@ begin
   // with RegClassS(CL,'TAPIBase', 'TAPI_ProjectConfig') do
   with CL.AddClassN(CL.FindClass('TAPIBase'), 'TAPI_ProjectConfig') do
   begin
-    RegisterProperty('ProjectConfigFileName', 'String', iptr);
+   // RegisterProperty('ProjectConfigFileName', 'String', iptr);
     RegisterProperty('SearchPath', 'String', iptr);
     RegisterProperty('Workingdirectory', 'string', iptr);
     RegisterMethod('Procedure Createproperty( aPropertyName : String)');
