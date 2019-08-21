@@ -5,5 +5,7 @@
   <projecttask name = "EnvironmentVar">
      <projectfilename>EnvironmentVar.pas</projectfilename>
   </projecttask>
- 
+   <projectconfig>
+     <searchpath>{%CODEIMATIC_BUILD_INCLUDES%}</searchpath>
+   </projectconfig>
 </project>

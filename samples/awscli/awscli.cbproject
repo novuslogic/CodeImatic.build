@@ -5,4 +5,7 @@
   <projecttask name = "awscli">
      <projectfilename>awscli.pas</projectfilename>    
   </projecttask>
+  <projectconfig>
+    <searchpath>{%CODEIMATIC_BUILD_INCLUDES%}</searchpath>
+  </projectconfig>
  </project>

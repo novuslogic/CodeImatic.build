@@ -15,6 +15,9 @@
    <projecttask name = "projecttaskb">
      <projectfilename>projecttaskb.pas</projectfilename>    
   </projecttask>
-
+  <projectconfig>
+    <searchpath>{%CODEIMATIC_BUILD_INCLUDES%}</searchpath>
+    <workingdirectory></workingdirectory>
+  </projectconfig>
 
 </project>

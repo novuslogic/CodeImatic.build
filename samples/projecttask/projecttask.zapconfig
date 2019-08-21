@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<projectconfig>
-  <searchpath>{%ZAUTO_INCLUDES%}</searchpath>
-</projectconfig>
-<?xml version="1.0" encoding="utf-8" ?>
-<projectconfig>
-    <searchpath>{%CODEIMATIC_BUILD_INCLUDES%}</searchpath>
-    <workingdirectory></workingdirectory>
-</projectconfig>

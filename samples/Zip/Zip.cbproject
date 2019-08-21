@@ -5,5 +5,8 @@
   <projecttask name = "Zip">
      <projectfilename>Zip.pas</projectfilename>
   </projecttask>
- 
+  <projectconfig>
+    <searchpath>{%CODEIMATIC_BUILD_INCLUDES%}</searchpath>
+    <workingdirectory></workingdirectory>
+  </projectconfig>
 </project>

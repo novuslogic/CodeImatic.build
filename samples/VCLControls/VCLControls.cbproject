@@ -5,4 +5,7 @@
   <projecttask name = "VCLControls">
      <projectfilename>VCLControls.pas</projectfilename>    
   </projecttask>
+  <projectconfig>
+     <searchpath>{%CODEIMATIC_BUILD_INCLUDES%}</searchpath>
+  </projectconfig>
  </project>
