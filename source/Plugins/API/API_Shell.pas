@@ -2,7 +2,7 @@ unit API_Shell;
 
 interface
 
-uses APIBase, NovusShell;
+uses APIBase, NovusShell, SysUtils, System.Threading, System.Classes,  System.SyncObjs;
 
 type
   TAPI_Shell = class(TAPIBase)
@@ -63,20 +63,52 @@ function TAPI_Shell.RunCaptureCommand(const aCommandLine: string;
   var aOutput: String): Integer;
 Var
   loShell: TNovusShell;
+  FTask: ITask;
+  fiTmpResult: Integer;
+  fsTmpOutput: String;
 begin
-  Try
-    Try
-      loShell := TNovusShell.Create;
+  fiTmpResult := -1;
+  fsTmpOutput := '';
+  FTask := TTask.Create(
+    procedure
+    Var
+      liResult: Integer;
+      lsoutput: String;
+    begin
 
-      Result := loShell.RunCaptureCommand(aCommandLine, aOutput);
+      try
+        try
+          loShell := TNovusShell.Create;
 
-    Except
-      oAPI_Output.InternalError;
-    End;
-  Finally
-    loShell.Free;
-  End;
+          liResult := loShell.RunCaptureCommand(aCommandLine, lsoutput);
 
+          fiTmpResult := liResult;
+          fsTmpOutput := lsoutput;
+          (*
+            TThread.Synchronize(nil,
+            procedure
+            begin
+            fiTmpResult := liResult;
+            fsTmpOutput := lsoutput;
+            end
+            );
+          *)
+
+        except
+          oAPI_Output.InternalError;
+        end;
+      finally
+        loShell.Free;
+      end;
+
+    end);
+
+  FTask.Start;
+
+  TTask.WaitForAll(FTask);
+
+  Result := fiTmpResult;
+  aOutput := fsTmpOutput;
 end;
 
 end.

@@ -189,8 +189,16 @@ begin
   
       Environment.SetEnvironmentVar('BDSCOMMONDIR',  GetBDSCOMMONDIR(  aDelphiVersion ), false);
     
-      Environment.SetEnvironmentVar('FrameworkDir', GetDotNETFrameworkDirectory('3.5'), false);
-      Environment.SetEnvironmentVar('FrameworkVersion', 'v3.5', false);
+      if (aDelphiVersion in [DELPHI10_3]) then
+        begin
+          Environment.SetEnvironmentVar('FrameworkDir', GetDotNETFrameworkDirectory('4.0'), false);
+          Environment.SetEnvironmentVar('FrameworkVersion', 'v4.0', false);
+        end
+      else 
+        begin
+          Environment.SetEnvironmentVar('FrameworkDir', GetDotNETFrameworkDirectory('3.5'), false);
+          Environment.SetEnvironmentVar('FrameworkVersion', 'v3.5', false);
+        end;    
 
       FMSBuildOptions.Configuration := aDelphiOptions.Configuration;
       if FMSBuildOptions.Configuration = '' then FMSBuildOptions.Configuration := 'debug';
@@ -200,7 +208,10 @@ begin
       FMSBuildOptions.OtherParameters := aDelphiOptions.OtherParameters;
       FMSBuildOptions.OutputPath := aDelphiOptions.OutputDirectory;
 
-      result := MSBuild('3.5', aProject, FMSBuildOptions);
+      if (aDelphiVersion in [DELPHI10_3]) then
+        result := MSBuild('4.0', aProject, FMSBuildOptions)
+      else
+        result := MSBuild('3.5', aProject, FMSBuildOptions);
 
       exit;
     end

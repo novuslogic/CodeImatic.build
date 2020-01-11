@@ -131,8 +131,7 @@ begin
     RegisterProperty('OnSelectionChange', 'TNotifyEvent', iptrw);
     RegisterProperty('OnTypeChange', 'TNotifyEvent', iptrw);
     RegisterProperty('OnIncludeItem', 'TIncludeItemEvent', iptrw);
-    RegisterMethod
-      ('function Execute: Boolean;');
+    RegisterMethod('function Execute: Boolean;');
   end;
 end;
 

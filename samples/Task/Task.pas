@@ -1,14 +1,14 @@
 
 procedure FinishedTasks();
 begin
-  //output.log('Finished Tasks ...') ;
+  output.log('Finished Tasks ...') ;
 
   //Task.BuildReport;
 end;
 
 procedure FinishedTask();
 begin
-  //output.log('Finished Task ...') ;
+  output.log('Finished Task ...') ;
 
   //Task.BuildReport;
 end;
@@ -62,7 +62,7 @@ begin
   FTaskTest1.IsDependentOn('test2');
 
 
-  Task.OnFinishedTasks  := @FinishedTasks;
+  // Task.OnFinishedTasks  := @FinishedTasks;
 
 
 

@@ -246,6 +246,8 @@ begin
 
   ProjectFilename := aProjectFilename;
 
+  // Project Config
+
   foProjectConfigLoader.LoadProjectConfig(aWorkingdirectory);
 
   // Project task

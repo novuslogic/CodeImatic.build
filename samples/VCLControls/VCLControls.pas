@@ -1,7 +1,6 @@
 var
   Dlg: TForm;
-  ButtonSelected, I : Integer;
-  openDialog : topendialog;
+  ButtonSelected : Integer;
 begin
   output.log('VCLControls Sample');
 
@@ -36,8 +35,6 @@ begin
   if buttonSelected = mrCancel then ShowMessage('Cancel pressed');
 
 
-
-
-
+  
 
 end.

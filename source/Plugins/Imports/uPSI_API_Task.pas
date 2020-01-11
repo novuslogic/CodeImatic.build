@@ -93,6 +93,8 @@ begin
     RegisterProperty('EndBuild', 'tDatetime', iptrw);
     RegisterProperty('BuildStatus', 'TBuildStatus', iptrw);
     RegisterProperty('Criteria', 'TTaskCriteria', iptrw);
+
+
     RegisterProperty('FinishedTask', 'TTaskEvent', iptrw);
   end;
 end;
@@ -136,9 +138,6 @@ end;
 (*----------------------------------------------------------------------------*)
 procedure TAPI_TaskFinishedTasks_W(Self: TAPI_Task; const T: TTaskEvent);
 begin
-  if Assigned(Self) then    ;
-
-
   self.OnFinishedTasks := T;
 end;
 
@@ -272,7 +271,7 @@ begin
     RegisterMethod(@TAPI_Task.BuildReport, 'BuildReport');
     RegisterPropertyHelper(@TAPI_TaskBeforeTasks_R,@TAPI_TaskBeforeTasks_W,'OnBeforeTasks');
     RegisterPropertyHelper(@TAPI_TaskFinishedTasks_R,@TAPI_TaskFinishedTasks_W,'OnFinishedTasks');
-
+    
   end;
 end;
 
@@ -291,6 +290,7 @@ begin
     RegisterPropertyHelper(@TTaskEndBuild_R,@TTaskEndBuild_W,'EndBuild');
     RegisterPropertyHelper(@TTaskBuildStatus_R,@TTaskBuildStatus_W,'BuildStatus');
     RegisterPropertyHelper(@TTaskCriteria_R,@TTaskCriteria_W,'Criteria');
+
     RegisterPropertyHelper(@TTaskFinishedTask_R,@TTaskFinishedTask_W,'OnFinishedTask');
   end;
 end;
