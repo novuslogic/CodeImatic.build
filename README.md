@@ -1,2 +1,6 @@
 # CodeImatic.build
-CodeImatic.build is a PascalScript based automated build and deployment engine for CodeImatic Tools.
+CodeImatic.build is a PascalScript based build and deployment engine.
+
+Dependencies
+
+NovuscodeLibrary https://github.com/novuslogic/NovuscodeLibrary
