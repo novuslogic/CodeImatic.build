@@ -112,6 +112,8 @@ begin
     begin
       writeln(foAPI_Output.Filename + ' log file cannot be created.');
 
+      foProject.Free;
+
       Exit;
     end;
 
@@ -127,23 +129,10 @@ begin
       writeln('Project : ' + foProject.ProjectFileName +
         ' project filename cannot be found.');
 
-      Exit;
-    end;
-
-    (*
-    if (foProject.oProjectConfig.ProjectConfigFileName <> '') then
-      foAPI_Output.WriteLog('Project Config: ' +
-        foProject.oProjectConfig.ProjectConfigFileName);
-
-    if Not FileExists(foProject.oProjectConfig.ProjectConfigFileName) then
-    begin
-      writeln('Internal error: ' + foProject.oProjectConfig.
-        ProjectConfigFileName + ' projectconfig filename cannot be found.');
+      foProject.Free;
 
       Exit;
     end;
-    *)
-
 
 
     foAPI_Output.WriteLog('Output log file: ' + foAPI_Output.Filename);

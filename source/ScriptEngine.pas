@@ -216,7 +216,13 @@ begin
 
       foPlugins.SetVariantToClasses(FExec);
 
-      fbOK := FExec.RunScript;
+      Try
+        fbOK := FExec.RunScript;
+      Except
+        fbOK := False;
+
+        foAPI_Output.LogError;
+      End;
 
       if not fbOK then
       begin
