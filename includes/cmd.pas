@@ -48,7 +48,7 @@ begin
   Result := 0;
 
   try
-    Result := Shell.RunCaptureCommand(aCommandLine, aOutput);
+    Result := Shell.RunCommandCapture(aCommandLine, aOutput);
   except
     Output.LogError;
   end;

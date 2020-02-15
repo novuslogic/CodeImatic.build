@@ -9,7 +9,7 @@ type
   private
   protected
   public
-    function RunCaptureCommand(const aCommandLine: string;
+    function RunCommandCapture(const aCommandLine: string;
       var aOutput: string): Integer;
 
     function RunCommandSilent(const aFilename: String; const aDirectory: string;
@@ -59,7 +59,7 @@ begin
   End;
 end;
 
-function TAPI_Shell.RunCaptureCommand(const aCommandLine: string;
+function TAPI_Shell.RunCommandCapture(const aCommandLine: string;
   var aOutput: String): Integer;
 Var
   loShell: TNovusShell;
@@ -80,7 +80,7 @@ begin
         try
           loShell := TNovusShell.Create;
 
-          liResult := loShell.RunCaptureCommand(aCommandLine, lsoutput);
+          liResult := loShell.RunCommandCapture(aCommandLine, lsoutput);
 
           fiTmpResult := liResult;
           fsTmpOutput := lsoutput;

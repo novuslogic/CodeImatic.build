@@ -1,3 +1,12 @@
+14/02/2020
+
+* Memory leak fixed in runtime class
+  
+16/01/2020
+
+* Include CodeImatic.pas - Function Codegen Paramater ProjectCofing removed 
+* Rename RunCaptureCommand to RunCommandCapture with in Shell API and Includes 
+
 11/01/2020
 
 * Start of the Changelog

@@ -4,7 +4,7 @@ interface
 
 Uses cmd;
   
-function codegen(aProject: string; aProjectconfig: string; aVariables: string; aWorkingdirectory: string;aOptions: string): Integer;
+function codegen(aProject: string; aVariables: string; aWorkingdirectory: string;aOptions: string): Integer;
 function codegenex(aProject: string; aProjectconfig: string; aVariables: string; aWorkingdirectory: string;aOptions: string; aPreCompatible: boolean): Integer;
 function GetcodegenPath: String;
 
@@ -19,9 +19,9 @@ begin
     RaiseException(erCustomError, 'Environment variable "CODEIMATIC_CODEGEN" - codeimatic.codegen.exe path. cannot be found.')
 end;
 
-function codegen(aProject: string; aProjectconfig: string; aVariables: string; aWorkingdirectory: string;aOptions: string): Integer;
+function codegen(aProject: string; aVariables: string; aWorkingdirectory: string;aOptions: string): Integer;
 begin
-  result := codegenex(aProject,aProjectconfig,aVariables,aWorkingdirectory,aOptions, false);
+  result := codegenex(aProject, '',aVariables,aWorkingdirectory,aOptions, false);
 end;
 
 function codegenex(aProject: string; aProjectconfig: string; aVariables: string; aWorkingdirectory: string;aOptions: string; aPreCompatible: boolean): Integer;
@@ -48,7 +48,10 @@ begin
     
 
     SB.Append('-project ' + aProject + ' ');
-    SB.Append('-projectconfig ' + aProjectconfig + ' ');
+
+    if Trim(aProjectConfig) <> '' then
+      SB.Append('-projectconfig' + aProjectConfig + ' ');
+   
 
     if not aPreCompatible then  SB.Append('-consoleoutputonly ');
 
