@@ -3,9 +3,11 @@ unit Sample;
 Uses test;
 
 begin
-  writeln('Hello World'+ Format('String           = %s', ['Hello']));
+  Output.LogFormat('%s World 1', ['Hello']);
+  writeln(Format('%s World 2', ['Hello']));
 
   StringBuilderTest;
+
   RaiseExceptionTest;
 
 end.

@@ -120,29 +120,7 @@ begin
 
       Result := True;
     end
-    (*
-    else if lsParamStr = '-projectconfig' then
-    begin
-      Inc(I);
-      fsProjectConfigFileName := Trim(ParamStr(I));
-
-      if Trim(TNovusStringUtils.JustFilename(fsProjectConfigFileName))
-        = Trim(fsProjectConfigFileName) then
-        fsProjectConfigFileName := IncludeTrailingPathDelimiter
-          (TNovusFileUtils.AbsoluteFilePath(ParamStr(I))) + Trim(ParamStr(I));
-
-      if Not FileExists(fsProjectConfigFileName) then
-      begin
-        writeln('-projectconfig ' + TNovusStringUtils.JustFilename
-          (fsProjectConfigFileName) +
-          ' projectconfig filename cannot be found.');
-
-        Exit;
-      end;
-
-      Result := True;
-    end
-    *)
+    
     else if lsParamStr = '-compileonly' then
       fbCompileOnly := True;
 

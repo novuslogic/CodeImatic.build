@@ -55,7 +55,8 @@ contains
   Config in 'Config.pas',
   ExtraClasses in 'ExtraClasses.pas',
   uPSI_API_Output in 'Plugins\Imports\uPSI_API_Output.pas',
-  Loader in 'Loader.pas';
+  Loader in 'Loader.pas',
+  VariablesCmdLine in 'VariablesCmdLine.pas';
 
 end.
 

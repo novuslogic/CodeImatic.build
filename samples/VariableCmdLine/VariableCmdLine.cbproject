@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project>
+  <outputconsole>true</outputconsole>
+  <outputpath></outputpath>
+  <projecttask name = "VariableCmdLine">
+     <projectfilename>VariableCmdLine.pas</projectfilename>
+  </projecttask>
+  <projectconfig>
+    <searchpath>{%CODEIMATIC_BUILD_INCLUDES%}</searchpath>
+  </projectconfig>
+
+</project>

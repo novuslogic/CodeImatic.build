@@ -1,3 +1,7 @@
+5/03/2020
+
+* Fixed crashing functions "Format" and Log.LofFormat in Delphi 10.3.3
+
 14/02/2020
 
 * Memory leak fixed in runtime class

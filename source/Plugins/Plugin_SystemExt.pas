@@ -6,8 +6,8 @@ uses Classes, runtime, Plugin, uPSCompiler, uPSI_API_Output, PluginsMapFactory,
   uPSC_classes, uPSC_std, uPSRuntime, uPSR_std, uPSR_classes, SysUtils,
   uPSC_dateutils,
   uPSI_ExtraClasses, uPSR_ExtraClasses, uPSC_comobj, uPSR_comobj, uPSC_dll,
-  uPSR_dll,
-  uPSR_dateutils;
+  uPSR_dll, NovusVariants,  ExtraClasses,
+  uPSR_dateutils, variants;
 
 type
   tPlugin_SystemExtBase = class(Tplugin)
@@ -20,6 +20,8 @@ type
     procedure RegisterImport; override;
   end;
 
+function CommandFormat(Caller: TPSExec; p: TIFExternalProcRec;
+    Global, Stack: TPSStack): Boolean;
 function CommandSleep(Caller: TPSExec; p: TIFExternalProcRec;
   Global, Stack: TPSStack): Boolean;
 function CommandWriteln(Caller: TPSExec; p: TIFExternalProcRec;
@@ -39,6 +41,8 @@ function CommandCompareText(Caller: TPSExec; p: TIFExternalProcRec;
 
 implementation
 
+
+
 function tPlugin_SystemExtBase.CustomOnUses(var aCompiler
   : TPSPascalCompiler): Boolean;
 begin
@@ -55,7 +59,7 @@ begin
   TPSPascalCompiler(aCompiler).AddTypeCopyN('UTF8String', 'AnsiString');
 
   TPSPascalCompiler(aCompiler).AddDelphiFunction
-    ('function format( Const Formatting : string; Const Data : array of const ) : string;');
+    ('function format(const aFormat: string; const Args : array of variant ) : string;');
 
   TPSPascalCompiler(aCompiler).AddFunction('procedure Writeln(s: string);');
   TPSPascalCompiler(aCompiler).AddFunction('function wd():string;');
@@ -72,6 +76,8 @@ begin
 
 end;
 
+
+
 procedure tPlugin_SystemExtBase.RegisterFunction(var aExec: TPSExec);
 begin
   RegisterClassLibraryRuntime(aExec, FImp);
@@ -79,9 +85,9 @@ begin
   RIRegister_ComObj(aExec);
   RegisterDateTimeLibrary_R(aExec);
 
-  //aExec.RegisterAttributeType();
+  //aExec.RegisterDelphiFunction(@InternalFormat, 'FORMAT', cdRegister);
 
-  aExec.RegisterDelphiFunction(@Format, 'FORMAT', cdPascal);
+  aExec.RegisterFunctionName('FORMAT', CommandFormat, nil, nil);
 
   aExec.RegisterFunctionName('WRITELN', CommandWriteln, nil, nil);
   aExec.RegisterFunctionName('WD', CommandWD, nil, nil);
@@ -93,8 +99,6 @@ begin
     nil, nil);
   aExec.RegisterFunctionName('COMPARETEXT', CommandCompareText, nil, nil);
   aExec.RegisterFunctionName('SLEEP', CommandSleep, nil, nil);
-
-
 
 end;
 
@@ -126,6 +130,33 @@ begin
 
   Result := True;
 end;
+
+
+function CommandFormat(Caller: TPSExec; p: TIFExternalProcRec;
+  Global, Stack: TPSStack): Boolean;
+var
+  PStart: Cardinal;
+  lsFormat: String;
+  lPIFVariant: PIFVariant;
+  lRefArgs: Variant;
+  lArgs: array of variant;
+begin
+  Result := false;
+  if Global = nil then Exit;
+
+  PStart := Stack.Count - 1;
+
+  lsFormat := Stack.GetString(PStart-1);
+  lPIFVariant := Stack.Items[PStart-2];
+
+  If PIFVariantToVariant(lPIFVariant, lRefArgs) then
+    begin
+      lArgs := VarArrayRef(lRefArgs);
+      Stack.SetString(PStart, InternalFormat(lsFormat,lArgs));
+      Result := True;
+    end;
+end;
+
 
 function CommandSleep(Caller: TPSExec; p: TIFExternalProcRec;
   Global, Stack: TPSStack): Boolean;

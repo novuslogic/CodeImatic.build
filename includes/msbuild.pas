@@ -70,7 +70,10 @@ begin
     if Trim(aMSBuildOptions.OtherParameters) <> '' then
      sb.Append(' ' +aMSBuildOptions.OtherParameters);  
   
-    Output.logformat('Running: %s', [SB.ToString]);
+    Output.logformat('MSBuild Running: %s', [sb.ToString]);
+
+   
+
 
     result := Execcmd(SB.ToString);
   finally

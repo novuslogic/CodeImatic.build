@@ -51,7 +51,7 @@ begin
   begin
 //    RegisterMethod('Constructor Create( AFilename : String; aOutputConsole : Boolean)');
     RegisterMethod('Procedure Log( const aMsg : string)');
-    RegisterMethod('Procedure LogFormat( const aFormat : string; const Args : array of const)');
+    RegisterMethod('Procedure LogFormat( const aFormat : string; const Args : array of variant)');
     RegisterMethod('Procedure LogError');
     RegisterMethod('Procedure InternalError');
     RegisterMethod('procedure LogAppendFilename(const aFilename: String)');
@@ -111,22 +111,14 @@ procedure RIRegister_TAPI_Output(CL: TPSRuntimeClassImporter);
 begin
   with CL.Add(TAPI_Output) do
   begin
-//    RegisterVirtualConstructor(@TAPI_Output.Create, 'Create');
     RegisterMethod(@TAPI_Output.Log, 'Log');
+
     RegisterMethod(@TAPI_Output.LogFormat, 'LogFormat');
+
     RegisterMethod(@TAPI_Output.LogError, 'LogError');
     RegisterMethod(@TAPI_Output.InternalError, 'InternalError');
 
     RegisterMethod(@TAPI_Output.LogAppendFilename, 'LogAppendFilename');
-
-   (*
-    RegisterPropertyHelper(@TAPI_Outputprojecttask_R, @TAPI_Outputprojecttask_W,
-      'projecttask');
-    RegisterPropertyHelper(@TAPI_OutputLastExError_R, @TAPI_OutputLastExError_W,
-      'LastExError');
-    RegisterPropertyHelper(@TAPI_OutputLastExParam_R, @TAPI_OutputLastExParam_W,
-      'LastExParam');
-      *)
   end;
 end;
 

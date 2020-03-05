@@ -2,7 +2,7 @@ unit API_Output;
 
 interface
 
-Uses NovusLog, uPSRuntime, uPSUtils, Project, Classes;
+Uses NovusLog, uPSRuntime, uPSUtils, Project, Classes, NovusVariants;
 
 type
   TAPI_Output = class(TNovusLogFile)
@@ -15,7 +15,7 @@ type
     constructor Create(AFilename: String; aOutputConsole: Boolean); virtual;
 
     procedure Log(const aMsg: string);
-    procedure LogFormat(const aFormat: string; const Args: array of const);
+    procedure LogFormat(const aFormat: string; const Args: array of variant);
     procedure LogError;
 
     procedure LogAppendFilename(const AFilename: String);
@@ -32,7 +32,7 @@ type
 
 implementation
 
-Uses SysUtils;
+Uses SysUtils, ExtraClasses;
 
 constructor TAPI_Output.Create(AFilename: String; aOutputConsole: Boolean);
 begin
@@ -47,9 +47,9 @@ begin
 end;
 
 procedure TAPI_Output.LogFormat(const aFormat: string;
-  const Args: array of const);
+  const Args: array of variant);
 begin
-  WriteLog(SysUtils.format(aFormat, Args));
+  WriteLog(InternalFormat(aFormat, Args));
 end;
 
 procedure TAPI_Output.LogError;

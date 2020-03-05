@@ -208,6 +208,8 @@ begin
       FMSBuildOptions.OtherParameters := aDelphiOptions.OtherParameters;
       FMSBuildOptions.OutputPath := aDelphiOptions.OutputDirectory;
 
+      Output.log('Delphi MSBuild.');
+
       if (aDelphiVersion in [DELPHI10_3]) then
         result := MSBuild('4.0', aProject, FMSBuildOptions)
       else
@@ -245,7 +247,8 @@ begin
     RaiseException(erCustomError, 'Unsupported platform ("win32", "win64", "osx32", "iossimulator","iosdevice")');
 
   if not File.Exists(lsRootDir) then RaiseException(erCustomError, 'Delphi dcc not found: '+lsRootDir+' '+aDelphiOptions.platform);
-    
+   
+
   Try
     SB:= TStringBuilder.Create;
 
@@ -294,10 +297,10 @@ begin
 
     if Trim(aDelphiOptions.otherParameters) <> '' then
       sb.Append(' '+aDelphiOptions.otherParameters);
-   
-    Output.logformat('Running: %s', [SB.ToString]);
 
-    result := Exec(sb.ToString);
+     Output.logformat('Delphi Running: %s', [sb.ToString]);
+
+     result := Exec(sb.ToString);
    
   finally
     SB.Free;
