@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project>
+  <outputconsole>true</outputconsole>
+  <outputpath></outputpath>
+  <projecttask name = "Test.pas">
+     <projectfilename>[%sourcepath%]Test.pas</projectfilename>
+  </projecttask>
+  <projectconfig>
+    <searchpath>{%CODEIMATIC_BUILD_INCLUDES%}</searchpath>
+    <sourcepath>[%WORKINGDIRECTORY%]Source\</sourcepath>
+  </projectconfig>
+
+</project>

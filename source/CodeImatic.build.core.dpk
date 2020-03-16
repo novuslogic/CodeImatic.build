@@ -33,6 +33,7 @@ package CodeImatic.build.core;
 
 requires
   rtl,
+  NovusCodeLibrary_Utils,
   NovusCodeLibrary_Core,
   NovusCodeLibrary_Log,
   NovusCodeLibrary_XML,
@@ -56,7 +57,10 @@ contains
   ExtraClasses in 'ExtraClasses.pas',
   uPSI_API_Output in 'Plugins\Imports\uPSI_API_Output.pas',
   Loader in 'Loader.pas',
-  VariablesCmdLine in 'VariablesCmdLine.pas';
+  VariablesCmdLine in 'VariablesCmdLine.pas',
+  ProjectParser in 'ProjectParser.pas',
+  ProjectTask in 'ProjectTask.pas',
+  ProjectLog in 'ProjectLog.pas';
 
 end.
 

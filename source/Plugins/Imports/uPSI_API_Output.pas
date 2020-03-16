@@ -11,7 +11,7 @@ unit uPSI_API_Output;
 interface
 
 uses
-  SysUtils, Classes, uPSComponent, uPSRuntime, uPSCompiler;
+  SysUtils, Classes, uPSComponent, uPSRuntime, uPSCompiler, ProjectTask;
 
 type
   (* ---------------------------------------------------------------------------- *)

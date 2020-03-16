@@ -2,7 +2,7 @@ unit API_Task;
 
 interface
 
-uses Classes, APIBase, SysUtils, NovusWindows, API_Output, Plugin_TaskRunner, uPSRuntime, Project ;
+uses Classes, APIBase, SysUtils, NovusWindows, API_Output, Plugin_TaskRunner, uPSRuntime, Project, ProjectTask ;
 
 type
   TTaskEvent = procedure of object;

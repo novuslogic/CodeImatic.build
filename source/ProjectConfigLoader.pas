@@ -4,12 +4,14 @@ unit ProjectConfigLoader;
 interface
 
 uses XMLList, NovusTemplate, SysUtils, NovusSimpleXML, JvSimpleXml, novuslist,
-  NovusStringUtils, NovusEnvironment, NovusFileUtils, Loader;
+  NovusStringUtils, NovusEnvironment, NovusFileUtils, Loader, ProjectLog,
+  NovusBO;
 
 type
   tProjectConfigLoader = Class(TLoader)
   private
   protected
+    foProjectLog: TProjectLog;
     FoRootNodeLoader: tNodeLoader;
     foProject: tXMLlist;
     fConnectionNameList: tNovuslist;
@@ -17,7 +19,7 @@ type
     fsworkingdirectory: String;
     fsProjectConfigFileName: String;
   public
-    constructor Create(aProject: TXMLlist);
+    constructor Create(aProject: tXMLlist; aProjectLog: TProjectLog);
     destructor Destroy; override;
 
     function Load: boolean; override;
@@ -43,9 +45,13 @@ type
 
 implementation
 
-constructor tProjectConfigLoader.Create(aProject: TXMLlist);
+Uses ProjectParser, Project, API_Output;
+
+constructor tProjectConfigLoader.Create(aProject: tXMLlist; aProjectLog: TProjectLog);
 begin
   foProject := aProject;
+
+  foProjectLog := aProjectLog;
 end;
 
 destructor tProjectConfigLoader.Destroy;
@@ -66,23 +72,6 @@ begin
     Result := IncludeTrailingPathDelimiter(lsworkingdirectory);
 end;
 
-(*
-procedure tProjectConfigLoader.LoadProjectConfigFile(aProjectConfigFilename: String;
-  aWorkingdirectory: string);
-begin
-  XMLFileName := aProjectConfigFilename;
-  Retrieve;
-
-  ProjectConfigFileName := aProjectConfigFilename;
-
-  fsSearchPath := GetSearchPath;
-  fsworkingdirectory := GetWorkingdirectory;
-  if Trim(fsworkingdirectory) = '' then
-    fsworkingdirectory := aWorkingdirectory;
-
-end;
-*)
-
 procedure tProjectConfigLoader.LoadProjectConfig(aWorkingdirectory: string);
 begin
   Load;
@@ -101,7 +90,8 @@ end;
 
 function tProjectConfigLoader.Getproperties(aPropertyName: string): String;
 Var
-  FNodeLoader: TNodeLoader;
+  FNodeLoader: tNodeLoader;
+  lsItemName: string;
 begin
   Result := '';
   if Trim(aPropertyName) = '' then
@@ -109,28 +99,18 @@ begin
 
   FNodeLoader := GetNode(FoRootNodeLoader, aPropertyName);
   if FNodeLoader.IsExists then
-    Result := GetValue(FNodeLoader.Value)
+    lsItemName := GetValue(FNodeLoader.Value);
+  //else
+  //   lsItemName := aPropertyName;
 
 
-
-  (*
-  Result := '';
-  if aPropertyName = '' then
-    Exit;
-
-  if not Assigned(oXMLDocument) then
-    Exit;
-
-  Result := tNovusEnvironment.ParseGetEnvironmentVar
-    (GetFieldAsString(oXMLDocument.Root, Lowercase(aPropertyName)), ETTToken2);
-
-  Result :=  tNovusEnvironment.ParseGetEnvironmentVar(result, ETTToken1);
-  *)
+  Result := tProjectParser.ParseProject(lsItemName, tProject(foProject),
+        foProjectLog)
 end;
 
 function tProjectConfigLoader.IspropertyExists(aPropertyName: String): boolean;
 Var
-  FNodeLoader: TNodeLoader;
+  FNodeLoader: tNodeLoader;
 begin
   Result := False;
 
@@ -143,55 +123,56 @@ end;
 
 function tProjectConfigLoader.CreateProperty(aPropertyName: String): boolean;
 Var
-  FNodeLoader: TNodeLoader;
+  FNodeLoader: tNodeLoader;
 begin
   Result := False;
 
   FNodeLoader := GetNode(FoRootNodeLoader, aPropertyName);
   if not FNodeLoader.IsExists then
-    begin
-      FoRootNodeLoader.Node.Items.Add(Lowercase(aPropertyName));
+  begin
+    FoRootNodeLoader.Node.Items.Add(Lowercase(aPropertyName));
 
-      Result := foProject.Post;
-    end;
+    Result := foProject.Post;
+  end;
 end;
 
 function tProjectConfigLoader.SetProperty(aPropertyName: String;
   aValue: String): boolean;
 Var
-  FNodeLoader: TNodeLoader;
-begin
-  Result := false;
-
-  FNodeLoader := GetNode(FoRootNodeLoader, aPropertyName);
-  if FNodeLoader.IsExists then
-    begin
-      FNodeLoader.Value := aValue;
-
-      Result := foProject.Post;
-    end;
-end;
-
-function tProjectConfigLoader.DeleteProperty(aPropertyName: String): boolean;
-Var
-  FNodeLoader: TNodeLoader;
+  FNodeLoader: tNodeLoader;
 begin
   Result := False;
 
   FNodeLoader := GetNode(FoRootNodeLoader, aPropertyName);
   if FNodeLoader.IsExists then
-    begin
-      FoRootNodeLoader.Node.Items.Delete(FNodeLoader.Node.Name);
+  begin
+    FNodeLoader.Value := aValue;
 
-      Result := foProject.Post;
-    end;
+    Result := foProject.Post;
+  end;
+end;
+
+function tProjectConfigLoader.DeleteProperty(aPropertyName: String): boolean;
+Var
+  FNodeLoader: tNodeLoader;
+begin
+  Result := False;
+
+  FNodeLoader := GetNode(FoRootNodeLoader, aPropertyName);
+  if FNodeLoader.IsExists then
+  begin
+    FoRootNodeLoader.Node.Items.Delete(FNodeLoader.Node.Name);
+
+    Result := foProject.Post;
+  end;
 end;
 
 function tProjectConfigLoader.Load: boolean;
 begin
-  Result := false;
+  Result := False;
   RootNode := foProject.GetNode('projectconfig');
-  if RootNode = Nil then Exit;
+  if RootNode = Nil then
+    Exit;
 
   FoRootNodeLoader := GetRootNode;
 

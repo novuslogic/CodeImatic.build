@@ -2,7 +2,7 @@ unit API_Output;
 
 interface
 
-Uses NovusLog, uPSRuntime, uPSUtils, Project, Classes, NovusVariants;
+Uses NovusLog, uPSRuntime, uPSUtils,  Classes, NovusVariants, ProjectTask;
 
 type
   TAPI_Output = class(TNovusLogFile)

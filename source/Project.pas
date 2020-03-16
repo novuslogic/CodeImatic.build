@@ -4,70 +4,17 @@ unit Project;
 interface
 
 Uses NovusXMLBO, Classes, SysUtils, NovusStringUtils, NovusBO, NovusList,
-  JvSimpleXml, NovusSimpleXML, XMLlist, ProjectConfigLoader, NovusFileUtils;
+  JvSimpleXml, NovusSimpleXML, XMLlist, ProjectConfigLoader, NovusFileUtils,
+  API_output, ProjectTask, NovusUtilities, ProjectLog;
+
 
 Type
-  TBuildStatus = (bsSucceeded, bsErrors, bsFailed);
 
-  TProjectTaskFailed = class(TNovusBO)
-  protected
-    firetry: integer;
-    fbSkip: Boolean;
-    fbAbort: Boolean;
-  private
-  public
-    property Retry: integer read firetry write firetry;
-
-    property skip: Boolean read fbSkip write fbSkip;
-
-    property abort: Boolean read fbAbort write fbAbort;
-  end;
-
-  TProjectTaskCriteria = class(TNovusBO)
-  protected
-    fFailed: TProjectTaskFailed;
-  private
-  public
-    constructor Create; override;
-    destructor Destroy; override;
-
-    property Failed: TProjectTaskFailed read fFailed write fFailed;
-  end;
-
-  Tprojecttask = class(TNovusBO)
-  protected
-  private
-    fdtStartBuild: tdatetime;
-    fdtEndBuild: tdatetime;
-    fsTaskName: String;
-    fsProjectFilename: String;
-    fBuildStatus: TBuildStatus;
-    FdtDuration: tdatetime;
-    FCriteria: TProjectTaskCriteria;
-    function GetDuration: tdatetime;
-  Public
-    constructor Create; override;
-    destructor Destroy; override;
-
-    property ProjectFilename: String read fsProjectFilename
-      write fsProjectFilename;
-
-    property TaskName: String read fsTaskName write fsTaskName;
-
-    property StartBuild: tdatetime read fdtStartBuild write fdtStartBuild;
-
-    property EndBuild: tdatetime read fdtEndBuild write fdtEndBuild;
-
-    property BuildStatus: TBuildStatus read fBuildStatus write fBuildStatus;
-
-    property Duration: tdatetime read GetDuration;
-
-    property Criteria: TProjectTaskCriteria read FCriteria write FCriteria;
-  end;
 
   TProject = class(TXMLlist)
   protected
   private
+    foProjectLog: TProjectLog;
     fsOutputPath: string;
     fbOutputConsole: Boolean;
     foProjectConfigLoader: TProjectConfigLoader;
@@ -108,18 +55,23 @@ const
 
 implementation
 
+uses ProjectParser;
+
 constructor TProject.Create;
 begin
   inherited Create;
 
-  foProjectConfigLoader := TProjectConfigLoader.Create(self);
+  foProjectConfigLoader := TProjectConfigLoader.Create(self, foProjectLog);
 
   foprojecttaskList := TNovusList.Create(Tprojecttask);
 
+  foProjectLog := TProjectLog.Create;
 end;
 
 destructor TProject.Destroy;
 begin
+  foProjectLog.Free;
+
   foProjectConfigLoader.Free;
 
   foprojecttaskList.Free;
@@ -149,8 +101,11 @@ begin
         aprojecttask.Criteria.Failed.Retry := 0;
 
         Index := 0;
-        aprojecttask.ProjectFilename := TnovusSimpleXML.FindNode
-          (fprojecttaskNode, 'projectfilename', Index).Value;
+
+        aprojecttask.ProjectFilename := tProjectParser.ParseProject(TnovusSimpleXML.FindNode
+          (fprojecttaskNode, 'projectfilename', Index).Value, Self,
+           foProjectLog);
+
 
         fcriteriaNode := TnovusSimpleXML.FindNode(fprojecttaskNode,
           'criteria', Index);
@@ -275,37 +230,7 @@ begin
   Result := GetFieldAsBoolean(oXMLDocument.Root, 'Createoutputdir');
 end;
 
-constructor Tprojecttask.Create;
-begin
-  inherited Create;
 
-  FCriteria := TProjectTaskCriteria.Create;
-end;
 
-destructor Tprojecttask.Destroy;
-begin
-  FCriteria.Free;
-
-  inherited;
-end;
-
-function Tprojecttask.GetDuration: tdatetime;
-begin
-  Result := EndBuild - StartBuild;
-end;
-
-constructor TProjectTaskCriteria.Create;
-begin
-  inherited Create;
-
-  fFailed := TProjectTaskFailed.Create;
-end;
-
-destructor TProjectTaskCriteria.Destroy;
-begin
-  fFailed.Free;
-
-  inherited;
-end;
 
 end.

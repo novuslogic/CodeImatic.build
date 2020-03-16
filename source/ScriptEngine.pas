@@ -16,7 +16,8 @@ uses
   VCL.dialogs,
   NovusFileUtils,
   uPSPreProcessor,
-  uPSI_API_Output;
+  uPSI_API_Output,
+  ProjectTask;
 
 Type
   TScriptEngine = class

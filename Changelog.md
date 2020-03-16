@@ -1,3 +1,7 @@
+16/08/2020
+
+* New Project tag [%workingdirectory%] Current working directory
+  
 5/03/2020
 
 * Fixed crashing functions "Format" and Log.LofFormat in Delphi 10.3.3

@@ -6,6 +6,6 @@
      <projectfilename>PowerShellSample.pas</projectfilename>    
   </projecttask>
    <projectconfig>
-  <   <searchpath>{%CODEIMATIC_BUILD_INCLUDES%}</searchpath>
+      <searchpath>{%CODEIMATIC_BUILD_INCLUDES%}</searchpath>
    </projectconfig>
 </project>

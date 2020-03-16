@@ -14,8 +14,8 @@ uses
   ,Classes
   ,uPSComponent
   ,uPSRuntime
-  ,uPSCompiler
-  ;
+  ,uPSCompiler,
+  ProjectTask;
 
 type
 (*----------------------------------------------------------------------------*)

@@ -50,7 +50,8 @@ uses
   Plugin_Path in 'Plugins\Plugin_Path.pas',
   Plugin_VariablesCmdLine in 'Plugins\Plugin_VariablesCmdLine.pas',
   API_VariablesCmdLine in 'Plugins\API\API_VariablesCmdLine.pas',
-  uPSI_API_VariablesCmdLine in 'Plugins\Imports\uPSI_API_VariablesCmdLine.pas';
+  uPSI_API_VariablesCmdLine in 'Plugins\Imports\uPSI_API_VariablesCmdLine.pas',
+  TagType in 'TagType.pas';
 
 begin
   ExitCode := oConfig.LoadConfig;

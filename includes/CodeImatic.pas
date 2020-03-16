@@ -6,26 +6,32 @@ Uses cmd;
 
   
 function codegen(aProject: string;  aWorkingdirectory: string;aOptions: string): Integer;
-function codegenex(aProject: string;  aVariableCmdLineList: TVariableCmdLineList; aWorkingdirectory: string;aOptions: string; aPreCompatible: boolean): Integer;
-function GetcodegenPath: String;
+function codegenex(aProject: string;  aVariableCmdLineList: TVariableCmdLineList; aWorkingdirectory: string;aOptions: string; aPreCompatible: boolean; aProjectConfig: string): Integer;
+function GetcodegenPath(aPreCompatible: boolean): String;
 
 implementation
 
 
-function GetcodegenPath: String;
+function GetcodegenPath(aPreCompatible: boolean): String;
 begin
-  Result := File.IncludeTrailingPathDelimiter(Environment.GetEnvironmentVar('CODEIMATIC_CODEGEN'));
-  if Trim(Result) = '' then Result := File.IncludeTrailingPathDelimiter(Environment.GetEnvironmentVar('ZCODE'));
+  if not aPreCompatible then
+    begin
+      Result := File.IncludeTrailingPathDelimiter(Environment.GetEnvironmentVar('CODEIMATIC_CODEGEN'));
+      if Trim(Result) = '' then Result := File.IncludeTrailingPathDelimiter(Environment.GetEnvironmentVar('ZCODE'));
+    end
+  else
+    Result := File.IncludeTrailingPathDelimiter(Environment.GetEnvironmentVar('ZCODE'));
+ 
   If Trim(Result) = '' then
     RaiseException(erCustomError, 'Environment variable "CODEIMATIC_CODEGEN" - codeimatic.codegen.exe path. cannot be found.')
 end;
 
 function codegen(aProject: string; aWorkingdirectory: string;aOptions: string): Integer;
 begin
-  result := codegenex(aProject,  NIL, aWorkingdirectory,aOptions, false);
+  result := codegenex(aProject,  NIL, aWorkingdirectory,aOptions, false, '');
 end;
 
-function codegenex(aProject: string; aVariableCmdLineList: TVariableCmdLineList; aWorkingdirectory: string;aOptions: string; aPreCompatible: boolean): Integer;
+function codegenex(aProject: string; aVariableCmdLineList: TVariableCmdLineList; aWorkingdirectory: string;aOptions: string; aPreCompatible: boolean; aProjectConfig: string): Integer;
 var
   SB: TStringBuilder;
   lsVarCmdLines: string;
@@ -33,35 +39,37 @@ begin
   Result := -1;
 
   lsVarCmdLines := '';
- // If Assigned(aVariableCmdLineList) then
-  //  lsVarCmdLines := aVariableCmdLineList.ToVarCmdLines;
-
-  if not Folder.Exists(GetcodegenPath) then 
+Try
+  if not Folder.Exists(GetcodegenPath(aPreCompatible)) then 
     begin
       if not aPreCompatible then 
-        RaiseException(erCustomError, 'CodeImatic.codegen Configured path [' + GetcodegenPath +'] cannot not be found.')
+        RaiseException(erCustomError, 'CodeImatic.codegen Configured path [' + GetcodegenPath(aPreCompatible) +'] cannot not be found.')
       else  
-        RaiseException(erCustomError, 'zcodegen Configured path [' + GetcodegenPath +'] cannot not be found.');
+        RaiseException(erCustomError, 'zcodegen Configured path [' + GetcodegenPath(aPreCompatible) +'] cannot not be found.');
     end;
 
-  try
+
     SB:= TStringBuilder.Create;
 
 
     if not aPreCompatible then 
-       SB.Append(GetcodegenPath + 'codeimatic.codegen.exe ')
+       SB.Append(GetcodegenPath(aPreCompatible) + 'codeimatic.codegen.exe ')
     else
-       SB.Append(GetcodegenPath + 'zcodegen.exe ');
+       SB.Append(GetcodegenPath(aPreCompatible) + 'zcodegen.exe ');
     
-(*
+
     SB.Append('-project ' + aProject + ' ');
+
+    if Trim(aProjectConfig) <> '' then
+       SB.Append('-projectconfig ' + aProjectConfig + ' ');  
 
     if not aPreCompatible then  SB.Append('-consoleoutputonly ');
 
     if aWorkingdirectory <> '' then 
       SB.Append('-workingdirectory '+  aWorkingdirectory+ ' ');   
 
-
+    If Assigned(aVariableCmdLineList) then
+        lsVarCmdLines := aVariableCmdLineList.ToVarCmdLines;
     if lsVarCmdLines <> '' then
        SB.Append(lsVarCmdLines + ' ');
 
@@ -69,10 +77,12 @@ begin
     if aOptions <> '' then
       SB.Append(aOptions + ' ');   
   
-    Output.logformat('Running: %s', [SB.ToString]);
+    //Output.logformat('Running: %s', [SB.ToString]);
+
+    Output.log('Running: ' + SB.ToString);
 
     result := Exec(sb.ToString);
-    *)
+ 
   finally
     SB.Free;
   end;

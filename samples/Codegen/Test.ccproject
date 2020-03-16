@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project>
+  <outputconsole>true</outputconsole>
+  <messageslogpath></messageslogpath>
+  <Createoutputdir>true</Createoutputdir>
+  
+  <projectitem name = "Test.txt">
+    <source>[%sourcepath%]test.txt</source>
+    <properties>[%propertiespath%]test.xml</properties>
+    <overrideoutput>true</overrideoutput>
+    <output>[%outputpath%]text.txt</output>
+  </projectitem>
+
+  <projectconfig>
+   <properties> 
+     <outputpath>[%WORKINGDIRECTORY%]Output\</outputpath>
+     <propertiespath>[%WORKINGDIRECTORY%]Properties\</propertiespath>
+     <sourcepath>[%WORKINGDIRECTORY%]Source\</sourcepath>
+   </properties>  
+</projectconfig>
+  
+</project>

@@ -4,8 +4,8 @@ unit Runtime;
 interface
 
 Uses Project, API_Output, Config, NovusVersionUtils, System.SysUtils,
-  NovusStringUtils,   NovusFileUtils, vcl.dialogs,
-  uPSRuntime, Plugins, NovusDateStringUtils, uPSCompiler{, Solution};
+  NovusStringUtils,   NovusFileUtils, vcl.dialogs, ProjectTask,
+  uPSRuntime, Plugins, NovusDateStringUtils, uPSCompiler;
 
 type
   tRuntime = class
@@ -52,7 +52,7 @@ uses ScriptEngine;
 
 function tRuntime.GetVersionCopyright: string;
 begin
-  Result := 'CodeImatic.build - © Copyright Novuslogic Software 2019 All Rights Reserved';
+  Result := 'CodeImatic.build - © Copyright Novuslogic Software 2020 All Rights Reserved';
 end;
 
 function tRuntime.GetVersion: string;
