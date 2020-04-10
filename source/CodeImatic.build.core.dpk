@@ -34,7 +34,7 @@ package CodeImatic.build.core;
 requires
   rtl,
   NovusCodeLibrary_Utils,
-  NovusCodeLibrary_Core,
+  NovusCodeLibrary_Object,
   NovusCodeLibrary_Log,
   NovusCodeLibrary_XML,
   NovusCodeLibrary_Parser,
