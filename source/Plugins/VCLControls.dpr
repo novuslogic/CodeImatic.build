@@ -11,7 +11,7 @@ library VCLControls;
   using PChar or ShortString parameters. }
 
 uses
-  FastMM4,
+ // FastMM5,
   System.SysUtils,
   System.Classes,
   uPSI_Dialogs in 'Imports\uPSI_Dialogs.pas',

@@ -1,7 +1,7 @@
 library RESTClient;
 
 uses
-  FastMM4,
+ // FastMM5,
   System.SysUtils,
   System.Classes,
   Plugin_RESTClientClasses in 'Plugin_RESTClientClasses.pas',

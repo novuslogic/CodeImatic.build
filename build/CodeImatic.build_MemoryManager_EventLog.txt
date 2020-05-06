@@ -1,0 +1,10 @@
+--------------------------------2020-05-02 20:08:14--------------------------------
+FastMM cannot be installed, because another third party memory manager has already been installed.
+--------------------------------2020-05-02 20:08:33--------------------------------
+FastMM cannot be installed, because another third party memory manager has already been installed.
+--------------------------------2020-05-02 20:08:35--------------------------------
+FastMM cannot be installed, because another third party memory manager has already been installed.
+--------------------------------2020-05-02 20:08:38--------------------------------
+FastMM cannot be installed, because another third party memory manager has already been installed.
+--------------------------------2020-05-02 20:08:40--------------------------------
+FastMM cannot be installed, because another third party memory manager has already been installed.

@@ -1,7 +1,7 @@
 library cURL;
 
 uses
-  FastMM4,
+//  FastMM5,
   System.SysUtils,
   System.Classes,
   Plugin_cURLClasses in 'Plugin_cURLClasses.pas',

@@ -5,7 +5,7 @@ program CodeImatic.build;
 {$R *.res}
 
 uses
-  FastMM4,
+  FastMM5,
   System.SysUtils,
   Config,
   Runtime,
@@ -55,7 +55,8 @@ uses
 
 begin
   ExitCode := oConfig.LoadConfig;
-  if ExitCode <> 0 then Exit;
+  if ExitCode <> 0 then
+    Exit;
 
   If Not oConfig.ParseParams then
     Exit;

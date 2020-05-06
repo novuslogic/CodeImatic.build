@@ -12,7 +12,7 @@ type
   private
     fNovusList: tNovusList;
     function GetItems(Index: Integer): TVariableCmdLine;
-    function  GetCount: Integer;
+    function GetCount: Integer;
   public
     constructor Create;
     destructor Destroy;
@@ -23,7 +23,6 @@ type
     property Items[Index: Integer]: TVariableCmdLine read GetItems;
     property Count: Integer read GetCount;
   end;
-
 
   TVariableCmdLine = class
   protected
@@ -37,20 +36,18 @@ type
     property Value: string read fsValue write fsValue;
   end;
 
+  TStringBuilderExtra = class(TStringBuilder)
+  protected
+  private
+  public
+    function AppendasString(const Value: string): TStringBuilder;
+    function ToStringAll: String;
+  end;
 
-   TStringBuilderExtra = class(TStringBuilder)
-   protected
-   private
-   public
-     function AppendasString(const Value: string): TStringBuilder;
-     function ToStringAll: String;
-   end;
-
-   function InternalFormat(Const aFormat: string;
-            Const Args: array of Variant): string;
+function InternalFormat(Const aFormat: string;
+  Const Args: array of Variant): string;
 
 implementation
-
 
 function InternalFormat(Const aFormat: string;
   Const Args: array of Variant): string;
@@ -58,12 +55,14 @@ var
   lParams: Array of TVarRec;
   I: Integer;
 begin
-  SetLength(lParams, High(Args) + 1);
+  Try
+    SetLength(lParams, High(Args) + 1);
 
-  for I := Low(Args) to High(Args) do
-    lParams[I] := TNovusVariants.VarToVarRec(Args[I]);
-
-  Result := SysUtils.format(aFormat, lParams);
+    for I := Low(Args) to High(Args) do
+      lParams[I] := TNovusVariants.VarToVarRec(Args[I]);
+  Finally
+    Result := format(aFormat, lParams);
+  End;
 end;
 
 // TStringBuilderExtra
@@ -73,16 +72,15 @@ begin
   Result := Self.Append(Value);
 end;
 
-function  TStringBuilderExtra.ToStringAll: String;
+function TStringBuilderExtra.ToStringAll: String;
 begin
   Result := Self.ToString;
 end;
 
-
 // TVariableCmdLineList
 constructor TVariableCmdLineList.Create;
 begin
-  fNovusList:= tNovusList.Create(TVariableCmdLine);
+  fNovusList := tNovusList.Create(TVariableCmdLine);
 end;
 
 destructor TVariableCmdLineList.Destroy;
@@ -98,7 +96,8 @@ end;
 function TVariableCmdLineList.GetItems(Index: Integer): TVariableCmdLine;
 begin
   Result := nil;
-  if (fNovusList.Count - 1 < Index) or (Index >=  fNovusList.Count) then Exit;
+  if (fNovusList.Count - 1 < Index) or (Index >= fNovusList.Count) then
+    Exit;
 
   Result := (fNovusList.Items[Index] as TVariableCmdLine);
 end;
@@ -107,6 +106,7 @@ function TVariableCmdLineList.GetCount: Integer;
 begin
   Result := fNovusList.Count;
 end;
+
 function TVariableCmdLineList.ToVarCmdLines: String;
 Var
   I: Integer;
@@ -114,12 +114,12 @@ Var
 begin
   Result := '';
 
-  for I := 0 to Count -1 do
-    begin
-      fVariableCmdLine := fNovusList.Items[i] as TVariableCmdLine;
-      if Assigned(fVariableCmdLine) then
-        Result := Result +  fVariableCmdLine.ToVarCmdLine + ' ';
-    end;
+  for I := 0 to Count - 1 do
+  begin
+    fVariableCmdLine := fNovusList.Items[I] as TVariableCmdLine;
+    if Assigned(fVariableCmdLine) then
+      Result := Result + fVariableCmdLine.ToVarCmdLine + ' ';
+  end;
 
   Result := Trim(Result);
 end;
@@ -129,6 +129,5 @@ function TVariableCmdLine.ToVarCmdLine: String;
 begin
   Result := '-var ' + VariableName + '=' + Value;
 end;
-
 
 end.
