@@ -6,7 +6,8 @@ uses Classes, System.Zip, SysUtils, API_Output, uPSCompiler, uPSRuntime,
   uPSUtils;
 
 type
-  TAPIBase = class(TPersistent)
+ // TAPIBase = class(TPersistent)
+  TAPIBase = class(Tobject)
   protected
   private
     foCompiler: TPSPascalCompiler;

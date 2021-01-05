@@ -13,7 +13,7 @@ type
   protected
     foAPI_RESTClient: TAPI_RESTClient;
   public
-    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter;aPluginName: String); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -45,7 +45,7 @@ implementation
 var
   _Plugin_RESTClient: TPlugin_RESTClient = nil;
 
-constructor tPlugin_RESTClientBase.Create(aAPI_Output: tAPI_Output;var  aImp: TPSRuntimeClassImporter);
+constructor tPlugin_RESTClientBase.Create(aAPI_Output: tAPI_Output;var  aImp: TPSRuntimeClassImporter; aPluginName: String);
 begin
   Inherited;
 
@@ -101,7 +101,7 @@ end;
 
 function tPlugin_RESTClient.CreatePlugin(aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter): TPlugin; safecall;
 begin
-  FPlugin_RESTClient := tPlugin_RESTClientBase.Create(aAPI_Output,aImp);
+  FPlugin_RESTClient := tPlugin_RESTClientBase.Create(aAPI_Output,aImp, PluginName);
 
   Result := FPlugin_RESTClient;
 end;
@@ -109,7 +109,7 @@ end;
 
 procedure tPlugin_RESTClient.Finalize;
 begin
-  //if Assigned(FPlugin_RESTClient) then FPlugin_RESTClient.Free;
+  if Assigned(FPlugin_RESTClient) then FPlugin_RESTClient.Free;
 end;
 
 function GetPluginObject: INovusPlugin;

@@ -11,8 +11,8 @@ type
      fsHTTPResponse: string;
    protected
   public
-     constructor Create(aAPI_Output: tAPI_Output); 
-     destructor Destroy; 
+     constructor Create(aAPI_Output: tAPI_Output);
+//     destructor Destroy;
      function DownloadFile(aURL: UnicodeString; aDownloadPath: String): boolean;
 
      property HTTPResponseCode: longint
@@ -28,12 +28,11 @@ implementation
 constructor TAPI_cURL.create(aAPI_Output: tAPI_Output);
 begin
   inherited Create(aAPI_Output);
-
 end;
 
-destructor TAPI_cURL.Destroy;
-begin
-end;
+//destructor TAPI_cURL.Destroy;
+//begin
+//end;
 
 
 function TAPI_cURL.DownloadFile(aURL: UnicodeString; aDownloadPath: String): boolean;

@@ -6,13 +6,13 @@ uses Classes, Plugin, uPSRuntime, uPSCompiler, PluginsMapFactory, API_RegEx,
   API_Output, SysUtils, uPSI_API_RegEx;
 
 type
-  tPlugin_RegEx = class(Tplugin)
+  tPlugin_RegEx = class(TInternalplugin)
   private
   protected
     foAPI_RegEx: TAPI_RegEx;
   public
     constructor Create(aAPI_Output: tAPI_Output;
-      var aImp: TPSRuntimeClassImporter); override;
+      var aImp: TPSRuntimeClassImporter;aPluginName: String); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -24,7 +24,7 @@ type
 implementation
 
 constructor tPlugin_RegEx.Create(aAPI_Output: tAPI_Output;
-  var aImp: TPSRuntimeClassImporter);
+  var aImp: TPSRuntimeClassImporter;aPluginName: String);
 begin
   Inherited;
 

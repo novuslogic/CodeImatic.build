@@ -51,7 +51,7 @@ Var
   f: tPlugin;
 begin
   fc := TPluginClass(TPluginsMapFactory.FindClass(AClassName));
-  f := fc.Create(aAPI_Output, aImp);
+  f := fc.Create(aAPI_Output, aImp, AClassName);
 
   Result := f;
 end;

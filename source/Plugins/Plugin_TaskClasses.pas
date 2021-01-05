@@ -15,7 +15,7 @@ type
     foTaskRunner: TTaskRunner;
     foAPI_Task: TAPI_Task;
   public
-    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter;aPluginName: String); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -47,7 +47,7 @@ var
   _Plugin_Task: TPlugin_Task = nil;
 
 
-constructor tPlugin_TaskBase.Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter);
+constructor tPlugin_TaskBase.Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter; aPluginName: String);
 begin
   Inherited;
 
@@ -111,7 +111,7 @@ end;
 
 function tPlugin_Task.CreatePlugin(aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter): TPlugin; safecall;
 begin
-  FPlugin_Task := tPlugin_TaskBase.Create(aAPI_Output,aImp);
+  FPlugin_Task := tPlugin_TaskBase.Create(aAPI_Output,aImp, PluginName);
 
   Result := FPlugin_Task;
 end;
@@ -119,7 +119,7 @@ end;
 
 procedure tPlugin_Task.Finalize;
 begin
-  //if Assigned(FPlugin_Task) then FPlugin_Task.Free;
+  if Assigned(FPlugin_Task) then FPlugin_Task.Free;
 end;
 
 function GetPluginObject: INovusPlugin;

@@ -243,13 +243,15 @@ begin
 
     fImp.Free;
 
+
+    foAPI_Output.WriteLog('Start unload plugins');
+
     foPlugins.UnLoadPlugins;
+    foAPI_Output.WriteLog('End unload plugins');
 
 
     foAPI_Output.WriteLog('Logging finished');
     foAPI_Output.CloseLog;
-
- ;
 
     foAPI_Output.Free;
 
@@ -260,8 +262,6 @@ begin
   Finally
     foProject.Free;
 
-
-    //foSolution.Free;
   End;
 end;
 

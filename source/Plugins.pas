@@ -47,7 +47,7 @@ destructor TPlugins.Destroy;
 begin
   Inherited;
 
-  UnloadPlugins;
+  // UnloadPlugins;
 
   FExternalPlugins.Free;
 
@@ -59,17 +59,41 @@ Var
   I: Integer;
   loPlugin: tPlugin;
 begin
+  foAPI_Output.Log('Unload Plugins');
 
-  for I := 0 to fPluginsList.Count - 1 do
-  begin
-    loPlugin := tPlugin(fPluginsList.Items[I]);
-    loPlugin.Free;
-    loPlugin := nil;
-  end;
+  Try
 
-  fPluginsList.Clear;
+    for I := 0 to fPluginsList.Count - 1 do
+    begin
+      if Assigned(fPluginsList.Items[I]) then
+      begin
+        Try
+          loPlugin := tPlugin(fPluginsList.Items[I]);
 
-  FExternalPlugins.UnloadAllPlugins;
+          //foAPI_Output.Log('Unload: ' + loPlugin.PluginName);
+
+          if loPlugin is TInternalplugin then
+            begin
+              loPlugin.Free;
+              loPlugin := nil;
+            end;
+        Except
+          foAPI_Output.InternalError;
+        End;
+      end;
+    end;
+
+
+    foAPI_Output.Log('Unload TExternalplugin Plugins');
+
+    FExternalPlugins.UnloadAllPlugins;
+
+    fPluginsList.Clear;
+
+  Except
+    foAPI_Output.InternalError;
+  End;
+    // FExternalPlugins.UnloadAllPlugins;
 end;
 
 procedure TPlugins.LoadPlugins;

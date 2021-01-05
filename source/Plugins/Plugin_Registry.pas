@@ -12,7 +12,7 @@ type
     foAPI_Registry: TAPI_Registry;
   public
     constructor Create(aAPI_Output: tAPI_Output;
-      var aImp: TPSRuntimeClassImporter); override;
+      var aImp: TPSRuntimeClassImporter;aPluginName: String); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -24,7 +24,7 @@ type
 implementation
 
 constructor tPlugin_Registry.Create(aAPI_Output: tAPI_Output;
-  var aImp: TPSRuntimeClassImporter);
+  var aImp: TPSRuntimeClassImporter;aPluginName: String);
 begin
   Inherited;
 

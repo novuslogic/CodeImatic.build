@@ -1,3 +1,10 @@
+
+* Reworked Unloading Plugins procedure TPlugins.UnloadPlugins
+* Removed External VCLControls Plugin
+* Add PluginName to TPlugin Class
+* New TExternalPlugin class defined for External Plugins
+* New TInternalPlugin class defined for Internal Plugins
+
 06/05/2020
 
 * Upgraded FastMM4 to FastMM5 
@@ -12,7 +19,7 @@
   
 5/03/2020
 
-* Fixed crashing functions "Format" and Log.LofFormat in Delphi 10.3.3
+* Fixed crashing functions "Format" and Log.LogFormat in Delphi 10.3.3
 
 14/02/2020
 

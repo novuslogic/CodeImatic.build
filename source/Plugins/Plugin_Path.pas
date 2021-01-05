@@ -6,13 +6,13 @@ uses Classes, Plugin, uPSRuntime, uPSCompiler, PluginsMapFactory, API_Path,
   API_Output, SysUtils, uPSI_API_Path;
 
 type
-  tPlugin_Path = class(Tplugin)
+  tPlugin_Path = class(TInternalplugin)
   private
   protected
     foAPI_Path: TAPI_Path;
   public
     constructor Create(aAPI_Output: tAPI_Output;
-      var aImp: TPSRuntimeClassImporter); override;
+      var aImp: TPSRuntimeClassImporter;aPluginName: String); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -24,7 +24,7 @@ type
 implementation
 
 constructor tPlugin_Path.Create(aAPI_Output: tAPI_Output;
-  var aImp: TPSRuntimeClassImporter);
+  var aImp: TPSRuntimeClassImporter;aPluginName: String);
 begin
   Inherited;
 

@@ -8,12 +8,12 @@ uses Classes,Plugin,  uPSComponent, uPSRuntime,  uPSCompiler, API_cURL, NovusPlu
 
 
 type
-  tPlugin_cURLBase = class(Tplugin)
+  tPlugin_cURLBase = class(TExternalPlugin)
   private
   protected
     foAPI_cURL: TAPI_cURL;
   public
-    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter; aPluginName: String); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -45,7 +45,7 @@ implementation
 var
   _Plugin_cURL: TPlugin_cURL = nil;
 
-constructor tPlugin_cURLBase.Create(aAPI_Output: tAPI_Output;var  aImp: TPSRuntimeClassImporter);
+constructor tPlugin_cURLBase.Create(aAPI_Output: tAPI_Output;var  aImp: TPSRuntimeClassImporter; aPluginName: String);
 begin
   Inherited;
 
@@ -101,15 +101,15 @@ end;
 
 function tPlugin_cURL.CreatePlugin(aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter): TPlugin; safecall;
 begin
-  FPlugin_cURL := tPlugin_cURLBase.Create(aAPI_Output,aImp);
+  FPlugin_cURL := tPlugin_cURLBase.Create(aAPI_Output,aImp,PluginName);
 
   Result := FPlugin_cURL;
 end;
 
-
 procedure tPlugin_cURL.Finalize;
 begin
-  //if Assigned(FPlugin_cURL) then FPlugin_cURL.Free;
+  if Assigned(FPlugin_cURL) then
+    FPlugin_cURL.Free;
 end;
 
 function GetPluginObject: INovusPlugin;

@@ -11,9 +11,11 @@ type
   protected
     foAPI_Output: tAPI_Output;
     fImp: TPSRuntimeClassImporter;
+    fsPluginName: string;
   public
     constructor Create(aAPI_Output: tAPI_Output;
-      var aImp: TPSRuntimeClassImporter); virtual;
+      var aImp: TPSRuntimeClassImporter;
+      aPluginName: String); virtual;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; virtual;
     procedure RegisterFunction(var aExec: TPSExec); virtual;
@@ -23,7 +25,17 @@ type
     property oAPI_Output: tAPI_Output read foAPI_Output write foAPI_Output;
 
     property _Imp: TPSRuntimeClassImporter read fImp write fImp;
+
+    property PluginName: String
+      read fsPluginName write fsPluginName;
   end;
+
+  TExternalPlugin = class(TPlugin)
+  end;
+
+  TinternalPlugin = class(TPlugin)
+  end;
+
 
   IExternalPlugin = interface(INovusPlugin)
     ['{838468EA-1750-4CB5-B6B3-E7078F59A46A}']
@@ -39,6 +51,8 @@ implementation
 constructor TPlugin.Create;
 begin
   foAPI_Output := aAPI_Output;
+
+  fsPluginName := aPluginName;
 
   fImp := aImp;
 end;

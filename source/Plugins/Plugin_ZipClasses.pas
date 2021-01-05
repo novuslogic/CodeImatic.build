@@ -13,7 +13,7 @@ type
   protected
     foAPI_Zip: TAPI_Zip;
   public
-    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter); override;
+    constructor Create(aAPI_Output: tAPI_Output; var aImp: TPSRuntimeClassImporter; aPluginName: String); override;
     destructor Destroy; override;
 
     function CustomOnUses(var aCompiler: TPSPascalCompiler): Boolean; override;
@@ -45,7 +45,7 @@ implementation
 var
   _Plugin_Zip: TPlugin_Zip = nil;
 
-constructor tPlugin_ZipBase.Create(aAPI_Output: tAPI_Output;var  aImp: TPSRuntimeClassImporter);
+constructor tPlugin_ZipBase.Create(aAPI_Output: tAPI_Output;var  aImp: TPSRuntimeClassImporter; aPluginName: String);
 begin
   Inherited;
 
@@ -101,7 +101,7 @@ end;
 
 function tPlugin_Zip.CreatePlugin(aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter): TPlugin; safecall;
 begin
-  FPlugin_Zip := tPlugin_ZipBase.Create(aAPI_Output,aImp);
+  FPlugin_Zip := tPlugin_ZipBase.Create(aAPI_Output,aImp, PluginName);
 
   Result := FPlugin_Zip;
 end;
@@ -109,7 +109,7 @@ end;
 
 procedure tPlugin_Zip.Finalize;
 begin
-  //if Assigned(FPlugin_Zip) then FPlugin_Zip.Free;
+  if Assigned(FPlugin_Zip) then FPlugin_Zip.Free;
 end;
 
 function GetPluginObject: INovusPlugin;

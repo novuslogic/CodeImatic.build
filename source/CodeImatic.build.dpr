@@ -54,6 +54,8 @@ uses
   TagType in 'TagType.pas';
 
 begin
+  FastMM_ExitDebugMode;
+
   ExitCode := oConfig.LoadConfig;
   if ExitCode <> 0 then
     Exit;

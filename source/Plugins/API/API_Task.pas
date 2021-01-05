@@ -7,7 +7,6 @@ uses Classes, APIBase, SysUtils, NovusWindows, API_Output, Plugin_TaskRunner, uP
 type
   TTaskEvent = procedure of object;
 
-
   TTaskFailed = class(TPersistent)
   protected
     fiRetry: Integer;
@@ -56,7 +55,6 @@ type
     fBuildStatus: TBuildStatus;
     function GetDuration: TdateTime;
   private
-
   public
     constructor Create;
     destructor Destroy; override;

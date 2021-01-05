@@ -20,7 +20,7 @@ type
 
     procedure LogAppendFilename(const AFilename: String);
 
-    procedure InternalError;
+    procedure InternalError(aMessage: string = '');
 
     property projecttask: Tprojecttask read fprojecttask write fprojecttask;
 
@@ -61,9 +61,13 @@ begin
     fprojecttask.BuildStatus := TBuildStatus.bsFailed;
 end;
 
-procedure TAPI_Output.InternalError;
+procedure TAPI_Output.InternalError(aMessage: string = '');
 begin
-  Log(WriteExceptLog);
+  if Trim(aMessage) = '' then
+    Log(WriteExceptLog)
+  else
+    Log(aMessage + ' ' + WriteExceptLog);
+
   fprojecttask.BuildStatus := TBuildStatus.bsFailed;
 end;
 
