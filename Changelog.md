@@ -1,4 +1,6 @@
+5/1/2021
 
+* Delphi.pas now supports Delphi 10.4
 * Reworked Unloading Plugins procedure TPlugins.UnloadPlugins
 * Removed External VCLControls Plugin
 * Add PluginName to TPlugin Class
