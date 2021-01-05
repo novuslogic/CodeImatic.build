@@ -356,7 +356,7 @@ begin
     DELPHI10_1 : Result := 'DELPHI10_1';
     DELPHI10_2 : Result := 'DELPHI10_2';
     DELPHI10_3 : Result := 'DELPHI10_3';
-    DELPHI10_4 : Result := 'DELPHI10_3';
+    DELPHI10_4 : Result := 'DELPHI10_4';
   else
     RaiseException(erCustomError, 'Invalid supported delphi versions');
   end;
