@@ -118,6 +118,7 @@
         <Debugger_RunParams>-project TestApp.cbproject</Debugger_RunParams>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Debugger_CWD>D:\Projects\CodeImatic.build\samples\Delphi</Debugger_CWD>
+        <Debugger_DebugSourcePath>D:\Projects\NovuscodeLibrary\Source\Core\Plugin\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -180,7 +181,6 @@
         <DCCReference Include="Plugins\Plugin_VariablesCmdLine.pas"/>
         <DCCReference Include="Plugins\API\API_VariablesCmdLine.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_API_VariablesCmdLine.pas"/>
-        <DCCReference Include="TagType.pas"/>
         <None Include="CodeImatic.build.inc"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
@@ -249,12 +249,7 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
-                <DeployFile LocalName="..\build\CodeImatic.build.exe" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win64">
-                        <RemoteName>CodeImatic_build.exe</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\iossim32\libcgunwind.1.0.dylib" Class="DependencyModule"/>
                 <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
                     <Platform Name="OSX32">
                         <Overwrite>true</Overwrite>
@@ -294,7 +289,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\iossim32\libcgunwind.1.0.dylib" Class="DependencyModule"/>
+                <DeployFile LocalName="..\build\CodeImatic.build.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win64">
+                        <RemoteName>CodeImatic_build.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="OSX32">
                         <Operation>1</Operation>

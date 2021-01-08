@@ -149,6 +149,7 @@
         <DCCReference Include="ExtraClasses.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_API_Output.pas"/>
         <DCCReference Include="Loader.pas"/>
+        <DCCReference Include="TagType.pas"/>
         <DCCReference Include="VariablesCmdLine.pas"/>
         <DCCReference Include="ProjectParser.pas"/>
         <DCCReference Include="ProjectTask.pas"/>

@@ -1,3 +1,7 @@
+08/01/2021
+
+* Log unload external plugins
+  
 5/1/2021
 
 * Delphi.pas now supports Delphi 10.4

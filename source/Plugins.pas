@@ -58,6 +58,7 @@ procedure TPlugins.UnloadPlugins;
 Var
   I: Integer;
   loPlugin: tPlugin;
+  fPluginInfo: PPluginInfo;
 begin
   foAPI_Output.Log('Unload Plugins');
 
@@ -83,14 +84,18 @@ begin
       end;
     end;
 
+//    FExternalPlugins.UnloadAllPlugins;
+    for I := FExternalPlugins.PluginCount - 1 downto 0 do
+      begin
+        fPluginInfo := FExternalPlugins.GetPluginList(i);
+        foAPI_Output.Log('Unload: ' +fPluginInfo^.PluginName);
 
-    foAPI_Output.Log('Unload TExternalplugin Plugins');
-
-    FExternalPlugins.UnloadAllPlugins;
+        FExternalPlugins.UnloadPlugin(I);
+      end;
 
     fPluginsList.Clear;
-
   Except
+
     foAPI_Output.InternalError;
   End;
     // FExternalPlugins.UnloadAllPlugins;
