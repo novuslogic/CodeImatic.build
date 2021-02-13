@@ -71,7 +71,7 @@ begin
         Try
           loPlugin := tPlugin(fPluginsList.Items[I]);
 
-          //foAPI_Output.Log('Unload: ' + loPlugin.PluginName);
+          foAPI_Output.Log('Unload: ' + loPlugin.PluginName);
 
           if loPlugin is TInternalplugin then
             begin
@@ -84,8 +84,9 @@ begin
       end;
     end;
 
-//    FExternalPlugins.UnloadAllPlugins;
-    for I := FExternalPlugins.PluginCount - 1 downto 0 do
+   fPluginsList.Clear;
+
+   for I := FExternalPlugins.PluginCount - 1 downto 0 do
       begin
         fPluginInfo := FExternalPlugins.GetPluginList(i);
         foAPI_Output.Log('Unload: ' +fPluginInfo^.PluginName);
@@ -93,7 +94,7 @@ begin
         FExternalPlugins.UnloadPlugin(I);
       end;
 
-    fPluginsList.Clear;
+    //fPluginsList.Clear;
   Except
 
     foAPI_Output.InternalError;
