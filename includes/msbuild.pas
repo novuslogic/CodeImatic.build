@@ -4,6 +4,8 @@ interface
 
 Uses cmd, Windows, DotNET;
 
+const cVSCommunity2019 = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe';
+
 type
   TMSBuildOptions = record
     Configuration: string;
@@ -34,6 +36,8 @@ var
 begin
   result := -1;
 
+  
+
   lsProjectSolutionFilename := aProjectSolutionFilename; 
   if not File.Exists(aProjectSolutionFilename) then
    begin
@@ -45,11 +49,12 @@ begin
   Output.logformat('MSBuild Project/Solution: %s', [lsProjectSolutionFilename]);   
 
   lsMSBuildFullname := GetMSBuildFullname(aVersion)
+ 
 
   Try
     SB:= TStringBuilder.Create;
 
-    SB.Append( lsMSBuildFullname + ' ');
+    SB.Append( '"' + lsMSBuildFullname + '" ');
 
     SB.Append('/nologo ');
 
@@ -72,10 +77,7 @@ begin
   
     Output.logformat('MSBuild Running: %s', [sb.ToString]);
 
-   
-
-
-    result := Execcmd(SB.ToString);
+    result := ExecExA(SB.ToString);
   finally
     SB.Free;
   End;
@@ -89,8 +91,11 @@ begin
      (CompareText(lowercase(aVersion), '4') = 0) or
      (CompareText(lowercase(aVersion), '4.0') = 0) then
      result := GetDotNETFrameworkDirectory(aVersion) + 'MSBuild.exe'
-  else 
-    RaiseException(erCustomError, 'Unsupported version ("2.0", "3.5", "4.0") of msbuild');   
+   else   
+   if (CompareText(lowercase(aVersion), 'VSCommunity2019') = 0) then 
+     result := cVSCommunity2019  
+   else 
+     RaiseException(erCustomError, 'Unsupported version ("2.0", "3.5", "4.0", "VSCommunity2019") of msbuild');   
    
   if not File.Exists(result) then RaiseException(erCustomError, 'msbuild not found: '+result);
 end;

@@ -82,3 +82,4 @@ build/libcurl-x64.dll
 build/libssl-1_1-x64.dll
 samples/cURL/rubyinstaller-devkit-2.6.1-1-x64.exe2
 build/CodeImatic.build_MemoryManager_EventLog.txt
+build/codeimatic.build.config

@@ -1,3 +1,8 @@
+26/02/2021
+
+* New MSBuild include now supports Visual Studio Community 2019 with verion option VSCommunity2019
+* New function in ExecExA in cmd include
+
 08/01/2021
 
 * Log unload external plugins
