@@ -48,7 +48,7 @@ Var
 
 implementation
 
-uses ScriptEngine;
+uses PascalScript;
 
 function tRuntime.GetVersionCopyright: string;
 begin
@@ -66,7 +66,7 @@ function tRuntime.RunEnvironment: Integer;
 var
   liIndex, i, x: Integer;
   loprojecttask: Tprojecttask;
-  loScriptEngine: TScriptEngine;
+  loPascalScript: TPascalScript;
 begin
   Try
     Result := -1;
@@ -188,13 +188,13 @@ begin
           (loprojecttask.StartBuild));
 
         Try
-          loScriptEngine := TScriptEngine.Create(foAPI_Output, fImp, foPlugins);
+          loPascalScript := TPascalScript.Create(foAPI_Output, fImp, foPlugins);
 
-          loScriptEngine.LoadScript(loprojecttask.ProjectFileName);
+          loPascalScript.LoadScript(loprojecttask.ProjectFileName);
 
-          loScriptEngine.ExecuteScript(loprojecttask, oConfig.CompileOnly);
+          loPascalScript.ExecuteScript(loprojecttask, oConfig.CompileOnly);
         Finally
-          loScriptEngine.Free;
+          loPascalScript.Free;
         End;
 
         loprojecttask.EndBuild := Now;

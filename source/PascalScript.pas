@@ -1,5 +1,5 @@
 {$I CodeImatic.build.inc}
-unit ScriptEngine;
+unit PascalScript;
 
 interface
 
@@ -20,7 +20,7 @@ uses
   ProjectTask;
 
 Type
-  TScriptEngine = class
+  TPascalScript = class
   protected
     foPlugins: TPlugins;
     fImp: TPSRuntimeClassImporter;
@@ -124,7 +124,7 @@ begin
   end;
 end;
 
-constructor TScriptEngine.Create;
+constructor TPascalScript.Create;
 begin
   foAPI_Output := aAPI_Output;
 
@@ -136,13 +136,13 @@ begin
   fImp := aImp;
 end;
 
-destructor TScriptEngine.Destroy;
+destructor TPascalScript.Destroy;
 begin
   FScript.Free;
   FParserStream.Free;
 end;
 
-function TScriptEngine.ExecuteScript(aprojecttask: TProjectTask;
+function TPascalScript.ExecuteScript(aprojecttask: TProjectTask;
   aCompileOnly: Boolean): Boolean;
 var
   liRetry, I: Integer;
@@ -162,14 +162,15 @@ begin
   foAPI_Output.WriteLog('Compiling ... ');
 
   if not FCompiler.Compile(FScript.Text) then
-  // Compile the Pascal script into bytecode.
-  begin
-    CompilerOutputMessage;
+    begin
+      CompilerOutputMessage;
 
-    foAPI_Output.projecttask.BuildStatus := TBuildStatus.bsFailed;
+      foAPI_Output.projecttask.BuildStatus := TBuildStatus.bsFailed;
 
-    Exit;
-  end;
+      FCompiler.Free;
+
+      Exit;
+    end;
 
   CompilerOutputMessage;
 
@@ -183,7 +184,6 @@ begin
     Result := true;
 
     Exit;
-
   end;
 
   foAPI_Output.WriteLog('Executing ... ');
@@ -258,12 +258,12 @@ begin
     Result := true;
 end;
 
-procedure TScriptEngine.LoadScript(aFilename: String);
+procedure TPascalScript.LoadScript(aFilename: String);
 begin
   FScript.LoadFromFile(aFilename, TEncoding.ASCII);
 end;
 
-procedure TScriptEngine.CompilerOutputMessage;
+procedure TPascalScript.CompilerOutputMessage;
 var
   I: Integer;
 begin

@@ -1,3 +1,9 @@
+30/05/2021
+
+* Fixed memory leak in tPascalScript class
+* Rename tScriptEngine to tPascalScript class
+ 
+
 26/02/2021
 
 * New MSBuild include now supports Visual Studio Community 2019 with verion option VSCommunity2019
