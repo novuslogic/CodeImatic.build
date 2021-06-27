@@ -6,7 +6,7 @@ uses Classes, Plugin, uPSRuntime, uPSCompiler, PluginsMapFactory, API_WinAPI,
   uPSI_API_WinAPI, API_Output, SysUtils;
 
 type
-  tPlugin_WinAPI = class(TInternalplugin)
+  tPlugin_WinAPI = class(TPascalScriptInternalPlugin)
   private
   protected
     foAPI_WinAPI: TAPI_WinAPI;

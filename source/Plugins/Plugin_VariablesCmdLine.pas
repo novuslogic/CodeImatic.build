@@ -6,7 +6,7 @@ uses Classes, Plugin, uPSRuntime, uPSCompiler, uPSI_API_VariablesCmdLine,
   PluginsMapFactory;
 
 type
-  tPlugin_VariablesCmdLine = class(TInternalplugin)
+  tPlugin_VariablesCmdLine = class(TPascalScriptInternalPlugin)
   private
   protected
   public

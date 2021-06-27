@@ -30,16 +30,16 @@ type
       read fsPluginName write fsPluginName;
   end;
 
-  TExternalPlugin = class(TPlugin)
+  TPascalScriptPlugin = class(TPlugin)
   end;
 
-  TinternalPlugin = class(TPlugin)
+  TPascalScriptInternalPlugin = class(TPlugin)
   end;
 
 
   IExternalPlugin = interface(INovusPlugin)
     ['{838468EA-1750-4CB5-B6B3-E7078F59A46A}']
-   
+
     function CreatePlugin(aAPI_Output: tAPI_Output;
       aImp: TPSRuntimeClassImporter): TPlugin safecall;
   end;

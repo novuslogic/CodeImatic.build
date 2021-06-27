@@ -6,7 +6,7 @@ uses Classes, Plugin, uPSRuntime, uPSCompiler, uPSI_API_Output,
   PluginsMapFactory;
 
 type
-  tPlugin_Output = class(TInternalplugin)
+  tPlugin_Output = class(TPascalScriptInternalPlugin)
   private
   protected
   public

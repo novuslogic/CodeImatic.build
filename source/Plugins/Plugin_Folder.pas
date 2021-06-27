@@ -6,7 +6,7 @@ uses Classes, Plugin, uPSRuntime, uPSCompiler, PluginsMapFactory, API_Folder,
   API_Output, SysUtils, uPSI_API_Folder;
 
 type
-  tPlugin_Folder = class(TInternalplugin)
+  tPlugin_Folder = class(TPascalScriptInternalPlugin)
   private
   protected
     foAPI_Folder: TAPI_Folder;

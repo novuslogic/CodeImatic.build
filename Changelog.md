@@ -1,3 +1,19 @@
+27/06/28201
+
+* New Web Plugin
+  * Add Function GetMIMEType( aURL : String) : string
+  * Add function UrlDecode( const aEncodedStr : String) : String
+  * add function UrlEncode( const aDecodedStr : String; aPluses : Boolean) : String
+  * Add function OpenDefaultWebBrowser( const aURL : string) : Integer
+  * Add function URLDownloadToFile(aURL: UnicodeString; aDownloadPath: String): TWebDownloadResponse; 
+* Removed cURL Plugin replaces with Web Plugin
+* New samples for Web plugin
+
+16/06/2021
+
+* Rename class TExternalPlugin to TPascalScriptPlugin
+* Rename class TinternalPlugin to TPascalScriptInternalPlugin
+
 30/05/2021
 
 * Fixed memory leak in tPascalScript class

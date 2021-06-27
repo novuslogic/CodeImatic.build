@@ -6,7 +6,7 @@ uses Classes, Plugin, uPSRuntime, uPSCompiler, PluginsMapFactory, API_RegEx,
   API_Output, SysUtils, uPSI_API_RegEx;
 
 type
-  tPlugin_RegEx = class(TInternalplugin)
+  tPlugin_RegEx = class(TPascalScriptInternalPlugin)
   private
   protected
     foAPI_RegEx: TAPI_RegEx;

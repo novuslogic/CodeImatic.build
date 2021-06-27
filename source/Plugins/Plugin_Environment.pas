@@ -7,7 +7,7 @@ uses Classes, Plugin, uPSRuntime, uPSCompiler, PluginsMapFactory,
   API_Output, SysUtils, uPSI_API_Environment;
 
 type
-  tPlugin_Environment = class(TInternalplugin)
+  tPlugin_Environment = class(TPascalScriptInternalPlugin)
   private
   protected
     foAPI_Environment: TAPI_Environment;

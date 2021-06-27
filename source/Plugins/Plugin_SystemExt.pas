@@ -10,7 +10,7 @@ uses Classes, runtime, Plugin, uPSCompiler, uPSI_API_Output, PluginsMapFactory,
   uPSR_dateutils, variants;
 
 type
-  tPlugin_SystemExtBase = class(TInternalplugin)
+  tPlugin_SystemExtBase = class(TPascalScriptInternalPlugin)
   private
   protected
   public

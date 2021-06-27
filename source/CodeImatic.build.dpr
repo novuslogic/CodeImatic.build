@@ -9,8 +9,7 @@ uses
   System.SysUtils,
   Config,
   Runtime,
-  API_Output in 'Plugins\API\API_Output.pas',
-  Plugins in 'Plugins.pas',
+
   PluginsMapFactory in 'PluginsMapFactory.pas',
   Plugin_Output in 'Plugins\Plugin_Output.pas',
   Plugin_SystemExt in 'Plugins\Plugin_SystemExt.pas',

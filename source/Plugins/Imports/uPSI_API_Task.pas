@@ -64,7 +64,6 @@ end;
 (*----------------------------------------------------------------------------*)
 procedure SIRegister_TAPI_Task(CL: TPSPascalCompiler);
 begin
-  //with RegClassS(CL,'TAPIBase', 'TAPI_Task') do
   with CL.AddClassN(CL.FindClass('TAPIBase'),'TAPI_Task') do
   begin
     RegisterMethod('Constructor Create( aAPI_Output : tAPI_Output; aTaskRunner : TTaskRunner);');
@@ -80,7 +79,6 @@ end;
 (*----------------------------------------------------------------------------*)
 procedure SIRegister_TTask(CL: TPSPascalCompiler);
 begin
-  //with RegClassS(CL,'TPersistent', 'TTask') do
   with CL.AddClassN(CL.FindClass('TPersistent'),'TTask') do
   begin
     RegisterMethod('Constructor Create');
@@ -102,7 +100,6 @@ end;
 (*----------------------------------------------------------------------------*)
 procedure SIRegister_TTaskCriteria(CL: TPSPascalCompiler);
 begin
-  //with RegClassS(CL,'TPersistent', 'TTaskCriteria') do
   with CL.AddClassN(CL.FindClass('TPersistent'),'TTaskCriteria') do
   begin
     RegisterMethod('Constructor Create');
@@ -113,7 +110,6 @@ end;
 (*----------------------------------------------------------------------------*)
 procedure SIRegister_TTaskFailed(CL: TPSPascalCompiler);
 begin
-  //with RegClassS(CL,'TPersistent', 'TTaskFailed') do
   with CL.AddClassN(CL.FindClass('TPersistent'),'TTaskFailed') do
   begin
     RegisterMethod('Constructor Create');

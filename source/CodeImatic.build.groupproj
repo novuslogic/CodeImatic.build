@@ -15,7 +15,7 @@
         <Projects Include="Plugins\Task.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="Plugins\cURL.dproj">
+        <Projects Include="Plugins\Web.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="Plugins\RESTClient.dproj">
@@ -65,14 +65,14 @@
     <Target Name="Task:Make">
         <MSBuild Projects="Plugins\Task.dproj" Targets="Make"/>
     </Target>
-    <Target Name="cURL">
-        <MSBuild Projects="Plugins\cURL.dproj"/>
+    <Target Name="Web">
+        <MSBuild Projects="Plugins\Web.dproj"/>
     </Target>
-    <Target Name="cURL:Clean">
-        <MSBuild Projects="Plugins\cURL.dproj" Targets="Clean"/>
+    <Target Name="Web:Clean">
+        <MSBuild Projects="Plugins\Web.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="cURL:Make">
-        <MSBuild Projects="Plugins\cURL.dproj" Targets="Make"/>
+    <Target Name="Web:Make">
+        <MSBuild Projects="Plugins\Web.dproj" Targets="Make"/>
     </Target>
     <Target Name="RESTClient">
         <MSBuild Projects="Plugins\RESTClient.dproj"/>
@@ -84,13 +84,13 @@
         <MSBuild Projects="Plugins\RESTClient.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="CodeImatic_build;CodeImatic_build_core;Zip;Task;cURL;RESTClient"/>
+        <CallTarget Targets="CodeImatic_build;CodeImatic_build_core;Zip;Task;Web;RESTClient"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="CodeImatic_build:Clean;CodeImatic_build_core:Clean;Zip:Clean;Task:Clean;cURL:Clean;RESTClient:Clean"/>
+        <CallTarget Targets="CodeImatic_build:Clean;CodeImatic_build_core:Clean;Zip:Clean;Task:Clean;Web:Clean;RESTClient:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="CodeImatic_build:Make;CodeImatic_build_core:Make;Zip:Make;Task:Make;cURL:Make;RESTClient:Make"/>
+        <CallTarget Targets="CodeImatic_build:Make;CodeImatic_build_core:Make;Zip:Make;Task:Make;Web:Make;RESTClient:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

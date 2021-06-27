@@ -116,10 +116,9 @@
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
-        <Debugger_RunParams>-project TestApp.cbproject</Debugger_RunParams>
+        <Debugger_RunParams>-project DownloadFile.cbproject</Debugger_RunParams>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <Debugger_CWD>D:\Projects\CodeImatic.build\samples\Delphi</Debugger_CWD>
-        <Debugger_DebugSourcePath>D:\Projects\NovuscodeLibrary\Source\Core\Plugin\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
+        <Debugger_CWD>D:\Projects\CodeImatic.build\samples\Web</Debugger_CWD>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -140,8 +139,6 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="Plugins\API\API_Output.pas"/>
-        <DCCReference Include="Plugins.pas"/>
         <DCCReference Include="PluginsMapFactory.pas"/>
         <DCCReference Include="Plugins\Plugin_Output.pas"/>
         <DCCReference Include="Plugins\Plugin_SystemExt.pas"/>
@@ -273,6 +270,11 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib" Class="DependencyModule">
+                    <Platform Name="iOSSimulator">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="$(BDS)\Redist\iossim32\libcgunwind.1.0.dylib" Class="DependencyModule"/>
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libpcre.dylib" Class="DependencyModule">
                     <Platform Name="iOSSimulator">
@@ -288,11 +290,6 @@
                 <DeployFile LocalName="CodeImatic.build.inc" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win64">
                         <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib" Class="DependencyModule">
-                    <Platform Name="iOSSimulator">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

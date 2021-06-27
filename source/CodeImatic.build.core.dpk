@@ -45,8 +45,9 @@ requires
   JvSystem;
 
 contains
-  Plugin in 'Plugin.pas',
   API_Output in 'Plugins\API\API_Output.pas',
+  Plugin in 'Plugin.pas',
+  Plugins in 'Plugins.pas',
   APIBase in 'Plugins\API\APIBase.pas',
   Project in 'Project.pas',
   PascalScript in 'PascalScript.pas',

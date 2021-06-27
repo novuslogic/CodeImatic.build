@@ -63,28 +63,25 @@ begin
   foAPI_Output.Log('Unload Plugins');
 
   Try
-
     for I := 0 to fPluginsList.Count - 1 do
-    begin
-      if Assigned(fPluginsList.Items[I]) then
       begin
-        Try
-          loPlugin := tPlugin(fPluginsList.Items[I]);
+        if Assigned(fPluginsList.Items[I]) then
+        begin
+          Try
+            loPlugin := tPlugin(fPluginsList.Items[I]);
 
-          foAPI_Output.Log('Unload: ' + loPlugin.PluginName);
+            if loPlugin is TPascalScriptInternalPlugin then
+              begin
+                loPlugin.Free;
+                loPlugin := nil;
+              end;
 
-          if loPlugin is TInternalplugin then
-            begin
-              loPlugin.Free;
-              loPlugin := nil;
-            end;
-        Except
-          foAPI_Output.InternalError;
-        End;
+
+          Except
+            foAPI_Output.InternalError;
+          End;
+        end;
       end;
-    end;
-
-   fPluginsList.Clear;
 
    for I := FExternalPlugins.PluginCount - 1 downto 0 do
       begin
@@ -94,12 +91,14 @@ begin
         FExternalPlugins.UnloadPlugin(I);
       end;
 
-    //fPluginsList.Clear;
+   FExternalPlugins.ClearPluginList;
+
+   fPluginsList.Clear;
   Except
 
     foAPI_Output.InternalError;
   End;
-    // FExternalPlugins.UnloadAllPlugins;
+  // FExternalPlugins.UnloadAllPlugins;
 end;
 
 procedure TPlugins.LoadPlugins;
@@ -110,9 +109,7 @@ Var
   loConfigPlugin: TConfigPlugin;
 begin
   // Internal Plugin Class
-
   I := 0;
-
   while (I < PluginsMapFactoryClasses.Count) do
   begin
     FPlugin := TPluginsMapFactory.FindPlugin(PluginsMapFactoryClasses.Items[I]

@@ -100,8 +100,8 @@ begin
   CL.AddTypeS('TZIPEvent', 'Procedure');
   SIRegister_TZIPOptions(CL);
   SIRegister_TAPI_Zip(CL);
- CL.AddConstantN('API_Zip_NotFileExists','String').SetString( 'ZipFilename cannot be found [%s]');
- CL.AddConstantN('API_Zip_FileInUse','String').SetString( 'Cannot add this file being used [%s]');
+  CL.AddConstantN('API_Zip_NotFileExists','String').SetString( 'ZipFilename cannot be found [%s]');
+  CL.AddConstantN('API_Zip_FileInUse','String').SetString( 'Cannot add this file being used [%s]');
 end;
 
 (* === run-time registration functions === *)

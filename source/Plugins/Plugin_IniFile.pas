@@ -6,7 +6,7 @@ uses Classes, Plugin, uPSRuntime, uPSCompiler, PluginsMapFactory, API_IniFile,
   uPSI_API_IniFile, API_Output, SysUtils;
 
 type
-  tPlugin_RegIni = class(TInternalplugin)
+  tPlugin_RegIni = class(TPascalScriptInternalPlugin)
   private
   protected
     foAPI_IniFile: TAPI_IniFile;

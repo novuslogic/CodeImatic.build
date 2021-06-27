@@ -2,8 +2,8 @@
 <project>
   <outputconsole>true</outputconsole>
   <outputpath></outputpath>
-  <projecttask name = "cURL">
-     <projectfilename>cURL.pas</projectfilename>
+  <projecttask name = "OpenDefaultWebBrowser">
+     <projectfilename>OpenDefaultWebBrowser.pas</projectfilename>
   </projecttask>
    <projectconfig>
      <searchpath>{%CODEIMATIC_INCLUDES%}</searchpath>

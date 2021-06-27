@@ -137,8 +137,9 @@
         <DCCReference Include="NovusCodeLibrary_Console.dcp"/>
         <DCCReference Include="Jcl.dcp"/>
         <DCCReference Include="JvSystem.dcp"/>
-        <DCCReference Include="Plugin.pas"/>
         <DCCReference Include="Plugins\API\API_Output.pas"/>
+        <DCCReference Include="Plugin.pas"/>
+        <DCCReference Include="Plugins.pas"/>
         <DCCReference Include="Plugins\API\APIBase.pas"/>
         <DCCReference Include="Project.pas"/>
         <DCCReference Include="PascalScript.pas"/>

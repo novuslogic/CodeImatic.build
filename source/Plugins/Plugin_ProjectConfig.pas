@@ -7,7 +7,7 @@ uses Classes, Plugin, uPSRuntime, uPSCompiler, PluginsMapFactory,
   API_Output, SysUtils, uPSI_API_ProjectConfig;
 
 type
-  tPlugin_ProjectConfig = class(TInternalplugin)
+  tPlugin_ProjectConfig = class(TPascalScriptInternalPlugin)
   private
   protected
     foAPI_ProjectConfig: TAPI_ProjectConfig;
