@@ -11,7 +11,7 @@ library Task;
   using PChar or ShortString parameters. }
 
 uses
- // FastMM5,
+  System.ShareMem,
   System.SysUtils,
   System.Classes,
   API_Task in 'API\API_Task.pas',

@@ -6,6 +6,7 @@ program CodeImatic.build;
 
 uses
   FastMM5,
+  System.ShareMem,
   System.SysUtils,
   Config,
   Runtime,
@@ -52,7 +53,7 @@ uses
   uPSI_API_VariablesCmdLine in 'Plugins\Imports\uPSI_API_VariablesCmdLine.pas';
 
 begin
-  FastMM_ExitDebugMode;
+  //FastMM_ExitDebugMode;
 
   ExitCode := oConfig.LoadConfig;
   if ExitCode <> 0 then

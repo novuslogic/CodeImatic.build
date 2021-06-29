@@ -1,6 +1,7 @@
 library RESTClient;
 
 uses
+  System.ShareMem,
   System.SysUtils,
   System.Classes,
   Plugin_RESTClientClasses in 'Plugin_RESTClientClasses.pas',

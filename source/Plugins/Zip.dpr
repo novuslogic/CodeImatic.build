@@ -11,7 +11,7 @@ library Zip;
   using PChar or ShortString parameters. }
 
 uses
-  //FastMM5,
+  System.ShareMem,
   System.SysUtils,
   System.Classes,
   Plugin_ZipClasses in 'Plugin_ZipClasses.pas',
