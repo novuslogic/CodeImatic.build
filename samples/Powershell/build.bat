@@ -1,0 +1,1 @@
+codeimatic.build -project PowerShellSample.cbproject

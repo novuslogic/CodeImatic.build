@@ -63,6 +63,7 @@ begin
   foAPI_Output.Log('Unload Plugins');
 
   Try
+    (*
     for I := 0 to fPluginsList.Count - 1 do
       begin
         if Assigned(fPluginsList.Items[I]) then
@@ -82,7 +83,7 @@ begin
           End;
         end;
       end;
-
+     *)
    for I := FExternalPlugins.PluginCount - 1 downto 0 do
       begin
         fPluginInfo := FExternalPlugins.GetPluginList(i);
@@ -91,7 +92,7 @@ begin
         FExternalPlugins.UnloadPlugin(I);
       end;
 
-   FExternalPlugins.ClearPluginList;
+   //FExternalPlugins.ClearPluginList;
 
    fPluginsList.Clear;
   Except

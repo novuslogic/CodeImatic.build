@@ -1,4 +1,4 @@
-TEST 1:TEST1
-TEST 2:TEST2 
+TEST 1:Var1
+TEST 2:Var2 
 
 
