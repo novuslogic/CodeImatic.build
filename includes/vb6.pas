@@ -6,9 +6,10 @@ Uses cmd, msbuild, Windows, stringutils;
 
 const 
   cvb6 = 'vb6.exe'; 
+  cvb6link = 'link.exe';
   
-  cvb6win32bin = 'c:\progam files\microsoft visual studio\vb98\' +  cvb6;
-  cvb6win64bin = 'C:\Program Files (x86)\microsoft visual studio\vb98\' +  cvb6;
+  cvb6win32bin = 'c:\progam files\microsoft visual studio\vb98\';
+  cvb6win64bin = 'C:\Program Files (x86)\microsoft visual studio\vb98\';
      
 //$vb6bin /m $project /out $logfile /outdir $outdir
 
