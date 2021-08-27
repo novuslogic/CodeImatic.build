@@ -15,6 +15,8 @@ const
 function IsVB6Running: boolean;
 function VB6(aProject: string;  aOutdir: string): Integer;
 function GetVB6BinFolder: String;
+function LinkVB6Console(aFilename: string): Integer;
+
 
 implementation
 
@@ -110,6 +112,27 @@ begin
         Result := cvb6win64bin;
     end;       
 end;
+
+function LinkVB6Console(aFilename: string): Integer;
+Var
+  lsvb6bindir: string;
+  lsExec: string;
+begin
+   lsvb6bindir := GetVB6BinFolder + cvb6link;
+   
+   if not File.Exists(lsvb6bindir) then 
+     RaiseException(erCustomError, 'Cannot find link.exe ['+ lsvb6bindir +']');
+
+   if not File.Exists(aFilename) then 
+     RaiseException(erCustomError, 'Cannot find ['+ aFilename +']');  
+
+   lsExec := lsvb6bindir + ' /EDIT /SUBSYSTEM:CONSOLE ' + aFilename;
+   
+   Output.logformat('Running: %s', [lsExec]);
+
+   result := Exec(lsExec);  
+end;
+
 
 
 end.
