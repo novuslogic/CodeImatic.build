@@ -5,6 +5,7 @@ interface
 Uses cmd, Windows, DotNET;
 
 const cVSCommunity2019 = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe';
+const cTlbExp48 = 'C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\x64\TlbExp.exe';
 
 type
   TMSBuildOptions = record
@@ -17,6 +18,8 @@ type
 
 
 function GetMSBuildFullname(aVersion: string): string;
+function MSBuild(aVersion: string; aProjectSolutionFilename: string;aMSBuildOptions:TMSBuildOptions): integer;
+function TlbExp(aOptions: string): integer;
 
    
 implementation
@@ -97,9 +100,18 @@ begin
    else 
      RaiseException(erCustomError, 'Unsupported version ("2.0", "3.5", "4.0", "VSCommunity2019") of msbuild');   
    
-  if not File.Exists(result) then RaiseException(erCustomError, 'msbuild not found: '+result);
+  if not File.Exists(result) then RaiseException(erCustomError, 'msbuild.exe not found: '+result);
 end;
 
+
+// https://docs.microsoft.com/en-us/dotnet/framework/tools/tlbexp-exe-type-library-exporter
+
+function TlbExp(aOptions: string): integer;
+begin
+  if not File.Exists(cTlbExp48) then RaiseException(erCustomError, 'TlbExp.exe not found: '+cTlbExp48);
+
+  result := Exec(cTlbExp48 + ' ' + aOptions);
+end;
 
 
 

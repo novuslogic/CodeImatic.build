@@ -1,6 +1,10 @@
+1/09/2021
+
+* New function TlbExp(aOptions: string): integer; in include MSBuild.pas
+
 27/08/2021 
 
-* New function function LinkVB6Console(aFilename: string): Integer; in include vb6.pas
+* New function LinkVB6Console(aFilename: string): Integer; in include vb6.pas
 
 
 27/06/2021
