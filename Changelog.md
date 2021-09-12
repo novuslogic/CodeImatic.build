@@ -1,3 +1,7 @@
+12/09/2021
+
+* Updated Codeimatic.build for Delphi 10.4 and updated Delphi TestApp Sample updated for Delphi 10.4
+
 1/09/2021
 
 * New function TlbExp(aOptions: string): integer; in include MSBuild.pas

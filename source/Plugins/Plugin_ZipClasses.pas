@@ -3,7 +3,7 @@ unit Plugin_ZipClasses;
 interface
 
 uses Classes,Plugin,  uPSComponent, uPSRuntime,  uPSCompiler, API_Zip, NovusPlugin,
-    uPSI_API_Zip, API_Output, SysUtils, Zip, System.Generics.Defaults,
+    uPSI_API_Zip, API_Output, SysUtils,  System.Generics.Defaults,
     APIBase ;
 
 
