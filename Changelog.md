@@ -1,3 +1,7 @@
+18/12/2021
+
+* Fixed a small bug in vb6.pas include - where vb6 was not found 
+
 12/09/2021
 
 * Updated Codeimatic.build for Delphi 10.4 and updated Delphi TestApp Sample updated for Delphi 10.4

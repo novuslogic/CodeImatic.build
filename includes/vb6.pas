@@ -35,13 +35,12 @@ var
   lsvb6bindir: string;
   SB: TStringBuilder;
 begin
-  Result := -1;
+    Result := -1;
 
   if IsVB6Running then 
     RaiseException(erCustomError, 'vb6.exe is running');
 
-
-  lsvb6bindir := GetVB6BinFolder;
+  lsvb6bindir := GetVB6BinFolder + cvb6;
   
   if not File.Exists(lsvb6bindir) then 
     RaiseException(erCustomError, 'Cannot find vb6.exe ['+ lsvb6bindir +']');
