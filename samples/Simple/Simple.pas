@@ -1,13 +1,12 @@
+{$include simple.inc}
+
 unit Sample;
 
-Uses test;
-
 begin
+  {$ifdef xyz=1}
   Output.LogFormat('%s World 1', ['Hello']);
+  {$else}
   writeln(Format('%s World 2', ['Hello']));
-
-  StringBuilderTest;
-
-  RaiseExceptionTest;
+  {$endif}
 
 end.

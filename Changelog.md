@@ -1,3 +1,8 @@
+
+28/12/2021
+
+* Defines now supported {$ifdef}, {$else}, {$endif}, {$include}
+
 18/12/2021
 
 * Fixed a small bug in vb6.pas include - where vb6 was not found 

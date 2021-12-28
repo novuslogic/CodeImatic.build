@@ -1,0 +1,1 @@
+{$define xyz=1}
