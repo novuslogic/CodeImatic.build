@@ -5,7 +5,7 @@ program CodeImatic.build;
 {$R *.res}
 
 uses
-  FastMM5,
+//  FastMM5,
   System.ShareMem,
   System.SysUtils,
   Config,

@@ -10,16 +10,16 @@
             <Dependencies/>
         </Projects>
         <Projects Include="Plugins\Zip.dproj">
-            <Dependencies/>
+            <Dependencies>CodeImatic.build.core.dproj</Dependencies>
         </Projects>
         <Projects Include="Plugins\Task.dproj">
-            <Dependencies/>
+            <Dependencies>CodeImatic.build.core.dproj</Dependencies>
         </Projects>
         <Projects Include="Plugins\Web.dproj">
-            <Dependencies/>
+            <Dependencies>CodeImatic.build.core.dproj</Dependencies>
         </Projects>
         <Projects Include="Plugins\RESTClient.dproj">
-            <Dependencies/>
+            <Dependencies>CodeImatic.build.core.dproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -47,40 +47,40 @@
     <Target Name="CodeImatic_build_core:Make">
         <MSBuild Projects="CodeImatic.build.core.dproj" Targets="Make"/>
     </Target>
-    <Target Name="Zip">
+    <Target Name="Zip" DependsOnTargets="CodeImatic.build.core">
         <MSBuild Projects="Plugins\Zip.dproj"/>
     </Target>
-    <Target Name="Zip:Clean">
+    <Target Name="Zip:Clean" DependsOnTargets="CodeImatic.build.core:Clean">
         <MSBuild Projects="Plugins\Zip.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Zip:Make">
+    <Target Name="Zip:Make" DependsOnTargets="CodeImatic.build.core:Make">
         <MSBuild Projects="Plugins\Zip.dproj" Targets="Make"/>
     </Target>
-    <Target Name="Task">
+    <Target Name="Task" DependsOnTargets="CodeImatic.build.core">
         <MSBuild Projects="Plugins\Task.dproj"/>
     </Target>
-    <Target Name="Task:Clean">
+    <Target Name="Task:Clean" DependsOnTargets="CodeImatic.build.core:Clean">
         <MSBuild Projects="Plugins\Task.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Task:Make">
+    <Target Name="Task:Make" DependsOnTargets="CodeImatic.build.core:Make">
         <MSBuild Projects="Plugins\Task.dproj" Targets="Make"/>
     </Target>
-    <Target Name="Web">
+    <Target Name="Web" DependsOnTargets="CodeImatic.build.core">
         <MSBuild Projects="Plugins\Web.dproj"/>
     </Target>
-    <Target Name="Web:Clean">
+    <Target Name="Web:Clean" DependsOnTargets="CodeImatic.build.core:Clean">
         <MSBuild Projects="Plugins\Web.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Web:Make">
+    <Target Name="Web:Make" DependsOnTargets="CodeImatic.build.core:Make">
         <MSBuild Projects="Plugins\Web.dproj" Targets="Make"/>
     </Target>
-    <Target Name="RESTClient">
+    <Target Name="RESTClient" DependsOnTargets="CodeImatic.build.core">
         <MSBuild Projects="Plugins\RESTClient.dproj"/>
     </Target>
-    <Target Name="RESTClient:Clean">
+    <Target Name="RESTClient:Clean" DependsOnTargets="CodeImatic.build.core:Clean">
         <MSBuild Projects="Plugins\RESTClient.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="RESTClient:Make">
+    <Target Name="RESTClient:Make" DependsOnTargets="CodeImatic.build.core:Make">
         <MSBuild Projects="Plugins\RESTClient.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">

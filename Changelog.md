@@ -1,6 +1,7 @@
 
 28/12/2021
 
+* Removed FastMM5 unit
 * Defines now supported {$ifdef}, {$else}, {$endif}, {$include}
 
 18/12/2021

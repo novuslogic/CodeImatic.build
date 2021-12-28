@@ -85,3 +85,5 @@ build/CodeImatic.build_MemoryManager_EventLog.txt
 build/codeimatic.build.config
 samples/Codegen/Output/TEXT.TXT
 samples/Web/DownloadFile/home_title.gif
+build/_BorlndMM.dll
+build/_FastMM_FullDebugMode64.dll
