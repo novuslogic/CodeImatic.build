@@ -14,4 +14,7 @@ begin
   Writeln(GUIDToString(fGuid));
 
 
+  Writeln('ProgramData Folder:' + ProgramDataFolder);
+
+
 end.

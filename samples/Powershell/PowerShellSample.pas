@@ -7,6 +7,11 @@ begin
     begin
       output.log('Powershell Installed');
 
+      if IsChocolateyInstalled then  
+        output.log('Chocolatey Installed')
+      else  
+        output.log('Chocolatey Not Installed');
+
       output.log('PSExecCommand example');
 
       if PSExecCommand('write-host hello world') <> 0 then 

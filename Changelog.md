@@ -1,4 +1,10 @@
 
+3/1/2022
+
+* Add new functoin function ProgramDataFolder: String in windows unit
+* Add new function function IsChocolateyInstalled: boolean to powershell unit
+
+
 28/12/2021
 
 * Removed FastMM5 unit

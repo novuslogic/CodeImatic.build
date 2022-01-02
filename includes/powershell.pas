@@ -2,15 +2,22 @@ unit powershell;
 
 interface
 
-Uses cmd;
+Uses cmd, Windows;
 
 function IsPowerShellInstalled: Boolean;
 function PSExecCommand(aCommand: string): Integer;
 function PSExecCommandEx(aCommand: string; var Output: string): Integer;
 function PSExecFilename(aFilename: string): Integer;
 function IsExecutionPolicyRestricted: boolean;
+function IsChocolateyInstalled: boolean;
 
 implementation
+
+
+function IsChocolateyInstalled: boolean;
+begin
+   Result := File.Exists(File.IncludeTrailingPathDelimiter(ProgramDataFolder) +'chocolatey\choco.exe');
+end;
 
 function IsPowerShellInstalled: Boolean;
 begin
