@@ -7,7 +7,7 @@ Uses cmd, msbuild;
 type 
   TDelphiVersion = (DELPHI7, DELPHI2005, DELPHI2006, DELPHI2007, DELPHI2009, DELPHI2010, DELPHIXE,  DELPHIXE2,
                    DELPHIXE3, DELPHIXE4, DELPHIXE5, DELPHIXE6, DELPHIXE7, DELPHIXE8, DELPHI10, 
-                   DELPHI10_1,  DELPHI10_2, DELPHI10_3, DELPHI10_4);
+                   DELPHI10_1,  DELPHI10_2, DELPHI10_3, DELPHI10_4, DELPHI11);
 
   TDelphiOptions = record
     Platform: string;
@@ -60,7 +60,7 @@ begin
     DELPHIXE3  : lsKey := 'Embarcadero\BDS\10';
     DELPHIXE4  : lsKey := 'Embarcadero\BDS\11';
     DELPHIXE5  : lsKey := 'Embarcadero\BDS\12';
-    DELPHIXE6..DELPHI10_4  : lsKey := 'Embarcadero\BDS\'+ IntToStr(Integer(aDelphiVersion) + 3);
+    DELPHIXE6..DELPHI11  : lsKey := 'Embarcadero\BDS\'+ IntToStr(Integer(aDelphiVersion) + 3);
   
   else
     RaiseException(erCustomError, 'Invalid "delphi" constant; Supported compiler versions DELPHI7..DELPHI10_3');
@@ -211,7 +211,7 @@ begin
 
       Output.log('Delphi MSBuild.');
 
-      if (aDelphiVersion in [DELPHI10_3, DELPHI10_4]) then
+      if (aDelphiVersion in [DELPHI10_3, DELPHI11]) then
         result := MSBuild('4.0', aProject, FMSBuildOptions)
       else
         result := MSBuild('3.5', aProject, FMSBuildOptions);
@@ -330,6 +330,7 @@ begin
     DELPHI10_2 : Result := '250';
     DELPHI10_3 : Result := '260';
     DELPHI10_4 : Result := '270';
+    DELPHI11 : Result := '280';
   else
     RaiseException(erCustomError, 'Invalid supported delphi versions');
   end;
@@ -357,6 +358,7 @@ begin
     DELPHI10_2 : Result := 'DELPHI10_2';
     DELPHI10_3 : Result := 'DELPHI10_3';
     DELPHI10_4 : Result := 'DELPHI10_4';
+    DELPHI11 : Result := 'DELPHI11';
   else
     RaiseException(erCustomError, 'Invalid supported delphi versions');
   end;

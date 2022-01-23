@@ -33,6 +33,7 @@ package CodeImatic.build.core;
 
 requires
   rtl,
+  CodeImatic.share,
   NovusCodeLibrary_Utils,
   NovusCodeLibrary_Object,
   NovusCodeLibrary_Log,

@@ -5,12 +5,10 @@ program CodeImatic.build;
 {$R *.res}
 
 uses
-//  FastMM5,
   System.ShareMem,
   System.SysUtils,
   Config,
   Runtime,
-
   PluginsMapFactory in 'PluginsMapFactory.pas',
   Plugin_Output in 'Plugins\Plugin_Output.pas',
   Plugin_SystemExt in 'Plugins\Plugin_SystemExt.pas',

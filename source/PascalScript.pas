@@ -115,7 +115,7 @@ begin
 end;
 
 
-procedure OnException(Sender: TPSExec; ExError: TPSError;
+procedure OnPascalScriptException(Sender: TPSExec; ExError: TPSError;
   const ExParam: tbtstring; ExObject: TObject; ProcNo, Position: Cardinal);
 var
   lsExParam: String;
@@ -127,7 +127,7 @@ begin
     lsExParam := 'Unknown error.';
 
   oruntime.oAPI_Output.LastExParam := lsExParam;
-  // oruntime.oAPI_Output.Errors := True;
+
   oruntime.oAPI_Output.projecttask.BuildStatus := TBuildStatus.bsErrors;
 end;
 
@@ -289,7 +289,7 @@ begin
     Try
       FExec := TPSExec.Create; // Create an instance of the executer.
 
-      FExec.OnException := OnException;
+      FExec.OnException := OnPascalScriptException;
 
       foPlugins.RegisterFunctions(FExec);
 

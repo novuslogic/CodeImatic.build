@@ -1,3 +1,7 @@
+24/01/2022
+
+*  Updated Codeimatic.build for Delphi 11
+*  Delphi.pas now supports Delphi 11
 
 3/1/2022
 
