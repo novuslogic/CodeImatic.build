@@ -2,7 +2,7 @@ unit ExtraClasses;
 
 interface
 
-uses SysUtils, NovusList, NovusVariants;
+uses SysUtils, NovusList, NovusVariants, NovusStringUtils;
 
 type
   TVariableCmdLine = class;
@@ -55,6 +55,8 @@ var
   lParams: Array of TVarRec;
   I: Integer;
 begin
+   Result := TNovusStringUtils.FormatStrVar(aformat, Args);
+  (*
   Try
     SetLength(lParams, High(Args) + 1);
 
@@ -63,6 +65,7 @@ begin
   Finally
     Result := format(aFormat, lParams);
   End;
+  *)
 end;
 
 // TStringBuilderExtra
