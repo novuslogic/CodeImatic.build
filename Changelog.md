@@ -1,3 +1,8 @@
+09/09/2022
+
+* Refactored for upgrade Novusplugin unit in NovuscodeLibrary
+
+
 24/01/2022
 
 *  Updated Codeimatic.build for Delphi 11

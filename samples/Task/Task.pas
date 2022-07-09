@@ -63,7 +63,7 @@ begin
 
 
 
-  //Task.OnFinishedTasks  := @FinishedTasks;
+  Task.OnFinishedTasks  := FinishedTasks;
 
 
 

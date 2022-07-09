@@ -58,7 +58,7 @@ procedure TPlugins.UnloadPlugins;
 Var
   I: Integer;
   loPlugin: tPlugin;
-  fPluginInfo: PPluginInfo;
+  fPluginInfo: tPluginInfo;
 begin
   foAPI_Output.Log('Unload Plugins');
 
@@ -87,12 +87,10 @@ begin
    for I := FExternalPlugins.PluginCount - 1 downto 0 do
       begin
         fPluginInfo := FExternalPlugins.GetPluginList(i);
-        foAPI_Output.Log('Unload: ' +fPluginInfo^.PluginName);
+        foAPI_Output.Log('Unload: ' +fPluginInfo.PluginName);
 
         FExternalPlugins.UnloadPlugin(I);
       end;
-
-   //FExternalPlugins.ClearPluginList;
 
    fPluginsList.Clear;
   Except
@@ -106,7 +104,7 @@ procedure TPlugins.LoadPlugins;
 Var
   I: Integer;
   FPlugin: tPlugin;
-  FExternalPlugin: IExternalPlugin;
+  FExternalPlugin: TExternalPlugin;
   loConfigPlugin: TConfigPlugin;
 begin
   // Internal Plugin Class
@@ -135,9 +133,7 @@ begin
         if FExternalPlugins.LoadPlugin(loConfigPlugin.PluginFilenamePathname)
         then
         begin
-          FExternalPlugin :=
-            IExternalPlugin(FExternalPlugins.Plugins
-            [FExternalPlugins.PluginCount - 1]);
+          FExternalPlugin := TExternalPlugin(FExternalPlugins.Plugins[FExternalPlugins.PluginCount - 1]);
 
           fPluginsList.Add(FExternalPlugin.CreatePlugin(foAPI_Output, fImp));
 
@@ -177,7 +173,7 @@ procedure TPlugins.RegisterFunctions(aExec: TPSExec);
 var
   I: Integer;
   loPlugin: tPlugin;
-  FExternalPlugin: IExternalPlugin;
+  FExternalPlugin: TExternalPlugin;
 begin
   for I := 0 to fPluginsList.Count - 1 do
   begin
@@ -192,7 +188,7 @@ procedure TPlugins.RegisterImports;
 var
   loPlugin: tPlugin;
   I: Integer;
-  FExternalPlugin: IExternalPlugin;
+  FExternalPlugin: TExternalPlugin;
 begin
   for I := 0 to fPluginsList.Count - 1 do
   begin
@@ -205,7 +201,7 @@ procedure TPlugins.SetVariantToClasses(aExec: TPSExec);
 var
   loPlugin: tPlugin;
   I: Integer;
-  FExternalPlugin: IExternalPlugin;
+  FExternalPlugin: TExternalPlugin;
 begin
   for I := 0 to fPluginsList.Count - 1 do
   begin
