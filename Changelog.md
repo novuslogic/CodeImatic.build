@@ -1,7 +1,10 @@
-09/09/2022
+10/07/2022
 
-* Refactored for upgrade Novusplugin unit in NovuscodeLibrary
+* Upgraded tp Pre multi Plantform NovuscodeLibrary Delphi 11
 
+09/07/2022
+
+* Refactored for upgraded Novusplugin unit in NovuscodeLibrary
 
 24/01/2022
 

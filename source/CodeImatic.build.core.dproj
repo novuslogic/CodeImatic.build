@@ -152,7 +152,8 @@
         <DCCReference Include="NovusCodeLibrary_XML.dcp"/>
         <DCCReference Include="NovusCodeLibrary_Parser.dcp"/>
         <DCCReference Include="NovusCodeLibrary_Plugin.dcp"/>
-        <DCCReference Include="NovusCodeLibrary_Env.dcp"/>
+        <DCCReference Include="NovusCodeLibrary_Windows.dcp"/>
+        <DCCReference Include="NovusCodeLibrary_OS.dcp"/>
         <DCCReference Include="NovusCodeLibrary_Console.dcp"/>
         <DCCReference Include="Jcl.dcp"/>
         <DCCReference Include="JvSystem.dcp"/>
@@ -216,12 +217,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib" Class="DependencyModule">
+                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libpcre.dylib" Class="DependencyModule">
                     <Platform Name="iOSSimulator">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libpcre.dylib" Class="DependencyModule">
+                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib" Class="DependencyModule">
                     <Platform Name="iOSSimulator">
                         <Overwrite>true</Overwrite>
                     </Platform>

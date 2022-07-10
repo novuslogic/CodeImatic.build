@@ -3,7 +3,7 @@ unit Runtime;
 
 interface
 
-Uses Project, API_Output, Config, NovusVersionUtils, System.SysUtils,
+Uses Project, API_Output, Config, NovusWinVersionUtils, System.SysUtils,
   NovusStringUtils,   NovusFileUtils, vcl.dialogs, ProjectTask,
   uPSRuntime, Plugins, NovusDateStringUtils, uPSCompiler;
 
@@ -52,13 +52,13 @@ uses PascalScript;
 
 function tRuntime.GetVersionCopyright: string;
 begin
-  Result := 'CodeImatic.build - © Copyright Novuslogic Software 2020 All Rights Reserved';
+  Result := 'CodeImatic.build - © Copyright Novuslogic Software 2022 All Rights Reserved';
 end;
 
 function tRuntime.GetVersion: string;
 begin
   Result := 'Version: ' +
-      TNovusVersionUtils.GetFullVersionNumber;
+      TNovuswinVersionUtils.GetFullVersionNumber;
 end;
 
 
