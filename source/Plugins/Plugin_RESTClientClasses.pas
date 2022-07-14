@@ -8,7 +8,7 @@ uses Classes,Plugin,  uPSComponent, uPSRuntime,  uPSCompiler, API_RESTClient, No
 
 
 type
-  tPlugin_RESTClientBase = class(Tplugin)
+  tPlugin_RESTClientBase = class(TPascalScriptPlugin)
   private
   protected
     foAPI_RESTClient: TAPI_RESTClient;

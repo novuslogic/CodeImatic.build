@@ -8,7 +8,7 @@ uses Classes,Plugin,  uPSComponent, uPSRuntime,  uPSCompiler, API_Zip, NovusPlug
 
 
 type
-  tPlugin_ZipBase = class(Tplugin)
+  tPlugin_ZipBase = class(TPascalScriptPlugin)
   private
   protected
     foAPI_Zip: TAPI_Zip;

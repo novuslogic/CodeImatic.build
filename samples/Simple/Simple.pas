@@ -9,4 +9,7 @@ begin
   writeln(Format('%s World 2', ['Hello']));
   {$endif}
 
+
+  writeln('Working Direftory:' + WD());
+
 end.

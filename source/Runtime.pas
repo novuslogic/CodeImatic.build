@@ -246,19 +246,12 @@ begin
     foPlugins.UnLoadPlugins;
 
     foAPI_Output.WriteLog('Logging finished');
-    showmessage('1');
     foAPI_Output.CloseLog;
-    showmessage('2');
     foAPI_Output.Free;
-    showmessage('3');
 
     foPlugins.Free;
-    showmessage('4');
-
   Finally
     foProject.Free;
-    showmessage('5');
-
   End;
 end;
 

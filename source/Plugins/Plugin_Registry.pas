@@ -6,7 +6,7 @@ uses Classes, Plugin, uPSRuntime, uPSCompiler, PluginsMapFactory, API_Registry,
   uPSI_API_Registry, API_Output, SysUtils;
 
 type
-  tPlugin_Registry = class(Tplugin)
+  tPlugin_Registry = class(TPascalScriptInternalPlugin)
   private
   protected
     foAPI_Registry: TAPI_Registry;

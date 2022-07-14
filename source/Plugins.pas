@@ -3,7 +3,7 @@ unit Plugins;
 
 interface
 
-uses API_Output, uPSRuntime, uPSI_API_Output, uPSCompiler, PluginsMapFactory,
+uses API_Output, uPSRuntime, uPSCompiler, PluginsMapFactory,
   Plugin,
   Classes, SysUtils, NovusPlugin, Config;
 
@@ -44,10 +44,11 @@ begin
 end;
 
 destructor TPlugins.Destroy;
+Var
+  I: Integer;
+  loPlugin: tPlugin;
 begin
   Inherited;
-
-  // UnloadPlugins;
 
   FExternalPlugins.Free;
 
@@ -63,27 +64,6 @@ begin
   foAPI_Output.Log('Unload Plugins');
 
   Try
-    (*
-    for I := 0 to fPluginsList.Count - 1 do
-      begin
-        if Assigned(fPluginsList.Items[I]) then
-        begin
-          Try
-            loPlugin := tPlugin(fPluginsList.Items[I]);
-
-            if loPlugin is TPascalScriptInternalPlugin then
-              begin
-                loPlugin.Free;
-                loPlugin := nil;
-              end;
-
-
-          Except
-            foAPI_Output.InternalError;
-          End;
-        end;
-      end;
-     *)
    for I := FExternalPlugins.PluginCount - 1 downto 0 do
       begin
         fPluginInfo := FExternalPlugins.GetPluginList(i);
@@ -91,13 +71,10 @@ begin
 
         FExternalPlugins.UnloadPlugin(I);
       end;
-
-   fPluginsList.Clear;
   Except
 
     foAPI_Output.InternalError;
   End;
-  // FExternalPlugins.UnloadAllPlugins;
 end;
 
 procedure TPlugins.LoadPlugins;
@@ -113,6 +90,8 @@ begin
   begin
     FPlugin := TPluginsMapFactory.FindPlugin(PluginsMapFactoryClasses.Items[I]
       .ClassName, foAPI_Output, fImp);
+
+    foAPI_Output.Log('Internal plugins: ' + FPlugin.PluginName);
 
     fPluginsList.Add(FPlugin);
 

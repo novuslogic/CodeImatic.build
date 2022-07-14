@@ -1,3 +1,9 @@
+14/07/2022
+
+* Moved tPlugin_SystemExt to CodeImatic.build.Pascal.SystemExt.dll
+* Moved tPlugin_Output to CodeImatic.build.Pascal.Output.dll
+* Moved tPlugin_WinAPI to CodeImatic.build.Pascal.WinAPI.dll
+
 10/07/2022
 
 * Upgraded tp Pre multi Plantform NovuscodeLibrary Delphi 11

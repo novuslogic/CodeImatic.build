@@ -167,14 +167,13 @@
         <DCCReference Include="Runtime.pas"/>
         <DCCReference Include="ProjectConfigLoader.pas"/>
         <DCCReference Include="Config.pas"/>
-        <DCCReference Include="ExtraClasses.pas"/>
-        <DCCReference Include="Plugins\Imports\uPSI_API_Output.pas"/>
         <DCCReference Include="Loader.pas"/>
         <DCCReference Include="TagType.pas"/>
         <DCCReference Include="VariablesCmdLine.pas"/>
         <DCCReference Include="ProjectParser.pas"/>
         <DCCReference Include="ProjectTask.pas"/>
         <DCCReference Include="ProjectLog.pas"/>
+        <DCCReference Include="Plugins\ExtraClasses.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

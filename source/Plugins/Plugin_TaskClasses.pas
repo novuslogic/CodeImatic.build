@@ -9,7 +9,7 @@ uses Classes,Plugin,  uPSRuntime,  uPSCompiler, API_Task, NovusList,
 
 
 type
-  tPlugin_TaskBase = class(Tplugin)
+  tPlugin_TaskBase = class(TPascalScriptPlugin)
   private
   protected
     foTaskRunner: TTaskRunner;

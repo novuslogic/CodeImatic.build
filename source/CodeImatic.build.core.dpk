@@ -57,14 +57,13 @@ contains
   Runtime in 'Runtime.pas',
   ProjectConfigLoader in 'ProjectConfigLoader.pas',
   Config in 'Config.pas',
-  ExtraClasses in 'ExtraClasses.pas',
-  uPSI_API_Output in 'Plugins\Imports\uPSI_API_Output.pas',
   Loader in 'Loader.pas',
   TagType in 'TagType.pas',
   VariablesCmdLine in 'VariablesCmdLine.pas',
   ProjectParser in 'ProjectParser.pas',
   ProjectTask in 'ProjectTask.pas',
-  ProjectLog in 'ProjectLog.pas';
+  ProjectLog in 'ProjectLog.pas',
+  ExtraClasses in 'Plugins\ExtraClasses.pas';
 
 end.
 

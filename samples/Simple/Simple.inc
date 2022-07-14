@@ -1,1 +1,1 @@
-{$define xyz=1}
+{$define xyz=0}
