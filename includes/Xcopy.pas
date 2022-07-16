@@ -29,12 +29,12 @@ begin
   fbOverWrite := True;              
   if liIsFileOrFolder = 1 then 
     begin
-      If File.Exists(aSource)  = false then 
+      If Files.Exists(aSource)  = false then
         RaiseException(erCustomError, format('Mssing source file [%s] ', aSource));
         
-      lsDestiantionFilename := File.IncludeTrailingPathDelimiter(aDestination) + File.Extractfilename(aSource);
+      lsDestiantionFilename := Files.IncludeTrailingPathDelimiter(aDestination) + Files.Extractfilename(aSource);
 
-      if not File.Copy(aSource, lsDestiantionFilename, fbOverWrite) then
+      if not Files.Copy(aSource, lsDestiantionFilename, fbOverWrite) then
         RaiseException(erCustomError, 'Failed copying file [' + aSource +'] ')
       else result := true;  
     end
@@ -56,7 +56,7 @@ end;
 function IsFileOrFolder(aPath: string):integer;
 begin
   result := -1;
-  if(File.Exists(apath) = true) then result := 1
+  if(Files.Exists(apath) = true) then result := 1
   else 
   if(folder.Exists(apath) = true) then result := 2;
 end;

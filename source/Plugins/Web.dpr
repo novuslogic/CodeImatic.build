@@ -1,7 +1,6 @@
 library Web;
 
 uses
-  System.ShareMem,
   System.SysUtils,
   System.Classes,
   Plugin_WebClasses in 'Plugin_WebClasses.pas',

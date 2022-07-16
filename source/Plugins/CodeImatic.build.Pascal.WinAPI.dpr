@@ -1,7 +1,6 @@
 library CodeImatic.build.Pascal.WinAPI;
 
 uses
-  System.ShareMem,
   System.SysUtils,
   System.Classes,
   API_WinAPI in 'API\API_WinAPI.pas',

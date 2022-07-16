@@ -42,11 +42,11 @@ begin
 
   lsvb6bindir := GetVB6BinFolder + cvb6;
   
-  if not File.Exists(lsvb6bindir) then 
+  if not Files.Exists(lsvb6bindir) then
     RaiseException(erCustomError, 'Cannot find vb6.exe ['+ lsvb6bindir +']');
 
  Try
-   lslogfile := File.MakeTmpFileName('log', true);
+   lslogfile := Files.MakeTmpFileName('log', true);
    lsTmpLogFile :=  lslogfile;
         
    SB:= TStringBuilder.Create;
@@ -59,7 +59,7 @@ begin
       begin
         SB.Append(' /outdir '+ '"' + aOutdir + '"');
 
-        lsTmpLogFile := File.IncludeTrailingPathDelimiter(aOutdir) + lslogfile;
+        lsTmpLogFile := Files.IncludeTrailingPathDelimiter(aOutdir) + lslogfile;
       end;  
 
    SB.Append(' /out '+ '"'+ lsTmplogfile + '"');
@@ -69,7 +69,7 @@ begin
    result := Exec(sb.ToString);
 
    lipos := 0;
-   if File.Exists(lsTmpLogFile) then
+   if Files.Exists(lsTmpLogFile) then
      begin
        Try
          lLogFileSL := tStringList.Create;
@@ -81,7 +81,7 @@ begin
 
          lLogFileSL.Free;
 
-         File.Delete(lsTmpLogFile);
+         Files.Delete(lsTmpLogFile);
        end;  
      end;
   
@@ -102,7 +102,7 @@ begin
   Result := '';
 
   if ProjectConfig.IsPropertyExists('vb6binfolder') then
-    result := File.IncludeTrailingPathDelimiter(ProjectConfig.Getproperty('vb6binfolder'));
+    result := Files.IncludeTrailingPathDelimiter(ProjectConfig.Getproperty('vb6binfolder'));
 
   If Result = '' then 
     begin
@@ -120,11 +120,11 @@ Var
 begin
    lsvb6bindir := GetVB6BinFolder + cvb6link;
    
-   if not File.Exists(lsvb6bindir) then 
+   if not Files.Exists(lsvb6bindir) then
      RaiseException(erCustomError, 'Cannot find link.exe ['+ lsvb6bindir +']');
 
-   if not File.Exists(aFilename) then 
-     RaiseException(erCustomError, 'Cannot find ['+ aFilename +']');  
+   if not Files.Exists(aFilename) then
+     RaiseException(erCustomError, 'Cannot find ['+ aFilename +']');
 
    lsExec := lsvb6bindir + ' /EDIT /SUBSYSTEM:CONSOLE ' + aFilename;
    

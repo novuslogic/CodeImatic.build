@@ -225,8 +225,9 @@ begin
 
       FIdHttp.Disconnect;
     end;
-
   end;
+
+  FIdHttp.Disconnect;
 end;
 
 

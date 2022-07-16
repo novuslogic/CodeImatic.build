@@ -1,7 +1,6 @@
 library CodeImatic.build.Pascal.Output;
 
 uses
-  System.ShareMem,
   System.SysUtils,
   System.Classes,
   Plugin_OutputClasses in 'Plugin_OutputClasses.pas',

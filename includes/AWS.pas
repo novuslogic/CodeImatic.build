@@ -64,7 +64,7 @@ begin
       Exit;
     end;
 
-  if Not File.Exists(GetAWSCliConfigPath + aws_credentials) then
+  if Not Files.Exists(GetAWSCliConfigPath + aws_credentials) then
     begin
       RaiseException(erCustomError, 'AWSCli Configured file cannot not be found.');
 
@@ -78,7 +78,7 @@ begin
 
 
   // Config
-  if File.Exists(GetAWSCliConfigPath + aws_config) then
+  if Files.Exists(GetAWSCliConfigPath + aws_config) then
     begin
       fsaws_region := IniFile.ReadString(GetAWSCliConfigPath + aws_config,
                                 'default', 'region');
@@ -92,7 +92,7 @@ end;
 
 function GetAWSCliConfigPath: String;
 begin
-  Result := File.IncludeTrailingPathDelimiter(WinAPI.GetSpecialFolder(CSIDL_PROFILE) + '\.aws');
+  Result := Files.IncludeTrailingPathDelimiter(WinAPI.GetSpecialFolder(CSIDL_PROFILE) + '\.aws');
 end;
 
 function ExecAWSCli(const aCommandLine: String): Integer;
@@ -151,7 +151,7 @@ begin
   Result := -1;
   aOutput := '';
 
-  if Not File.Exists(aFilename) then
+  if Not Files.Exists(aFilename) then
     begin
       RaiseException(erCustomError, 'Filename cannot be found ['+ aFilename+'].');
 

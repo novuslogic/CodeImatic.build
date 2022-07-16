@@ -16,11 +16,11 @@ function GetcodegenPath(aPreCompatible: boolean): String;
 begin
   if not aPreCompatible then
     begin
-      Result := File.IncludeTrailingPathDelimiter(Environment.GetEnvironmentVar('CODEIMATIC_CODEGEN'));
-      if Trim(Result) = '' then Result := File.IncludeTrailingPathDelimiter(Environment.GetEnvironmentVar('ZCODE'));
+      Result := Files.IncludeTrailingPathDelimiter(Environment.GetEnvironmentVar('CODEIMATIC_CODEGEN'));
+      if Trim(Result) = '' then Result := Files.IncludeTrailingPathDelimiter(Environment.GetEnvironmentVar('ZCODE'));
     end
   else
-    Result := File.IncludeTrailingPathDelimiter(Environment.GetEnvironmentVar('ZCODE'));
+    Result := Files.IncludeTrailingPathDelimiter(Environment.GetEnvironmentVar('ZCODE'));
  
   If Trim(Result) = '' then
     RaiseException(erCustomError, 'Environment variable "CODEIMATIC_CODEGEN" - codeimatic.codegen.exe path. cannot be found.')

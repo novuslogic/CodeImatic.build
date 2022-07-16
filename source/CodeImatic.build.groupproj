@@ -30,6 +30,18 @@
         <Projects Include="Plugins\CodeImatic.build.Pascal.Output.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="Plugins\CodeImatic.build.Pascal.Shell.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Plugins\CodeImatic.build.Pascal.Environment.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Plugins\CodeImatic.build.Pascal.Registry.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Plugins\CodeImatic.build.Pascal.Files.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -119,14 +131,50 @@
     <Target Name="CodeImatic_build_Pascal_Output:Make">
         <MSBuild Projects="Plugins\CodeImatic.build.Pascal.Output.dproj" Targets="Make"/>
     </Target>
+    <Target Name="CodeImatic_build_Pascal_Shell">
+        <MSBuild Projects="Plugins\CodeImatic.build.Pascal.Shell.dproj"/>
+    </Target>
+    <Target Name="CodeImatic_build_Pascal_Shell:Clean">
+        <MSBuild Projects="Plugins\CodeImatic.build.Pascal.Shell.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CodeImatic_build_Pascal_Shell:Make">
+        <MSBuild Projects="Plugins\CodeImatic.build.Pascal.Shell.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="CodeImatic_build_Pascal_Environment">
+        <MSBuild Projects="Plugins\CodeImatic.build.Pascal.Environment.dproj"/>
+    </Target>
+    <Target Name="CodeImatic_build_Pascal_Environment:Clean">
+        <MSBuild Projects="Plugins\CodeImatic.build.Pascal.Environment.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CodeImatic_build_Pascal_Environment:Make">
+        <MSBuild Projects="Plugins\CodeImatic.build.Pascal.Environment.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="CodeImatic_build_Pascal_Registry">
+        <MSBuild Projects="Plugins\CodeImatic.build.Pascal.Registry.dproj"/>
+    </Target>
+    <Target Name="CodeImatic_build_Pascal_Registry:Clean">
+        <MSBuild Projects="Plugins\CodeImatic.build.Pascal.Registry.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CodeImatic_build_Pascal_Registry:Make">
+        <MSBuild Projects="Plugins\CodeImatic.build.Pascal.Registry.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="CodeImatic_build_Pascal_Files">
+        <MSBuild Projects="Plugins\CodeImatic.build.Pascal.Files.dproj"/>
+    </Target>
+    <Target Name="CodeImatic_build_Pascal_Files:Clean">
+        <MSBuild Projects="Plugins\CodeImatic.build.Pascal.Files.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CodeImatic_build_Pascal_Files:Make">
+        <MSBuild Projects="Plugins\CodeImatic.build.Pascal.Files.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="CodeImatic_build;CodeImatic_build_core;CodeImatic_build_Pascal_SystemExt;Zip;Task;Web;RESTClient;CodeImatic_build_Pascal_WinAPI;CodeImatic_build_Pascal_Output"/>
+        <CallTarget Targets="CodeImatic_build;CodeImatic_build_core;CodeImatic_build_Pascal_SystemExt;Zip;Task;Web;RESTClient;CodeImatic_build_Pascal_WinAPI;CodeImatic_build_Pascal_Output;CodeImatic_build_Pascal_Shell;CodeImatic_build_Pascal_Environment;CodeImatic_build_Pascal_Registry;CodeImatic_build_Pascal_Files"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="CodeImatic_build:Clean;CodeImatic_build_core:Clean;CodeImatic_build_Pascal_SystemExt:Clean;Zip:Clean;Task:Clean;Web:Clean;RESTClient:Clean;CodeImatic_build_Pascal_WinAPI:Clean;CodeImatic_build_Pascal_Output:Clean"/>
+        <CallTarget Targets="CodeImatic_build:Clean;CodeImatic_build_core:Clean;CodeImatic_build_Pascal_SystemExt:Clean;Zip:Clean;Task:Clean;Web:Clean;RESTClient:Clean;CodeImatic_build_Pascal_WinAPI:Clean;CodeImatic_build_Pascal_Output:Clean;CodeImatic_build_Pascal_Shell:Clean;CodeImatic_build_Pascal_Environment:Clean;CodeImatic_build_Pascal_Registry:Clean;CodeImatic_build_Pascal_Files:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="CodeImatic_build:Make;CodeImatic_build_core:Make;CodeImatic_build_Pascal_SystemExt:Make;Zip:Make;Task:Make;Web:Make;RESTClient:Make;CodeImatic_build_Pascal_WinAPI:Make;CodeImatic_build_Pascal_Output:Make"/>
+        <CallTarget Targets="CodeImatic_build:Make;CodeImatic_build_core:Make;CodeImatic_build_Pascal_SystemExt:Make;Zip:Make;Task:Make;Web:Make;RESTClient:Make;CodeImatic_build_Pascal_WinAPI:Make;CodeImatic_build_Pascal_Output:Make;CodeImatic_build_Pascal_Shell:Make;CodeImatic_build_Pascal_Environment:Make;CodeImatic_build_Pascal_Registry:Make;CodeImatic_build_Pascal_Files:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

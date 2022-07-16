@@ -38,7 +38,7 @@ begin
   lsWebDeployFolder := Environment.GetEnvironmentVar('programfiles') + 'IIS\Microsoft Web Deploy V3\' + cMSdeploy;
 
   if ProjectConfig.IsPropertyExists('webdeployfolder') then
-    result := File.IncludeTrailingPathDelimiter(ProjectConfig.Getproperty('webdeployfolder'));
+    result := Files.IncludeTrailingPathDelimiter(ProjectConfig.Getproperty('webdeployfolder'));
 
   If Result = '' then 
     begin

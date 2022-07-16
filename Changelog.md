@@ -1,3 +1,10 @@
+16/07/2022
+
+* Rename in Includes from File to Files due to File being reserved name in pascal
+* Moved tPlugin_File CodeImatic.build.Pascal.Files.dll
+* Moved tPlugin_Registry to CodeImatic.build.Pascal.Registry.dll
+* Moved tPlugin_Environment  to CodeImatic.build.Pascal.Environment.dll
+
 14/07/2022
 
 * Moved tPlugin_SystemExt to CodeImatic.build.Pascal.SystemExt.dll

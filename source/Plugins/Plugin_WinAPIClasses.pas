@@ -45,7 +45,7 @@ constructor tPlugin_WinAPIBase.Create(aAPI_Output: tAPI_Output;
 begin
   Inherited;
 
-  foAPI_WinAPI := TAPI_WinAPI.Create(foAPI_Output);
+  foAPI_WinAPI := TAPI_WinAPI.Create(aAPI_Output);
 
 end;
 
