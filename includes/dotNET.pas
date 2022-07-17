@@ -35,7 +35,7 @@ begin
 
   result := Files.IncludeTrailingPathDelimiter(result);
 
-  if not Folder.Exists(result) then RaiseException(erCustomError, '.NET Framework not installed: '+result);
+  if not Folders.Exists(result) then RaiseException(erCustomError, '.NET Framework not installed: '+result);
 end;
 
 end.

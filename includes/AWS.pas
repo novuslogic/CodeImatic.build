@@ -57,7 +57,7 @@ Var
 begin
   Result := False;
 
-  if not Folder.Exists(GetAWSCliConfigPath) then
+  if not Folders.Exists(GetAWSCliConfigPath) then
     begin
       RaiseException(erCustomError, 'AWSCli Configured path [' + GetAWSCliConfigPath +'] cannot not be found.');
 

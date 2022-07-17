@@ -1,11 +1,11 @@
-unit API_Folder;
+unit API_Folders;
 
 interface
 
 uses APIBase, SysUtils, API_Output, Classes, NovusFileUtils, System.IOUtils;
 
 type
-  TAPI_Folder = class(TAPIBase)
+  TAPI_Folders = class(TAPIBase)
   private
   protected
   public
@@ -25,16 +25,16 @@ type
 
 implementation
 
-constructor TAPI_Folder.Create(aAPI_Output: tAPI_Output);
+constructor TAPI_Folders.Create(aAPI_Output: tAPI_Output);
 begin
   Inherited Create(aAPI_Output);
 end;
 
-destructor TAPI_Folder.Destroy;
+destructor TAPI_Folders.Destroy;
 begin
 end;
 
-function TAPI_Folder.Exists(Const aFolder: String): Boolean;
+function TAPI_Folders.Exists(Const aFolder: String): Boolean;
 begin
   Try
     Try
@@ -49,7 +49,7 @@ begin
   End;
 end;
 
-function TAPI_Folder.RemoveFolder(Const aFolder: String): Boolean;
+function TAPI_Folders.RemoveFolder(Const aFolder: String): Boolean;
 begin
   Try
     Try
@@ -66,7 +66,7 @@ begin
   End;
 end;
 
-function TAPI_Folder.Move(Const aSourceFolder: String;
+function TAPI_Folders.Move(Const aSourceFolder: String;
   Const aDestFolder: String): Boolean;
 begin
   Try
@@ -82,7 +82,7 @@ begin
   End;
 end;
 
-function TAPI_Folder.Copy(Const aSourceFolder: String;
+function TAPI_Folders.Copy(Const aSourceFolder: String;
   Const aDestFolder: String): Boolean;
 begin
   Try
@@ -101,7 +101,7 @@ begin
   End;
 end;
 
-function TAPI_Folder.CreateFolder(Const aFolder: String): Boolean;
+function TAPI_Folders.CreateFolder(Const aFolder: String): Boolean;
 begin
   Try
     Try
@@ -118,7 +118,7 @@ begin
   End;
 end;
 
-function TAPI_Folder.SetCurrentFolder(Const aFolder: String): Boolean;
+function TAPI_Folders.SetCurrentFolder(Const aFolder: String): Boolean;
 begin
   Try
     Try
@@ -133,7 +133,7 @@ begin
   End;
 end;
 
-function TAPI_Folder.GetCurrentFolder: String;
+function TAPI_Folders.GetCurrentFolder: String;
 begin
   Try
     Try

@@ -44,14 +44,14 @@ function FindNSISFolder: string;
 begin
   result := Files.IncludeTrailingPathDelimiter(Program_FilesFolder) + 'NSIS\';
 
-  if not Folder.Exists(result) then 
+  if not Folders.Exists(result) then 
     begin
       Result := Files.IncludeTrailingPathDelimiter(Program_Filesx86Folder) + 'NSIS\';
-      if not Folder.Exists(result) then
+      if not Folders.Exists(result) then
         begin
           if ProjectConfig.IsPropertyExists('NSISDIR') then 
                result := Files.IncludeTrailingPathDelimiter(ProjectConfig.Getproperty('NSISDIR'));
-          if not Folder.Exists(result) then
+          if not Folders.Exists(result) then
              RaiseException(erCustomError, 'NSIS folder cannot be found ['+ result + ']');      
         end;      
     end;

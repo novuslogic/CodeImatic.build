@@ -246,7 +246,9 @@ begin
     foPlugins.UnLoadPlugins;
 
     foAPI_Output.WriteLog('Logging finished');
+
     foAPI_Output.CloseLog;
+
     foAPI_Output.Free;
 
     foPlugins.Free;

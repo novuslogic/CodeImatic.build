@@ -40,7 +40,7 @@ begin
 
   lsVarCmdLines := '';
 Try
-  if not Folder.Exists(GetcodegenPath(aPreCompatible)) then 
+  if not Folders.Exists(GetcodegenPath(aPreCompatible)) then 
     begin
       if not aPreCompatible then 
         RaiseException(erCustomError, 'CodeImatic.codegen Configured path [' + GetcodegenPath(aPreCompatible) +'] cannot not be found.')

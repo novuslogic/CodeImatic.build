@@ -1,3 +1,9 @@
+
+17/07/2022
+
+* Rename in Includes from Folder to Folders
+* Moved tPlugin_Folder CodeImatic.build.Pascal.Folders.dll
+
 16/07/2022
 
 * Rename in Includes from File to Files due to File being reserved name in pascal

@@ -232,11 +232,6 @@
         <DCCReference Include="Plugins\Plugin_IniFile.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_API_IniFile.pas"/>
         <DCCReference Include="Plugins\API\API_IniFile.pas"/>
-        <DCCReference Include="Plugins\API\API_Folder.pas"/>
-        <DCCReference Include="Plugins\Plugin_Folder.pas"/>
-        <DCCReference Include="Plugins\Imports\uPSI_API_Folder.pas"/>
-        <DCCReference Include="Plugins\Imports\uPSI_ExtraClasses.pas"/>
-        <DCCReference Include="Plugins\Imports\uPSR_ExtraClasses.pas"/>
         <DCCReference Include="Plugins\Plugin_RegEx.pas"/>
         <DCCReference Include="Plugins\API\API_RegEx.pas"/>
         <DCCReference Include="Plugins\Imports\uPSI_API_RegEx.pas"/>
@@ -320,12 +315,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib" Class="DependencyModule">
+                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libpcre.dylib" Class="DependencyModule">
                     <Platform Name="iOSSimulator">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libpcre.dylib" Class="DependencyModule">
+                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib" Class="DependencyModule">
                     <Platform Name="iOSSimulator">
                         <Overwrite>true</Overwrite>
                     </Platform>

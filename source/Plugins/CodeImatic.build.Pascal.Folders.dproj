@@ -1,6 +1,6 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{01A188D6-5B38-433E-B17E-3948C4D874D5}</ProjectGuid>
+        <ProjectGuid>{404473E7-116B-4CF9-ACB9-3BD9D699C650}</ProjectGuid>
         <ProjectVersion>19.4</ProjectVersion>
         <FrameworkType>None</FrameworkType>
         <MainSource>CodeImatic.build.Pascal.Folders.dpr</MainSource>
@@ -168,6 +168,9 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
+        <DCCReference Include="Plugin_FoldersClasses.pas"/>
+        <DCCReference Include="API\API_Folders.pas"/>
+        <DCCReference Include="Imports\uPSI_API_Folders.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
