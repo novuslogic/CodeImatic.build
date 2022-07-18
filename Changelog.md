@@ -1,8 +1,12 @@
+18/02/2022
+
+* Moved Tplugin_RegEx to CodeImatic.build.Pascal.RegEx.dll
+
 
 17/07/2022
 
 * Rename in Includes from Folder to Folders
-* Moved tPlugin_Folder CodeImatic.build.Pascal.Folders.dll
+* Moved tPlugin_Folder to CodeImatic.build.Pascal.Folders.dll
 
 16/07/2022
 
