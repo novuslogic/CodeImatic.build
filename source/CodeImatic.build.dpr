@@ -25,12 +25,7 @@ uses
 
   API_Path in 'Plugins\API\API_Path.pas',
   uPSI_API_Path in 'Plugins\Imports\uPSI_API_Path.pas',
-  Plugin_Path in 'Plugins\Plugin_Path.pas',
-
-
-  Plugin_VariablesCmdLine in 'Plugins\Plugin_VariablesCmdLine.pas',
-  API_VariablesCmdLine in 'Plugins\API\API_VariablesCmdLine.pas',
-  uPSI_API_VariablesCmdLine in 'Plugins\Imports\uPSI_API_VariablesCmdLine.pas';
+  Plugin_Path in 'Plugins\Plugin_Path.pas';
 
 begin
   ExitCode := oConfig.LoadConfig;

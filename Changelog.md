@@ -1,7 +1,10 @@
+20/07/2022
+
+* Moved TPlugin_VariablesCmdLine to CodeImatic.build.Pascal.VariablesCmdLine.dll
+
 18/02/2022
 
 * Moved Tplugin_RegEx to CodeImatic.build.Pascal.RegEx.dll
-
 
 17/07/2022
 
