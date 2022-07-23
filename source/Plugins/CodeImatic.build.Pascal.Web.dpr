@@ -1,4 +1,4 @@
-library Web;
+library CodeImatic.build.Pascal.Web;
 
 uses
   System.SysUtils,

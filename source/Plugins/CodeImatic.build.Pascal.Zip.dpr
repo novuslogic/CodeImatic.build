@@ -1,4 +1,4 @@
-library Zip;
+library CodeImatic.build.Pascal.Zip;
 
 uses
   System.SysUtils,

@@ -1,4 +1,4 @@
-library RESTClient;
+library CodeImatic.build.Pascal.RESTClient;
 
 uses
   System.SysUtils,

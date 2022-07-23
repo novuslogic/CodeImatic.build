@@ -1,4 +1,4 @@
-library Task;
+library CodeImatic.build.Pascal.Task;
 
 uses
   System.SysUtils,

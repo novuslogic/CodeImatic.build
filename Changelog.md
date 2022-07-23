@@ -1,5 +1,10 @@
 23/07/2022
-   
+
+* Rename web.dll to CodeImatic.build.Pascal.web.dll
+* Rename zip.dll to CodeImatic.build.Pascal.zip.dll
+* Rename task.dll to CodeImatic.build.Pascal.task.dll
+* Rename Restclient.dll to CodeImatic.build.Pascal.Restclient.dll
+
 * Moved TPlugin_ProjectConfig to CodeImatic.build.Pascal.ProjectConfig.dll
 * Moved TPlugin_IniFile to CodeImatic.build.Pascal.IniFile.dll
 * Moved TPlugin_Path to CodeImatic.build.Pascal.Path.dll
