@@ -8,7 +8,6 @@ type
   TAPI_ProjectConfig = class(TAPIBase)
   private
   protected
-    //function GetProjectConfigFileName: String;
     function GetSearchPath: String;
     function Getworkingdirectory: String;
   public

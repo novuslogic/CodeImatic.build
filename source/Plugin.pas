@@ -33,9 +33,6 @@ type
   TPascalScriptPlugin = class(TPlugin)
   end;
 
-  TPascalScriptInternalPlugin = class(TPlugin)
-  end;
-
 
   TExternalPlugin = class(TNovusPlugin)
   protected

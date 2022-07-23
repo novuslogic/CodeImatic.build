@@ -1,3 +1,9 @@
+23/07/2022
+   
+* Moved TPlugin_ProjectConfig to CodeImatic.build.Pascal.ProjectConfig.dll
+* Moved TPlugin_IniFile to CodeImatic.build.Pascal.IniFile.dll
+* Moved TPlugin_Path to CodeImatic.build.Pascal.Path.dll
+
 20/07/2022
 
 * Moved TPlugin_VariablesCmdLine to CodeImatic.build.Pascal.VariablesCmdLine.dll
