@@ -168,9 +168,10 @@
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
-        <Debugger_RunParams>-project simple.cbproject</Debugger_RunParams>
+        <Debugger_RunParams>-project simple.cbproject --compileonly</Debugger_RunParams>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Debugger_CWD>D:\Projects\CodeImatic.build\samples\Simple</Debugger_CWD>
+        <Debugger_DebugSourcePath>D:\Projects\NovuscodeLibrary\Source\Core\Console\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -191,40 +192,6 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="Plugins\API\APIBase.pas">
-            <Form>*,
-
-  API_ProjectConfig in &apos;Plugins\API\API_ProjectConfig.pas&apos;,
-  Plugin_ProjectConfig in &apos;Plugins\Plugin_ProjectConfig.pas&apos;,
-  uPSI_API_ProjectConfig in &apos;Plugins\Imports\uPSI_API_ProjectConfig.pas&apos;,
-  API_Environment in &apos;Plugins\API\API_Environment.pas&apos;,
-  Plugin_Environment in &apos;Plugins\Plugin_Environment.pas&apos;,
-  uPSI_API_Environment in &apos;Plugins\Imports\uPSI_API_Environment.pas&apos;,
-  Plugin_IniFile in &apos;Plugins\Plugin_IniFile.pas&apos;,
-  uPSI_API_IniFile in &apos;Plugins\Imports\uPSI_API_IniFile.pas&apos;,
-  API_IniFile in &apos;Plugins\API\API_IniFile.pas&apos;,
-  API_Folder in &apos;Plugins\API\API_Folder.pas&apos;,
-  Plugin_Folder in &apos;Plugins\Plugin_Folder.pas&apos;,
-  uPSI_API_Folder in &apos;Plugins\Imports\uPSI_API_Folder.pas&apos;,
-  API_File in &apos;Plugins\API\API_File.pas&apos;,
-  Plugin_File in &apos;Plugins\Plugin_File.pas&apos;,
-  uPSI_API_File in &apos;Plugins\Imports\uPSI_API_File.pas&apos;,
-  uPSI_ExtraClasses in &apos;Plugins\Imports\uPSI_ExtraClasses.pas&apos;,
-  uPSR_ExtraClasses in &apos;Plugins\Imports\uPSR_ExtraClasses.pas&apos;,
-  Plugin_RegEx in &apos;Plugins\Plugin_RegEx.pas&apos;,
-  API_RegEx in &apos;Plugins\API\API_RegEx.pas&apos;,
-  uPSI_API_RegEx in &apos;Plugins\Imports\uPSI_API_RegEx.pas&apos;,
-  Plugin_Registry in &apos;Plugins\Plugin_Registry.pas&apos;,
-  API_Registry in &apos;Plugins\API\API_Registry.pas&apos;,
-  uPSI_API_Registry in &apos;Plugins\Imports\uPSI_API_Registry.pas&apos;,
-  API_Path in &apos;Plugins\API\API_Path.pas&apos;,
-  uPSI_API_Path in &apos;Plugins\Imports\uPSI_API_Path.pas&apos;,
-  Plugin_Path in &apos;Plugins\Plugin_Path.pas&apos;,
-  Plugin_VariablesCmdLine in &apos;Plugins\Plugin_VariablesCmdLine.pas&apos;,
-  API_VariablesCmdLine in &apos;Plugins\API\API_VariablesCmdLine.pas&apos;,
-  uPSI_API_VariablesCmdLine in &apos;Plugins\Imports\uPSI_API_VariablesCmdLine.pas&apos;;
-  *</Form>
-        </DCCReference>
         <None Include="CodeIMatic.build.inc"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

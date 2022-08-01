@@ -160,7 +160,6 @@
         <DCCReference Include="Plugins\API\API_Output.pas"/>
         <DCCReference Include="Plugin.pas"/>
         <DCCReference Include="Plugins.pas"/>
-        <DCCReference Include="Plugins\API\APIBase.pas"/>
         <DCCReference Include="Project.pas"/>
         <DCCReference Include="PascalScript.pas"/>
         <DCCReference Include="XMLList.pas"/>
@@ -174,6 +173,8 @@
         <DCCReference Include="ProjectTask.pas"/>
         <DCCReference Include="ProjectLog.pas"/>
         <DCCReference Include="Plugins\ExtraClasses.pas"/>
+        <DCCReference Include="Plugins\API\APIBase.pas"/>
+        <DCCReference Include="CommandLine.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -216,12 +217,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib" Class="DependencyModule">
+                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libpcre.dylib" Class="DependencyModule">
                     <Platform Name="iOSSimulator">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libpcre.dylib" Class="DependencyModule">
+                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib" Class="DependencyModule">
                     <Platform Name="iOSSimulator">
                         <Overwrite>true</Overwrite>
                     </Platform>

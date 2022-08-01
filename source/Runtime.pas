@@ -4,14 +4,14 @@ unit Runtime;
 interface
 
 Uses Project, API_Output, Config, NovusWinVersionUtils, System.SysUtils,
-  NovusStringUtils,   NovusFileUtils, vcl.dialogs, ProjectTask,
-  uPSRuntime, Plugins, NovusDateStringUtils, uPSCompiler;
+  NovusStringUtils,   NovusFileUtils, vcl.dialogs, ProjectTask,  CommandLine,
+  uPSRuntime, Plugins, NovusDateStringUtils, uPSCompiler, NovusCommandLine;
 
 type
   tRuntime = class
   protected
   private
-    fsWorkingdirectory: string;
+//    fsWorkingdirectory: string;
     fImp: TPSRuntimeClassImporter;
     foAPI_Output: tAPI_Output;
     foProject: tProject;
@@ -21,7 +21,7 @@ type
     function GetBuildStatus(aBuildStatus: TBuildStatus): String;
 
   public
-    function RunEnvironment: Integer;
+    function Execute(aCommandLineResult: INovusCommandLineResult): Integer;
 
     function GetVersionCopyright: string;
     function GetVersion: string;
@@ -39,7 +39,7 @@ type
 
     property BuildStatus: TBuildStatus read fBuildStatus write fBuildStatus;
 
-    property Workingdirectory: string read fsWorkingdirectory write fsWorkingdirectory;
+    //property Workingdirectory: string read fsWorkingdirectory write fsWorkingdirectory;
 
   end;
 
@@ -62,7 +62,7 @@ begin
 end;
 
 
-function tRuntime.RunEnvironment: Integer;
+function tRuntime.Execute(aCommandLineResult: INovusCommandLineResult): Integer;
 var
   liIndex, i, x: Integer;
   loprojecttask: Tprojecttask;
@@ -71,16 +71,16 @@ begin
   Try
     Result := -1;
 
-    fsworkingdirectory := TNovusFileUtils.TrailingBackSlash
+    oConfig.workingdirectory := TNovusFileUtils.TrailingBackSlash
       (ExtractFilePath(oConfig.ProjectFileName));
-    if Trim(fsworkingdirectory) = '' then
-      fsworkingdirectory := TNovusFileUtils.TrailingBackSlash
+    if Trim(oConfig.workingdirectory) = '' then
+      oConfig.workingdirectory := TNovusFileUtils.TrailingBackSlash
         (TNovusFileUtils.AbsoluteFilePath(oConfig.ProjectFileName));
 
     foProject := tProject.Create;
 
     if not foProject.LoadProjectFile(oConfig.ProjectFileName,
-       fsWorkingdirectory) then
+       oConfig.workingdirectory) then
     begin
       if Not FileExists(oConfig.ProjectFileName) then
       begin
@@ -102,7 +102,7 @@ begin
       foProject.OutputPath := foProject.GetWorkingdirectory;
 
     foAPI_Output := tAPI_Output.Create(foProject.OutputPath +
-      oConfig.OutputFile, foProject.OutputConsole);
+      oConfig.OutputlogFilename, foProject.OutputConsole);
 
     foAPI_Output.DateTimeMask := FormatSettings.ShortDateFormat + ' ' +
       cTimeformat;

@@ -50,7 +50,6 @@ contains
   API_Output in 'Plugins\API\API_Output.pas',
   Plugin in 'Plugin.pas',
   Plugins in 'Plugins.pas',
-  APIBase in 'Plugins\API\APIBase.pas',
   Project in 'Project.pas',
   PascalScript in 'PascalScript.pas',
   XMLList in 'XMLList.pas',
@@ -63,7 +62,9 @@ contains
   ProjectParser in 'ProjectParser.pas',
   ProjectTask in 'ProjectTask.pas',
   ProjectLog in 'ProjectLog.pas',
-  ExtraClasses in 'Plugins\ExtraClasses.pas';
+  ExtraClasses in 'Plugins\ExtraClasses.pas',
+  APIBase in 'Plugins\API\APIBase.pas',
+  CommandLine in 'CommandLine.pas';
 
 end.
 

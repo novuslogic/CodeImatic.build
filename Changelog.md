@@ -1,3 +1,10 @@
+
+
+* CommandLine options
+
+    Consoleoutputonly
+
+
 23/07/2022
 
 * Rename web.dll to CodeImatic.build.Pascal.web.dll
