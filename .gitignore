@@ -87,3 +87,6 @@ samples/Codegen/Output/TEXT.TXT
 samples/Web/DownloadFile/home_title.gif
 build/_BorlndMM.dll
 build/_FastMM_FullDebugMode64.dll
+*.~2~
+*.config
+includes/__history/Xcopy.pas.~3~

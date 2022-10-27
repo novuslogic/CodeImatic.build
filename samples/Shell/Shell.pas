@@ -1,6 +1,5 @@
 Uses cmd;
 
-
 begin
   Output.log('Open ExecCMD');
 

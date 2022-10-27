@@ -33,15 +33,13 @@ type
   TPascalScriptPlugin = class(TPlugin)
   end;
 
-  TPascalScriptInternalPlugin = class(TPlugin)
-  end;
 
-
-  IExternalPlugin = interface(INovusPlugin)
-    ['{838468EA-1750-4CB5-B6B3-E7078F59A46A}']
-
+  TExternalPlugin = class(TNovusPlugin)
+  protected
+  private
+  public
     function CreatePlugin(aAPI_Output: tAPI_Output;
-      aImp: TPSRuntimeClassImporter): TPlugin safecall;
+      aImp: TPSRuntimeClassImporter): TPlugin; virtual; safecall;
   end;
 
   TPluginClass = class of TPlugin;
@@ -75,6 +73,13 @@ end;
 procedure TPlugin.RegisterImport;
 begin
 
+end;
+
+//TExternalPlugin
+function TExternalPlugin.CreatePlugin(aAPI_Output: tAPI_Output;
+      aImp: TPSRuntimeClassImporter): TPlugin;
+begin
+  Result := nil;
 end;
 
 end.

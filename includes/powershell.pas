@@ -16,7 +16,7 @@ implementation
 
 function IsChocolateyInstalled: boolean;
 begin
-   Result := File.Exists(File.IncludeTrailingPathDelimiter(ProgramDataFolder) +'chocolatey\choco.exe');
+   Result := Files.Exists(Files.IncludeTrailingPathDelimiter(ProgramDataFolder) +'chocolatey\choco.exe');
 end;
 
 function IsPowerShellInstalled: Boolean;
@@ -50,7 +50,7 @@ begin
   if IsExecutionPolicyRestricted then 
     RaiseException(erCustomError, 'Execution Policy is Restricted');  
   
-  if not File.Exists(aFilename) then
+  if not Files.Exists(aFilename) then
     RaiseException(erCustomError, 'Powershell Filename cannot be found ['+ aFilename + ']');
 
   result := Exec('powershell.exe -File ' + aFilename);

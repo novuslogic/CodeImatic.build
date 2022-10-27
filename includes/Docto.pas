@@ -19,7 +19,7 @@ begin
   result := '';
    
   
-  result := File.IncludeTrailingPathDelimiter('C:\ProgramData\chocolatey\bin');
+  result := Files.IncludeTrailingPathDelimiter('C:\ProgramData\chocolatey\bin');
 end;
 
 function DocTo(const aInputFilename: string;const aOutputFilename: string; const aSaveFormat: string;const aOption: string): Integer;

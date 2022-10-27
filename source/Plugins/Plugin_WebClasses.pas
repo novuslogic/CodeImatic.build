@@ -22,23 +22,20 @@ type
     procedure RegisterImport; override;
   end;
 
-  TPlugin_Web = class( TSingletonImplementation, INovusPlugin, IExternalPlugin)
+  TPlugin_Web = class(TExternalPlugin)
   private
   protected
     FPlugin_Web: tPlugin_WebBase;
   public
-    function GetPluginName: string; safecall;
+    function GetPluginName: string; override; safecall;
 
-    procedure Initialize; safecall;
-    procedure Finalize; safecall;
+    procedure Initialize; override; safecall;
+    procedure Finalize; override;  safecall;
 
-    property PluginName: string read GetPluginName;
-
-    function CreatePlugin(aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter): TPlugin; safecall;
-
+    function CreatePlugin(aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter): TPlugin; override; safecall;
   end;
 
-function GetPluginObject: INovusPlugin; stdcall;
+function GetPluginObject: TNovusPlugin; stdcall;
 
 implementation
 
@@ -108,11 +105,10 @@ end;
 
 procedure tPlugin_Web.Finalize;
 begin
-  if Assigned(FPlugin_Web) then
-    FPlugin_Web.Free;
+  if Assigned(FPlugin_Web) then FPlugin_Web.Free;
 end;
 
-function GetPluginObject: INovusPlugin;
+function GetPluginObject: TNovusPlugin;
 begin
   if (_Plugin_Web = nil) then _Plugin_Web := TPlugin_Web.Create;
   result := _Plugin_Web;

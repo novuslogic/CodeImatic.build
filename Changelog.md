@@ -1,3 +1,55 @@
+
+
+* CommandLine options
+
+    Consoleoutputonly
+
+
+23/07/2022
+
+* Rename web.dll to CodeImatic.build.Pascal.web.dll
+* Rename zip.dll to CodeImatic.build.Pascal.zip.dll
+* Rename task.dll to CodeImatic.build.Pascal.task.dll
+* Rename Restclient.dll to CodeImatic.build.Pascal.Restclient.dll
+
+* Moved TPlugin_ProjectConfig to CodeImatic.build.Pascal.ProjectConfig.dll
+* Moved TPlugin_IniFile to CodeImatic.build.Pascal.IniFile.dll
+* Moved TPlugin_Path to CodeImatic.build.Pascal.Path.dll
+
+20/07/2022
+
+* Moved TPlugin_VariablesCmdLine to CodeImatic.build.Pascal.VariablesCmdLine.dll
+
+18/02/2022
+
+* Moved Tplugin_RegEx to CodeImatic.build.Pascal.RegEx.dll
+
+17/07/2022
+
+* Rename in Includes from Folder to Folders
+* Moved tPlugin_Folder to CodeImatic.build.Pascal.Folders.dll
+
+16/07/2022
+
+* Rename in Includes from File to Files due to File being reserved name in pascal
+* Moved tPlugin_File CodeImatic.build.Pascal.Files.dll
+* Moved tPlugin_Registry to CodeImatic.build.Pascal.Registry.dll
+* Moved tPlugin_Environment  to CodeImatic.build.Pascal.Environment.dll
+
+14/07/2022
+
+* Moved tPlugin_SystemExt to CodeImatic.build.Pascal.SystemExt.dll
+* Moved tPlugin_Output to CodeImatic.build.Pascal.Output.dll
+* Moved tPlugin_WinAPI to CodeImatic.build.Pascal.WinAPI.dll
+
+10/07/2022
+
+* Upgraded tp Pre multi Plantform NovuscodeLibrary Delphi 11
+
+09/07/2022
+
+* Refactored for upgraded Novusplugin unit in NovuscodeLibrary
+
 24/01/2022
 
 *  Updated Codeimatic.build for Delphi 11

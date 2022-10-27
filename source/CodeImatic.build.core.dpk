@@ -40,7 +40,8 @@ requires
   NovusCodeLibrary_XML,
   NovusCodeLibrary_Parser,
   NovusCodeLibrary_Plugin,
-  NovusCodeLibrary_Env,
+  NovusCodeLibrary_Windows,
+  NovusCodeLibrary_OS,
   NovusCodeLibrary_Console,
   Jcl,
   JvSystem;
@@ -49,21 +50,21 @@ contains
   API_Output in 'Plugins\API\API_Output.pas',
   Plugin in 'Plugin.pas',
   Plugins in 'Plugins.pas',
-  APIBase in 'Plugins\API\APIBase.pas',
   Project in 'Project.pas',
   PascalScript in 'PascalScript.pas',
   XMLList in 'XMLList.pas',
   Runtime in 'Runtime.pas',
   ProjectConfigLoader in 'ProjectConfigLoader.pas',
   Config in 'Config.pas',
-  ExtraClasses in 'ExtraClasses.pas',
-  uPSI_API_Output in 'Plugins\Imports\uPSI_API_Output.pas',
   Loader in 'Loader.pas',
   TagType in 'TagType.pas',
   VariablesCmdLine in 'VariablesCmdLine.pas',
   ProjectParser in 'ProjectParser.pas',
   ProjectTask in 'ProjectTask.pas',
-  ProjectLog in 'ProjectLog.pas';
+  ProjectLog in 'ProjectLog.pas',
+  ExtraClasses in 'Plugins\ExtraClasses.pas',
+  APIBase in 'Plugins\API\APIBase.pas',
+  CommandLine in 'CommandLine.pas';
 
 end.
 

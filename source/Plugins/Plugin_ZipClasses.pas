@@ -8,7 +8,7 @@ uses Classes,Plugin,  uPSComponent, uPSRuntime,  uPSCompiler, API_Zip, NovusPlug
 
 
 type
-  tPlugin_ZipBase = class(Tplugin)
+  tPlugin_ZipBase = class(TPascalScriptPlugin)
   private
   protected
     foAPI_Zip: TAPI_Zip;
@@ -22,23 +22,20 @@ type
     procedure RegisterImport; override;
   end;
 
-  TPlugin_Zip = class( TSingletonImplementation, INovusPlugin, IExternalPlugin)
+  TPlugin_Zip = class(TExternalPlugin)
   private
   protected
     FPlugin_Zip: tPlugin_ZipBase;
   public
-    function GetPluginName: string; safecall;
+    function GetPluginName: string; override; safecall;
 
-    procedure Initialize; safecall;
-    procedure Finalize; safecall;
+    procedure Initialize; override; safecall;
+    procedure Finalize; override; safecall;
 
-    property PluginName: string read GetPluginName;
-
-    function CreatePlugin(aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter): TPlugin; safecall;
-
+    function CreatePlugin(aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter): TPlugin; override; safecall;
   end;
 
-function GetPluginObject: INovusPlugin; stdcall;
+function GetPluginObject: TNovusPlugin; stdcall;
 
 implementation
 
@@ -112,7 +109,7 @@ begin
   if Assigned(FPlugin_Zip) then FPlugin_Zip.Free;
 end;
 
-function GetPluginObject: INovusPlugin;
+function GetPluginObject: TNovusPlugin;
 begin
   if (_Plugin_Zip = nil) then _Plugin_Zip := TPlugin_Zip.Create;
   result := _Plugin_Zip;

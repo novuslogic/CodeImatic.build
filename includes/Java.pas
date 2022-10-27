@@ -17,7 +17,7 @@ end;
 
 function GetJavaFolder: String;
 begin
-  result := File.IncludeTrailingPathDelimiter(GetJAVA_HOME);
+  result := Files.IncludeTrailingPathDelimiter(GetJAVA_HOME);
 end;
 
 
@@ -40,7 +40,7 @@ var
 begin
    Result := -1;
 
-   if not File.Exists(GetJavaFolder + 'Java.exe') then 
+   if not Files.Exists(GetJavaFolder + 'Java.exe') then
      RaiseException(erCustomError, 'Cannot find java.exe.');
     
    Try

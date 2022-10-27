@@ -33,9 +33,9 @@ begin
     RaiseException(erCustomError, 'Unsupported version ("2.0", "3.0", "3.5", "4.0", "4.5")');   
    
 
-  result := File.IncludeTrailingPathDelimiter(result);
+  result := Files.IncludeTrailingPathDelimiter(result);
 
-  if not Folder.Exists(result) then RaiseException(erCustomError, '.NET Framework not installed: '+result);
+  if not Folders.Exists(result) then RaiseException(erCustomError, '.NET Framework not installed: '+result);
 end;
 
 end.

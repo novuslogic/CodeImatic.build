@@ -94,7 +94,7 @@ begin
     begin
        Try
          lsRootDir:=GetBDSDIR(aDelphiVersion) + '\bin\rsvars.bat';
-         if File.Exists(lsRootDir) = false then 
+         if Files.Exists(lsRootDir) = false then
            RaiseException(erCustomError, 'Cannot find Delphi rsbar.bat file: '+ lsRootDir);
          lrsvars:= tStringlist.Create;
 
@@ -114,7 +114,7 @@ begin
        End;
     end;
 
-  Result := File.IncludeTrailingPathDelimiter(result);  
+  Result := Files.IncludeTrailingPathDelimiter(result);
 end;
 
 function GetBDSDIR(aDelphiVersion:  TDelphiVersion): string;
@@ -127,14 +127,14 @@ begin
   result := Environment.GetEnvironmentVar('BDSINCLUDE');
   if trim(result) = '' then 
     begin
-      result := File.IncludeTrailingPathDelimiter(GetBDSDIR(aDelphiVersion) + '\include');
+      result := Files.IncludeTrailingPathDelimiter(GetBDSDIR(aDelphiVersion) + '\include');
     end;
-    
+
 end;
 
 function GetBDSBPLDir(aDelphiVersion:  TDelphiVersion): string;
 begin
-  result := File.IncludeTrailingPathDelimiter(GetBDSDIR(aDelphiVersion) + '\bpl');
+  result := Files.IncludeTrailingPathDelimiter(GetBDSDIR(aDelphiVersion) + '\bpl');
 end;
 
 
@@ -247,8 +247,8 @@ begin
   else 
     RaiseException(erCustomError, 'Unsupported platform ("win32", "win64", "osx32", "iossimulator","iosdevice")');
 
-  if not File.Exists(lsRootDir) then RaiseException(erCustomError, 'Delphi dcc not found: '+lsRootDir+' '+aDelphiOptions.platform);
-   
+  if not Files.Exists(lsRootDir) then RaiseException(erCustomError, 'Delphi dcc not found: '+lsRootDir+' '+aDelphiOptions.platform);
+
 
   Try
     SB:= TStringBuilder.Create;

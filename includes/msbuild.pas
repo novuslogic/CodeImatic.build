@@ -43,11 +43,11 @@ begin
   
 
   lsProjectSolutionFilename := aProjectSolutionFilename; 
-  if not File.Exists(aProjectSolutionFilename) then
+  if not Files.Exists(aProjectSolutionFilename) then
    begin
        lsProjectSolutionFilename := WD + aProjectSolutionFilename;
-      
-      if not File.Exists(lsProjectSolutionFilename) then
+
+      if not Files.Exists(lsProjectSolutionFilename) then
         RaiseException(erCustomError, 'Project/Soluation file cannot be found: '+lsProjectSolutionFilename);
    end;
   Output.logformat('MSBuild Project/Solution: %s', [lsProjectSolutionFilename]);   
@@ -104,7 +104,7 @@ begin
    else  
      RaiseException(erCustomError, 'Unsupported version ("2.0", "3.5", "4.0", "VSCommunity2019", "VS2022") of msbuild');   
    
-  if not File.Exists(result) then RaiseException(erCustomError, 'msbuild.exe not found: '+result);
+  if not Files.Exists(result) then RaiseException(erCustomError, 'msbuild.exe not found: '+result);
 end;
 
 
@@ -112,7 +112,7 @@ end;
 
 function TlbExp(aOptions: string): integer;
 begin
-  if not File.Exists(cTlbExp48) then RaiseException(erCustomError, 'TlbExp.exe not found: '+cTlbExp48);
+  if not Files.Exists(cTlbExp48) then RaiseException(erCustomError, 'TlbExp.exe not found: '+cTlbExp48);
 
   result := Exec(cTlbExp48 + ' ' + aOptions);
 end;

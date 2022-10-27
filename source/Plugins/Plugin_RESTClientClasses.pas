@@ -8,7 +8,7 @@ uses Classes,Plugin,  uPSComponent, uPSRuntime,  uPSCompiler, API_RESTClient, No
 
 
 type
-  tPlugin_RESTClientBase = class(Tplugin)
+  tPlugin_RESTClientBase = class(TPascalScriptPlugin)
   private
   protected
     foAPI_RESTClient: TAPI_RESTClient;
@@ -22,23 +22,20 @@ type
     procedure RegisterImport; override;
   end;
 
-  TPlugin_RESTClient = class( TSingletonImplementation, INovusPlugin, IExternalPlugin)
+  TPlugin_RESTClient = class(TExternalPlugin)
   private
   protected
     FPlugin_RESTClient: tPlugin_RESTClientBase;
   public
-    function GetPluginName: string; safecall;
+    function GetPluginName: string; override; safecall;
 
-    procedure Initialize; safecall;
-    procedure Finalize; safecall;
+    procedure Initialize; override; safecall;
+    procedure Finalize; override; safecall;
 
-    property PluginName: string read GetPluginName;
-
-    function CreatePlugin(aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter): TPlugin; safecall;
-
+    function CreatePlugin(aAPI_Output: tAPI_Output; aImp: TPSRuntimeClassImporter): TPlugin; override; safecall;
   end;
 
-function GetPluginObject: INovusPlugin; stdcall;
+function GetPluginObject: TNovusPlugin; stdcall;
 
 implementation
 
@@ -112,7 +109,7 @@ begin
   if Assigned(FPlugin_RESTClient) then FPlugin_RESTClient.Free;
 end;
 
-function GetPluginObject: INovusPlugin;
+function GetPluginObject: TNovusPlugin;
 begin
   if (_Plugin_RESTClient = nil) then _Plugin_RESTClient := TPlugin_RESTClient.Create;
   result := _Plugin_RESTClient;

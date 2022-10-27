@@ -4,10 +4,10 @@ unit Config;
 interface
 
 Uses SysUtils, NovusXMLBO, Registry, Windows, NovusStringUtils, NovusFileUtils,
-  JvSimpleXml, NovusSimpleXML, NovusList;
+  JvSimpleXml, NovusSimpleXML, NovusList, NovusCommandLine, CommandLine;
 
 Const
-  csOutputFile = 'codeimatic.build.log';
+  csOutputLogFileName = 'codeimatic.build.log';
   csConfigfile = 'codeimatic.build.config';
   csConfigfileversion = 'codeimatic.build1.0';
 
@@ -30,28 +30,30 @@ Type
 
   TConfig = Class(TNovusXMLBO)
   protected
+    fCommandLineResult: INovusCommandLineResult;
     fConfigPluginsList: tNovusList;
     fsConfigfile: string;
     fsPluginPath: String;
-    fsOutputFile: string;
-    fsProjectConfigFileName: String;
+    fsOutputFilename: string;
     fsProjectFileName: String;
+    fsworkingdirectory: string;
     fsRootPath: String;
     fbCompileOnly: Boolean;
+    fbConsoleoutputonly: Boolean;
   private
   public
     constructor Create; virtual; // override;
     destructor Destroy; override;
 
-    function LoadConfig: Integer;
+    function LoadConfig(aCommandLineResult
+      : INovusCommandLineResult): Integer;
 
-    function ParseParams: Boolean;
+    procedure ParseCommandLine;
 
     property ProjectFileName: String read fsProjectFileName
-      write fsProjectFileName;
+       write fsProjectFileName;
 
-   
-    property OutputFile: String read fsOutputFile write fsOutputFile;
+    property OutputlogFilename: String read fsOutputFilename write fsOutputFilename;
 
     property RootPath: String read fsRootPath write fsRootPath;
 
@@ -63,6 +65,14 @@ Type
 
     property oConfigPluginsList: tNovusList read fConfigPluginsList
       write fConfigPluginsList;
+
+    property workingdirectory: String
+       read fsworkingdirectory
+       write fsworkingdirectory;
+
+    property Consoleoutputonly: boolean
+      read fbConsoleoutputonly
+      write fbConsoleoutputonly;
   End;
 
 Var
@@ -86,78 +96,8 @@ begin
   inherited Destroy;
 end;
 
-function TConfig.ParseParams: Boolean;
-Var
-  I: integer;
-  fbOK: Boolean;
-  lsParamStr: String;
-begin
-  Result := False;
-
-  fbOK := False;
-  I := 1;
-  While Not fbOK do
-  begin
-    lsParamStr := Lowercase(ParamStr(I));
-
-    if lsParamStr = '-project' then
-    begin
-      Inc(I);
-      fsProjectFileName := Trim(ParamStr(I));
-
-      if Trim(TNovusStringUtils.JustFilename(fsProjectFileName))
-        = Trim(fsProjectFileName) then
-        fsProjectFileName := IncludeTrailingPathDelimiter
-          (TNovusFileUtils.AbsoluteFilePath(ParamStr(I))) + Trim(ParamStr(I));
-
-      if Not FileExists(fsProjectFileName) then
-      begin
-        writeln('-project ' + TNovusStringUtils.JustFilename(fsProjectFileName)
-          + ' project filename cannot be found.');
-
-        Exit;
-      end;
-
-      Result := True;
-    end
-    
-    else if lsParamStr = '-compileonly' then
-      fbCompileOnly := True;
-
-    Inc(I);
-
-    if I > ParamCount then
-      fbOK := True;
-  end;
-
-
-  if Trim(fsProjectFileName) = '' then
-  begin
-    writeln('-project filename cannot be found.');
-
-    Result := False;
-  end;
-
-  (*
-  if Trim(fsProjectConfigFileName) = '' then
-  begin
-    writeln('-projectconfig filename cannot be found.');
-
-    Result := False;
-  end;
-  *)
-
-  if Result = False then
-  begin
-    writeln('-error ');
-
-    //
-  end;
-
-  fsOutputFile := csOutputFile;
-end;
-
-function TConfig.LoadConfig: integer;
+function TConfig.LoadConfig(aCommandLineResult
+      : INovusCommandLineResult): integer;
 Var
   fConfigElem,
   fPluginElem,
@@ -167,6 +107,8 @@ Var
   loConfigPlugin: TConfigPlugin;
 begin
   result := 0;
+
+  fCommandLineResult := aCommandLineResult;
 
   if fsRootPath = '' then
     fsRootPath := TNovusFileUtils.TrailingBackSlash
@@ -215,24 +157,66 @@ begin
 
                   fconfigpluginslist.add(loconfigplugin);
                 end;
-                (*
-              else
-                begin
-                  Result := -1002;
 
-                  break;
-                end;
-                *)
              end;
           end;
 
       end;
     end
-     else Result := -1001;
+     else
+       begin
+         aCommandLineResult.AddError(csConfigfile + ' is the wrong config file version [ '+ csConfigfileversion  + ']');
+         aCommandLineResult.ExitCode := -1001;
+         Result := aCommandLineResult.ExitCode;
+       end;
   end
-    else Result := -1000;
+    else
+      begin
+        aCommandLineResult.AddError(csConfigfile + ' not a config file.', -1000);
+        aCommandLineResult.ExitCode := -1000;
+        Result := aCommandLineResult.ExitCode;
+       end;
+
+
+  if result = 0 then ParseCommandLine;
 
 end;
+
+
+procedure TConfig.ParseCommandLine;
+var
+  fNovusCommandLineResultCommands: INovusCommandLineResultCommands;
+  fNovusCommandLineResultCommand: INovusCommandLineResultCommand;
+  fNovusCommandLineResultOption: INovusCommandLineResultOption;
+begin
+  Consoleoutputonly := false;
+  fNovusCommandLineResultCommand := fCommandLineResult.FindFirstCommand(clConsoleoutputonly);
+  if Assigned(fNovusCommandLineResultCommand) then
+    Consoleoutputonly := fNovusCommandLineResultCommand.IsCommandOnly;
+
+  ProjectFileName := '';
+  fNovusCommandLineResultOption := fCommandLineResult.FindFirstCommandwithOption(clproject);
+  if Assigned(fNovusCommandLineResultOption) then
+    ProjectFileName := fNovusCommandLineResultOption.Value.AsString;
+
+  workingdirectory := '';
+  fNovusCommandLineResultOption := fCommandLineResult.FindFirstCommandwithOption(clworkingdirectory);
+  if Assigned(fNovusCommandLineResultOption) then
+    workingdirectory := fNovusCommandLineResultOption.Value.AsString;
+
+  outputlogfilename :=  csOutputLogFileName;
+  fNovusCommandLineResultOption := fCommandLineResult.FindFirstCommandwithOption(clOutputlog);
+  if Assigned(fNovusCommandLineResultOption) then
+    outputlogfilename := fNovusCommandLineResultOption.Value.AsString;
+
+  CompileOnly := false;
+  fNovusCommandLineResultCommand := fCommandLineResult.FindFirstCommand(clCompileOnly);
+  if Assigned(fNovusCommandLineResultCommand) then
+    CompileOnly := fNovusCommandLineResultCommand.IsCommandOnly;
+
+
+end;
+
 
 Initialization
 

@@ -58,7 +58,6 @@ begin
   fsParam := Format(aParam, aArgs);
 
   oExec.CMD_Err2(erException, fsParam);
-
 end;
 
 end.
