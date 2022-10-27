@@ -4,6 +4,7 @@ interface
 
 Uses cmd, Windows, DotNET;
 
+const cVS2022 = 'C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe';
 const cVSCommunity2019 = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe';
 const cTlbExp48 = 'C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\x64\TlbExp.exe';
 
@@ -98,7 +99,10 @@ begin
    if (CompareText(lowercase(aVersion), 'VSCommunity2019') = 0) then 
      result := cVSCommunity2019  
    else 
-     RaiseException(erCustomError, 'Unsupported version ("2.0", "3.5", "4.0", "VSCommunity2019") of msbuild');   
+   if (CompareText(lowercase(aVersion), 'VS2022') = 0) then 
+     result := cVS2022
+   else  
+     RaiseException(erCustomError, 'Unsupported version ("2.0", "3.5", "4.0", "VSCommunity2019", "VS2022") of msbuild');   
    
   if not File.Exists(result) then RaiseException(erCustomError, 'msbuild.exe not found: '+result);
 end;

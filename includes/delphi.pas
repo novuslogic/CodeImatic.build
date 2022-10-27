@@ -211,7 +211,7 @@ begin
 
       Output.log('Delphi MSBuild.');
 
-      if (aDelphiVersion in [DELPHI10_3, DELPHI11]) then
+      if (aDelphiVersion in [DELPHI10_3,DELPHI10_4, DELPHI11]) then
         result := MSBuild('4.0', aProject, FMSBuildOptions)
       else
         result := MSBuild('3.5', aProject, FMSBuildOptions);
