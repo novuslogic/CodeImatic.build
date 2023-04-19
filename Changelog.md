@@ -1,5 +1,8 @@
+# CodeImatic.build - Changelog
 
+19/04/2023
 
+* Add new function Files.RenameFile
 * CommandLine options
 
     Consoleoutputonly

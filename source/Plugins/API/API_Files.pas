@@ -25,6 +25,7 @@ type
     function IsFileInUse(const aFilename: String): Boolean;
     function IsFileReadonly(const aFilename: String): Boolean;
     function MakeTmpFileName(aExt: string; aUseGUID: Boolean): String;
+    function RenameFile(const OldName: String; const NewName: String): boolean;
   end;
 
 implementation
@@ -129,9 +130,25 @@ begin
       oAPI_Output.InternalError;
     End;
   Finally
-
   End;
 end;
+
+function TAPI_Files.RenameFile(const OldName: String; const NewName: String): boolean;
+begin
+  Try
+    Try
+      Result := RenameFile(Oldname, NewName);
+    Except
+      Result := False;
+
+      oAPI_Output.InternalError;
+    End;
+  Finally
+  End;
+end;
+
+
+
 
 function TAPI_Files.Move(const aSourceFilename: String;
   const aDestFilename: String): Boolean;

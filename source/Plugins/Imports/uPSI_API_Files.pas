@@ -59,12 +59,11 @@ begin
     RegisterMethod
       ('Function Copy( const aSourceFilename : String; const aDestFilename : String; const aOverWrite : Boolean) : Boolean');
     RegisterMethod('Function Delete( const aFilename : String) : Boolean');
-    RegisterMethod
-      ('Function Move( const aSourceFilename : String; const aDestFilename : String) : Boolean');
+    RegisterMethod('Function Rename(const OldName: String; const NewName: String): boolean');
+    RegisterMethod('Function Move( const aSourceFilename : String; const aDestFilename : String) : Boolean');
     RegisterMethod('Function IsFileInUse(const aFilename: string): boolean');
     RegisterMethod('Function IsFileReadonly(const aFilename: string): boolean');
-    RegisterMethod
-      ('function MakeTmpFileName(aExt: string; aUseGUID: Boolean): String');
+    RegisterMethod('function MakeTmpFileName(aExt: string; aUseGUID: Boolean): String');
   end;
 end;
 
@@ -89,6 +88,7 @@ begin
     RegisterMethod(@TAPI_Files.Exists, 'Exists');
     RegisterMethod(@TAPI_Files.Copy, 'Copy');
     RegisterMethod(@TAPI_Files.Delete, 'Delete');
+    RegisterMethod(@TAPI_Files.RenameFile, 'Rename');
     RegisterMethod(@TAPI_Files.Move, 'Move');
     RegisterMethod(@TAPI_Files.MakeTmpFileName, 'MakeTmpFileName');
   end;

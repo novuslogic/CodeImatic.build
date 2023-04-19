@@ -33,18 +33,28 @@ package CodeImatic.build.core;
 
 requires
   rtl,
-  CodeImatic.share,
   NovusCodeLibrary_Utils,
   NovusCodeLibrary_Object,
   NovusCodeLibrary_Log,
   NovusCodeLibrary_XML,
   NovusCodeLibrary_Parser,
   NovusCodeLibrary_Plugin,
+{$IFDEF DELPHI11}
   NovusCodeLibrary_Windows,
   NovusCodeLibrary_OS,
-  NovusCodeLibrary_Console,
-  Jcl,
-  JvSystem;
+{$ELSE}
+  NovusCodeLibrary_Env,
+{$ENDIF}
+
+{$IFDEF DELPHI11}
+  PascalScript_Core_D28,
+{$ENDIF}
+{$IFDEF DELPHI10_4}
+  PascalScript_Core_D27,
+{$ENDIF}
+
+  NovusCodeLibrary_WebUtils,
+  NovusCodeLibrary_Console;
 
 contains
   API_Output in 'Plugins\API\API_Output.pas',

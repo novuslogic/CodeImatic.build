@@ -12,6 +12,7 @@ const
   cvb6win64bin = 'C:\Program Files (x86)\microsoft visual studio\vb98\';
      
 //$vb6bin /m $project /out $logfile /outdir $outdir
+// https://stackoverflow.com/questions/20665182/vb6-compiling-via-console-vb-exe-compatibility-issue-on-64bit-works-on-32bit
 
 function IsVB6Running: boolean;
 function VB6(aProject: string;  aOutdir: string): Integer;

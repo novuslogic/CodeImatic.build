@@ -5,7 +5,6 @@ program CodeImatic.build;
 {$R *.res}
 
 uses
-  System.ShareMem,
   System.SysUtils,
   Config,
   Runtime,
@@ -92,25 +91,3 @@ begin
 
 end.
 
-
-  (*
-
-begin
-  ExitCode := oConfig.LoadConfig;
-  if ExitCode <> 0 then
-    Exit;
-
-  If Not oConfig.ParseParams then
-    Exit;
-
-  try
-    ExitCode := oruntime.RunEnvironment;
-
-  except
-    on E: Exception do
-      Writeln(E.ClassName, ': ', E.Message);
-  end;
-
-end.
-
-*)
