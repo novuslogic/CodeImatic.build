@@ -40,7 +40,8 @@ begin
     loTemplate.EndToken := ']';
     loTemplate.SecondToken := '%';
 
-    loTemplate.TemplateDoc.Text := Trim(aItemName);
+//    loTemplate.TemplateDoc.Text := Trim(aItemName);
+    loTemplate.LoadFromString(Trim(aItemName));
 
     loTemplate.ParseTemplate;
 

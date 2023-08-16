@@ -1,5 +1,10 @@
 # CodeImatic.build - Changelog
 
+16/08/2023
+
+* Fixed Delphi 10.4 ad Delphi 11 refernece issues
+* Add Codeimatic.share to Codeimatic.core
+
 19/04/2023
 
 * Add new function Files.RenameFile
