@@ -1,5 +1,7 @@
 # CodeImatic.build - Changelog
 
+## Release v0.1.0
+
 16/08/2023
 
 * Fixed Delphi 10.4 ad Delphi 11 refernece issues
