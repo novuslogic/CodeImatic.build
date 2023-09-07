@@ -39,22 +39,10 @@ requires
   NovusCodeLibrary_XML,
   NovusCodeLibrary_Parser,
   NovusCodeLibrary_Plugin,
-{$IFDEF DELPHI11}
-  NovusCodeLibrary_Windows,
   NovusCodeLibrary_OS,
-{$ELSE}
-  NovusCodeLibrary_Env,
-{$ENDIF}
-
-{$IFDEF DELPHI11}
-  PascalScript_Core_D28,
-{$ENDIF}
-{$IFDEF DELPHI10_4}
-  PascalScript_Core_D27,
-{$ENDIF}
-
   NovusCodeLibrary_WebUtils,
-  NovusCodeLibrary_Console;
+  NovusCodeLibrary_Console,
+  PascalScript_Core_D28;
 
 contains
   API_Output in 'Plugins\API\API_Output.pas',

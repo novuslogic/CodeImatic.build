@@ -2,6 +2,18 @@
 
 ## Release v0.1.0
 
+7/9/2023
+
+* New function PSExecScript(aPowerShellVersion: TPowerShellVersion; aFilename: string; var aOutput: string): Integer; in Powershell unit
+* New function IsExecutionPolicyRestricted(aPowerShellVersion: TPowerShellVersion): boolean; in Powershell unit
+* Support for Powershell 7 in Powershell unit
+* New function GetPowershellFullpathname(aPowerShellVersion: TPowerShellVersion): string; in Powershell unit
+* Removed function ExecExA(aCommandLine: String): Integer; from cmd unit 
+* Rename function GetMSBuildFullname(aVersion: string): string; to function GetMSBuildFullname(aVersion: string): string; in msbuild unit
+
+
+
+
 16/08/2023
 
 * Fixed Delphi 10.4 ad Delphi 11 refernece issues

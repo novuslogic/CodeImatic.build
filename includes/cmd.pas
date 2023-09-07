@@ -43,23 +43,6 @@ begin
   
 end;
 
-function ExecExA(aCommandLine: String): Integer;
-var
-  fsOutput: string;
-begin
-  Result := 0;
-
-  try
-    Result := ExecEx(aCommandLine, fsOutput);
-  Finally
-    Output.log(fsOutput);
-  end;
-
-  
-end;
-
-
-
 function ExecEx(aCommandLine: String; var aOutput: String): Integer;
 begin
   Result := 0;

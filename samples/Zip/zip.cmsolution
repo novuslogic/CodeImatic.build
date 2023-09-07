@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<solution version = "cmsolution1.0">
-  <project name = "zip">
-     <projecttype>codeimatic.build</projecttype>
-     <filename>Zip.cbproject</filename>
-     <config>Zip.cbpconfig</config>
-  </project>
-</solution>

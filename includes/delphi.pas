@@ -35,9 +35,6 @@ function GetBDSBPLDIR(aDelphiVersion:  TDelphiVersion): string;
 function GetBDSRegKey(Key: string; Name: string): string;
 function GetBDSRegistery(aDelphiVersion:  TDelphiVersion; Name: string): string;
 function brcc32(aDelphiVersion: TDelphiVersion; aOptions: string; aFilename: string): integer;
-/// <remarks>
-///   http://docwiki.embarcadero.com/RADStudio/Sydney/en/Compiler_Versions
-/// </remarks>
 function Delphi(aDelphiVersion: TDelphiVersion;aProject: string; aDelphiOptions:TDelphiOptions): Integer;
    
 implementation

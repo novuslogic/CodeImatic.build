@@ -18,7 +18,7 @@ type
   end;
 
 
-function GetMSBuildFullname(aVersion: string): string;
+function GetMSBuildFullpathname(aVersion: string): string;
 function MSBuild(aVersion: string; aProjectSolutionFilename: string;aMSBuildOptions:TMSBuildOptions): integer;
 function TlbExp(aOptions: string): integer;
 
@@ -40,8 +40,6 @@ var
 begin
   result := -1;
 
-  
-
   lsProjectSolutionFilename := aProjectSolutionFilename; 
   if not Files.Exists(aProjectSolutionFilename) then
    begin
@@ -52,7 +50,7 @@ begin
    end;
   Output.logformat('MSBuild Project/Solution: %s', [lsProjectSolutionFilename]);   
 
-  lsMSBuildFullname := GetMSBuildFullname(aVersion)
+  lsMSBuildFullname := GetMSBuildFullpathname(aVersion)
  
 
   Try
@@ -81,13 +79,13 @@ begin
   
     Output.logformat('MSBuild Running: %s', [sb.ToString]);
 
-    result := ExecExA(SB.ToString);
+    result := Exec(SB.ToString);
   finally
     SB.Free;
   End;
 end;
 
-function GetMSBuildFullname(aVersion: string): string;
+function GetMSBuildFullpathname(aVersion: string): string;
 begin
   if (CompareText(lowercase(aVersion), '2') = 0) or
      (CompareText(lowercase(aVersion), '2.0') = 0) or

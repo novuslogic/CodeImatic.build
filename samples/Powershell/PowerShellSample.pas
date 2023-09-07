@@ -3,7 +3,7 @@ uses powershell;
 begin
   output.log('Powershell Sample');
 
-  if IsPowerShellInstalled then 
+  if IsPowerShellInstalled(POWERSHELL7) then 
     begin
       output.log('Powershell Installed');
 
@@ -14,12 +14,12 @@ begin
 
       output.log('PSExecCommand example');
 
-      if PSExecCommand('write-host hello world') <> 0 then 
+      if PSExecCommand(POWERSHELL7, 'write-host hello world') <> 0 then 
         RaiseException(erCustomError, 'Error execute Powershell command.');
 
-      output.log('PSExecFilename example');
+      output.log('PSExecScript example');
 
-      if PSExecFilename(wd+ 'Helloworld.ps1') <> 0 then
+      if PSExecScript(POWERSHELL7, wd+ 'Helloworld.ps1') <> 0 then
          RaiseException(erCustomError, 'Error execute Powershell script filename.');
 
     end
