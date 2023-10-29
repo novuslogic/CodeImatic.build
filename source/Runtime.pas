@@ -5,10 +5,11 @@ interface
 
 Uses Project, API_Output, Config, NovusWinVersionUtils, System.SysUtils,
   NovusStringUtils,   NovusFileUtils, vcl.dialogs, ProjectTask,  CommandLine,
-  uPSRuntime, Plugins, NovusDateStringUtils, uPSCompiler, NovusCommandLine;
+  uPSRuntime, Plugins, NovusDateStringUtils, uPSCompiler, NovusCommandLine,
+  RuntimeBase;
 
 type
-  tRuntime = class
+  tRuntime = class(tRuntimeBase)
   protected
   private
 //    fsWorkingdirectory: string;

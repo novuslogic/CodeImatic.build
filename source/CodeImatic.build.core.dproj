@@ -113,7 +113,7 @@
         <DCCReference Include="NovusCodeLibrary_OS.dcp"/>
         <DCCReference Include="NovusCodeLibrary_WebUtils.dcp"/>
         <DCCReference Include="NovusCodeLibrary_Console.dcp"/>
-        <DCCReference Include="PascalScript_Core_D28.dcp"/>
+        <DCCReference Include="CodeImatic.share.dcp"/>
         <DCCReference Include="Plugins\API\API_Output.pas"/>
         <DCCReference Include="Plugin.pas"/>
         <DCCReference Include="Plugins.pas"/>

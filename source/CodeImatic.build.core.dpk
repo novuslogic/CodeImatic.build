@@ -42,7 +42,7 @@ requires
   NovusCodeLibrary_OS,
   NovusCodeLibrary_WebUtils,
   NovusCodeLibrary_Console,
-  PascalScript_Core_D28;
+  CodeImatic.share;
 
 contains
   API_Output in 'Plugins\API\API_Output.pas',
