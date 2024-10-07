@@ -2,6 +2,11 @@
 
 ## Release v0.1.0
 
+8/10/2024
+
+* Updated to Delphi 12
+* Updated NovuscodeLibrary v0.2.0
+
 7/9/2023
 
 * New function PSExecScript(aPowerShellVersion: TPowerShellVersion; aFilename: string; var aOutput: string): Integer; in Powershell unit

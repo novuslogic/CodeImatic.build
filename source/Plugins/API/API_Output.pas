@@ -14,6 +14,8 @@ type
   public
     constructor Create(AFilename: String; aOutputConsole: Boolean); virtual;
 
+    function FormatedNow(const aDate: tDatetime): string;
+
     procedure Log(const aMsg: string);
     procedure LogFormat(const aFormat: string; const Args: array of variant);
     procedure LogError;
@@ -101,6 +103,11 @@ begin
   Except
     InternalError;
   End;
+end;
+
+function TAPI_Output.FormatedNow(const aDate: tDatetime): string;
+begin
+  Result := DateToStr(aDate);
 end;
 
 end.

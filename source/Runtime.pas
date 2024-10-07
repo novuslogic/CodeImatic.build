@@ -105,8 +105,8 @@ begin
     foAPI_Output := tAPI_Output.Create(foProject.OutputPath +
       oConfig.OutputlogFilename, foProject.OutputConsole);
 
-    foAPI_Output.DateTimeMask := FormatSettings.ShortDateFormat + ' ' +
-      cTimeformat;
+    //foAPI_Output.DateTimeMask := FormatSettings.ShortDateFormat + ' ' +
+    //  cTimeformat;
 
 
     if not foAPI_Output.OpenLog then
@@ -185,8 +185,9 @@ begin
 
         loprojecttask.StartBuild := Now;
 
-        foAPI_Output.WriteLog('Build started ' + foAPI_Output.FormatedNow
-          (loprojecttask.StartBuild));
+     //   foAPI_Output.WriteLog('Build started ' + foAPI_Output.FormatedNow
+      //    (loprojecttask.StartBuild));
+        foAPI_Output.WriteLog('Build started.');
 
         Try
           loPascalScript := TPascalScript.Create(foAPI_Output, fImp, foPlugins);
@@ -284,8 +285,7 @@ begin
       lsMessageLog := 'Build failed: ';
   end;
 
-  lsMessageLog := lsMessageLog + foAPI_Output.FormatedNow
-    (aprojecttask.EndBuild);
+  lsMessageLog := lsMessageLog + foAPI_Output.FormatedNow(aprojecttask.EndBuild);
 
   lsMessageLog := lsMessageLog + ' - duration: ' + FormatDateTime(cTimeformat,
     aprojecttask.Duration);
